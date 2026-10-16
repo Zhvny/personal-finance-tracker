@@ -1,0 +1,10 @@
+{
+  "name": "@finance-tracker/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "py -3.10 -m uvicorn main:app --reload --port 8000",
+    "start": "py -3.10 -m uvicorn main:app --host 0.0.0.0 --port 8000",
+    "prisma:generate": "py -3.10 -m prisma generate"
+  }
+}
