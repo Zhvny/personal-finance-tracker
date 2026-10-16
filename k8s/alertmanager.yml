@@ -1,0 +1,61 @@
+# AlertManager configuration for Alpha Finance Tracker
+# Place in /etc/alertmanager/alertmanager.yml or mount as configmap
+
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname', 'severity']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  receiver: 'pagerduty'
+  routes:
+    # Critical alerts go to PagerDuty immediately
+    - match:
+        severity: critical
+      receiver: 'pagerduty'
+      continue: true
+    # High severity alerts also go to pagerduty
+    - match:
+        severity: high
+      receiver: 'pagerduty'
+    # Warning alerts go to email
+    - match:
+        severity: warning
+      receiver: 'email'
+    # Info alerts just log
+    - match:
+        severity: info
+      receiver: 'null'
+
+receivers:
+  - name: 'pagerduty'
+    pagerduty_configs:
+      - service_key: '${PAGERDUTY_SERVICE_KEY}'  # Set via secret/env
+        severity: critical
+        description: "{{ .GroupLabels.alertname }} - {{ .Labels.instance }}"
+        details:
+          summary: "{{ .GroupLabels.alertname }}"
+          description: "{{ .Annotations.description }}"
+          severity: "{{ .Labels.severity }}"
+          runbook_url: "{{ .Annotations.runbook_url }}"
+
+  - name: 'email'
+    email_configs:
+      - to: 'alerts@example.com'  # Replace with actual email
+        from: 'alertmanager@example.com'
+        smarthost: 'smtp.example.com:587'
+        auth_username: 'alertmanager@example.com'
+        auth_password: '${SMTP_PASSWORD}'  # Set via secret/env
+        send_resolved: true
+
+  - name: 'null'
+
+inhibit_rules:
+  # Suppress lower severity alerts when a higher severity is firing
+  - source_match:
+      severity: critical
+    target_match:
+      severity: warning
+    equal: ['alertname', 'instance']

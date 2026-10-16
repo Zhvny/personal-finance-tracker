@@ -1,0 +1,71 @@
+# Prometheus configuration for Alpha Finance Tracker
+# Place in /etc/prometheus/prometheus.yml or mount as configmap
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093  # Uncomment when AlertManager is deployed
+
+rule_files:
+  # - "alerts/*.yml"  # Uncomment when alert rules are added
+
+scrape_configs:
+  # Alpha Gateway
+  - job_name: 'alpha-gateway'
+    static_configs:
+      - targets: ['alpha-gateway:8444']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Platform
+  - job_name: 'alpha-platform'
+    static_configs:
+      - targets: ['alpha-platform:8450']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Ledger
+  - job_name: 'alpha-ledger'
+    static_configs:
+      - targets: ['alpha-ledger:8451']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Portfolio
+  - job_name: 'alpha-portfolio'
+    static_configs:
+      - targets: ['alpha-portfolio:8452']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Market
+  - job_name: 'alpha-market'
+    static_configs:
+      - targets: ['alpha-market:8453']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Insights
+  - job_name: 'alpha-insights'
+    static_configs:
+      - targets: ['alpha-insights:8454']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Alpha Engagement
+  - job_name: 'alpha-engagement'
+    static_configs:
+      - targets: ['alpha-engagement:8455']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # PostgreSQL Exporter (if using pg_exporter)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 60s

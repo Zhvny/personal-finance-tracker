@@ -1,0 +1,105 @@
+# Prometheus alert rules for Alpha Finance Tracker
+# Place in /etc/prometheus/rules/ or mount as configmap
+
+groups:
+  - name: alpha_critical
+    interval: 30s
+    rules:
+      # P0: Service completely down
+      - alert: AlphaServiceDown
+        expr: alpha_gateway_upstream_health == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: "Alpha service {{ $labels.service }} is down"
+          summary: "Service {{ $labels.service }} unreachable"
+          runbook_url: "https://wiki.example.com/runbooks/alpha-service-down"
+
+      # P0: All services down
+      - alert: AlphaAllServicesDown
+        expr: sum(alpha_gateway_upstream_health) == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          description: "All Alpha services are down"
+          summary: "Complete Alpha platform outage"
+          runbook_url: "https://wiki.example.com/runbooks/alpha-platform-down"
+
+      # P0: High error rate
+      - alert: AlphaHighErrorRate
+        expr: rate(alpha_gateway_errors_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          description: "Alpha gateway error rate above 5%"
+          summary: "High error rate detected"
+
+  - name: alpha_high
+    interval: 60s
+    rules:
+      # P1: Service degraded (partial failure)
+      - alert: AlphaServiceDegraded
+        expr: sum(alpha_gateway_upstream_health) < 6 and sum(alpha_gateway_upstream_health) > 0
+        for: 5m
+        labels:
+          severity: high
+        annotations:
+          description: "Alpha service {{ $labels.service }} is degraded"
+          summary: "Service degradation detected"
+
+      # P1: High latency
+      - alert: AlphaHighLatency
+        expr: histogram_quantile(0.95, rate(alpha_gateway_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: high
+        annotations:
+          description: "Alpha gateway p95 latency above 2s"
+          summary: "High latency detected"
+
+      # P1: High memory usage
+      - alert: AlphaHighMemoryUsage
+        expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) > 0.9
+        for: 10m
+        labels:
+          severity: high
+        annotations:
+          description: "Container memory usage above 90%"
+          summary: "High memory usage"
+
+      # P1: Database connection issues
+      - alert: AlphaDatabaseConnectionPoolExhausted
+        expr: rate(postgres_connection_pool_exhausted_total[5m]) > 0
+        for: 2m
+        labels:
+          severity: high
+        annotations:
+          description: "PostgreSQL connection pool exhausted"
+          summary: "Database connection pool warning"
+          runbook_url: "https://wiki.example.com/runbooks/db-connection-pool"
+
+  - name: alpha_warning
+    interval: 60s
+    rules:
+      # P2: Disk space warning
+      - alert: AlphaDiskSpaceWarning
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: "Disk space below 15%"
+          summary: "Disk space warning"
+
+      # P2: Certificate expiry warning
+      - alert: AlphaCertificateExpiryWarning
+        expr: (tensorboard_cert_not_after - time()) < 86400 * 14
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          description: "TLS certificate expires in less than 14 days"
+          summary: "Certificate expiry warning"

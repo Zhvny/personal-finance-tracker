@@ -1,0 +1,103 @@
+name: Slow
+
+# Nightly + opt-in PR-label slow lane (sketch). Fast gate stays in ci.yml;
+# live Postgres CLI flows + compose E2E live here so they never block PRs.
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  live-pg:
+    # PR-label trigger sketch: label the PR `run-slow` to opt in.
+    if: github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'run-slow')
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres # pragma: allowlist secret (local CI pg only)
+          POSTGRES_DB: finance_tracker
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/finance_tracker?schema=public # pragma: allowlist secret (local CI pg only)
+      REDIS_URL: redis://localhost:6379/0
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: finance_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres # pragma: allowlist secret (local CI pg only)
+      FINANCE_TRACKER_API_KEY: "ci-test-key-not-secure-only-for-tests" # pragma: allowlist secret (test-only dummy)
+      FINANCE_TRACKER_DEV_MODE: "1"
+      TESTING: "1"
+      DEBUG: "True"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install poetry
+        run: pipx install poetry
+      - run: poetry install
+      - name: Live PG automation smoke
+        run: poetry run pytest tests/automation -m live_pg -q
+
+  e2e-compose:
+    if: github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'run-slow')
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    env:
+      ALPHA_SERVICE_TOKEN: e2e-dummy-token-not-secure-only-for-tests
+      SECRET_KEY: e2e-dummy-secret-not-secure-only-for-tests # pragma: allowlist secret (test-only dummy)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Playwright browsers
+        run: pnpm --filter @finance-tracker/web exec playwright install --with-deps chromium
+      - name: Start services
+        run: docker compose -f docker-compose.yml up -d
+      - name: Wait for services
+        run: |
+          timeout 180 bash -c 'until curl -sf http://localhost:8444/health; do sleep 2; done'
+          timeout 120 bash -c 'until curl -sf http://localhost:3000/ > /dev/null; do sleep 2; done'
+      - name: Warn on missing FINANCE_TRACKER_API_KEY (DEV-ONLY fallback)
+        env:
+          TRACKER_KEY: ${{ secrets.FINANCE_TRACKER_API_KEY }} # pragma: allowlist secret (env indirection, never echoed)
+        run: |
+          if [ -z "$TRACKER_KEY" ]; then
+            echo "::warning::FINANCE_TRACKER_API_KEY secret is empty — E2E uses DEV-ONLY dummy key; auth-gated cases run against dev stub, not real auth. No secret committed."
+          fi
+      - name: Run E2E tests
+        working-directory: apps/web
+        run: pnpm test:e2e:ci
+        env:
+          PLAYWRIGHT_API_URL: http://localhost:8444
+          PLAYWRIGHT_WEB_URL: http://localhost:3000
+          # Empty secret falls back to a marked dev dummy (never a real secret)
+          # so the job degrades instead of failing mysteriously on auth.
+          FINANCE_TRACKER_API_KEY: ${{ secrets.FINANCE_TRACKER_API_KEY || 'DEV-ONLY-dummy-e2e-key-not-a-secret' }}
+          CI: true

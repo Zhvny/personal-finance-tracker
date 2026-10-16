@@ -1,0 +1,46 @@
+# Task 8: PostgreSQL backup CronJob
+# Daily at 02:00 UTC; retains last 7 days on the PVC.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: alpha-postgres-backup
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: postgres:16-alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              pg_dump -U postgres finance_tracker > /backups/finance_$(date +%Y%m%d).sql
+              ls -t /backups/*.sql | tail -n +8 | xargs rm -f
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_PASSWORD
+            volumeMounts:
+            - name: backups
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: backups
+            persistentVolumeClaim:
+              claimName: alpha-backups-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alpha-backups-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

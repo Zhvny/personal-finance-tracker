@@ -1,0 +1,414 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-platform
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-platform
+  template:
+    metadata:
+      labels:
+        app: alpha-platform
+    spec:
+      containers:
+      - name: platform
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.platform.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8450"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8450
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8450
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8450
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-platform
+spec:
+  selector:
+    app: alpha-platform
+  ports:
+    - protocol: TCP
+      port: 8450
+      targetPort: 8450
+  type: ClusterIP
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-ledger
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-ledger
+  template:
+    metadata:
+      labels:
+        app: alpha-ledger
+    spec:
+      containers:
+      - name: ledger
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.ledger.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8451"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8451
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8451
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8451
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-ledger
+spec:
+  selector:
+    app: alpha-ledger
+  ports:
+    - protocol: TCP
+      port: 8451
+      targetPort: 8451
+  type: ClusterIP
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-portfolio
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-portfolio
+  template:
+    metadata:
+      labels:
+        app: alpha-portfolio
+    spec:
+      containers:
+      - name: portfolio
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.portfolio.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8452"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8452
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8452
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8452
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-portfolio
+spec:
+  selector:
+    app: alpha-portfolio
+  ports:
+    - protocol: TCP
+      port: 8452
+      targetPort: 8452
+  type: ClusterIP
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-market
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-market
+  template:
+    metadata:
+      labels:
+        app: alpha-market
+    spec:
+      containers:
+      - name: market
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.market.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8453"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8453
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8453
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8453
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-market
+spec:
+  selector:
+    app: alpha-market
+  ports:
+    - protocol: TCP
+      port: 8453
+      targetPort: 8453
+  type: ClusterIP
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-insights
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-insights
+  template:
+    metadata:
+      labels:
+        app: alpha-insights
+    spec:
+      containers:
+      - name: insights
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.insights.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8454"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8454
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8454
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8454
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-insights
+spec:
+  selector:
+    app: alpha-insights
+  ports:
+    - protocol: TCP
+      port: 8454
+      targetPort: 8454
+  type: ClusterIP
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-engagement
+  labels:
+    app: alpha
+    tier: domain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha-engagement
+  template:
+    metadata:
+      labels:
+        app: alpha-engagement
+    spec:
+      containers:
+      - name: engagement
+        image: finance-tracker-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "services.engagement.main"]
+        env:
+        - name: ALPHA_SERVICE_PORT
+          value: "8455"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DATABASE_URL
+        ports:
+        - containerPort: 8455
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8455
+          initialDelaySeconds: 40
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8455
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpha-engagement
+spec:
+  selector:
+    app: alpha-engagement
+  ports:
+    - protocol: TCP
+      port: 8455
+      targetPort: 8455
+  type: ClusterIP
+--- 
