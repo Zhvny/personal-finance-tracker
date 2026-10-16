@@ -1,0 +1,122 @@
+# ─── Version Control ──────────────────────────────────────────
+.git
+.gitignore
+
+# ─── Python Bytecode ──────────────────────────────────────────
+__pycache__
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# ─── JS/Node artifacts ────────────────────────────────────────
+node_modules
+**/node_modules
+apps/web/node_modules
+packages/database/node_modules
+.next
+**/.next
+apps/web/.next
+.turbo
+**/.turbo
+.pnpm-store
+
+# ─── Virtual environments ─────────────────────────────────────
+.venv
+**/.venv
+venv
+**/venv
+apps/cli/.venv
+
+# ─── Dev/build artifacts ──────────────────────────────────────
+dist
+build
+.cache
+artifacts
+logs
+apps/cli/logs
+
+# ─── Tool caches (generated, rebuilt on demand) ───────────────
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.coverage
+htmlcov
+
+# ─── Runtime ML models (88 MB — use model registry, not baked) ──
+# ml_engine.py resolve root via walk-up sampai dir bernama
+# 'finance-tracker'; di container root=/, jadi bukan path ini.
+apps/cli/stock_analyzer/models
+
+# ─── User profile data (gitignored, must not enter context) ───
+apps/cli/portfolio.json
+apps/cli/profiles.json
+packages/api/data
+backups
+results_honest
+.setup_done
+market_sync_backoff.json
+
+# ─── Database & sqlite files ──────────────────────────────────
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+packages/database/dev.db
+
+# ─── Runtime data that must NOT be baked into the image ───────
+# stock_ml: 1,127 JSON model files (~1.1 GB) — loaded at runtime
+apps/cli/stock_ml/models
+
+# stock_analyzer: cache db (~125 MB) — rebuilt at runtime
+apps/cli/stock_analyzer/cache.db
+apps/cli/stock_analyzer/cache
+
+# CLI user profile data (~2 MB, user-specific)
+apps/cli/profiles
+
+# Root-level data & images
+data
+images
+models
+.claude
+graphify-out
+
+# ─── Dev tooling ──────────────────────────────────────────────
+.ai
+tests
+docs
+k8s
+conductor
+scripts
+tools
+.superpowers/
+.vscode/
+.github/
+docker/
+migrations/
+_quarantine/
+apps/web/test-results/
+apps/web/playwright-report/
+alpha_db_schema.sql
+
+# ─── Misc ─────────────────────────────────────────────────────
+*.log
+*.txt
+*.md
+*.pkl
+*.pem
+!README.md
+
+# Environment & secrets (must never be baked into image)
+.env
+.env.*
+packages/api/certs/
+
+# keep re-includes last
+# requirements.txt must reach the Docker build stage
+!requirements.prod.txt
+!apps/api/requirements.txt
+!apps/cli/requirements.txt
+!apps/cli/stock_analyzer/requirements.txt
+!packages/api/requirements.txt

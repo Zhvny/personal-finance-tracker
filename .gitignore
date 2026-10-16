@@ -1,0 +1,167 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Turbo
+.turbo
+
+# Next.js
+.next/
+out/
+
+# Python
+__pycache__/
+.venv
+venv/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database
+prisma/dev.db
+
+# Backup snapshots
+backups/
+
+# Agent scratch data
+profiles/
+
+# One-off scripts and temp docs
+scripts/debug_*.py
+scripts/fix_*.py
+scripts/test_*.py
+tests/debug_*.py
+CI_NOTES.md
+ARTIFACTS.md
+packages/api/reward-backup-*.json
+
+# Misc
+.DS_Store
+.env
+.env.*
+!.env.example
+!.env.prod.example
+
+# Deployment credentials are supplied by the cluster secret manager, never Git.
+k8s/db-secret.yaml
+.env.local
+.env.prod
+dist/
+build/
+
+# Ai
+*.md
+!README.md
+
+
+# Trained Models / Weights
+apps/cli/stock-ml/models/
+apps/cli/stock_ml/models/
+
+# Finance Tracker Specific
+data/
+logs/
+debug/
+# Playwright e2e artifacts (CI uploads them on failure)
+apps/web/playwright-report/
+apps/web/test-results/
+apps/cli/profiles/
+apps/cli/advanced_features/data/*.db
+apps/cli/behavioral_finance/data/*.db
+apps/cli/expense_tracker/data/*.db
+apps/cli/investment_tracker/data/*.db
+apps/cli/investment_tracker/data/cache/
+packages/api/data/
+packages/api/cache.db
+packages/api/certs/
+results_honest/
+market_sync_backoff.json
+active_profile.txt
+.setup_done
+.ai/
+conductor/
+.cache/
+test/
+
+# Runtime artifacts
+*.log
+*.pkl
+*.pickle
+
+# SQLite databases (runtime)
+apps/cli/stock_analyzer/cache.db
+packages/api/api_server.log
+packages/database/dev.db
+apps/cli/income_tracker/data/*.db
+
+# ML Model files (use model registry — see models/README.md)
+apps/cli/stock_analyzer/models/
+models/*
+!models/README.md
+!models/.gitkeep
+
+# Archive images (use artifact storage — see ARTIFACTS.md)
+images/Archive/
+
+# FRED / external API cache
+apps/cli/stock_analyzer/fred_cache.json
+apps/cli/fred_cache.json
+
+# Runtime portfolio/profile data
+apps/cli/portfolio.json
+apps/cli/profiles.json
+apps/cli/profile_types.json
+
+# Artifacts directory
+artifacts/
+
+# Legacy frontend build outputs
+packages/web/dist/
+
+# Test DB files and log backups
+tests/integration/*.db
+*.db-journal
+*.log.*
+
+packages/api/certs/
+
+# Leaked / runtime root files (removed 2026-09-28, never re-add)
+/profiles.json
+/check_passwords.py
+/AUDIT-*.md
+/STATE.md
+
+# Round 2 (2026-09-29): private key, real portfolio data, session archives
+/packages/api/certs.disabled/
+/apps/cli/stock_analyzer/portfolio.json
+/docs/archive/maestro/
+
+# Round 3 (2026-09-29): stray npm lockfiles (pnpm is canonical), local nginx TLS
+**/package-lock.json
+/docker/nginx/ssl/
+
+# Round 4 (2026-09-29): real user screenshots as OCR fixtures (PII) — use synthetic
+tests/ocr_image_input_test/*.jpeg
+tests/ocr_image_input_test/**/*.jpeg
+# Legacy web demo screenshots (real portfolio images) — do not re-add
+packages/web/public/assets/investments/
+
+# Session junk / caches / one-off scratch (never commit)
+database.db
+wallet_search.txt
+graphify-out/
+fix-dev-mode.py
+check_passwords.py
+_quarantine/
+
+# SDD workspace (git-ignored scratch)
+.superpowers/
+
+# Ruff cache (never commit)
+.ruff_cache/
+
+# QA log junk (never commit)
+tests/logs/

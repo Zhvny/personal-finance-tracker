@@ -1,0 +1,214 @@
+# ============================================================
+# Finance Tracker — Docker Compose (Production)
+# ============================================================
+# Usage:
+#   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+#   docker compose -f docker-compose.prod.yml ps
+#   docker compose -f docker-compose.prod.yml logs -f gateway
+#   docker compose --env-file .env.prod -f docker-compose.prod.yml down
+#
+# Required environment variables (see .env.prod.example):
+#   POSTGRES_PASSWORD    - Strong database password
+#   SECRET_KEY           - App secret key
+#   GEMINI_API_KEY       - Gemini API key (optional)
+#   NEXT_PUBLIC_SITE_URL - Public domain (e.g., https://finance.example.com)
+#
+# honey: shared image + shared Postgres across services (stage-1).
+# Trigger to split: a service needs independent scaling or deploy cadence.
+# ============================================================
+
+x-python-common: &python-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: always
+  environment: &python-env
+
+    HOST: "0.0.0.0"
+    DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/finance_tracker?schema=public
+    GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    SECRET_KEY: ${SECRET_KEY}
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  # ─── Database ────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: finance-tracker-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: finance_tracker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - alpha-public
+      - alpha-internal
+    # Port NOT exposed externally in prod (only accessible within Docker network)
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d finance_tracker"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ─── Domain Services ─────────────────────────────────────
+  platform:
+    <<: *python-common
+    container_name: alpha-platform
+    command: python -m services.platform.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8450"
+
+  ledger:
+    <<: *python-common
+    container_name: alpha-ledger
+    command: python -m services.ledger.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8451"
+
+  portfolio:
+    <<: *python-common
+    container_name: alpha-portfolio
+    command: python -m services.portfolio.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8452"
+
+  market:
+    <<: *python-common
+    container_name: alpha-market
+    command: python -m services.market.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8453"
+
+  insights:
+    <<: *python-common
+    container_name: alpha-insights
+    command: python -m services.insights.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8454"
+
+  engagement:
+    <<: *python-common
+    container_name: alpha-engagement
+    command: python -m services.engagement.main
+    networks:
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_SERVICE_PORT: "8455"
+
+  # ─── Public Entry ────────────────────────────────────────
+  gateway:
+    <<: *python-common
+    container_name: alpha-gateway
+    command: python -m services.gateway.main
+    expose:
+      - "8444"
+    ports:
+      - "8444:8444"
+    networks:
+      - alpha-public
+      - alpha-internal
+    environment:
+      <<: *python-env
+      ALPHA_GATEWAY_PORT: "8444"
+      ALPHA_GATEWAY_TARGETS: >-
+        platform=http://platform:8450,
+        ledger=http://ledger:8451,
+        portfolio=http://portfolio:8452,
+        market=http://market:8453,
+        insights=http://insights:8454,
+        engagement=http://engagement:8455
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8444/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      platform:
+        condition: service_started
+      ledger:
+        condition: service_started
+      portfolio:
+        condition: service_started
+      market:
+        condition: service_started
+      insights:
+        condition: service_started
+      engagement:
+        condition: service_started
+
+  # ─── Next.js Frontend ────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: production
+    container_name: finance-tracker-web
+    restart: always
+    expose:
+      - "3000"
+    networks:
+      - alpha-public
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://gateway:8444}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      - gateway
+
+  # ─── Nginx Reverse Proxy (optional: HTTPS + single entry point) ──
+  nginx:
+    image: nginx:alpine
+    container_name: finance-tracker-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - alpha-public
+    depends_on:
+      - web
+      - gateway
+
+networks:
+  alpha-public:
+    name: alpha-public
+  alpha-internal:
+    name: alpha-internal
+    internal: true
+
+volumes:
+  postgres_data:

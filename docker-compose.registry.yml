@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+
+  platform:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  ledger:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  portfolio:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  market:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  insights:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  engagement:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  gateway:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/backend:${IMAGE_TAG:-latest}
+
+  web:
+    image: ghcr.io/${GHCR_REPO:-OWNER/REPO}/web:${IMAGE_TAG:-latest}
+
+  nginx:
+    image: nginx:alpine

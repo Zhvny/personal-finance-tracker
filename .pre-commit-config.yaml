@@ -1,0 +1,66 @@
+# Pre-commit hooks for Alpha.
+# Install: pip install pre-commit && pre-commit install && pre-commit install --hook-type pre-push
+# (pre-push runs the fast gates below so broken states can't leave this machine;
+#  server-side branch protection needs GitHub Pro for private repos)
+# Run manually: pre-commit run --all-files
+#
+# ALP-C01 / ALP-H02: the .env file on disk has previously been reviewed
+# to contain plaintext API keys and tokens. We refuse to add new
+# .env-style secrets to history. detect-secrets maintains a baseline of
+# known-acceptable matches so existing values don't trip the gate while
+# any NEW secret in a tracked file fails the commit.
+fail_fast: true
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        stages: [pre-commit]
+        args: ['--baseline', '.secrets.baseline']
+        exclude: |
+          (?x)^(
+            .*\.lock|
+            .*package-lock\.json|
+            .*pnpm-lock\.yaml|
+            docs/SECRET-ROTATION\.md
+          )$
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+        stages: [pre-commit]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        stages: [pre-commit]
+      - id: ruff-format
+        stages: [pre-commit]
+        args: ['--check']
+  - repo: local
+    hooks:
+      # Client-side substitute for server-side branch protection (private
+      # repo on free tier can't use protection/rulesets APIs — both 403).
+      # Portable: plain `python` entries, no bash. No pytest here: it needs
+      # a machine-specific TEMP workaround and CI already runs the suite.
+      - id: alpha-ruff-push
+        name: alpha ruff (push)
+        entry: python -m ruff check .
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
+      - id: alpha-map-check-push
+        name: alpha map --check (push)
+        entry: python scripts/alpha_hygiene.py map --check
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
+      - id: alpha-docs-check-push
+        name: alpha service docs --check (push)
+        entry: python scripts/gen_service_docs.py --check
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true

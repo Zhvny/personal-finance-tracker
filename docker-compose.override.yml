@@ -1,0 +1,219 @@
+# ============================================================
+# Finance Tracker — Docker Compose (Development Override)
+# ============================================================
+# Loaded automatically by `docker compose up` alongside
+# docker-compose.yml. Contains dev-specific settings only.
+# ============================================================
+
+services:
+  postgres:
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:15432:5432"
+
+  platform:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8450') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      - alpha-internal
+      - alpha-public
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8450"
+
+  ledger:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8451') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      - alpha-internal
+      - alpha-public
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8451"
+
+  portfolio:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8452') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      - alpha-internal
+      - alpha-public
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8452"
+
+  market:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8453') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      # market needs outbound internet (yfinance / market data), so it also
+      # joins alpha-public. alpha-internal alone is `internal: true` (no egress).
+      - alpha-internal
+      - alpha-public
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8453"
+
+  insights:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8454') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      - alpha-internal
+      - alpha-public
+    extra_hosts:
+      # Let the container resolve the Docker host (where Ollama runs).
+      - "host.docker.internal:host-gateway"
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8454"
+      # AI Insights -> local Ollama. Ollama must listen on 0.0.0.0 on the host
+      # (start it with OLLAMA_HOST=0.0.0.0:11434), otherwise it refuses the
+      # container connection.
+      PROVIDER_OVERRIDE: "ollama"
+      OLLAMA_HOST: "http://host.docker.internal:11434"
+      OLLAMA_MODEL_OVERRIDE: "satgeze/ornith-9b-1m:q2_k"
+
+  engagement:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; urllib.request.urlopen('http://localhost:' + os.getenv('ALPHA_SERVICE_PORT', '8455') + '/health/live', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    volumes:
+      - ./apps:/app/apps
+      - ./packages:/app/packages
+      - ./services:/app/services
+    networks:
+      - alpha-internal
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_SERVICE_PORT: "8455"
+
+  gateway:
+    restart: unless-stopped
+    ports:
+      - "8444:8444"
+    networks:
+      - alpha-public
+      - alpha-internal
+    environment:
+      HOST: "0.0.0.0"
+      ALPHA_GATEWAY_PORT: "8444"
+      ALPHA_SERVICE_PORT: "8444"
+      ALPHA_GATEWAY_TARGETS: >-
+        platform=http://platform:8450,
+        ledger=http://ledger:8451,
+        portfolio=http://portfolio:8452,
+        market=http://market:8453,
+        insights=http://insights:8454,
+        engagement=http://engagement:8455
+      ALPHA_WS_UPSTREAM: http://platform:8450
+    depends_on:
+      postgres:
+        condition: service_healthy
+      platform:
+        condition: service_healthy
+      ledger:
+        condition: service_healthy
+      portfolio:
+        condition: service_healthy
+      market:
+        condition: service_healthy
+      insights:
+        condition: service_healthy
+      engagement:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:8444
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/finance_tracker?schema=public
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages:/app/packages
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    networks:
+      - alpha-public
+    depends_on:
+      - gateway
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/web
+          target: /app/apps/web
+        - action: rebuild
+          path: apps/web/package.json
+
+  cli:
+    build:
+      context: .
+      dockerfile: apps/cli/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./apps/cli:/app/apps/cli
+      - ./packages:/app/packages
+      - cli_data:/app/apps/cli/profiles
+    networks:
+      - alpha-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  cli_data:
+
