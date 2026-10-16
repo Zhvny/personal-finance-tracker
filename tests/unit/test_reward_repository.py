@@ -32,12 +32,13 @@ def test_self_reward_crud_and_redemption(tmp_path):
     reward = service.add_self_reward(
         title="Extra Coffee",
         cost=30.0,
-        cost_type="reward",
+        reward_type="reward",
         description="Treat myself to a caramel macchiato",
         icon="☕"
     )
     assert reward["title"] == "Extra Coffee"
     assert reward["cost"] == 30.0
+    assert reward["rewardType"] == "reward"
     assert reward["redeemed"] is False
 
     # Redeem self-reward

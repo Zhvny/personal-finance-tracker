@@ -60,9 +60,9 @@ class RewardService:
         return self.check_and_apply(conn=conn)
 
     # ── Self Reward Management ───────────────────────────────────────────────
-    def add_self_reward(self, title: str, cost: float, cost_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
+    def add_self_reward(self, title: str, cost: float, reward_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
         """Create a new user self-reward item."""
-        return self.repository.add_self_reward(title, cost, cost_type, description, icon)
+        return self.repository.add_self_reward(title, cost, reward_type, description, icon)
 
     def redeem_self_reward(self, reward_id: str) -> Dict[str, Any]:
         """Redeem a user self-reward item."""
