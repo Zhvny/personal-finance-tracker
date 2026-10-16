@@ -199,7 +199,7 @@ export async function fetchSelfRewards() {
 }
 
 /** Create a new self-reward via the API. */
-export async function createSelfReward({ title, cost, costType = "reward", description = "", icon = "gift" }) {
+export async function createSelfReward({ title, cost, rewardType = "reward", description = "", icon = "gift" }) {
   const token = _getToken();
   const res = await fetch(`${API_BASE}/rewards/self-reward`, {
     method:  "POST",
@@ -207,7 +207,7 @@ export async function createSelfReward({ title, cost, costType = "reward", descr
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body:    JSON.stringify({ title, cost, costType, description, icon }),
+    body:    JSON.stringify({ title, cost, rewardType, description, icon }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));

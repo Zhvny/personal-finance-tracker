@@ -16,7 +16,7 @@ const CATEGORY_OPTIONS = [
 ];
 
 function SelfRewardCard({ reward, rewardPoints, onRedeem, onDelete, loading }) {
-  const canAfford = !reward.redeemed && (reward.costType !== "reward" || rewardPoints >= reward.cost);
+  const canAfford = !reward.redeemed && (reward.rewardType !== "reward" || rewardPoints >= reward.cost);
   const isRedeemed = reward.redeemed;
 
   const matchedCat = CATEGORY_OPTIONS.find(c => c.id === reward.icon) || CATEGORY_OPTIONS[0];
@@ -36,7 +36,7 @@ function SelfRewardCard({ reward, rewardPoints, onRedeem, onDelete, loading }) {
           <div className="sr-card-desc">{reward.description}</div>
         )}
         <div className="sr-card-cost">
-          {reward.costType === "reward"
+          {reward.rewardType === "reward"
             ? <span className="sr-cost-reward"><IconCoin size={11} color="var(--gp-fire2)" /> {reward.cost} Reward</span>
             : <span className="sr-cost-savings">Savings Goal</span>
           }
@@ -72,7 +72,7 @@ function SelfRewardCard({ reward, rewardPoints, onRedeem, onDelete, loading }) {
 }
 
 function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
-  const [form, setForm] = useState({ title: "", cost: 50, costType: "reward", description: "", icon: "gift" });
+  const [form, setForm] = useState({ title: "", cost: 50, rewardType: "reward", description: "", icon: "gift" });
   const [err, setErr] = useState("");
 
   const handleSubmit = async (e) => {
@@ -133,15 +133,15 @@ function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
           <label className="sr-label">Cost Type</label>
           <select
             className="sr-select"
-            value={form.costType}
-            onChange={e => setForm(f => ({ ...f, costType: e.target.value }))}
+            value={form.rewardType}
+            onChange={e => setForm(f => ({ ...f, rewardType: e.target.value }))}
           >
             <option value="reward">Reward Points</option>
             <option value="savings">Savings (Memo)</option>
           </select>
         </div>
         <div>
-          <label className="sr-label">{form.costType === "reward" ? "Reward Cost" : "Amount"}</label>
+          <label className="sr-label">{form.rewardType === "reward" ? "Reward Cost" : "Amount"}</label>
           <input
             className="sr-input"
             type="number"

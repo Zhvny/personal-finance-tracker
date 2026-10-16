@@ -19,7 +19,7 @@ from typing import Optional
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from fastapi.responses import FileResponse, StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, field_validator
 
 from packages.api.backend.routers.deps import (
     _GUI,
@@ -259,12 +259,25 @@ async def get_catalogue(request: Request):
     local_rewards.sort(key=lambda x: (x.get("season", 0), x.get("cost", 0)))
     return Response(content=json.dumps(local_rewards), media_type="application/json", background=bg)
 
+REWARD_TYPES = ("reward", "savings")
+
+
 class SelfRewardCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     title: str
     cost: float
-    costType: Optional[str] = "reward"
+    rewardType: Optional[str] = "reward"
     description: Optional[str] = ""
     icon: Optional[str] = "gift"
+
+    @field_validator("rewardType")
+    @classmethod
+    def _check_reward_type(cls, v: Optional[str]) -> str:
+        v = v or "reward"
+        if v not in REWARD_TYPES:
+            raise ValueError(f"rewardType must be one of: {', '.join(REWARD_TYPES)}")
+        return v
 
 # ═════════════════════════════════════════════════════════════════════
 # REWARDS — State Persistence
@@ -297,7 +310,7 @@ def create_self_reward(payload: SelfRewardCreate):
         item = reward_service.add_self_reward(
             title=payload.title,
             cost=payload.cost,
-            cost_type=payload.costType or "reward",
+            reward_type=payload.rewardType or "reward",
             description=payload.description or "",
             icon=payload.icon or "gift"
         )

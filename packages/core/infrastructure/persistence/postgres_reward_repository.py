@@ -12,17 +12,22 @@ from packages.core.infrastructure.config import Config
 logger = logging.getLogger(__name__)
 
 
-def _normalize_cost_type(cost_type: Optional[str], reward_id: str = "") -> str:
-    """Map legacy/unknown cost types to the supported set with an explicit log.
+REWARD_TYPES = ("reward", "savings")
 
-    Old items stored under the pre-rename cost type must not pass through
-    silently — they are converted to "reward" with a warning.
+
+def _validate_reward_type(reward_type: Optional[str], reward_id: str = "") -> str:
+    """Strictly accept only supported reward types (breaking contract, no alias).
+
+    Anything else — including pre-rename values and missing keys — raises
+    ValueError so callers get a clear 4xx instead of a silent conversion.
     """
-    if cost_type in ("reward", "savings"):
-        return cost_type  # type: ignore[return-value]
+    if reward_type in REWARD_TYPES:
+        return reward_type  # type: ignore[return-value]
     scope = f" for self-reward {reward_id}" if reward_id else ""
-    logger.warning("Legacy costType %r%s; converting to 'reward'", cost_type, scope)
-    return "reward"
+    raise ValueError(
+        f"Invalid rewardType {reward_type!r}{scope};"
+        f" must be one of: {', '.join(REWARD_TYPES)}"
+    )
 
 
 class PostgresRewardRepository:
@@ -129,16 +134,16 @@ class PostgresRewardRepository:
             self.state["totalSavedCumulative"] += float(amount)
             self._save_to_disk()
 
-    def add_self_reward(self, title: str, cost: float, cost_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
+    def add_self_reward(self, title: str, cost: float, reward_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
         """Add a custom user self-reward item."""
-        cost_type = _normalize_cost_type(cost_type)
+        reward_type = _validate_reward_type(reward_type)
         with self._lock:
             reward_id = f"sr-{int(datetime.now(timezone.utc).timestamp() * 1000)}"
             new_item = {
                 "id": reward_id,
                 "title": title.strip(),
                 "cost": float(cost),
-                "costType": cost_type, # "reward" or "savings"
+                "rewardType": reward_type, # "reward" or "savings"
                 "description": description.strip(),
                 "icon": icon,
                 "redeemed": False,
@@ -152,7 +157,7 @@ class PostgresRewardRepository:
             return new_item
 
     def redeem_self_reward(self, reward_id: str) -> Dict[str, Any]:
-        """Redeem a custom self-reward item, deducting cost if cost_type is reward."""
+        """Redeem a custom self-reward item, deducting cost if reward_type is reward."""
         with self._lock:
             self_rewards = self.state.get("selfRewards", [])
             target = None
@@ -168,9 +173,9 @@ class PostgresRewardRepository:
                 raise ValueError("Self reward has already been redeemed")
 
             cost = float(target.get("cost", 0))
-            cost_type = _normalize_cost_type(target.get("costType", "reward"), reward_id)
+            reward_type = _validate_reward_type(target.get("rewardType"), reward_id)
 
-            if cost_type == "reward":
+            if reward_type == "reward":
                 if self.state["reward"] < cost:
                     raise ValueError(f"Insufficient Reward points! Required: {cost}, Available: {self.state['reward']}")
                 self.state["reward"] -= cost
