@@ -1,0 +1,14 @@
+yfinance
+pandas
+pandas-ta
+tenacity
+textual
+rich
+numpy
+pyyaml
+requests
+curl_cffi
+xgboost
+scikit-learn
+streamlit
+plotly

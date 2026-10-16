@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHPIS // SYSTEM ARCHIVE</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Selective High-Precision Inference System</h1>
+            <div class="subtitle">Empirical Performance Audit // BINUS University CS Dept.</div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Global Avg.</div>
+                <div id="stat-global" class="stat-value">--</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Selective Prec.</div>
+                <div id="stat-precision" class="stat-value">--</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Validity Score</div>
+                <div id="stat-liar" class="stat-value">--</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Validated Assets</div>
+                <div id="stat-validated" class="stat-value">--</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="search" class="search-box" placeholder="SEARCH ASSET (E.G. AAPL)">
+            <div class="filter-btns">
+                <button id="btn-all" class="active" onclick="filterAll()">All Assets</button>
+                <button id="btn-verified" onclick="filterVerified()">Sniper Verified (>=80%)</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-col="ticker">Asset</th>
+                        <th data-col="global_acc">Global Acc.</th>
+                        <th data-col="precision_high_conf" class="sort-desc">Selective Prec.</th>
+                        <th data-col="n_selective_signals">Signals</th>
+                        <th data-col="latest_signal">Inference</th>
+                        <th data-col="latest_prob">Prob (P)</th>
+                        <th data-col="timestamp">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JS Injected -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div class="footer-label">Methodology Summary</div>
+            <div class="footer-text">
+                The SHPIS framework employs Purged Walk-Forward Cross-Validation with a 5-day embargo gap to mitigate serial correlation leakage. 
+                Selective inference is restricted to high-confidence probability regimes (P > 0.85 or P < 0.15) with structural trend confirmation (ADX > 25). 
+                All models undergo a Permutation Validity Audit against shuffled labels to ensure predictive integrity and prevent algorithmic overfitting.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Deep Analysis Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-container" id="modal-content">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

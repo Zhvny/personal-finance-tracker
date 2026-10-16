@@ -1,0 +1,61 @@
+security:
+  enabled: false
+  access_token: "${STOCK_ANALYZER_ACCESS_TOKEN}"
+  allowed_ips: []
+  enable_ip_whitelist: false
+
+scoring:
+  buy_threshold: 8.5
+  wait_threshold: 6.0
+  weights:
+    trend: 0.30
+    momentum: 0.30
+    volatility: 0.20
+    liquidity: 0.20
+  css_thresholds:
+    high: 80
+    medium: 65
+    low: 50
+
+signal:
+  atr_high_risk_gate: 0.10
+  sl_atr_multiplier: 2.0
+  tp_atr_multiplier: 4.0
+
+commodity_tickers:
+  - ADRO.JK
+  - PTBA.JK
+  - ITMG.JK
+  - MEDC.JK
+  - GOLD
+  - CL=F
+  - BTC-USD
+  - ETH-USD
+
+fetch:
+  # MUST be long enough for EMA200 (~200 trading days = ~10 months)
+  # Use "1y" minimum, "2y" recommended
+  period: "2y"
+  timeout_seconds: 20
+  max_retries: 5
+  max_workers: 5
+
+fred:
+  api_key: "${FRED_API_KEY}"
+  refresh_hours: 24
+
+macro:
+  dxy_ticker: "DX-Y.NYB"
+
+# Portfolio Optimization Constraints
+optimization:
+  min_assets: 3
+  max_assets: 10
+  concentration_tolerance: 0.4
+  sparsity_penalty: 0.05
+
+# Genetic Algorithm Parameters
+ga:
+  pop_size: 100
+  generations: 50
+  mutation_rate: 0.1

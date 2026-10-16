@@ -1,0 +1,4843 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHPIS // ELITE SNIPER AUDIT</title>
+    <style>
+        body { background: #000; color: #eee; font-family: monospace; padding: 40px; }
+        .stats { display: flex; gap: 40px; margin-bottom: 40px; }
+        .stat-card { background: #111; padding: 20px 40px; border-radius: 12px; border: 1px solid #222; border-top: 4px solid #00b8d4; }
+        .stat-lbl { color: #555; font-size: 10px; text-transform: uppercase; margin-bottom: 8px; }
+        .stat-val { font-size: 32px; font-weight: bold; color: #00b8d4; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #111; text-align: left; }
+        th { background: #080808; color: #555; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+        .ticker { font-weight: bold; color: #fff; font-size: 14px; }
+        .badge { padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 10px; text-transform: uppercase; }
+        .sig-buy { background: #004d00; color: #00ff00; border: 1px solid #00ff00; }
+        .sig-sell { background: #4d0000; color: #ff0000; border: 1px solid #ff0000; }
+        .neutral { color: #555; border: 1px solid #333333; }
+        tr:hover { background: #050505; }
+    </style>
+</head>
+<body>
+    <h1 style="letter-spacing: -1px; margin-bottom: 5px;">SHPIS_ELITE_ENGINE_AUDIT</h1>
+    <div style="color:#555; font-size:12px; margin-bottom: 30px;">Automated Backtest Results | Confidence Threshold: 0.70+</div>
+
+    <div class="stats">
+        <div class="stat-card"><div class="stat-lbl">Active Models</div><div class="stat-val">533</div></div>
+        <div class="stat-card"><div class="stat-lbl">Avg. Precision</div><div class="stat-val">81.2%</div></div>
+        <div class="stat-card"><div class="stat-lbl">Total Signals</div><div class="stat-val">147,408</div></div>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Asset</th>
+                <th>Category</th>
+                <th>Precision</th>
+                <th>Lifetime Signals</th>
+                <th>Latest Status</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+        <tbody>
+    
+            <tr>
+                <td class="ticker">CL=F</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>292</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>64.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AVAX-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>486</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>84.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GC=F</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DOT-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>520</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SI=F</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">commodities</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADA-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>413</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>66.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BTC-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>394</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DOGE-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>496</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BNB-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>420</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>63.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EURIDR=X</td>
+                <td style="color:#555">forex</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>263</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>87.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JPYIDR=X</td>
+                <td style="color:#555">forex</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>263</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>90.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XRP-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>481</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ETH-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>352</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>57.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MATIC-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>526</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>76.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LINK-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>383</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">USDIDR=X</td>
+                <td style="color:#555">forex</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>263</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>94.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SOL-USD</td>
+                <td style="color:#555">crypto</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>631</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMMN.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>392</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>75.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADRO.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>319</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AKRA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMRT.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ASII.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BBCA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>57.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ANTM.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>327</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BREN.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>386</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>63.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BBNI.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BMRI.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>249</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>54.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BBRI.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BYAN.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BRIS.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>359</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BRPT.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>347</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CUAN.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>389</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOTO.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>369</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EXCL.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>344</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CPIN.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>281</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ICBP.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>78.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INKP.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>397</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INTP.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>301</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>82.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ISAT.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>295</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MDKA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>332</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MIKA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>247</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PGAS.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>298</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PTBA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>348</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SMGR.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>261</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KLBF.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>52.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ITMG.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>428</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TPIA.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>437</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>67.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TLKM.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>248</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UNVR.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>280</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>63.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">^JKSE</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>243</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>52.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TOWR.JK</td>
+                <td style="color:#555">idx</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>249</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AAPL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AAON</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AAP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>273</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>56.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ABBV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>66.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ABT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>327</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>72.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADBE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>291</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>33.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ADSK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>273</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>52.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AES</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>301</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AEE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ACN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AFL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>63.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AGCO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>270</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AIG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AFG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>282</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AEP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AIZ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AJG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AKAM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>88.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ALK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>300</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ALGN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>466</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>52.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ALLE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AIV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>339</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMCR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ALB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>266</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AME</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMGN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>57.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMAT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>62.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ALL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ANET</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>272</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AON</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">APA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>387</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AMZN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>263</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">APH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>278</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">APD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">APTV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AOS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>273</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ATO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AVB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ASML</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ARE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>76.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AVGO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>391</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AWK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AXP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>59.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AYI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>285</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">A</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BAC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>293</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AVY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BBY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>291</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>74.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BDX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BEN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">AZO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BIIB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>75.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BKNG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>295</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>74.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">85.7%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BKR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>279</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BAX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>62.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BLK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>64.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BMY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BWA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>290</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BXP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>263</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>62.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CAH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CAT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CBRE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>267</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CBOE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">BSX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>73.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CARR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>226</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>70.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CCL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>366</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CDNS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>74.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CDW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>264</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CEG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>366</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CAG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>309</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CCI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>315</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>65.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CHRW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>52.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CHTR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>274</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>70.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CINF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CFG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>326</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>266</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CHD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CME</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CLX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CMG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CMI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>76.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CMCSA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CMS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">COF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CNP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">COP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>259</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>63.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CPB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">COTY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>375</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CRM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>303</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">COO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>66.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CNC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CSCO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CSX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CTAS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">COST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CTVA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>299</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>60.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CTSH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CVS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CPRT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>259</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DAL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">CVX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">C</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>260</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DHI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DLR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DHR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DLTR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DRI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DGX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DIS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DUK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DVN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>386</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DXCM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DXC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>271</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">D</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>70.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DTE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ED</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">DVA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>274</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>34.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EIX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>70.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EFX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>303</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EBAY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ECL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>35.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ELV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>81.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EMN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>263</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EOG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>281</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EMR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EQR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ESS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EQIX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ETR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>52.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EVRG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EXC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ETN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EXPE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>343</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ES</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EXR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FAST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">EXPD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FCX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>436</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FDX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>299</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>80.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FANG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FISV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>63.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FITB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>292</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FLS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FFIV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FOX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>291</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FOXA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>239</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>52.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FRT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FIS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>73.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FMC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FTV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>241</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FTI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>310</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">FTNT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>391</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>61.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GILD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">85.7%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GIS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">F</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>269</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>67.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GLW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>77.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOOGL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GPC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GOOG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GPN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>275</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>82.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GRMN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GWW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>258</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HAS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HCA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">GS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>295</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HAL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>320</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HIG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HII</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>73.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HLT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HOLX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>252</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>88.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HBAN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>279</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HPE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>340</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>52.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HON</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HSIC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HSY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>64.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>266</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HUM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HRL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>69.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HPQ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">HWM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>360</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>80.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ICE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IBM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IDXX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IEX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ILMN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>391</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INCY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>54.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INFO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>126</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>56.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IFF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IPGP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IQV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INTC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>358</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>83.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">INTU</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>292</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>86.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ISRG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>266</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>368</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>65.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>89.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IRM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ITW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JBHT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">IVZ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>345</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JPM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KDP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>68.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KEYS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KEY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JNJ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JCI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">JKHY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KHC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KIM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>261</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KLAC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>317</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KMB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>62.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KMX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KMI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>309</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>74.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LDOS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LEG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>358</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>63.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KVUE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>220</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LEN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>257</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LHX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">KSS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>484</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>54.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LIN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>56.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LMT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>68.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LLY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LNC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>277</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LOW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LKQ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LRCX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>292</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LNT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LUV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>369</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LYB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>317</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LVS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>290</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>280</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">L</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LULU</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>312</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>56.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MAA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MAR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>292</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">LYV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>336</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MCD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MAS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MCHP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>278</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>87.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MCK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MCO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MELI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>357</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MDLZ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MET</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MKC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MDT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MFA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>258</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MKTX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>281</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MHK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">META</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>336</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MLM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MGM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>260</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MMM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MNST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MOS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>367</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MRK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>71.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MPC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>276</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MPWR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>327</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MSCI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MRVL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>354</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>81.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>83.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MSFT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>257</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MSI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MU</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>353</td>
+                <td><span class="badge sig-sell">ML SELL</span></td>
+                <td>89.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MTD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MSTR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>479</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">MTB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NCLH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>285</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>79.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NEE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">83.3%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NDAQ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NFLX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>316</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NEM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>59.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NKE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>67.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NOV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>354</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NOC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>61.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NRG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NOW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>410</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NTRS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NVDA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>413</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NSC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NTAP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>259</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NVR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>257</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>82.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NUE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>265</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NWL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NWSA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NXPI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ODFL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">OKE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>349</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ORCL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">NWS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ON</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>307</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">OTIS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>148</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">OMC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PANW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>288</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>77.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">O</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">OXY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>271</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PAYX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PCAR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ORLY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PFE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">88.9%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PEP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>69.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PEG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>55.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PGR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PFG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>65.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>284</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PHM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PKG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>53.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PLD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PLTR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>488</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>75.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PNW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>55.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PNR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PRU</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PRGO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PPL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PSX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>261</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PNC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PPG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>35.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PWR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>256</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PVH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>307</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PYPL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>60.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">PSA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">QCOM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>76.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">QQQ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RCL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>308</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>52.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">QRVO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>310</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>54.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RJF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>282</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>59.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">REGN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RMD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RHI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>270</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">REG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>50.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ROK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>280</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ROL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">49.0%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>52.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ROP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ROST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RSG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SBAC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SHW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>35.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">RTX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SLB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>368</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>57.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SEE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>253</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>66.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SBUX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>54.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SCHW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SLG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>59.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SNA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>62.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SNPS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>265</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SPGI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>46.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SPY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>92.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>71.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">STX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>280</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>37.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SPG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">100.0%</td>
+                <td>260</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SRE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">STE</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">STT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">85.7%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SWK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>270</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SYK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">STZ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>73.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SYF</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>279</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SWKS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">SYY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TAP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TDY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>262</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TDG</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>284</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TEAM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>329</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>68.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TEL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TJX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>64.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TMO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TFX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TFC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>38.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TGT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TMUS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">SNIPER BUY</span></td>
+                <td>74.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TROW</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TRV</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TPR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>319</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>48.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TSLA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>365</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>55.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TSN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>34.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TSCO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TTWO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>56.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TXN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">T</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>45.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UAL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>339</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UDR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>296</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>62.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TYL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>43.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">TXT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UAA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>340</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>58.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UNH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UHS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ULTA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UNP</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>60.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">UPS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">USB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">URI</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>353</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>67.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VRSK</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VRSN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>81.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VNO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VMC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>46.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VFC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>330</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VLO</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>281</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>35.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VRTX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>77.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VZ</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>50.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">VTR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>44.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">V</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>51.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WAB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WBD</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>385</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>68.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WAT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>39.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WHR</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>344</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>53.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WMB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>47.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WDAY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>309</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WELL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WMT</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>51.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WEC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>65.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WFC</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>302</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>41.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WRB</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>49.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>40.2%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WST</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>54.7%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WYNN</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>269</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>47.4%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WU</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>67.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XOM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>58.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">WY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>42.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ZBH</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>69.0%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XYL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>49.8%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">YUM</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>61.1%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XRAY</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>309</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>56.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XEL</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.6%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">XRX</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>432</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>66.3%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ZBRA</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>269</td>
+                <td><span class="badge sig-buy">ML BUY</span></td>
+                <td>48.5%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ZION</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>288</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>36.9%</td>
+            </tr>
+        
+            <tr>
+                <td class="ticker">ZTS</td>
+                <td style="color:#555">us</td>
+                <td style="color:#00b8d4; font-weight: bold;">81.2%</td>
+                <td>254</td>
+                <td><span class="badge neutral">NEUTRAL</span></td>
+                <td>45.0%</td>
+            </tr>
+        </tbody></table></body></html>
