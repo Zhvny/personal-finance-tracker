@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "mode": "percentage",
+  "rules": [
+    { "bucket": "expenses",       "pct": 50, "label": "Biaya Hidup",      "description": "Kebutuhan bulanan (makan, transport, tagihan)" },
+    { "bucket": "bank_savings",   "pct": 30, "label": "Tabungan Bank",    "description": "Simpanan di rekening bank" },
+    { "bucket": "investment",     "pct": 10, "label": "Investasi",        "description": "Alokasi untuk investasi (reksa dana, saham, dll)" },
+    { "bucket": "emergency_fund", "pct": 10, "label": "Dana Darurat",     "description": "Cadangan 3-6 bulan biaya hidup" }
+  ],
+  "_comment": "mode: 'percentage' splits income by pct. Total pct must equal 100. buckets: expenses (informational), bank_savings (updates cash_split), emergency_fund (updates manual_balances), investment (informational)."
+}
