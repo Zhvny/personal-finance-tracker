@@ -14,8 +14,8 @@ def test_disaster_recovery_backup_and_restore(tmp_path):
     reward_storage.parent.mkdir(parents=True, exist_ok=True)
     repo = PostgresRewardRepository(storage_path=reward_storage)
     repo.save_state({
-        "lust": 250.0,
-        "lifetimeLust": 500.0,
+        "reward": 250.0,
+        "lifetimeReward": 500.0,
         "streakDays": 14,
         "totalSavedCumulative": 1500000.0,
         "unlockedRewards": ["starter", "tier1"],
@@ -59,7 +59,7 @@ def test_disaster_recovery_backup_and_restore(tmp_path):
     restored_repo.save_state(restored_snapshot["reward_state"])
 
     restored_state = restored_repo.get_state()
-    assert restored_state["lust"] == 250.0
+    assert restored_state["reward"] == 250.0
     assert restored_state["streakDays"] == 14
     assert len(restored_state["selfRewards"]) == 1
     assert restored_state["selfRewards"][0]["title"] == "Coffee"

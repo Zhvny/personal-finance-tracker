@@ -101,12 +101,12 @@ class SQLiteInvestmentRepository(IInvestmentRepository):
                 price_idr NUMERIC,
                 FOREIGN KEY (investment_id) REFERENCES investments (id)
             );
-            INSERT OR IGNORE INTO user_stats (key, value) VALUES ('lust_points', '100');
+            INSERT OR IGNORE INTO user_stats (key, value) VALUES ('reward_points', '100');
         """
         Database.execute_script(self.db_path, script)
 
-    def get_lust_points(self) -> float:
-        rows = Database.query(self.db_path, "SELECT value FROM user_stats WHERE key = 'lust_points'")
+    def get_reward_points(self) -> float:
+        rows = Database.query(self.db_path, "SELECT value FROM user_stats WHERE key = 'reward_points'")
         if rows and rows[0].get("value") is not None:
             try:
                 return float(rows[0]["value"])
@@ -114,12 +114,12 @@ class SQLiteInvestmentRepository(IInvestmentRepository):
                 pass
         return 100.0
 
-    def update_lust_points(self, delta: float):
-        current = self.get_lust_points()
+    def update_reward_points(self, delta: float):
+        current = self.get_reward_points()
         new_val = current + delta
         Database.execute(
             self.db_path,
-            "UPDATE user_stats SET value = ?, updated_at = CURRENT_TIMESTAMP WHERE key = 'lust_points'",
+            "UPDATE user_stats SET value = ?, updated_at = CURRENT_TIMESTAMP WHERE key = 'reward_points'",
             (str(new_val),),
         )
 

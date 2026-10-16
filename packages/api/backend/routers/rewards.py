@@ -1,5 +1,5 @@
 """
-backend/routers/rewards.py — Rewards / Gamification (Lust points) routes
+backend/routers/rewards.py — Rewards / Gamification (Reward points) routes
 =========================================================================
 Architecture: High Cohesion — this file owns only /api/rewards routes.
 Supports Local Rewards + Google Drive (Masked via Backend Proxy).
@@ -262,7 +262,7 @@ async def get_catalogue(request: Request):
 class SelfRewardCreate(BaseModel):
     title: str
     cost: float
-    costType: Optional[str] = "lust"
+    costType: Optional[str] = "reward"
     description: Optional[str] = ""
     icon: Optional[str] = "gift"
 
@@ -297,7 +297,7 @@ def create_self_reward(payload: SelfRewardCreate):
         item = reward_service.add_self_reward(
             title=payload.title,
             cost=payload.cost,
-            cost_type=payload.costType or "lust",
+            cost_type=payload.costType or "reward",
             description=payload.description or "",
             icon=payload.icon or "gift"
         )

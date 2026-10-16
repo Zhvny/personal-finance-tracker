@@ -28,8 +28,8 @@ class RewardService:
         def update_logic(state: Dict[str, Any]):
             nonlocal newly_unlocked
             ctx = UnlockContext(
-                lust=float(state.get("lust", 0)),
-                lifetime_lust=float(state.get("lifetimeLust", 0)),
+                reward=float(state.get("reward", 0)),
+                lifetime_reward=float(state.get("lifetimeReward", 0)),
                 streak_days=int(state.get("streakDays", 0)),
                 total_saved_cumulative=float(state.get("totalSavedCumulative", 0)),
                 already_unlocked=tuple(state.get("unlockedRewards", []))
@@ -51,8 +51,8 @@ class RewardService:
 
         self.repository._update_state_atomic(update_logic, conn=conn)
 
-    def add_lust_points(self, amount: float, conn: Any = None):
-        self.repository.add_lust_points(amount, conn=conn)
+    def add_reward_points(self, amount: float, conn: Any = None):
+        self.repository.add_reward_points(amount, conn=conn)
         return self.check_and_apply(conn=conn)
 
     def add_savings(self, amount: float, conn: Any = None):
@@ -60,7 +60,7 @@ class RewardService:
         return self.check_and_apply(conn=conn)
 
     # ── Self Reward Management ───────────────────────────────────────────────
-    def add_self_reward(self, title: str, cost: float, cost_type: str = "lust", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
+    def add_self_reward(self, title: str, cost: float, cost_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
         """Create a new user self-reward item."""
         return self.repository.add_self_reward(title, cost, cost_type, description, icon)
 

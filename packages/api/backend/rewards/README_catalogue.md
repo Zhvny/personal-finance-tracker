@@ -22,7 +22,7 @@ public/rewards/
   "id":       "reward-1",        ← harus sama dengan nama folder
   "title":    "Nama reward",
   "desc":     "Deskripsi singkat",
-  "cost":     500,               ← harga dalam Lust
+  "cost":     500,               ← harga dalam Reward
   "season":   0,                 ← 0 = season 1, 1 = season 2, dst
   "tier":     "basic",           ← basic | mid | premium | ultra
   "type":     "Pack",            ← label bebas (Pack, Collection, dll)

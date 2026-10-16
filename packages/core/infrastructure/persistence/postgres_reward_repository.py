@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import threading
 from copy import deepcopy
@@ -7,6 +8,21 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Optional
 
 from packages.core.infrastructure.config import Config
+
+logger = logging.getLogger(__name__)
+
+
+def _normalize_cost_type(cost_type: Optional[str], reward_id: str = "") -> str:
+    """Map legacy/unknown cost types to the supported set with an explicit log.
+
+    Old items stored under the pre-rename cost type must not pass through
+    silently — they are converted to "reward" with a warning.
+    """
+    if cost_type in ("reward", "savings"):
+        return cost_type  # type: ignore[return-value]
+    scope = f" for self-reward {reward_id}" if reward_id else ""
+    logger.warning("Legacy costType %r%s; converting to 'reward'", cost_type, scope)
+    return "reward"
 
 
 class PostgresRewardRepository:
@@ -24,8 +40,8 @@ class PostgresRewardRepository:
             self.storage_path = data_dir / "rewards_state.json"
 
         self.state: Dict[str, Any] = {
-            "lust": 0.0,
-            "lifetimeLust": 0.0,
+            "reward": 0.0,
+            "lifetimeReward": 0.0,
             "streakDays": 0,
             "totalSavedCumulative": 0.0,
             "unlockedRewards": [],
@@ -43,8 +59,8 @@ class PostgresRewardRepository:
                 if isinstance(data, dict):
                     self.state.update(data)
                     # Normalize types
-                    self.state["lust"] = float(self.state.get("lust", 0) or 0)
-                    self.state["lifetimeLust"] = float(self.state.get("lifetimeLust", 0) or 0)
+                    self.state["reward"] = float(self.state.get("reward", 0) or 0)
+                    self.state["lifetimeReward"] = float(self.state.get("lifetimeReward", 0) or 0)
                     self.state["streakDays"] = int(self.state.get("streakDays", 0) or 0)
                     self.state["totalSavedCumulative"] = float(self.state.get("totalSavedCumulative", 0) or 0)
                     if not isinstance(self.state.get("unlockedRewards"), list):
@@ -77,8 +93,8 @@ class PostgresRewardRepository:
         with self._lock:
             next_state = deepcopy(self.state)
             next_state.update(deepcopy(state))
-            next_state["lust"] = float(next_state.get("lust", 0) or 0)
-            next_state["lifetimeLust"] = float(next_state.get("lifetimeLust", 0) or 0)
+            next_state["reward"] = float(next_state.get("reward", 0) or 0)
+            next_state["lifetimeReward"] = float(next_state.get("lifetimeReward", 0) or 0)
             next_state["streakDays"] = int(next_state.get("streakDays", 0) or 0)
             next_state["totalSavedCumulative"] = float(next_state.get("totalSavedCumulative", 0) or 0)
 
@@ -102,10 +118,10 @@ class PostgresRewardRepository:
             update_fn(self.state)
             self._save_to_disk()
 
-    def add_lust_points(self, amount: float, conn: Any = None):
+    def add_reward_points(self, amount: float, conn: Any = None):
         with self._lock:
-            self.state["lust"] += float(amount)
-            self.state["lifetimeLust"] += float(amount)
+            self.state["reward"] += float(amount)
+            self.state["lifetimeReward"] += float(amount)
             self._save_to_disk()
 
     def add_savings(self, amount: float, conn: Any = None):
@@ -113,15 +129,16 @@ class PostgresRewardRepository:
             self.state["totalSavedCumulative"] += float(amount)
             self._save_to_disk()
 
-    def add_self_reward(self, title: str, cost: float, cost_type: str = "lust", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
+    def add_self_reward(self, title: str, cost: float, cost_type: str = "reward", description: str = "", icon: str = "🎁") -> Dict[str, Any]:
         """Add a custom user self-reward item."""
+        cost_type = _normalize_cost_type(cost_type)
         with self._lock:
             reward_id = f"sr-{int(datetime.now(timezone.utc).timestamp() * 1000)}"
             new_item = {
                 "id": reward_id,
                 "title": title.strip(),
                 "cost": float(cost),
-                "costType": cost_type, # "lust" or "savings"
+                "costType": cost_type, # "reward" or "savings"
                 "description": description.strip(),
                 "icon": icon,
                 "redeemed": False,
@@ -135,7 +152,7 @@ class PostgresRewardRepository:
             return new_item
 
     def redeem_self_reward(self, reward_id: str) -> Dict[str, Any]:
-        """Redeem a custom self-reward item, deducting cost if cost_type is lust."""
+        """Redeem a custom self-reward item, deducting cost if cost_type is reward."""
         with self._lock:
             self_rewards = self.state.get("selfRewards", [])
             target = None
@@ -151,12 +168,12 @@ class PostgresRewardRepository:
                 raise ValueError("Self reward has already been redeemed")
 
             cost = float(target.get("cost", 0))
-            cost_type = target.get("costType", "lust")
+            cost_type = _normalize_cost_type(target.get("costType", "reward"), reward_id)
 
-            if cost_type == "lust":
-                if self.state["lust"] < cost:
-                    raise ValueError(f"Insufficient Lust points! Required: {cost}, Available: {self.state['lust']}")
-                self.state["lust"] -= cost
+            if cost_type == "reward":
+                if self.state["reward"] < cost:
+                    raise ValueError(f"Insufficient Reward points! Required: {cost}, Available: {self.state['reward']}")
+                self.state["reward"] -= cost
 
             target["redeemed"] = True
             target["redeemedAt"] = datetime.now(timezone.utc).isoformat()

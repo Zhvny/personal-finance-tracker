@@ -28,7 +28,7 @@ class DisciplineService:
         # For now, let's just use sizing.
 
         for delta, reason in events:
-            self.repo.update_lust_points(delta)
+            self.repo.update_reward_points(delta)
 
         return events
 
@@ -46,12 +46,12 @@ class DisciplineService:
             pass
 
         for delta, reason in events:
-            self.repo.update_lust_points(delta)
+            self.repo.update_reward_points(delta)
 
         return events
 
     def get_status(self) -> dict:
-        points = self.repo.get_lust_points()
+        points = self.repo.get_reward_points()
 
         if points >= 120: rank = "Disciple of Zen"
         elif points >= 100: rank = "Steady Trader"

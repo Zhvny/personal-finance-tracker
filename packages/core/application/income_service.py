@@ -112,9 +112,9 @@ class IncomeService:
 
             # ── Reward Logic ──
             try:
-                # 1. Add Lust points: 1 point per 100,000 IDR
-                lust_to_add = amount / Decimal("100000")
-                self.reward_service.add_lust_points(float(lust_to_add))
+                # 1. Add Reward points: 1 point per 100,000 IDR
+                reward_to_add = amount / Decimal("100000")
+                self.reward_service.add_reward_points(float(reward_to_add))
 
                 # 2. Add Savings to cumulative
                 savings_delta = allocation.get("db_writes", {}).get("bank_savings", Decimal("0")) + allocation.get(

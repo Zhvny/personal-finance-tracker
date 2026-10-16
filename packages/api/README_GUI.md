@@ -206,10 +206,10 @@ finance-tracker-gui/
     │   ├── behavioralEngine.js
     │   └── useBehavioralData.js
     └── rewards/
-        ├── LustDashboard.jsx
-        ├── LustShop.jsx
-        ├── lustEngine.js
-        ├── lustStore.js
+        ├── RewardDashboard.jsx
+        ├── RewardShop.jsx
+        ├── rewardEngine.js
+        ├── rewardStore.js
         └── rewardCatalogue.js
 ```
 

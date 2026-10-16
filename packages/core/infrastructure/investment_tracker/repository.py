@@ -239,13 +239,13 @@ class PostgresRepository(IInvestmentRepository, IHistoricalRepository):
         sql = "UPDATE investments SET is_favorite = NOT is_favorite WHERE id = %s"
         return DatabaseManager.execute(sql, (investment_id,)) > 0
 
-    def get_lust_points(self) -> float:
-        sql = "SELECT value FROM user_stats WHERE key = 'lust_points'"
+    def get_reward_points(self) -> float:
+        sql = "SELECT value FROM user_stats WHERE key = 'reward_points'"
         rows = DatabaseManager.query(sql)
         return float(rows[0]['value']) if rows else 100.0
 
-    def update_lust_points(self, delta: float):
-        sql = "UPDATE user_stats SET value = (CAST(value AS NUMERIC) + %s)::TEXT, updated_at = CURRENT_TIMESTAMP WHERE key = 'lust_points'"
+    def update_reward_points(self, delta: float):
+        sql = "UPDATE user_stats SET value = (CAST(value AS NUMERIC) + %s)::TEXT, updated_at = CURRENT_TIMESTAMP WHERE key = 'reward_points'"
         return DatabaseManager.execute(sql, (delta,)) > 0
 
     # ── Historical Prices ────────────────────────────────────────────

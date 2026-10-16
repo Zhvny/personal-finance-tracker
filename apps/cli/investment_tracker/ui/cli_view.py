@@ -53,7 +53,7 @@ class CLIView:
         self.console.print(header)
         self.console.print(Rule(style="#222222"))
 
-    def show_status_bar(self, message: str = "READY", lust_stats: Optional[dict] = None):
+    def show_status_bar(self, message: str = "READY", reward_stats: Optional[dict] = None):
         """Status bar matching Stock Analyzer's status_panel."""
         self.console.print(Rule(style=f"double {BORDER_COLOR}"))
 
@@ -62,14 +62,14 @@ class CLIView:
         status_content.add_column(justify="right")
 
         msg_line = f" [bold {ACCENT}]{message.upper()}[/]"
-        lust_line = ""
-        if lust_stats:
-            pts = lust_stats['points']
-            rank = lust_stats['rank']
+        reward_line = ""
+        if reward_stats:
+            pts = reward_stats['points']
+            rank = reward_stats['rank']
             color = "green" if pts >= 100 else "red"
-            lust_line = f"[dim]LUST_POINTS:[/] [bold {color}]{pts:.0f}[/] | [bold]{rank}[/] "
+            reward_line = f"[dim]REWARD_POINTS:[/] [bold {color}]{pts:.0f}[/] | [bold]{rank}[/] "
 
-        status_content.add_row(msg_line, lust_line)
+        status_content.add_row(msg_line, reward_line)
 
         # Subtle progress bar simulation (Textual style)
         bar = f"[{ACCENT}]" + "━" * 40 + "[/][#222222]" + "━" * 20 + "[/]"
@@ -102,7 +102,7 @@ class CLIView:
 
     # ─────────────── Menus ───────────────────────────────────────────
 
-    def show_main_menu(self, lust_stats: Optional[dict] = None) -> str:
+    def show_main_menu(self, reward_stats: Optional[dict] = None) -> str:
         self.clear()
         self.show_header("Main Menu")
 
@@ -135,7 +135,7 @@ class CLIView:
             title="[bold cyan]SELECT_OPERATION[/]"
         ))
         self.console.print("\n")
-        self.show_status_bar("ORCHESTRATOR_ACTIVE", lust_stats)
+        self.show_status_bar("ORCHESTRATOR_ACTIVE", reward_stats)
 
         return self.console.input(f"\n [bold {ACCENT}]Command »[/] ").strip()
 
