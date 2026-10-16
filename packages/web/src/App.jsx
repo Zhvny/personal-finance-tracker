@@ -29,7 +29,7 @@ const ExpenseTracker      = lazy(() => import("./pages/expense_tracker.jsx"));
 const IncomeTracker       = lazy(() => import("./pages/income_tracker.jsx"));
 const ReceiptReader       = lazy(() => import("./pages/receipt_reader.jsx"));
 const BehavioralDashboard = lazy(() => import("./pages/BehavioralDashboard.jsx"));
-const LustDashboard       = lazy(() => import("./pages/LustDashboard.jsx"));
+const RewardDashboard       = lazy(() => import("./pages/RewardDashboard.jsx"));
 const AdvancedFeatures    = lazy(() => import("./pages/advanced.jsx"));
 const StockAnalyzer       = lazy(() => import("./pages/stock_analyzer.jsx"));
 const StockML             = lazy(() => import("./pages/stock_ml.jsx"));
@@ -436,7 +436,7 @@ export default function App() {
         {page === "receipt"     && <ReceiptReader     onToast={onToast} />}
         {page === "behavioral"  && <BehavioralDashboard />}
         {page === "analytics"   && <BusinessAnalytics />}
-        {page === "earn"        && <LustDashboard />}
+        {page === "earn"        && <RewardDashboard />}
         {page === "advanced"    && <AdvancedFeatures year={resolvedYear} month={resolvedMonth} />}
         {page === "admin"       && <AdminPage onToast={onToast} />}
       </PageWrapper>

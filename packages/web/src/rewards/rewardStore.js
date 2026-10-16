@@ -1,4 +1,4 @@
-// ─── lustStore.js ─────────────────────────────────────────────────────────────
+// ─── rewardStore.js ─────────────────────────────────────────────────────────────
 // Persistence adapter — Adapter Pattern.
 // Single Responsibility: ONLY reads/writes. Zero computation. Zero React.
 //
@@ -10,7 +10,7 @@
 // On save, both are written; a server failure does NOT block the local write.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { currentSeason } from "./lustEngine.js";
+import { currentSeason } from "./rewardEngine.js";
 import { API_BASE }       from "../finance/constants.js";
 import { _getToken }       from "../finance/useApi.js";
 
@@ -30,9 +30,9 @@ export const todayISO = () => new Date().toISOString().slice(0, 10);
 
 // ── Default state ─────────────────────────────────────────────────────────────
 export const DEFAULT_STATE = {
-  lust:                  0,
-  lifetimeLust:          0,
-  seasonLust:            0,
+  reward:                  0,
+  lifetimeReward:          0,
+  seasonReward:            0,
   lastSeasonSeen:        -1,
   streakDays:            0,
   lastSaveDate:          null,
@@ -69,7 +69,7 @@ async function readLocal() {
 async function writeLocal(state) {
   if (!hasLocalStorage()) return;
   try { await window.storage.set(LOCAL_KEY, JSON.stringify(state)); }
-  catch (e) { console.warn("[lustStore] local save failed", e); }
+  catch (e) { console.warn("[rewardStore] local save failed", e); }
 }
 
 async function readServer() {
@@ -102,7 +102,7 @@ async function writeServer(state) {
       body:    JSON.stringify(state),
     });
   } catch (e) {
-    console.warn("[lustStore] server save failed (offline?)", e);
+    console.warn("[rewardStore] server save failed (offline?)", e);
   }
 }
 
@@ -169,11 +169,11 @@ export const rolloverSeason = (state) => {
   return {
     ...state,
     lastSeasonSeen: season,
-    seasonLust:     0,
+    seasonReward:     0,
     unlockedRewards: state.unlockedRewards ?? [],
     log: pushLog(state.log, {
       type:  "season",
-      label: `Season ${season + 1} started — seasonal Lust reset (rewards preserved)`,
+      label: `Season ${season + 1} started — seasonal Reward reset (rewards preserved)`,
       delta: 0,
     }),
   };
@@ -199,7 +199,7 @@ export async function fetchSelfRewards() {
 }
 
 /** Create a new self-reward via the API. */
-export async function createSelfReward({ title, cost, costType = "lust", description = "", icon = "gift" }) {
+export async function createSelfReward({ title, cost, costType = "reward", description = "", icon = "gift" }) {
   const token = _getToken();
   const res = await fetch(`${API_BASE}/rewards/self-reward`, {
     method:  "POST",

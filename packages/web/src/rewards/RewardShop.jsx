@@ -1,4 +1,4 @@
-// ─── LustShop.jsx ─────────────────────────────────────────────────────────────
+// ─── RewardShop.jsx ─────────────────────────────────────────────────────────────
 // Reward Shop — reads from public/rewards/ folder system.
 // Zero emojis — all icons from ../icons.jsx.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -6,7 +6,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { loadCatalogue, TIER_META, contentUrl, thumbnailUrl, thumbnailIsVideo, countContent, contentLabel } from "./rewardCatalogue.js";
-import { currentSeason } from "./lustEngine.js";
+import { currentSeason } from "./rewardEngine.js";
 import {
   IconCoin, IconAward, IconStar, IconTrophy, IconSparkles, IconImage,
   IconVideo, IconUnlock, IconClose, IconWarning, IconCheck, IconSeason,
@@ -106,8 +106,8 @@ function ContentViewer({ manifest, onClose }) {
 }
 
 // ─── UnlockModal ───────────────────────────────────────────────────────────────
-function UnlockModal({ manifest, currentLust, onConfirm, onClose }) {
-  const canAfford  = currentLust >= manifest.cost;
+function UnlockModal({ manifest, currentReward, onConfirm, onClose }) {
+  const canAfford  = currentReward >= manifest.cost;
   const counts     = countContent(manifest);
   const thumb      = thumbnailUrl(manifest);
   const isVidThumb = thumbnailIsVideo(manifest);
@@ -160,13 +160,13 @@ function UnlockModal({ manifest, currentLust, onConfirm, onClose }) {
             <div className="gp-modal-cost-lbl">Price</div>
             <div className="gp-modal-cost-val">
               <IconCoin size={16} color="var(--gp-fire)" />
-              {manifest.cost.toLocaleString("id-ID")} Lust
+              {manifest.cost.toLocaleString("id-ID")} Reward
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div className="gp-modal-cost-lbl">Your Lust</div>
+            <div className="gp-modal-cost-lbl">Your Reward</div>
             <div style={{ fontFamily: "var(--gp-mono)", fontSize: 18, fontWeight: 700, color: canAfford ? "#4ade80" : "var(--gp-tx3)" }}>
-              {currentLust.toLocaleString("id-ID")}
+              {currentReward.toLocaleString("id-ID")}
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@ function UnlockModal({ manifest, currentLust, onConfirm, onClose }) {
         {!canAfford && (
           <div className="gp-modal-warn">
             <IconWarning size={13} />
-            Need {(manifest.cost - currentLust).toLocaleString("id-ID")} more Lust. Keep saving!
+            Need {(manifest.cost - currentReward).toLocaleString("id-ID")} more Reward. Keep saving!
           </div>
         )}
 
@@ -336,8 +336,8 @@ function RewardCard({ manifest, isUnlocked, canAfford, onSelect, onView }) {
   );
 }
 
-// ─── LustShop ─────────────────────────────────────────────────────────────────
-export default function LustShop({ lust, unlockedRewards, onRedeem }) {
+// ─── RewardShop ─────────────────────────────────────────────────────────────────
+export default function RewardShop({ reward, unlockedRewards, onRedeem }) {
   const [catalogue,  setCatalogue]  = useState([]);
   const [catLoading, setCatLoading] = useState(true);
   const [selected,   setSelected]   = useState(null);
@@ -387,8 +387,8 @@ export default function LustShop({ lust, unlockedRewards, onRedeem }) {
       <div className="gp-balance-bar">
         <div className="gp-balance-left">
           <IconCoin size={13} color="var(--gp-fire2)" />
-          <span>Your Lust:</span>
-          <span className="gp-balance-val">{lust.toLocaleString("id-ID")}</span>
+          <span>Your Reward:</span>
+          <span className="gp-balance-val">{reward.toLocaleString("id-ID")}</span>
         </div>
         <div className="gp-balance-right">
           <IconAward size={12} color="var(--gp-tx3)" />
@@ -401,7 +401,7 @@ export default function LustShop({ lust, unlockedRewards, onRedeem }) {
           {visible.map(m => (
             <RewardCard key={m.id} manifest={m}
               isUnlocked={unlockedRewards.includes(m.id)}
-              canAfford={lust >= m.cost}
+              canAfford={reward >= m.cost}
               onSelect={setSelected} onView={setViewing}
             />
           ))}
@@ -414,7 +414,7 @@ export default function LustShop({ lust, unlockedRewards, onRedeem }) {
       )}
 
       {selected && !unlockedRewards.includes(selected.id) && (
-        <UnlockModal manifest={selected} currentLust={lust} onConfirm={handleRedeem} onClose={() => setSelected(null)} />
+        <UnlockModal manifest={selected} currentReward={reward} onConfirm={handleRedeem} onClose={() => setSelected(null)} />
       )}
       {viewing && <ContentViewer manifest={viewing} onClose={() => setViewing(null)} />}
     </div>

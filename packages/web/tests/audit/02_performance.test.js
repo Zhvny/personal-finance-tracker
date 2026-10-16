@@ -40,7 +40,7 @@ describe("⚡ 2.1 – Lazy Loading: Heavy Pages Bukan Eager Import", () => {
     "income_tracker",
     "receipt_reader",
     "BehavioralDashboard",
-    "LustDashboard",
+    "RewardDashboard",
     "advanced",
     "stock_analyzer",
     "stock_ml",
