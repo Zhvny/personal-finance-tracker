@@ -35,7 +35,7 @@ from typing import Any, Dict, List
 # ══════════════════════════════════════════════════════════════════════════════
 
 MILESTONE_RULES: List[Dict[str, Any]] = [
-    # ── Saving milestones (cumulative totalSavedCumulative from lust state) ──
+    # ── Saving milestones (cumulative totalSavedCumulative from reward state) ──
     {
         "metric":      "total_saved_cumulative",
         "threshold":   500_000,
@@ -66,30 +66,30 @@ MILESTONE_RULES: List[Dict[str, Any]] = [
         "reward_id":   "reward-5",
         "description": "Tabungan kumulatif Rp 25 juta — reward ke-5 terbuka!",
     },
-    # ── Lust (Lust points) milestones ────────────────────────────────────────
+    # ── Reward (Reward points) milestones ────────────────────────────────────────
     {
-        "metric":      "lust",
+        "metric":      "reward",
         "threshold":   500,
         "reward_id":   "reward-6",
-        "description": "500 Lust tercapai — reward ke-6 terbuka!",
+        "description": "500 Reward tercapai — reward ke-6 terbuka!",
     },
     {
-        "metric":      "lust",
+        "metric":      "reward",
         "threshold":   2_000,
         "reward_id":   "reward-7",
-        "description": "2.000 Lust tercapai — reward ke-7 terbuka!",
+        "description": "2.000 Reward tercapai — reward ke-7 terbuka!",
     },
     {
-        "metric":      "lust",
+        "metric":      "reward",
         "threshold":   5_000,
         "reward_id":   "reward-8",
-        "description": "5.000 Lust tercapai — reward ke-8 terbuka!",
+        "description": "5.000 Reward tercapai — reward ke-8 terbuka!",
     },
     {
-        "metric":      "lust",
+        "metric":      "reward",
         "threshold":   10_000,
         "reward_id":   "reward-9",
-        "description": "10.000 Lust tercapai — reward ke-9 terbuka!",
+        "description": "10.000 Reward tercapai — reward ke-9 terbuka!",
     },
     # ── Streak milestones ─────────────────────────────────────────────────────
     {
@@ -110,21 +110,21 @@ MILESTONE_RULES: List[Dict[str, Any]] = [
         "reward_id":   "reward-12",
         "description": "30 hari streak nabung — reward ke-12 terbuka!",
     },
-    # ── Lifetime Lust milestones ──────────────────────────────────────────────
+    # ── Lifetime Reward milestones ──────────────────────────────────────────────
     {
-        "metric":      "lifetime_lust",
+        "metric":      "lifetime_reward",
         "threshold":   8_000,
         "reward_id":   "reward-13",
         "description": "Gold rank tercapai — reward ke-13 terbuka!",
     },
     {
-        "metric":      "lifetime_lust",
+        "metric":      "lifetime_reward",
         "threshold":   25_000,
         "reward_id":   "reward-14",
         "description": "Platinum rank tercapai — reward ke-14 terbuka!",
     },
     {
-        "metric":      "lifetime_lust",
+        "metric":      "lifetime_reward",
         "threshold":   75_000,
         "reward_id":   "reward-15",
         "description": "Diamond rank tercapai — reward ke-15 terbuka!",
@@ -142,8 +142,8 @@ class UnlockContext:
     Financial metrics snapshot passed to check_unlocks().
     All values are safe defaults (0) when data is unavailable.
     """
-    lust:                  float = 0.0
-    lifetime_lust:         float = 0.0
+    reward:                  float = 0.0
+    lifetime_reward:         float = 0.0
     streak_days:           int   = 0
     total_saved_cumulative: float = 0.0
     already_unlocked:      tuple = ()   # tuple of reward_id strings already unlocked
@@ -194,8 +194,8 @@ def build_context_from_state(reward_state: dict) -> UnlockContext:
     """
     already = tuple(reward_state.get("unlockedRewards") or [])
     return UnlockContext(
-        lust=float(reward_state.get("lust") or 0),
-        lifetime_lust=float(reward_state.get("lifetimeLust") or 0),
+        reward=float(reward_state.get("reward") or 0),
+        lifetime_reward=float(reward_state.get("lifetimeReward") or 0),
         streak_days=int(reward_state.get("streakDays") or 0),
         total_saved_cumulative=float(reward_state.get("totalSavedCumulative") or 0),
         already_unlocked=already,

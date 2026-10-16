@@ -318,7 +318,7 @@ def build_all_ddl_for_profile(profile: str) -> List[str]:
 
     # Default seed rows
     stmts.append(
-        f"INSERT INTO {p}.user_stats (key, value) VALUES ({_q('lust_points')}, {_q('100')}) "
+        f"INSERT INTO {p}.user_stats (key, value) VALUES ({_q('reward_points')}, {_q('100')}) "
         f"ON CONFLICT (key) DO NOTHING"
     )
     stmts.append(

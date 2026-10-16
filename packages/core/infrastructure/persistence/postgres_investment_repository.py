@@ -429,18 +429,18 @@ class PostgresInvestmentRepository(IInvestmentRepository):
     async def get_by_ticker(self, ticker: str) -> List[Investment]:
         return await self.get_active_lots(ticker)
 
-    async def get_lust_points(self) -> float:
+    async def get_reward_points(self) -> float:
         db = await _db()
-        row = await db.userstat.find_unique(where={"key": "lust_points"})
+        row = await db.userstat.find_unique(where={"key": "reward_points"})
         return float(row.value) if row else 100.0
 
-    async def update_lust_points(self, delta: float) -> bool:
-        current = await self.get_lust_points()
+    async def update_reward_points(self, delta: float) -> bool:
+        current = await self.get_reward_points()
         new_val = str(current + delta)
         db = await _db()
         await db.userstat.upsert(
-            where={"key": "lust_points"},
-            data={"create": {"key": "lust_points", "value": new_val}, "update": {"value": new_val}},
+            where={"key": "reward_points"},
+            data={"create": {"key": "reward_points", "value": new_val}, "update": {"value": new_val}},
         )
         return True
 

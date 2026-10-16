@@ -8,9 +8,9 @@ from packages.core.infrastructure.persistence.postgres_reward_repository import 
 def test_reward_state_can_be_saved_and_read_without_aliasing(tmp_path):
     storage = tmp_path / "rewards_test.json"
     repository = PostgresRewardRepository(storage_path=storage)
-    saved = repository.save_state({"lust": 12, "unlockedRewards": ["starter"]})
+    saved = repository.save_state({"reward": 12, "unlockedRewards": ["starter"]})
 
-    assert saved["lust"] == 12.0
+    assert saved["reward"] == 12.0
     saved["unlockedRewards"].append("mutated-outside")
     assert repository.get_state()["unlockedRewards"] == ["starter"]
 
@@ -24,15 +24,15 @@ def test_self_reward_crud_and_redemption(tmp_path):
     repo = PostgresRewardRepository(storage_path=storage)
     service = RewardService(repository=repo)
 
-    # Give user 100 lust points
-    service.add_lust_points(100.0)
-    assert service.get_state()["lust"] == 100.0
+    # Give user 100 reward points
+    service.add_reward_points(100.0)
+    assert service.get_state()["reward"] == 100.0
 
     # Add a self-reward
     reward = service.add_self_reward(
         title="Extra Coffee",
         cost=30.0,
-        cost_type="lust",
+        cost_type="reward",
         description="Treat myself to a caramel macchiato",
         icon="☕"
     )
@@ -43,12 +43,12 @@ def test_self_reward_crud_and_redemption(tmp_path):
     # Redeem self-reward
     redeemed = service.redeem_self_reward(reward["id"])
     assert redeemed["redeemed"] is True
-    assert service.get_state()["lust"] == 70.0 # 100 - 30
+    assert service.get_state()["reward"] == 70.0 # 100 - 30
 
     # Verify persistence: create new repo instance with same storage file
     repo2 = PostgresRewardRepository(storage_path=storage)
     state2 = repo2.get_state()
-    assert state2["lust"] == 70.0
+    assert state2["reward"] == 70.0
     assert len(state2["selfRewards"]) == 1
     assert state2["selfRewards"][0]["title"] == "Extra Coffee"
 
