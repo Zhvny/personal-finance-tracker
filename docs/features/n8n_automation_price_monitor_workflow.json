@@ -1,0 +1,193 @@
+{
+  "name": "Alpha - Automation Price Monitor (Stocks, Crypto, Commodities)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "cron-trigger-1hour-id",
+      "name": "Cron (Every 1 Hour)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "python scripts/price_scraper.py"
+      },
+      "id": "execute-command-scraper-id",
+      "name": "Execute Command - Playwright/Scraper",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clean & Parse JSON Scraper Output\nconst stdout = $input.first().json.stdout || '[]';\nlet rawData = [];\ntry {\n  rawData = JSON.parse(stdout);\n} catch (e) {\n  rawData = [];\n}\n\nreturn rawData.map(item => {\n  const price = parseFloat(item.price);\n  const target_price = parseFloat(item.target_price);\n  return {\n    json: {\n      symbol: item.symbol,\n      asset_type: item.asset_type,\n      price: price,\n      target_price: target_price,\n      price_below_target: price <= target_price,\n      timestamp: new Date().toISOString()\n    }\n  };\n});"
+      },
+      "id": "code-clean-data-id",
+      "name": "Clean Product & Asset Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO asset_price_history (asset_symbol, asset_name, asset_type, current_price, target_price, price_below_target, source, recorded_at)\nVALUES (:symbol, :symbol, :asset_type, :price, :target_price, :price_below_target, 'n8n', NOW());",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "symbol",
+              "value": "={{ $json.symbol }}"
+            },
+            {
+              "name": "asset_type",
+              "value": "={{ $json.asset_type }}"
+            },
+            {
+              "name": "price",
+              "value": "={{ $json.price }}"
+            },
+            {
+              "name": "target_price",
+              "value": "={{ $json.target_price }}"
+            },
+            {
+              "name": "price_below_target",
+              "value": "={{ $json.price_below_target }}"
+            }
+          ]
+        }
+      },
+      "id": "postgres-save-price-id",
+      "name": "PostgreSQL - Save Price History",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.2,
+      "position": [
+        850,
+        200
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-cred-id",
+          "name": "Alpha PostgreSQL DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.price }}",
+              "operation": "smallerEqual",
+              "value2": "={{ $json.target_price }}"
+            }
+          ]
+        }
+      },
+      "id": "if-price-target-id",
+      "name": "IF - Price <= Target?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "=@alpha_finance_alerts",
+        "text": "=📉 *Price Target Alert!*\n\n📊 *Asset*: {{ $json.symbol }} ({{ $json.asset_type }})\n💵 *Current Price*: ${{ $json.price.toLocaleString() }}\n🎯 *Target Price*: ${{ $json.target_price.toLocaleString() }}\n⏰ *Time*: {{ $json.timestamp }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-price-alert-id",
+      "name": "Telegram Bot - Price Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1050,
+        380
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-cred-id",
+          "name": "Alpha Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cron (Every 1 Hour)": {
+      "main": [
+        [
+          {
+            "node": "Execute Command - Playwright/Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command - Playwright/Scraper": {
+      "main": [
+        [
+          {
+            "node": "Clean Product & Asset Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Product & Asset Data": {
+      "main": [
+        [
+          {
+            "node": "PostgreSQL - Save Price History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Price <= Target?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Price <= Target?": {
+      "main": [
+        [
+          {
+            "node": "Telegram Bot - Price Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "f9e8d7c6-b5a4-3f2e-1d0c-9b8a7f6e5d4c"
+}

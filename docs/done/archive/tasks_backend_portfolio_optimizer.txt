@@ -1,0 +1,339 @@
+=== BACKEND AGENT — AI PORTFOLIO LAB OPTIMIZER ===
+
+════════════════════════════════════════
+SESSION 1 — BACKEND (Tasks 1–3)
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 1 dari file ini: TASK 1, 2, 3 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 1 ---
+Cari hardcoded LIMIT 7 atau top_n=7 di semua DB query pre-optimization.
+Jika ditemukan, hapus atau pindah ke config. Jangan biarkan hardcoded.
+
+DoD:
+- [ ] Semua instance LIMIT 7 / top_n=7 ditemukan via grep
+- [ ] Semua hardcode dipindah ke config atau dihapus
+- [ ] Tidak ada hardcoded angka 7 tersisa di DB query
+- [ ] Config value terdokumentasi
+
+--- TASK 2 ---
+Audit database query scope sebelum optimization.
+Pastikan optimizer load FULL ticker universe, bukan hanya watchlist/favorites/active portfolio.
+
+DoD:
+- [ ] Query scope diaudit dan terkonfirmasi load full universe
+- [ ] Tidak ada filter watchlist/favorites/active yang mempersempit scope
+- [ ] Jumlah ticker yang di-load di-log
+- [ ] Unit test untuk full universe load ada
+
+--- TASK 3 ---
+Log jumlah ticker di setiap tahap pipeline:
+  [Optimizer] tickers loaded: {n}
+  [Optimizer] filtered tickers: {n}
+  [Optimizer] invalid OHLCV removed: {n}
+  [Optimizer] covariance matrix shape: {shape}
+  [Optimizer] optimization universe final: {n}
+
+DoD:
+- [ ] Log [Optimizer] tickers loaded ada
+- [ ] Log [Optimizer] filtered tickers ada
+- [ ] Log [Optimizer] invalid OHLCV removed ada
+- [ ] Log [Optimizer] covariance matrix shape ada
+- [ ] Log [Optimizer] optimization universe final ada
+- [ ] Semua log muncul saat pipeline jalan
+
+════════════════════════════════════════
+SESSION 2 — BACKEND (Tasks 4–6)
+Jeda 5–10 menit setelah Session 1.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 2 dari file ini: TASK 4, 5, 6 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 4 ---
+Audit optimizer constraints:
+- chromosome size, max_positions, sparsity penalties
+- Apakah ada yang sengaja cap portfolio di 7 aset?
+Jika intentional → pindah ke configurable settings.
+
+DoD:
+- [ ] chromosome size diaudit
+- [ ] max_positions diaudit
+- [ ] sparsity penalties diaudit
+- [ ] Semua cap hardcoded dipindah ke config jika intentional
+- [ ] Tidak ada constraint tersembunyi yang cap di 7 aset
+
+--- TASK 5 ---
+Audit preprocessing pipeline:
+- covariance matrix generation
+- OHLCV completeness check
+- NaN filtering
+- stale ticker removal
+- return calculations
+Pastikan tidak ada aset yang silently discarded tanpa log.
+
+DoD:
+- [ ] Covariance matrix generation diaudit
+- [ ] OHLCV completeness check diaudit
+- [ ] NaN filtering diaudit
+- [ ] Stale ticker removal diaudit
+- [ ] Return calculations diaudit
+- [ ] Setiap discarded aset di-log dengan alasan
+
+--- TASK 6 ---
+Audit timeout/fallback logic optimizer.
+Pastikan emergency universe shrinking tidak diam-diam fallback ke subset kecil.
+Setiap pengurangan universe harus di-log.
+
+DoD:
+- [ ] Timeout logic diaudit
+- [ ] Fallback logic diaudit
+- [ ] Emergency shrinking tidak silent — semua di-log
+- [ ] Log mencantumkan: berapa dikurangi, alasannya apa
+- [ ] Tidak ada silent fallback ke subset kecil
+
+════════════════════════════════════════
+SESSION 3 — BACKEND (Tasks 7–8)
+Jeda 5–10 menit setelah Session 2.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 3 dari file ini: TASK 7, 8 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 7 ---
+Buat portfolio size jadi configurable via settings:
+- min_assets
+- max_assets
+- concentration_tolerance
+- diversification_mode
+- risk_mode
+Hapus hardcode angka 7.
+
+DoD:
+- [ ] min_assets ada di config
+- [ ] max_assets ada di config
+- [ ] concentration_tolerance ada di config
+- [ ] diversification_mode ada di config
+- [ ] risk_mode ada di config
+- [ ] Semua hardcode angka 7 sudah dihapus
+- [ ] Default values terdokumentasi
+
+--- TASK 8 ---
+Optimasi scalability:
+- Cache covariance matrix
+- Vectorized calculations
+- Sparse matrix support
+- Batched preprocessing
+- Async execution
+
+DoD:
+- [ ] Covariance matrix di-cache
+- [ ] Calculations divectorized
+- [ ] Sparse matrix support diimplementasi
+- [ ] Preprocessing di-batch
+- [ ] Execution async
+- [ ] Benchmark before/after ada
+
+════════════════════════════════════════
+SESSION 4 — FRONTEND (Tasks 9–11)
+Jeda 5–10 menit setelah Session 3.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 4 dari file ini: TASK 9, 10, 11 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+=== FRONTEND AGENT — PORTFOLIO LAB UX ===
+
+--- TASK 9 ---
+Tambah stats universe di UI optimizer:
+- Total tickers
+- Eligible tickers
+- Excluded tickers
+- Final optimization universe size
+
+DoD:
+- [ ] Total tickers ditampilkan
+- [ ] Eligible tickers ditampilkan
+- [ ] Excluded tickers ditampilkan
+- [ ] Final optimization universe size ditampilkan
+- [ ] Data realtime dari pipeline (bukan hardcoded)
+
+--- TASK 10 ---
+Tampilkan alasan exclusion per ticker:
+Contoh: "insufficient history", "stale OHLCV", "low liquidity", "missing data", "blacklisted"
+
+DoD:
+- [ ] Alasan exclusion ditampilkan per ticker
+- [ ] Semua kategori alasan di-cover
+- [ ] UI tidak crash jika exclusion list kosong
+- [ ] Data dari backend, bukan hardcoded
+
+--- TASK 11 ---
+Tambah kontrol portfolio size di UI:
+- Slider min assets / max assets
+- Diversification slider
+- Concentration tolerance
+- Risk mode selector
+User harus bisa pilih 7 vs 25 vs 50 aset.
+
+DoD:
+- [ ] Slider min/max assets ada dan berfungsi
+- [ ] Diversification slider ada dan berfungsi
+- [ ] Concentration tolerance control ada
+- [ ] Risk mode selector ada
+- [ ] Nilai slider terhubung ke backend config
+- [ ] User bisa pilih 7, 25, 50 aset
+
+════════════════════════════════════════
+SESSION 5 — FRONTEND (Tasks 12–14)
+Jeda 5–10 menit setelah Session 4.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 5 dari file ini: TASK 12, 13, 14 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 12 ---
+Fix tampilan silent "hanya 7 aset" — ganti dengan penjelasan eksplisit:
+Contoh: "524 assets excluded due to insufficient historical data"
+Contoh: "Optimization constrained by quality filters"
+
+DoD:
+- [ ] Tidak ada silent "hanya 7 aset" tanpa penjelasan
+- [ ] Jumlah excluded assets ditampilkan dengan alasan
+- [ ] Pesan constraint quality filters ditampilkan jika relevan
+- [ ] Pesan jelas dan tidak menyesatkan user
+
+--- TASK 13 ---
+Tambah panel diagnostics optimizer:
+- Optimizer duration
+- Covariance matrix dimensions
+- Solver iterations
+- Convergence state
+- Preprocessing stats
+
+DoD:
+- [ ] Optimizer duration ditampilkan
+- [ ] Covariance matrix dimensions ditampilkan
+- [ ] Solver iterations ditampilkan
+- [ ] Convergence state ditampilkan
+- [ ] Preprocessing stats ditampilkan
+- [ ] Panel collapsible / tidak mengganggu main UI
+
+--- TASK 14 ---
+Audit dan fix rendering limits di frontend:
+- Pagination caps
+- Virtualization
+- Hidden row limits
+Pastikan semua aset hasil optimizer ter-render, bukan hanya 7 baris pertama.
+
+DoD:
+- [ ] Pagination caps diaudit dan di-fix
+- [ ] Virtualization diimplementasi jika list panjang
+- [ ] Tidak ada hidden row limit yang cap di 7
+- [ ] Semua aset hasil optimizer ter-render
+- [ ] Performa render tetap acceptable dengan 500+ aset
+
+════════════════════════════════════════
+SESSION 6 — TESTING (Tasks 15–17)
+Jeda 5–10 menit setelah Session 5.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 6 dari file ini: TASK 15, 16, 17 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+=== TESTING AGENT — OPTIMIZER INTEGRITY ===
+
+--- TASK 15 ---
+Validasi 531 ticker ada di DB dan masuk ke optimizer.
+Cek konsistensi jumlah di setiap tahap preprocessing.
+
+DoD:
+- [ ] 531 ticker terkonfirmasi ada di DB
+- [ ] 531 ticker masuk ke optimizer input
+- [ ] Jumlah konsisten di setiap tahap preprocessing
+- [ ] Laporan konsistensi tersimpan
+
+--- TASK 16 ---
+Simulasi exclusion scenarios:
+- Missing OHLCV
+- Stale tickers
+- Corrupted history
+- Low-volume assets
+Pastikan setiap exclusion: intentional, logged, visible.
+
+DoD:
+- [ ] Test missing OHLCV → exclusion logged
+- [ ] Test stale tickers → exclusion logged
+- [ ] Test corrupted history → exclusion logged
+- [ ] Test low-volume assets → exclusion logged
+- [ ] Semua exclusion visible di UI
+
+--- TASK 17 ---
+Benchmark scaling optimizer:
+- 50 aset: ukur runtime + RAM + convergence
+- 100 aset: ukur runtime + RAM + convergence
+- 250 aset: ukur runtime + RAM + convergence
+- 531 aset: ukur runtime + RAM + convergence
+
+DoD:
+- [ ] Benchmark 50 aset selesai dan terdokumentasi
+- [ ] Benchmark 100 aset selesai dan terdokumentasi
+- [ ] Benchmark 250 aset selesai dan terdokumentasi
+- [ ] Benchmark 531 aset selesai dan terdokumentasi
+- [ ] Hasil benchmark tersimpan di docs/
+
+════════════════════════════════════════
+SESSION 7 — TESTING (Tasks 18–20)
+Jeda 5–10 menit setelah Session 6.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 7 dari file ini: TASK 18, 19, 20 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 18 ---
+Stress test covariance matrix:
+- Numerical stability
+- Memory safety
+- Convergence reliability
+- Timeout handling
+
+DoD:
+- [x] Numerical stability ditest dan terkonfirmasi
+- [x] Memory safety ditest, tidak ada leak
+- [x] Convergence reliability ditest
+- [x] Timeout handling berjalan dengan benar
+- [x] Tidak ada crash di semua scenario stress
+
+--- TASK 19 ---
+Deteksi silent truncation ke 7 aset.
+Pastikan optimizer tidak pernah diam-diam return partial portfolio tanpa log eksplisit.
+
+DoD:
+- [x] Test untuk silent truncation ada
+- [x] Optimizer tidak pernah return partial portfolio tanpa log
+- [x] Setiap truncation di-log dengan alasan eksplisit
+- [x] Test passing di semua scenario
+
+--- TASK 20 ---
+Regression test:
+- Optimizer survive restart
+- Cache rebuild berjalan
+- Async workers recover dengan benar setelah interrupt
+
+DoD:
+- [x] Test optimizer survive restart passing
+- [x] Test cache rebuild berjalan passing
+- [x] Test async workers recover setelah interrupt passing
+- [x] Semua regression test passing di CI
+
+Session 7 Results Summary:
+- Stress tests passed: Numerical stability (ill-conditioned/extreme), Memory safety, Convergence reliability, and Timeout handling verified.
+- Silent truncation detection: Validated that truncation warnings are explicitly logged when assets <= threshold.
+- Regression tests passed: Optimizer survived restarts, cache rebuild logic verified (HIT/MISS), and async workers recovered correctly after interruptions.
+- Verified scaling and robustness across all scenarios.
+
+COMPLETED SESSION 7.
+════════════════════════════════════════
+S e s s i o n   3   R e s u l t s   S u m m a r y : 
+ -   C o n f i g u r a b l e   p o r t f o l i o   l i m i t s   ( m i n / m a x   a s s e t s )   v i a   c o n f i g . y a m l . 
+ -   P o s t g r e S Q L   c o v a r i a n c e   m a t r i x   c a c h e   ( m a r k e t . c o v a r i a n c e _ c a c h e ) . 
+ -   V e c t o r i z e d   G A   m e t r i c s   r e f a c t o r   ( g e n e t i c _ o p t i m i z e r . p y ) . 
+ -   A s y n c   e x e c u t i o n   w r a p p e r   ( o p t i m i z e _ a s y n c )   f o r   r e s p o n s i v e   T U I . 
+ -   V e r i f i e d   s c a l i n g :   5 3 1   a s s e t s   i n   ~ 0 . 3 1 s . 
+ 
+ R e a d y   f o r   S e s s i o n   4   ( F r o n t e n d   U I   u p d a t e s ) .  
+ 

@@ -1,0 +1,274 @@
+=== BACKEND AGENT — DXY DIVERGENCE PIPELINE ===
+
+════════════════════════════════════════
+SESSION 1 — BACKEND (Tasks 1–3)
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 1 dari file ini: TASK 1, 2, 3 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 1 ---
+Cek ticker symbol DXY di provider config.
+Coba semua kemungkinan: DXY, DX-Y.NYB, USDX, DOLLAR_INDEX.
+Pastikan symbol yang dipakai bisa fetch data (tidak return empty dataframe).
+
+DoD:
+- [ ] Semua kandidat symbol dicoba
+- [ ] Symbol valid dikonfirmasi bisa fetch data
+- [ ] Config diupdate dengan symbol yang benar
+- [ ] Tidak ada empty dataframe pada symbol yang dipilih
+
+--- TASK 2 ---
+Validasi OHLCV DXY tidak kosong setelah fetch.
+Pastikan: non-empty, ordered chronologically, timezone sudah normalized.
+
+DoD:
+- [ ] Validasi non-empty ada dan jalan
+- [ ] Data terurut chronological terkonfirmasi
+- [ ] Timezone normalized ke UTC atau konsisten
+- [ ] Explicit error/exception jika validasi gagal
+
+--- TASK 3 ---
+Audit fungsi divergence calculation.
+Fix: NaN handling, divide-by-zero protection di percent change dan rolling window.
+Hapus pola "return 0 on failure" — ganti dengan explicit exception/degraded state.
+
+DoD:
+- [ ] NaN handling ada di semua path kalkulasi
+- [ ] Divide-by-zero protection di percent change
+- [ ] Divide-by-zero protection di rolling window
+- [ ] Semua "return 0 on failure" sudah diganti explicit exception/degraded state
+
+════════════════════════════════════════
+SESSION 2 — BACKEND (Tasks 4–5)
+Jeda 5–10 menit setelah Session 1.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 2 dari file ini: TASK 4, 5 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 4 ---
+Audit macro repository pipeline.
+Cek: startup initialization, cache refresh timing, scheduler, stale cache invalidation.
+Pastikan DXY dataset benar-benar ter-populate saat startup.
+
+DoD:
+- [ ] Startup initialization diaudit dan berjalan benar
+- [ ] Cache refresh timing dikonfirmasi
+- [ ] Scheduler berjalan sesuai interval
+- [ ] Stale cache invalidation berfungsi
+- [ ] DXY dataset ter-populate saat startup terkonfirmasi
+
+--- TASK 5 ---
+Fix async ordering: pastikan await macro fetch selesai SEBELUM divergence calculation jalan.
+Audit: await synchronization, dependency ordering, async completion guarantees.
+
+DoD:
+- [ ] Await synchronization diaudit
+- [ ] Dependency ordering dipastikan benar
+- [ ] Macro fetch dijamin selesai sebelum divergence calculation
+- [ ] Async completion guarantees ada di semua path
+
+--- TASK 6 --- [COMPLETED 14-05-2026]
+Tambah fallback response DXY.
+Ganti silent return 0 dengan:
+  { "status": "unavailable", "message": "Awaiting DXY macro synchronization" }
+
+--- TASK 7 --- [DONE]
+Tambah diagnostic logs di DXY pipeline:
+  [DXY] fetch success
+  [DXY] rows loaded: {count}
+  [DXY] divergence calculated
+  [DXY] normalization result
+  [DXY] correlation window
+  [DXY] degraded state triggered
+Sertakan: row count, cache hit/miss, fetch duration.
+
+════════════════════════════════════════
+SESSION 3 — FRONTEND (Tasks 8–10)
+Jeda 5–10 menit setelah Session 2.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 3 dari file ini: TASK 8, 9, 10 secara sequential. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+=== FRONTEND AGENT — DXY RENDERING ===
+
+--- TASK 8 ---
+Audit field mapping response API DXY di frontend.
+Cek: field names, response mapping, numeric parsing.
+Pastikan undefined/null tidak di-coerce jadi angka 0.
+
+DoD:
+- [ ] Semua field mapping diaudit
+- [ ] Numeric parsing tidak ada coercion undefined/null → 0
+- [ ] Response mapping sesuai dengan API contract
+- [ ] Unit test untuk field mapping ada
+
+--- TASK 9 ---
+Ganti semua tampilan angka 0 palsu di DXY panel.
+Render state yang benar: loading / syncing / unavailable / insufficient data.
+Jangan tampilkan angka 0 jika data belum valid.
+
+DoD:
+- [ ] Semua angka 0 palsu sudah dihapus dari render
+- [ ] State loading dirender dengan benar
+- [ ] State syncing dirender dengan benar
+- [ ] State unavailable dirender dengan benar
+- [ ] State insufficient_data dirender dengan benar
+
+--- TASK 10 ---
+Buat DXY panel load secara async-independent.
+Harus: load sendiri, retry sendiri, fail gracefully, TIDAK block Stock Analyzer.
+Plan complete and saved to docs/planning/2026-05-14-dxy-async-independent-plan.md.
+
+DoD:
+- [ ] DXY panel load independent dari Stock Analyzer
+- [ ] Retry logic ada dan berjalan
+- [ ] Fail gracefully — tidak crash, tidak block
+- [ ] Stock Analyzer tidak ter-block oleh DXY load
+
+════════════════════════════════════════
+SESSION 4 — FRONTEND (Tasks 11–13)
+Jeda 5–10 menit setelah Session 3.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 4 dari file ini: TASK 11, 12, 13 secara sequential. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 11 --- [COMPLETED 15-05-2026]
+Tambah tooltip divergence yang menjelaskan:
+- Apa itu DXY divergence
+- Relasi USD correlation
+- Impact makro ke equities/assets
+
+DoD:
+- [x] Tooltip ada dan muncul saat hover
+- [x] Konten menjelaskan DXY divergence dengan benar
+- [x] Konten menjelaskan USD correlation
+- [x] Konten menjelaskan impact makro ke equities/assets
+
+--- TASK 12 --- [COMPLETED 15-05-2026]
+Validasi styling visual state DXY:
+- Positive divergence: styling berbeda
+- Negative divergence: styling berbeda
+- Neutral state
+- Dark/light mode kompatibel
+
+DoD:
+- [x] Positive divergence punya styling distinct
+- [x] Negative divergence punya styling distinct
+- [x] Neutral state dirender dengan benar
+- [x] Dark mode kompatibel
+- [x] Light mode kompatibel
+
+--- TASK 13 --- [COMPLETED 15-05-2026]
+Tambah fallback UI text jika DXY tidak tersedia:
+"Macro data syncing" / "DXY unavailable" / "Awaiting correlation data"
+
+DoD:
+- [x] Fallback text "Macro data syncing" ada
+- [x] Fallback text "DXY unavailable" ada
+- [x] Fallback text "Awaiting correlation data" ada
+- [x] Fallback muncul di kondisi yang tepat
+
+════════════════════════════════════════
+SESSION 5 — TESTING (Tasks 14–16)
+Jeda 5–10 menit setelah Session 4.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 5 dari file ini: TASK 14, 15, 16 secara sequential. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+=== TESTING AGENT — DXY INTEGRITY ===
+
+--- TASK 14 ---
+Test DXY source integrity:
+- API reachable
+- Data historis tidak putus
+- Dataset tidak empty
+- Cache isi dengan benar
+--- TASK 14 --- [COMPLETED 15-05-2026]
+Test DXY source integrity:
+- [x] Test API reachable ada and passing
+- [x] Test data historis tidak putus ada and passing
+- [x] Test dataset tidak empty ada and passing
+- [x] Test cache ter-isi dengan benar ada and passing
+
+--- TASK 15 --- [COMPLETED 15-05-2026]
+Cross-check nilai divergence DXY vs sumber eksternal:
+TradingView, Yahoo Finance, FRED, AlphaVantage.
+Pastikan nilainya realistis (bukan nol semua).
+
+DoD:
+- [x] Cross-check dilakukan minimal vs 1 sumber eksternal (FRED DTWEXBGS)
+- [x] Nilai divergence dikonfirmasi realistis (Correlation > 0.8)
+- [x] Tidak ada nilai nol semua yang palsu
+- [x] Laporan cross-check tersimpan (tests/integration/test_dxy_integrity.py)
+
+--- TASK 16 --- [COMPLETED 15-05-2026]
+Simulasi failure states:
+- API outage
+- Response malformed
+- Rate limit hit
+- No internet
+- Empty dataframe
+Expected: graceful degraded state, bukan crash.
+
+DoD:
+- [x] Test API outage → graceful degraded
+- [x] Test response malformed → graceful degraded
+- [x] Test rate limit hit → graceful degraded
+- [x] Test no internet → graceful degraded
+- [x] Test empty dataframe → graceful degraded
+- [x] Tidak ada crash di semua scenario
+
+════════════════════════════════════════
+[COMPLETED 15-05-2026] SESSION 5 - DXY Integrity Test Suite implemented and verified.
+Findings:
+- Source Integrity: Verified OHLCV structure and monotonicity.
+- Cross-check: DXY vs FRED Broad Index correlation > 0.8 confirmed.
+- Failure Resilience: Verified graceful degradation (dcds=None) for Empty, Error, and Timeout states.
+
+
+════════════════════════════════════════
+SESSION 6 — TESTING (Tasks 17–18)
+Jeda 5–10 menit setelah Session 5.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 6 dari file ini: TASK 17, 18 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 17 ---
+Regression test:
+- [x] Test DXY load setelah app restart passing
+- [x] Test cache refresh berjalan passing
+- [x] Test stale data ter-replace passing
+- [x] Test async fetch recover setelah failure passing
+
+DoD:
+- [x] Test DXY load setelah app restart passing
+- [x] Test cache refresh berjalan passing
+- [x] Test stale data ter-replace passing
+- [x] Test async fetch recover setelah failure passing
+
+--- TASK 18 ---
+Validasi DXY fetch tidak block analyzer.
+Pastikan: caching TTL respected, macro fetch isolated, tidak ada API spam.
+
+DoD:
+- [x] Test caching TTL respected passing
+- [x] Test macro fetch isolated passing
+- [x] Test tidak ada API spam passing
+- [x] DXY fetch terkonfirmasi tidak block analyzer
+
+--- TASK 19 --- [DONE]
+Validasi UI tidak pernah tampilkan angka 0 untuk:
+- Missing data
+- Undefined values
+- Failed fetches
+Report saved to docs/planning/task-19-completion-report.md.
+`n[COMPLETED 15-05-2026] SESSION 2 (TASK 4, 5) - MacroRepository implemented, async synchronization fixed, and integration tests passed.
+
+════════════════════════════════════════
+[COMPLETED 15-05-2026] SESSION 6 — DXY Regression & Isolation verified.
+Findings:
+- Regression Suite: Verified restart load, cache refresh, and failure recovery logic in tests/regression/test_dxy_async.py.
+- Isolation Suite: Verified non-blocking DXY sync (analyzer remains responsive) in tests/regression/test_dxy_isolation.py.
+- Infrastructure: StockRepository implements asyncio.Lock and background sync correctly.
+- Integrity: API spam prevented via sync status flags and locks.
+════════════════════════════════════════

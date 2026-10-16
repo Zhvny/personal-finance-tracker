@@ -1,0 +1,163 @@
+# Alpha project manifest — judgement only. Anything derivable from the repo belongs
+# in the generated docs (docs/PROJECT_MAP.md, docs/STATUS.md), NOT here.
+# Regenerate: python scripts/alpha_hygiene.py map
+
+[meta]
+version = 1
+generated_docs = ["docs/PROJECT_MAP.md", "docs/STATUS.md"]
+# Doc yang di-gate oleh `map --check`: hanya yang deterministik dari repo.
+# STATUS.md memuat snapshot git state (volatile) — tidak di-gate.
+check_docs = ["docs/PROJECT_MAP.md"]
+
+# Judgement: area top-level -> peran & status.
+# status in {canonical, legacy, frozen, generated}
+[areas.services]
+role = "runtime microservice (7 container: gateway + 6 domain)"
+status = "canonical"
+
+[areas.packages]
+role = "shared library (core, api backend, database, types, web)"
+status = "canonical"
+
+[areas."apps/cli"]
+role = "CLI + domain engines (SSOT logika bisnis yg dipakai service)"
+status = "canonical"
+
+[areas."apps/api"]
+role = "monolit lama (FastAPI) — wrapper legacy"
+status = "legacy"
+note = "jangan tambah fitur baru; dihapus saat trigger HONEY_DEBT #6 tercapai"
+
+[areas.docs]
+role = "dokumentasi"
+status = "canonical"
+
+[areas.scripts]
+role = "tooling / one-off script"
+status = "canonical"
+
+[areas.tests]
+role = "test suite"
+status = "canonical"
+
+[areas.migrations]
+role = "migrasi SQL (satu database = satu pemilik)"
+status = "frozen"
+
+[areas.k8s]
+role = "manifest deployment"
+status = "canonical"
+
+# Known-broken runtime (dipindah dari STATE.md §"Known remaining" — sekarang satu tempat).
+[[broken]]
+item = "/stocks/*, /ml-stocks"
+symptom = "502 + circuit-open"
+owner = "market"
+
+[[broken]]
+item = "/merchant-map; /goals/undefined"
+symptom = "400/502 (merchant); 422 (frontend state bug)"
+owner = "insights/frontend"
+
+[[broken]]
+item = "alpha-cli-1 container"
+symptom = "restart-loop (pre-existing CLI worker)"
+owner = "apps/cli"
+
+# Arah kanonik per grup duplikat (hasil scan md5 Task 2).
+# `require_identical = true` (default): path dipindah HANYA bila seluruh file-nya
+# byte-identik dengan `canonical`; kalau ada konten unik -> review manual, tidak dipindah.
+# `require_identical = false`: seluruh path dipindah (mis. nama folder ber-spasi).
+[duplicates."docs/superpowers"]
+canonical = "docs/superpowers"
+paths = ["docs/planning/superpowers", "docs/_archive/superpowers"]
+require_identical = true
+
+[duplicates."docs/audits"]
+canonical = "docs/audits"
+paths = ["docs/AUDIT-quality-perf-2026-08-23.md", "docs/_archive/AUDIT-quality-perf-2026-08-23.md"]
+require_identical = true
+
+[duplicates."docs/reviews"]
+canonical = "docs/reviews"
+paths = ["docs/perlu di perbaiki"]
+require_identical = false
+
+# Path berkonten unik/mirip yang TIDAK dikarantina: kanonik belum diputuskan manusia.
+# Sumber kebenaran untuk section "Review manual" di docs/STATUS.md (bukan hasil scan).
+[[review_manual]]
+path = "docs/planning/maestro"
+reason = "45/95 file identik dengan docs/maestro/; 50 file unik"
+
+[[review_manual]]
+path = "docs/archive/maestro"
+reason = "0/67 identik dengan docs/maestro/; konten berbeda"
+
+[[review_manual]]
+path = "docs/AUDIT_2026-08-16.md"
+reason = "beda isi dari docs/audits/AUDIT-2026-08-16.md"
+
+[[review_manual]]
+path = "docs/ALPHA_AUDIT_REPORT.md"
+reason = "mirip docs/audits/ tapi belum terverifikasi identik"
+
+[[review_manual]]
+path = "docs/ALPHA_SECURITY_UI_UX_AUDIT_REPORT.md"
+reason = "mirip docs/audits/ tapi belum terverifikasi identik"
+
+[[review_manual]]
+path = "docs/ui-slop-audit.md"
+reason = "audit UI, kanonik belum diputuskan"
+
+[[review_manual]]
+path = "docs/UX-AUDIT.md"
+reason = "audit UX, kanonik belum diputuskan"
+
+# Sampah root yang dikarantina (relatif repo root). 7 file terverifikasi.
+[quarantine]
+root_junk = [
+    "wallet_search.txt",
+    "scratch_commit_msg.txt",
+    "database.db",
+    ".coverage",
+    "check_passwords.py",
+    "fix-dev-mode.py",
+    "update_model.py",
+]
+
+# Judgement per-service: narasi yang tidak bisa diturunkan dari kode.
+# port/ROUTERS/inline di-derive dari services/<name>/main.py oleh generator.
+[service.gateway]
+purpose = "public entry: reverse proxy HTTP (exact route table dari /openapi.json) + WS proxy /ws/*"
+owns = ["route table dari tiap downstream /openapi.json", "circuit breaker per downstream", "rate limit per IP"]
+known_gaps = ["WS single-upstream kecuali ALPHA_WS_ROUTES diset", "route table baru siap setelah semua downstream hidup"]
+
+[service.platform]
+purpose = "auth, profiles, logs, notifications(WS), admin audit, telegram bot + inline /api/config"
+owns = ["auth", "profiles", "logs", "notifications", "admin_audit", "packages.api.telegram_bot", "/api/config"]
+known_gaps = []
+
+[service.ledger]
+purpose = "core money flows: expenses, income, transactions/accounts, budget, recurring, confirmations, goals, NL finance"
+owns = ["expenses", "income", "ledger", "balances", "accounts", "budget", "advanced", "recurring", "confirmations", "safe_spend", "forecast", "net_worth", "goals", "nl_finance", "business_analytics"]
+known_gaps = ["business_analytics (construction-style) parked di sini karena income-nya feed ledger — extract saat punya persistence sendiri"]
+
+[service.portfolio]
+purpose = "investments (FIFO), reports, dashboard aggregator"
+owns = ["investments", "reports", "/api/dashboard", "/api/dashboard/metadata"]
+known_gaps = []
+
+[service.market]
+purpose = "stocks, ML inference, genetic optimizer, butterfly risk map, Agent Senate, market scheduler"
+owns = ["stocks", "ml_stocks", "genetic", "butterfly", "senate", "scheduler", "scheduler_status", "/api/genetic/universe/audit"]
+known_gaps = ["/stocks/* dan /ml-stocks 502 + circuit-open (belum diinvestigasi)"]
+
+[service.insights]
+purpose = "OCR receipts, merchant map, AI advisor, analytics, anomalies, health score"
+owns = ["receipts", "merchant", "ai", "insights", "analytics", "anomalies", "health_score", "logs"]
+known_gaps = ["analytics.py spans ledger/portfolio/platform segments (/api/logs/recent, /api/analytics/*) — parked utuh sampai dipecah"]
+
+[service.engagement]
+purpose = "behavioral finance (FBS) dan reward economy"
+owns = ["behavioral", "rewards"]
+known_gaps = []

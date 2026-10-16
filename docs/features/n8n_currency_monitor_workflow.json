@@ -1,0 +1,195 @@
+{
+  "name": "Alpha - Currency Monitor (Exchange Rates)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger-id",
+      "name": "Schedule Trigger (Every 15 mins)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.frankfurter.app/latest?from=USD&to=IDR,EUR,JPY",
+        "options": {}
+      },
+      "id": "http-exchange-api-id",
+      "name": "HTTP Request - Frankfurter API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize Currency Exchange Data\nconst input = $input.first().json;\nconst base = input.base || 'USD';\nconst rates = input.rates || {};\nconst timestamp = input.date || new Date().toISOString();\n\nconst rateUsdIdr = rates.IDR || 16250.0;\nconst rateEurIdr = rates.IDR ? (rates.IDR / rates.EUR) : 17500.0;\n\nconst normalizedData = [\n  {\n    json: {\n      currency: 'USD/IDR',\n      base_currency: 'USD',\n      target_currency: 'IDR',\n      rate: rateUsdIdr,\n      target_threshold: 16000.0,\n      alert_triggered: rateUsdIdr >= 16000.0,\n      timestamp: timestamp\n    }\n  },\n  {\n    json: {\n      currency: 'EUR/IDR',\n      base_currency: 'EUR',\n      target_currency: 'IDR',\n      rate: rateEurIdr,\n      target_threshold: 17500.0,\n      alert_triggered: rateEurIdr >= 17500.0,\n      timestamp: timestamp\n    }\n  }\n];\n\nreturn normalizedData;"
+      },
+      "id": "code-normalize-currency-id",
+      "name": "Code - Normalize Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO currency_history (base_currency, target_currency, rate, threshold, alert_triggered, fetched_at, date)\nVALUES (:base_currency, :target_currency, :rate, :target_threshold, :alert_triggered, NOW(), NOW()::date);",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "base_currency",
+              "value": "={{ $json.base_currency }}"
+            },
+            {
+              "name": "target_currency",
+              "value": "={{ $json.target_currency }}"
+            },
+            {
+              "name": "rate",
+              "value": "={{ $json.rate }}"
+            },
+            {
+              "name": "target_threshold",
+              "value": "={{ $json.target_threshold }}"
+            },
+            {
+              "name": "alert_triggered",
+              "value": "={{ $json.alert_triggered }}"
+            }
+          ]
+        }
+      },
+      "id": "postgres-store-history-id",
+      "name": "PostgreSQL - Store History",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.2,
+      "position": [
+        850,
+        200
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-cred-id",
+          "name": "Alpha PostgreSQL DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.rate }}",
+              "operation": "largerEqual",
+              "value2": "={{ $json.target_threshold }}"
+            }
+          ]
+        }
+      },
+      "id": "if-compare-threshold-id",
+      "name": "IF - Compare Target Threshold",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Code - Normalize Data\"].json.chat_id || \"@alpha_finance_alerts\" }}",
+        "text": "=🚨 *Currency Threshold Alert!*\n\n💱 *Currency Pair*: {{ $json.currency }}\n📈 *Current Rate*: {{ $json.rate.toLocaleString() }}\n🎯 *Target Threshold*: {{ $json.target_threshold.toLocaleString() }}\n⏰ *Time*: {{ $json.timestamp }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-currency-alert-id",
+      "name": "Telegram Bot - Currency Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1050,
+        380
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-cred-id",
+          "name": "Alpha Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Every 15 mins)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Frankfurter API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - Frankfurter API": {
+      "main": [
+        [
+          {
+            "node": "Code - Normalize Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Normalize Data": {
+      "main": [
+        [
+          {
+            "node": "PostgreSQL - Store History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Compare Target Threshold",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Compare Target Threshold": {
+      "main": [
+        [
+          {
+            "node": "Telegram Bot - Currency Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "c1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"
+}

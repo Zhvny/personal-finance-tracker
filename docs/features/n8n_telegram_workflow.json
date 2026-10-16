@@ -1,0 +1,178 @@
+{
+  "name": "Telegram Receipt Scan Integration",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "id": "telegram-trigger-node-id",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [],
+          "string": [],
+          "number": [],
+          "other": [
+            {
+              "value1": "={{ $json.message.photo || $json.message.document }}",
+              "operation": "notEmpty"
+            }
+          ]
+        }
+      },
+      "id": "if-photo-node-id",
+      "name": "If Photo or Document",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "downloadFile",
+        "fileId": "={{ $json.message.document ? $json.message.document.file_id : $json.message.photo[$json.message.photo.length - 1].file_id }}",
+        "additionalFields": {}
+      },
+      "id": "telegram-download-node-id",
+      "name": "Telegram Download File",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [650, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://<IP_SERVER_ALPHA>:8444/api/receipt/scan",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyContentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {
+          "ignoreSslErrors": true
+        }
+      },
+      "id": "http-scan-node-id",
+      "name": "HTTP Request - Scan API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://<IP_SERVER_ALPHA>:8444/telegram/receipt_pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\n  \"chat_id\": {{ $node[\"Telegram Trigger\"].json.message.chat.id }},\n  \"receipts\": {{ JSON.stringify($json.receipts) }}\n}",
+        "options": {
+          "ignoreSslErrors": true
+        }
+      },
+      "id": "http-pending-confirm-id",
+      "name": "HTTP Request - Pending Confirm API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://<IP_SERVER_ALPHA>:8444/telegram/webhook",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify($json) }}",
+        "options": {
+          "ignoreSslErrors": true
+        }
+      },
+      "id": "http-telegram-webhook-id",
+      "name": "HTTP Request - Telegram Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 420],
+      "notes": "Forwards raw updates (text messages, callback queries) to the Telegram Bot API endpoint."
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If Photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Photo": {
+      "main": [
+        [
+          {
+            "node": "Telegram Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request - Telegram Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Download File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Scan API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - Scan API": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Pending Confirm API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

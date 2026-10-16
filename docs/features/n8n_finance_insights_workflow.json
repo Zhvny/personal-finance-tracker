@@ -1,0 +1,158 @@
+{
+  "name": "Alpha - Weekly Finance Insight Digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "triggerOnDay": 1,
+          "triggerAtHour": 7,
+          "triggerAtMinute": 0
+        }
+      },
+      "id": "weekly-schedule-trigger-id",
+      "name": "Schedule (Every Monday 07:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/insights",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "http-insights-id",
+      "name": "HTTP Request - GET /api/insights",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "alpha-api-key-cred-id",
+          "name": "Alpha API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/health-score",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "http-health-score-id",
+      "name": "HTTP Request - GET /api/health-score",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        440
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "alpha-api-key-cred-id",
+          "name": "Alpha API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Compose weekly finance digest from canonical, explainable backend data\nconst insights = $input.first().json;\nconst health = $node['HTTP Request - GET /api/health-score'].json;\n\nconst fmt = (n) => 'Rp ' + Math.round(n || 0).toLocaleString('id-ID');\n\nconst severityLabel = {\n  alert: 'Alert',\n  warning: 'Perhatian',\n  positive: 'Positif',\n  info: 'Info'\n};\n\nconst lines = [\n  '*Ringkasan Keuangan Mingguan (Engine Kanonikal)*',\n  ''\n];\n\nif (health && health.total_score !== undefined) {\n  lines.push('Skor Kesehatan: ' + health.total_score + '/100 (' + health.grade + ')');\n  if (health.components && health.components.length) {\n    const worst = health.components.reduce((a, b) => (a.score <= b.score ? a : b));\n    lines.push('Komponen terlemah: ' + worst.explanation);\n  }\n  lines.push('');\n}\n\nconst cards = (insights && insights.insights) || [];\nif (cards.length === 0) {\n  lines.push('Belum ada wawasan untuk minggu ini.');\n} else {\n  cards.forEach((card) => {\n    const sev = severityLabel[card.severity] || card.severity;\n    lines.push('[' + sev + '] ' + (card.title || card.type));\n    if (card.explanation) lines.push(card.explanation);\n    if (card.refs && card.refs.endpoint) lines.push('Sumber: ' + card.refs.endpoint);\n    lines.push('');\n  });\n}\n\nreturn [{ json: { text: lines.join('\\n') } }];"
+      },
+      "id": "code-compose-digest-id",
+      "name": "Code - Compose Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "=@alpha_finance_alerts",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-digest-id",
+      "name": "Telegram Bot - Weekly Digest",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-cred-id",
+          "name": "Alpha Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule (Every Monday 07:00)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - GET /api/insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - GET /api/insights": {
+      "main": [
+        [
+          {
+            "node": "Code - Compose Digest",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request - GET /api/health-score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - GET /api/health-score": {
+      "main": [
+        [
+          {
+            "node": "Code - Compose Digest",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code - Compose Digest": {
+      "main": [
+        [
+          {
+            "node": "Telegram Bot - Weekly Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "5a4b3c2d-1e0f-9a8b-7c6d-5e4f3a2b1c0d"
+}

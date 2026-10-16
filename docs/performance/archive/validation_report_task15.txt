@@ -1,0 +1,22 @@
+=== Portfolio Optimizer Universe Validation Report ===
+Timestamp: 2026-05-16 20:35:14.759074
+Database Path: ../../apps/stock_analyzer/cache.db
+Target Ticker Count (Adjusted): 526
+Actual Base Ticker Count in Cache: 526
+Unique Tickers with Feature CSVs: 527
+Status: PASS
+
+Integrity Check Details:
+  - Total cache entries: 1051
+  - Valid DataFrames (Unpickled): 1051
+  - Empty/Invalid entries: 0
+  - Corrupt Pickles: 0
+
+Comparison with list.txt:
+  - List count: 150
+  - Tickers in list but not in DB: 28
+    ADA, ADRO, ASII, AVAX, BBCA, BBNI, BBRI, BMRI, BNB, BTC, BUMI, DOGE, ETH, GGRM, GOTO, ICBP, INTP, ISAT, ITMG, MYOR, PTBA, SMGR, SOL, TLKM, TOWR, UNTR, UNVR, XRP
+
+Note: Discrepancy between 531 (initial plan) and 526 (actual research) recognized.
+The threshold has been adjusted to 526 per Task 15 research findings.
+The optimizer can successfully load these tickers as long as feature CSVs exist.

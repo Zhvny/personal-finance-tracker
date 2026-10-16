@@ -1,0 +1,172 @@
+1. VWAP (Volume Weighted Average Price)
+VWAP = harga rata-rata transaksi berdasarkan volume.
+Formula dasarnya:
+VWAP=
+∑Volume/∑(Price×Volume)
+Artinya:
+transaksi dengan volume besar lebih “berpengaruh”
+institusi sering pakai VWAP sebagai benchmark
+Cara membaca VWAP
+Harga di atas VWAP
+→ buyer dominan
+→ market bullish intraday
+Harga di bawah VWAP
+→ seller dominan
+→ market bearish intraday
+VWAP sebagai support/resistance
+Banyak algo dan institusi buy/sell di area VWAP.
+Makanya sering terjadi:
+reject
+bounce
+fake breakout
+di area itu.
+Contoh penggunaan VWAP
+Misal saham:
+open di 100
+VWAP sekarang 103
+harga naik ke 108 lalu retrace ke 103
+Kalau:
+volume buy masih kuat
+candle reject VWAP
+Trader sering entry long di situ karena:
+“institusi masih average buy di area itu”
+Strategi umum VWAP
+A. Trend Following
+cari saham di atas VWAP
+entry saat pullback ke VWAP
+target continuation
+B. Mean Reversion
+Kalau harga terlalu jauh dari VWAP:
+kemungkinan retrace balik
+sering dipakai scalper
+
+2. Order Flow
+Order flow = melihat aliran transaksi REAL TIME.
+Bukan indikator lagging.
+Lu literally lihat:
+siapa yang agresif buy
+siapa yang agresif sell
+ukuran order
+liquidity
+absorption
+Konsep penting
+Aggressive Buyer
+Buyer “ngejar” ask.
+Artinya:
+market order buy
+buyer urgent
+Bullish.
+Aggressive Seller
+Seller “ngejual ke bid”.
+Bearish.
+Apa yang dicari trader order flow?
+A. Absorption
+Contoh:
+seller spam jual besar
+tapi harga ga turun
+Artinya:
+ada big buyer nyerap semua sell
+Sering jadi reversal bullish.
+B. Exhaustion
+Buyer makin sedikit.
+Volume buy melemah.
+Harga masih naik sedikit tapi:
+delta melemah
+buy imbalance hilang
+Sering tanda top.
+Tools order flow
+Biasanya:
+DOM (Depth of Market)
+Time & Sales
+Footprint chart
+Platform populer:
+Bookmap
+Sierra Chart
+Quantower
+ATAS
+NinjaTrader
+
+3. Footprint Chart
+Footprint = candle yang memperlihatkan:
+volume buy vs sell
+di setiap level harga
+Bukan cuma OHLC candle biasa.
+Footprint menunjukkan:
+Misal di harga 100:
+Buy	Price	Sell
+500	100	120
+Artinya:
+500 market buy
+120 market sell
+Buyer dominan besar.
+Yang dicari trader footprint
+A. Imbalance
+Kalau buy jauh lebih besar dari sell:
+bullish pressure
+Kalau sell jauh lebih besar:
+bearish pressure
+B. Delta
+Delta = buy volume - sell volume
+Δ=Buy Volume−Sell Volume
+Delta positif
+Buyer agresif dominan.
+Delta negatif
+Seller agresif dominan.
+Contoh penting
+Harga naik + delta naik
+Bullish sehat.
+Harga naik tapi delta turun
+Possible trap/divergence.
+Artinya:
+harga naik karena liquidity tipis, bukan karena buyer kuat.
+
+4. Volume Profile
+Ini salah satu tool paling powerful.
+Volume profile menunjukkan:
+volume paling banyak terjadi di harga mana.
+Bukan berdasarkan waktu.
+Komponen penting
+A. POC (Point of Control)
+Harga dengan volume terbesar.
+Ini area “fair value”.
+Sering jadi magnet harga.
+B. Value Area (VA)
+Area tempat ~70% volume terjadi.
+Terdiri dari:
+VAH = Value Area High
+VAL = Value Area Low
+Interpretasi
+Harga di atas VAH
+Bullish acceptance.
+Harga di bawah VAL
+Bearish acceptance.
+Harga balik masuk VA
+Sering fake breakout.
+Bentuk volume profile
+D-shape
+Balance market.
+Range/choppy.
+P-shape
+Short covering bullish.
+b-shape
+Long liquidation bearish.
+Trend profile
+Volume terus build satu arah.
+Bagaimana Semua Ini Digabung?
+Trader profesional jarang pakai satu tool doang.
+Contoh workflow:
+Scenario
+1. Volume Profile
+POC ada di 100.
+2. Harga breakout ke 103
+Di atas value area.
+3. VWAP sekarang 101
+Harga masih di atas VWAP.
+4. Footprint menunjukkan:
+buy imbalance
+delta positif besar
+5. Order flow:
+aggressive buyer masuk
+seller absorbed
+Kesimpulan:
+probabilitas continuation bullish tinggi.

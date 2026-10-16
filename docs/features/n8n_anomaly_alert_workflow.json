@@ -1,0 +1,186 @@
+{
+  "name": "Alpha - Daily Anomaly Alert (WF-12)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "triggerAtHour": 8,
+          "triggerAtMinute": 0
+        }
+      },
+      "id": "daily-schedule-trigger-id",
+      "name": "Schedule (Every Day 08:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/anomalies/check",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": false,
+        "options": {}
+      },
+      "id": "http-check-anomalies-id",
+      "name": "HTTP Request - POST /api/anomalies/check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "alpha-api-key-cred-id",
+          "name": "Alpha API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/anomalies",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "http-list-anomalies-id",
+      "name": "HTTP Request - GET /api/anomalies",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        650,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "alpha-api-key-cred-id",
+          "name": "Alpha API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.alerts.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "if-has-anomalies-id",
+      "name": "IF - Any Alerts?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format persisted anomaly alerts into a readable report\nconst data = $input.first().json;\nconst alerts = (data && data.alerts) || [];\n\nconst lines = [\n  '*Deteksi Anomali Harian (WF-12)*',\n  ''\n];\n\nif (alerts.length === 0) {\n  lines.push('Tidak ada anomali tercatat.');\n} else {\n  alerts.forEach((a) => {\n    lines.push('[' + (a.severity || 'medium').toUpperCase() + '] ' + (a.rule || '') + ' — ' + (a.category || ''));\n    if (a.explanation) lines.push(a.explanation);\n    if (a.evidence) lines.push('Bukti: ' + a.evidence);\n    lines.push('');\n  });\n}\n\nreturn [{ json: { text: lines.join('\\n'), count: alerts.length } }];"
+      },
+      "id": "code-format-anomalies-id",
+      "name": "Code - Format Alerts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1050,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "=@alpha_finance_alerts",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-anomaly-alert-id",
+      "name": "Telegram Bot - Anomaly Report",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1250,
+        160
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-cred-id",
+          "name": "Alpha Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule (Every Day 08:00)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - POST /api/anomalies/check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - POST /api/anomalies/check": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - GET /api/anomalies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - GET /api/anomalies": {
+      "main": [
+        [
+          {
+            "node": "IF - Any Alerts?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Any Alerts?": {
+      "main": [
+        [
+          {
+            "node": "Code - Format Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Code - Format Alerts": {
+      "main": [
+        [
+          {
+            "node": "Telegram Bot - Anomaly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "b2a3c4d5-e6f7-0a1b-9c8d-7e6f5a4b3c2d"
+}

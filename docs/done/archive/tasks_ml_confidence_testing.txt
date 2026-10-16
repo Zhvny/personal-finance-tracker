@@ -1,0 +1,132 @@
+=== DEVELOPER B — ML CONFIDENCE TESTING AGENT ===
+
+Scope: ONLY file tests/unit/test_ml_confidence.py
+
+════════════════════════════════════════
+SESSION 1 — ML TESTING (Tasks 1–3)
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 1 dari file ini: TASK 1, 2, 3 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 1 ---
+Tulis test: small predicted returns → confidence realistis.
+Expected:
+- Confidence tidak near-zero
+- Confidence tetap dalam range yang masuk akal (bukan collapsed ke 0)
+File: tests/unit/test_ml_confidence.py
+
+DoD:
+- [ ] Test ditulis di tests/unit/test_ml_confidence.py
+- [ ] Test cover small predicted returns
+- [ ] Assertion: confidence tidak near-zero
+- [ ] Assertion: confidence dalam range masuk akal
+- [ ] Test passing
+
+--- TASK 2 ---
+Tulis test: extreme volatility → confidence turun tapi tidak hard collapse.
+Expected:
+- Volatility tinggi mengurangi confidence secara proporsional
+- Hard collapse hanya terjadi jika volatility benar-benar ekstrem
+File: tests/unit/test_ml_confidence.py
+
+DoD:
+- [ ] Test ditulis di tests/unit/test_ml_confidence.py
+- [ ] Test cover extreme volatility input
+- [ ] Assertion: confidence turun proporsional dengan volatility
+- [ ] Assertion: hard collapse hanya pada volatility benar-benar ekstrem
+- [ ] Test passing
+
+--- TASK 3 ---
+Tulis test: bounds validation.
+Expected:
+- Confidence selalu dalam range [0.0, 1.0]
+- Test dengan berbagai input edge case
+File: tests/unit/test_ml_confidence.py
+
+DoD:
+- [ ] Test ditulis di tests/unit/test_ml_confidence.py
+- [ ] Test cover berbagai edge case input
+- [ ] Assertion: confidence selalu >= 0.0
+- [ ] Assertion: confidence selalu <= 1.0
+- [ ] Test passing dengan semua edge case
+
+════════════════════════════════════════
+SESSION 2 — ML TESTING (Tasks 4–5)
+Jeda 5–10 menit setelah Session 1.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 2 dari file ini: TASK 4, 5 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 4 ---
+Tulis test: missing/stale data handling.
+Expected:
+- Return state "insufficient_data" secara eksplisit
+- TIDAK silently output fake low confidence
+File: tests/unit/test_ml_confidence.py
+
+DoD:
+- [ ] Test ditulis di tests/unit/test_ml_confidence.py
+- [ ] Test cover missing data input
+- [ ] Test cover stale data input
+- [ ] Assertion: return "insufficient_data" secara eksplisit
+- [ ] Assertion: tidak ada fake low confidence output
+- [ ] Test passing
+
+--- TASK 5 ---
+Tulis test: distribusi confidence tidak cluster di 5%–15%.
+Expected:
+- Confidence spread lebih merata
+- Tidak semua prediksi menumpuk di range sempit
+File: tests/unit/test_ml_confidence.py
+
+DoD:
+- [ ] Test ditulis di tests/unit/test_ml_confidence.py
+- [ ] Test generate distribusi confidence dari berbagai input
+- [ ] Assertion: tidak ada clustering di 5%–15%
+- [ ] Assertion: spread distribusi merata
+- [ ] Test passing
+
+════════════════════════════════════════
+SESSION 3 — ML TESTING + BACKEND (Tasks 6–8)
+Jeda 5–10 menit setelah Session 2.
+Paste ke Gemini CLI:
+/maestro:orchestrate Kerjain SESSION 3 dari file ini: TASK 6, 7, 8 secara sequential. Skip task yang sudah DONE/COMPLETED. Dokumentasi hasil append ke file ini setelah tiap task selesai.
+════════════════════════════════════════
+
+--- TASK 6 ---
+Jalankan test suite setelah semua test ditulis:
+  pytest tests/unit/test_ml_confidence.py
+Laporan: passing/failing summary, edge cases validated.
+
+DoD:
+- [ ] pytest dijalankan
+- [ ] Semua test passing
+- [ ] Passing/failing summary terdokumentasi
+- [ ] Edge cases validated terdokumentasi
+- [ ] Tidak ada test yang skip tanpa alasan
+
+=== BACKEND AGENT — CONFIDENCE CALIBRATION ===
+
+--- TASK 7 ---
+Di file apps/cli/prediction_service.py:
+Ganti linear confidence scaling yang harsh dengan sigmoid atau tanh yang calibrated.
+Tetap preserve bounds [0, 1].
+
+DoD:
+- [ ] Linear scaling harsh dihapus dari prediction_service.py
+- [ ] Sigmoid atau tanh calibrated diimplementasi
+- [ ] Bounds [0, 1] tetap preserved
+- [ ] Unit test untuk scaling baru ada
+- [ ] Output confidence lebih merata terkonfirmasi
+
+--- TASK 8 ---
+Di file apps/cli/prediction_service.py:
+Pisahkan logika "insufficient_data" dari "low confidence".
+insufficient_data harus return state eksplisit, bukan nilai confidence rendah palsu.
+
+DoD:
+- [ ] Logika insufficient_data dipisah dari low confidence
+- [ ] insufficient_data return state eksplisit
+- [ ] Tidak ada nilai confidence rendah palsu untuk insufficient_data
+- [ ] Unit test untuk kedua state ada
+- [ ] Test passing
