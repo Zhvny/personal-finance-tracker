@@ -1,12 +1,12 @@
-// ─── useLust.js ───────────────────────────────────────────────────────────────
+// ─── useReward.js ───────────────────────────────────────────────────────────────
 // Application layer — Facade Pattern.
-// Bridges: lustStore ↔ lustEngine ↔ financial API → clean component interface.
+// Bridges: rewardStore ↔ rewardEngine ↔ financial API → clean component interface.
 //
 // IDEMPOTENCY DESIGN: every event type is guarded by a "last applied" key in
 // state so re-running computeEvents on the same data never double-counts.
 //
 // Keys used for idempotency:
-//   state.lastSaveDate         — daily events (first-save-of-day, streak, lust-from-save)
+//   state.lastSaveDate         — daily events (first-save-of-day, streak, reward-from-save)
 //   state.lastSavingGrowthMonth— monthly saving-growth bonus (YYYY-MM)
 //   state.lastSpendPenaltyMonth— monthly spend-overage penalty (YYYY-MM)
 //   state.lastSpendGrowthMonth — monthly spend-growth penalty (YYYY-MM)
@@ -17,14 +17,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { apiFetch } from "../finance/useApi.js";
 import {
-  RULES, lustFromSave, milestoneBonuses, streakMultiplier, streakBonus,
+  RULES, rewardFromSave, milestoneBonuses, streakMultiplier, streakBonus,
   weeklyBonus, spendOveragePenalty, resolveRank, nextRank, rankProgress,
   currentSeason, daysRemainingInSeason, seasonProgress, applyDeltas, updateLifetime,
-} from "./lustEngine.js";
+} from "./rewardEngine.js";
 import {
   loadState, saveState, rolloverSeason, pushLog,
   isoWeek, todayISO, mergeAutoUnlocked,
-} from "./lustStore.js";
+} from "./rewardStore.js";
 
 // ── Current month key (YYYY-MM) ───────────────────────────────────────────────
 const monthKey = () => new Date().toISOString().slice(0, 7);
@@ -83,7 +83,7 @@ function computeEvents(state, snap) {
   const ev = [];
 
   // ── RULE 1: Daily saving events (guard: lastSaveDate !== today) ────────────
-  // Covers: streak, first-save-of-day, lust-from-savings, milestone
+  // Covers: streak, first-save-of-day, reward-from-savings, milestone
   if (snap.savingsThis > 0 && s.lastSaveDate !== today) {
     // Streak logic
     const continued = s.lastSaveDate === yesterday;
@@ -106,8 +106,8 @@ function computeEvents(state, snap) {
       ev.push({ type: "penalty", label: "Streak terputus — multiplier reset", delta: 0 });
     }
 
-    // Lust from savings amount (with multiplier)
-    const base = lustFromSave(snap.savingsThis);
+    // Reward from savings amount (with multiplier)
+    const base = rewardFromSave(snap.savingsThis);
     if (base > 0) {
       const earned = Math.round(base * s.multiplier);
       ev.push({ type: "earn", label: `Nabung Rp${snap.savingsThis.toLocaleString("id-ID")}`, delta: earned });
@@ -180,9 +180,9 @@ function applyEvents(state, events) {
   const deltas = events.map(e => e.delta);
   return {
     ...state,
-    lust:         applyDeltas(state.lust, deltas),
-    lifetimeLust: updateLifetime(state.lifetimeLust, deltas),
-    seasonLust:   Math.max(0, state.seasonLust + deltas.reduce((a, b) => a + b, 0)),
+    reward:         applyDeltas(state.reward, deltas),
+    lifetimeReward: updateLifetime(state.lifetimeReward, deltas),
+    seasonReward:   Math.max(0, state.seasonReward + deltas.reduce((a, b) => a + b, 0)),
     log:          events.reduce((l, e) => pushLog(l, e), state.log),
   };
 }
@@ -190,7 +190,7 @@ function applyEvents(state, events) {
 // ══════════════════════════════════════════════════════════════════════════════
 // § MAIN HOOK
 // ══════════════════════════════════════════════════════════════════════════════
-export function useLust() {
+export function useReward() {
   const [state,   setState]   = useState(null);
   const [snap,    setSnap]    = useState(null);
   const [loading, setLoading] = useState(true);
@@ -219,12 +219,12 @@ export function useLust() {
   // ── Redeem reward ─────────────────────────────────────────────────────────
   const redeemReward = useCallback(async (reward) => {
     if (!state) return { ok: false };
-    if (state.lust < reward.cost)                   return { ok: false, reason: "Insufficient Lust" };
+    if (state.reward < reward.cost)                   return { ok: false, reason: "Insufficient Reward" };
     if (state.unlockedRewards.includes(reward.id))  return { ok: false, reason: "Sudah di-unlock" };
 
     const next = {
       ...state,
-      lust:            Math.max(0, state.lust - reward.cost),
+      reward:            Math.max(0, state.reward - reward.cost),
       unlockedRewards: [...state.unlockedRewards, reward.id],
       log: pushLog(state.log, { type: "redeem", label: `Unlocked: ${reward.title}`, delta: -reward.cost }),
     };
@@ -272,9 +272,9 @@ export function useLust() {
 
   // ── Derived values (computed fresh, never stale) ──────────────────────────
   const derived = state ? {
-    rank:       resolveRank(state.lifetimeLust),
-    nextRank:   nextRank(state.lifetimeLust),
-    rankPct:    rankProgress(state.lifetimeLust),
+    rank:       resolveRank(state.lifetimeReward),
+    nextRank:   nextRank(state.lifetimeReward),
+    rankPct:    rankProgress(state.lifetimeReward),
     season:     currentSeason(),
     daysLeft:   daysRemainingInSeason(),
     seasonPct:  seasonProgress(),

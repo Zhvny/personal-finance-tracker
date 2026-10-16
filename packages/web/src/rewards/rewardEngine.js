@@ -1,12 +1,12 @@
-// ─── lustEngine.js ────────────────────────────────────────────────────────────
+// ─── rewardEngine.js ────────────────────────────────────────────────────────────
 // Pure computation layer — no React, no storage, no side-effects.
-// Clean Architecture: innermost ring. All Lust math lives here once.
+// Clean Architecture: innermost ring. All Reward math lives here once.
 // SOLID / DRY: every rule is a named constant + pure function. Zero duplication.
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ══════════════════════════════════════════════════════════════════════════════
 // § 1  RULE CONSTANTS — single source of truth
-//      Exported as RULES (canonical) + LUST_RULES (alias for legacy compat)
+//      Exported as RULES (canonical) + REWARD_RULES (alias for legacy compat)
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const RULES = Object.freeze({
@@ -39,8 +39,8 @@ export const RULES = Object.freeze({
   MULT_30D:   5.0, // Increased from 1.5
 });
 
-// Legacy alias — LustDashboard.jsx uses LUST_RULES; maps to same object
-export const LUST_RULES = {
+// Legacy alias — RewardDashboard.jsx uses REWARD_RULES; maps to same object
+export const REWARD_RULES = {
   SAVE_PER_100K:         RULES.SAVE_PER_100K,
   MILESTONE_BONUS:       RULES.MILESTONE_BONUS,
   FIRST_SAVE_DAY:        RULES.FIRST_SAVE_DAY,
@@ -65,7 +65,7 @@ export const NON_ESSENTIAL = new Set(["entertainment", "shopping"]);
 
 // ══════════════════════════════════════════════════════════════════════════════
 // § 2  RANK SYSTEM — status only, no leaderboard
-//      Field: "min" = lifetime Lust threshold to reach this rank
+//      Field: "min" = lifetime Reward threshold to reach this rank
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const RANKS = [
@@ -131,8 +131,8 @@ export const seasonProgress = () => {
 // § 4  PURE COMPUTATION FUNCTIONS
 // ══════════════════════════════════════════════════════════════════════════════
 
-/** Lust earned from a savings amount (raw, before multiplier) */
-export const lustFromSave = (amount) =>
+/** Reward earned from a savings amount (raw, before multiplier) */
+export const rewardFromSave = (amount) =>
   Math.floor(amount / 100_000) * RULES.SAVE_PER_100K;
 
 /** Milestone bonuses when cumulative total crosses 500K intervals */
@@ -169,10 +169,10 @@ export const spendOveragePenalty = (budgeted, actual) => {
   return 0;
 };
 
-/** Apply deltas to current Lust, floored at 0 (can never go negative) */
+/** Apply deltas to current Reward, floored at 0 (can never go negative) */
 export const applyDeltas = (current, deltas) =>
   Math.max(0, Math.round(deltas.reduce((s, d) => s + d, current)));
 
-/** Lifetime Lust only increases — drives rank, never resets */
+/** Lifetime Reward only increases — drives rank, never resets */
 export const updateLifetime = (prev, deltas) =>
   prev + deltas.filter(d => d > 0).reduce((s, d) => s + d, 0);

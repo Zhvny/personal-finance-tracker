@@ -1,10 +1,10 @@
 // ─── SelfRewards.jsx ──────────────────────────────────────────────────────────
-// Self-Reward system: users create personal goal rewards to spend Lust points.
+// Self-Reward system: users create personal goal rewards to spend Reward points.
 // Zero emojis — all icons from ../icons.jsx.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect, useCallback } from "react";
-import { fetchSelfRewards, createSelfReward, redeemSelfReward, deleteSelfReward } from "./lustStore.js";
+import { fetchSelfRewards, createSelfReward, redeemSelfReward, deleteSelfReward } from "./rewardStore.js";
 import { IconGift, IconAward, IconTarget, IconSparkles, IconStar, IconCoin, IconCheck } from "../icons.jsx";
 
 const CATEGORY_OPTIONS = [
@@ -15,8 +15,8 @@ const CATEGORY_OPTIONS = [
   { id: "star", label: "Personal", Icon: IconStar },
 ];
 
-function SelfRewardCard({ reward, lustPoints, onRedeem, onDelete, loading }) {
-  const canAfford = !reward.redeemed && (reward.costType !== "lust" || lustPoints >= reward.cost);
+function SelfRewardCard({ reward, rewardPoints, onRedeem, onDelete, loading }) {
+  const canAfford = !reward.redeemed && (reward.costType !== "reward" || rewardPoints >= reward.cost);
   const isRedeemed = reward.redeemed;
 
   const matchedCat = CATEGORY_OPTIONS.find(c => c.id === reward.icon) || CATEGORY_OPTIONS[0];
@@ -36,8 +36,8 @@ function SelfRewardCard({ reward, lustPoints, onRedeem, onDelete, loading }) {
           <div className="sr-card-desc">{reward.description}</div>
         )}
         <div className="sr-card-cost">
-          {reward.costType === "lust"
-            ? <span className="sr-cost-lust"><IconCoin size={11} color="var(--gp-fire2)" /> {reward.cost} Lust</span>
+          {reward.costType === "reward"
+            ? <span className="sr-cost-reward"><IconCoin size={11} color="var(--gp-fire2)" /> {reward.cost} Reward</span>
             : <span className="sr-cost-savings">Savings Goal</span>
           }
         </div>
@@ -52,7 +52,7 @@ function SelfRewardCard({ reward, lustPoints, onRedeem, onDelete, loading }) {
             className={`sr-btn-redeem ${!canAfford ? "sr-btn-redeem--disabled" : ""}`}
             onClick={() => canAfford && onRedeem(reward.id)}
             disabled={!canAfford || loading}
-            title={canAfford ? "Redeem this reward" : `Need ${reward.cost} Lust (you have ${lustPoints})`}
+            title={canAfford ? "Redeem this reward" : `Need ${reward.cost} Reward (you have ${rewardPoints})`}
           >
             {canAfford ? "Redeem" : `Need ${reward.cost}`}
           </button>
@@ -72,7 +72,7 @@ function SelfRewardCard({ reward, lustPoints, onRedeem, onDelete, loading }) {
 }
 
 function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
-  const [form, setForm] = useState({ title: "", cost: 50, costType: "lust", description: "", icon: "gift" });
+  const [form, setForm] = useState({ title: "", cost: 50, costType: "reward", description: "", icon: "gift" });
   const [err, setErr] = useState("");
 
   const handleSubmit = async (e) => {
@@ -136,12 +136,12 @@ function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
             value={form.costType}
             onChange={e => setForm(f => ({ ...f, costType: e.target.value }))}
           >
-            <option value="lust">Lust Points</option>
+            <option value="reward">Reward Points</option>
             <option value="savings">Savings (Memo)</option>
           </select>
         </div>
         <div>
-          <label className="sr-label">{form.costType === "lust" ? "Lust Cost" : "Amount"}</label>
+          <label className="sr-label">{form.costType === "reward" ? "Reward Cost" : "Amount"}</label>
           <input
             className="sr-input"
             type="number"
@@ -176,7 +176,7 @@ function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
   );
 }
 
-export default function SelfRewards({ lustPoints = 0 }) {
+export default function SelfRewards({ rewardPoints = 0 }) {
   const [rewards, setRewards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -251,7 +251,7 @@ export default function SelfRewards({ lustPoints = 0 }) {
         <div className="sr-header-left">
           <span className="sr-title">Self-Rewards</span>
           <span className="sr-subtitle">
-            Spend your <strong>{lustPoints}</strong> Lust points on personal goals
+            Spend your <strong>{rewardPoints}</strong> Reward points on personal goals
           </span>
         </div>
         <button
@@ -301,7 +301,7 @@ export default function SelfRewards({ lustPoints = 0 }) {
             <SelfRewardCard
               key={r.id}
               reward={r}
-              lustPoints={lustPoints}
+              rewardPoints={rewardPoints}
               onRedeem={handleRedeem}
               onDelete={handleDelete}
               loading={loading}

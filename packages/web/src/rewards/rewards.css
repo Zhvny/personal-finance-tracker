@@ -105,14 +105,14 @@
   line-height: 1.6;
 }
 
-/* ── Lust counter (big hero number) ─────────────────────────────────────── */
-.gp-lust-display {
+/* ── Reward counter (big hero number) ─────────────────────────────────────── */
+.gp-reward-display {
   display: flex;
   align-items: baseline;
   gap: 10px;
   margin-top: 20px;
 }
-.gp-lust-num {
+.gp-reward-num {
   font-family: var(--gp-mono);
   font-size: 52px;
   font-weight: 700;
@@ -125,7 +125,7 @@
   0%, 100% { text-shadow: 0 0 30px rgba(229,57,53,.4); }
   50%       { text-shadow: 0 0 60px rgba(229,57,53,.7), 0 0 100px rgba(229,57,53,.2); }
 }
-.gp-lust-label {
+.gp-reward-label {
   font-family: var(--gp-mono);
   font-size: 16px;
   font-weight: 700;
@@ -133,7 +133,7 @@
   text-transform: uppercase;
   letter-spacing: 3px;
 }
-.gp-lust-lifetime {
+.gp-reward-lifetime {
   font-family: var(--gp-mono);
   font-size: 11px;
   color: var(--gp-tx3);
@@ -685,7 +685,7 @@
   .gp-card-content-count { margin-bottom: 8px; }
   .gp-unlock-btn { padding: 5px 10px; font-size: 10px; }
   .gp-card-cost { font-size: 11px; }
-  .gp-lust-num { font-size: 38px; }
+  .gp-reward-num { font-size: 38px; }
 
   /* Hero title: never clip on mobile */
   .gp-hero-title { font-size: 36px; overflow: visible; white-space: normal; }
@@ -695,8 +695,8 @@
   .gp-rank-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .gp-rank-sub  { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* Lust display: stack vertically on tiny screens */
-  .gp-lust-display { gap: 14px; flex-wrap: wrap; }
+  /* Reward display: stack vertically on tiny screens */
+  .gp-reward-display { gap: 14px; flex-wrap: wrap; }
   .gp-rank-card { flex: 1; min-width: 130px; }
 }
 
@@ -863,11 +863,11 @@ body.light-mode .gp-hero::before {
   background: radial-gradient(ellipse 80% 120% at 50% -20%, rgba(192,57,43,.07) 0%, transparent 65%);
 }
 
-/* Lust number — less glow in light */
-body.light-mode .gp-lust-num {
+/* Reward number — less glow in light */
+body.light-mode .gp-reward-num {
   text-shadow: 0 0 20px rgba(192,57,43,.25);
 }
-body.light-mode .gp-lust-num {
+body.light-mode .gp-reward-num {
   animation: none; /* disable pulse in light mode */
 }
 
@@ -939,8 +939,8 @@ body.light-mode .gp-hero-title {
 }
 .gp-sync-btn:hover { background: var(--gp-bg4); color: var(--gp-tx); }
 
-/* ── Lust label with icon ─────────────────────────────────────────────────── */
-.gp-lust-label { display: flex; align-items: center; gap: 5px; }
+/* ── Reward label with icon ─────────────────────────────────────────────────── */
+.gp-reward-label { display: flex; align-items: center; gap: 5px; }
 
 /* ── Rank card icon ───────────────────────────────────────────────────────── */
 .gp-rank-icon-wrap { font-size: 28px; flex-shrink: 0; display: flex; align-items: center; }
@@ -1205,7 +1205,7 @@ body.light-mode .gp-hero-title {
 /* ── gp-hero-title at 320px — scale down                                      */
 @media (max-width: 340px) {
   .gp-hero-title { font-size: 20px !important; }
-  .gp-lust-num   { font-size: 24px !important; }
+  .gp-reward-num   { font-size: 24px !important; }
   .gp-ranks-row  { gap: 3px !important; flex-wrap: wrap; }
   .gp-rank-pill  { font-size: 9px !important; padding: 3px 6px !important; }
 }
@@ -1326,7 +1326,7 @@ body.light-mode .gp-hero-title {
 }
 .sr-card-desc { font-size: 11.5px; color: var(--gp-tx3); }
 .sr-card-cost { font-size: 11px; }
-.sr-cost-lust { color: var(--gp-fire2); font-weight: 600; }
+.sr-cost-reward { color: var(--gp-fire2); font-weight: 600; }
 .sr-cost-savings { color: var(--gp-gold); font-weight: 600; }
 
 .sr-card-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }

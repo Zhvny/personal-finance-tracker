@@ -45,7 +45,7 @@ vi.mock("../../src/pages/expense_tracker.jsx",     () => ({ default: () => <div 
 vi.mock("../../src/pages/income_tracker.jsx",      () => ({ default: () => <div data-testid="page-income">Income Page</div> }));
 vi.mock("../../src/pages/receipt_reader.jsx",      () => ({ default: () => <div data-testid="page-receipt">Receipt Reader Page</div> }));
 vi.mock("../../src/pages/BehavioralDashboard.jsx", () => ({ default: () => <div data-testid="page-behavioral">Behavioral Finance Page</div> }));
-vi.mock("../../src/pages/LustDashboard.jsx",       () => ({ default: () => <div data-testid="page-earn">Earn/Reward Page</div> }));
+vi.mock("../../src/pages/RewardDashboard.jsx",       () => ({ default: () => <div data-testid="page-earn">Earn/Reward Page</div> }));
 vi.mock("../../src/pages/advanced.jsx",            () => ({ default: () => <div data-testid="page-advanced">Advanced Features Page</div> }));
 vi.mock("../../src/pages/stock_analyzer.jsx",      () => ({ default: () => <div data-testid="page-stocks">Stock Analyzer Page</div> }));
 vi.mock("../../src/pages/stock_ml.jsx",            () => ({ default: () => <div data-testid="page-ml">ML Predict Page</div> }));

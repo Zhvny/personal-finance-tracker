@@ -1,15 +1,15 @@
-// ─── LustDashboard.jsx ────────────────────────────────────────────────────────
-// Main page — "Reward". Composes sub-sections, owns the useLust hook.
-// Design Pattern: Composite + Facade. Zero business logic — all in lustEngine.js
+// ─── RewardDashboard.jsx ────────────────────────────────────────────────────────
+// Main page — "Reward". Composes sub-sections, owns the useReward hook.
+// Design Pattern: Composite + Facade. Zero business logic — all in rewardEngine.js
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useRef } from "react";
 import "../rewards/rewards.css";
-import { useLust } from "../rewards/useLust.js";
-import LustShop from "../rewards/LustShop.jsx";
+import { useReward } from "../rewards/useReward.js";
+import RewardShop from "../rewards/RewardShop.jsx";
 import SelfRewards from "../rewards/SelfRewards.jsx";
-import { RANKS, LUST_RULES, daysRemainingInSeason, currentSeason } from "../rewards/lustEngine.js";
-import { saveState } from "../rewards/lustStore.js";
+import { RANKS, REWARD_RULES, daysRemainingInSeason, currentSeason } from "../rewards/rewardEngine.js";
+import { saveState } from "../rewards/rewardStore.js";
 import { usePersistedTab } from "../finance/useApi.js";
 import {
   IconStreak, IconMultiplier, IconCoin, IconTrophy, IconTarget, IconVexBolt,
@@ -21,25 +21,25 @@ import {
 // ── Rank config (color in RANKS array directly) ───────────────────────────────
 const rankColor = (rankId) => RANKS.find(r => r.id === rankId)?.color ?? "#fff";
 
-// ── Earn rules — DRY, built from LUST_RULES constants ─────────────────────────
+// ── Earn rules — DRY, built from REWARD_RULES constants ─────────────────────────
 const EARN_RULES = [
-  { Icon: IconCoin,      title: "Save Rp100K",           val: `+${LUST_RULES.SAVE_PER_100K}`,       pos: true  },
-  { Icon: IconMilestone, title: "Milestone 500K",         val: `+${LUST_RULES.MILESTONE_BONUS}`,     pos: true  },
-  { Icon: IconStar,      title: "First Save of Day",      val: `+${LUST_RULES.FIRST_SAVE_DAY}`,      pos: true  },
-  { Icon: IconStreak,    title: "3-Day Streak",           val: `+${LUST_RULES.STREAK_3D}`,           pos: true  },
-  { Icon: IconVexBolt,   title: "7-Day Streak",           val: `+${LUST_RULES.STREAK_7D}`,           pos: true  },
-  { Icon: IconTrophy,    title: "30-Day Streak",          val: `+${LUST_RULES.STREAK_30D}`,          pos: true  },
-  { Icon: IconTarget,    title: "Weekly Goal Hit",        val: `+${LUST_RULES.WEEKLY_GOAL}`,         pos: true  },
-  { Icon: IconAward,     title: "Overachieve 150%",       val: `+${LUST_RULES.WEEKLY_OVERACHIEVE}`,  pos: true  },
-  { Icon: IconLeaf,      title: "Zero Non-Essential Day", val: `+${LUST_RULES.NO_NONESSENTIAL_DAY}`, pos: true  },
-  { Icon: IconUp,        title: "Saving Up 20%",          val: `+${LUST_RULES.SAVING_UP_20PCT_MO}`,  pos: true  },
-  { Icon: IconPenalty,   title: "Overspend 110–120%",     val: `${LUST_RULES.PENALTY_SPEND_110_120}`,pos: false },
-  { Icon: IconPenalty,   title: "Overspend 120–140%",     val: `${LUST_RULES.PENALTY_SPEND_120_140}`,pos: false },
-  { Icon: IconDown,      title: "Overspend 140%+",        val: `${LUST_RULES.PENALTY_SPEND_140PLUS}`,pos: false },
-  { Icon: IconCalStat,   title: "7 Days Without Saving",  val: `${LUST_RULES.PENALTY_NO_SAVE_7D}`,   pos: false },
-  { Icon: IconWarning,   title: "Weekly Goal Miss",       val: `${LUST_RULES.PENALTY_WEEKLY_MISS}`,  pos: false },
-  { Icon: IconRepeat,    title: "2x Consecutive Miss",    val: `${LUST_RULES.PENALTY_WEEKLY_2X}`,    pos: false },
-  { Icon: IconNoSpend,   title: "Spending Up 30%",        val: `${LUST_RULES.PENALTY_SPEND_UP30}`,   pos: false },
+  { Icon: IconCoin,      title: "Save Rp100K",           val: `+${REWARD_RULES.SAVE_PER_100K}`,       pos: true  },
+  { Icon: IconMilestone, title: "Milestone 500K",         val: `+${REWARD_RULES.MILESTONE_BONUS}`,     pos: true  },
+  { Icon: IconStar,      title: "First Save of Day",      val: `+${REWARD_RULES.FIRST_SAVE_DAY}`,      pos: true  },
+  { Icon: IconStreak,    title: "3-Day Streak",           val: `+${REWARD_RULES.STREAK_3D}`,           pos: true  },
+  { Icon: IconVexBolt,   title: "7-Day Streak",           val: `+${REWARD_RULES.STREAK_7D}`,           pos: true  },
+  { Icon: IconTrophy,    title: "30-Day Streak",          val: `+${REWARD_RULES.STREAK_30D}`,          pos: true  },
+  { Icon: IconTarget,    title: "Weekly Goal Hit",        val: `+${REWARD_RULES.WEEKLY_GOAL}`,         pos: true  },
+  { Icon: IconAward,     title: "Overachieve 150%",       val: `+${REWARD_RULES.WEEKLY_OVERACHIEVE}`,  pos: true  },
+  { Icon: IconLeaf,      title: "Zero Non-Essential Day", val: `+${REWARD_RULES.NO_NONESSENTIAL_DAY}`, pos: true  },
+  { Icon: IconUp,        title: "Saving Up 20%",          val: `+${REWARD_RULES.SAVING_UP_20PCT_MO}`,  pos: true  },
+  { Icon: IconPenalty,   title: "Overspend 110–120%",     val: `${REWARD_RULES.PENALTY_SPEND_110_120}`,pos: false },
+  { Icon: IconPenalty,   title: "Overspend 120–140%",     val: `${REWARD_RULES.PENALTY_SPEND_120_140}`,pos: false },
+  { Icon: IconDown,      title: "Overspend 140%+",        val: `${REWARD_RULES.PENALTY_SPEND_140PLUS}`,pos: false },
+  { Icon: IconCalStat,   title: "7 Days Without Saving",  val: `${REWARD_RULES.PENALTY_NO_SAVE_7D}`,   pos: false },
+  { Icon: IconWarning,   title: "Weekly Goal Miss",       val: `${REWARD_RULES.PENALTY_WEEKLY_MISS}`,  pos: false },
+  { Icon: IconRepeat,    title: "2x Consecutive Miss",    val: `${REWARD_RULES.PENALTY_WEEKLY_2X}`,    pos: false },
+  { Icon: IconNoSpend,   title: "Spending Up 30%",        val: `${REWARD_RULES.PENALTY_SPEND_UP30}`,   pos: false },
 ];
 
 // ── Loading skeleton ──────────────────────────────────────────────────────────
@@ -96,14 +96,14 @@ function Hero({ state, derived, snap, onRefresh }) {
         </button>
       </div>
 
-      <div className="gp-lust-display">
+      <div className="gp-reward-display">
         <div>
-          <div className="gp-lust-num">{state.lust.toLocaleString("id-ID")}</div>
-          <div className="gp-lust-label">
+          <div className="gp-reward-num">{state.reward.toLocaleString("id-ID")}</div>
+          <div className="gp-reward-label">
             <IconCoin size={14} />
-            <span>LUST</span>
+            <span>REWARD</span>
           </div>
-          <div className="gp-lust-lifetime">Lifetime: {state.lifetimeLust.toLocaleString("id-ID")} · Season: {state.seasonLust.toLocaleString("id-ID")}</div>
+          <div className="gp-reward-lifetime">Lifetime: {state.lifetimeReward.toLocaleString("id-ID")} · Season: {state.seasonReward.toLocaleString("id-ID")}</div>
           {derived.multiplier > 1 && (
             <div className="gp-mult-badge">
               <IconMultiplier size={11} />
@@ -147,8 +147,8 @@ function StatsRow({ state, derived, snap }) {
         <div className="gp-stat-sub">{state.multiplier >= 1.5 ? "max" : state.multiplier >= 1.2 ? "active" : "base"}</div>
       </div>
       <div className="gp-stat dim">
-        <div className="gp-stat-lbl"><IconSeason size={11} /><span>Season Lust</span></div>
-        <div className="gp-stat-val">{state.seasonLust.toLocaleString("id-ID")}</div>
+        <div className="gp-stat-lbl"><IconSeason size={11} /><span>Season Reward</span></div>
+        <div className="gp-stat-val">{state.seasonReward.toLocaleString("id-ID")}</div>
         <div className="gp-stat-sub">{derived.daysLeft}d remaining</div>
       </div>
       <div className="gp-stat green">
@@ -180,7 +180,7 @@ function ActivityLog({ log }) {
     return (
       <div className="gp-empty">
         <IconCalStat size={32} color="var(--gp-tx3)" />
-        <div className="gp-empty-txt">No activity yet.<br />Start saving to earn your first Lust!</div>
+        <div className="gp-empty-txt">No activity yet.<br />Start saving to earn your first Reward!</div>
       </div>
     );
   }
@@ -216,7 +216,7 @@ function SeasonPanel({ state, derived }) {
         </div>
         <div className="gp-season-title">The Discipline Arc</div>
         <div className="gp-season-desc">
-          Season Lust resets every 30 days. Rank never resets — lifetime Lust keeps growing.
+          Season Reward resets every 30 days. Rank never resets — lifetime Reward keeps growing.
           Use this season to unlock exclusive rewards before rotation.
         </div>
         <div className="gp-season-meta">
@@ -235,14 +235,14 @@ function SeasonPanel({ state, derived }) {
         <div className="gp-section-hd" style={{ marginBottom: 12 }}>Rank Milestones</div>
         <div className="gp-rank-list">
           {RANKS.map(rank => {
-            const reached = state.lifetimeLust >= rank.min;
+            const reached = state.lifetimeReward >= rank.min;
             const isCurrent = derived.rank.id === rank.id;
             return (
               <div key={rank.id} className="gp-rank-row" style={{ background: isCurrent ? rank.color + "0d" : "var(--gp-bg2)", border: "1px solid " + (isCurrent ? rank.color + "30" : "var(--gp-border)") }}>
                 <IconTrophy size={18} color={reached ? rank.color : "var(--gp-tx3)"} />
                 <div style={{ flex: 1 }}>
                   <div className="gp-rank-row-name" style={{ color: reached ? rank.color : "var(--gp-tx3)" }}>{rank.label}</div>
-                  <div className="gp-rank-row-min">{rank.min.toLocaleString("id-ID")} Lifetime Lust</div>
+                  <div className="gp-rank-row-min">{rank.min.toLocaleString("id-ID")} Lifetime Reward</div>
                 </div>
                 {reached && <div className="gp-rank-reached" style={{ color: rank.color }}><IconSparkles size={12} /> REACHED</div>}
               </div>
@@ -270,14 +270,14 @@ function EarnPanel({ state, setWeeklyGoal }) {
           min={1} step={100000} />
       </div>
 
-      <div className="gp-section-hd" style={{ marginTop: 20 }}>How to Earn Lust</div>
+      <div className="gp-section-hd" style={{ marginTop: 20 }}>How to Earn Reward</div>
       <div className="gp-rules">
         {EARN_RULES.filter(r => r.pos).map(rule => (
           <div key={rule.title} className="gp-rule">
             <div className="gp-rule-ico"><rule.Icon size={18} color="var(--gp-fire2)" /></div>
             <div className="gp-rule-body">
               <div className="gp-rule-title">{rule.title}</div>
-              <div className="gp-rule-val pos">+{rule.val} Lust</div>
+              <div className="gp-rule-val pos">+{rule.val} Reward</div>
             </div>
           </div>
         ))}
@@ -290,7 +290,7 @@ function EarnPanel({ state, setWeeklyGoal }) {
             <div className="gp-rule-ico"><rule.Icon size={18} color="var(--gp-tx3)" /></div>
             <div className="gp-rule-body">
               <div className="gp-rule-title">{rule.title}</div>
-              <div className="gp-rule-val neg">{rule.val} Lust</div>
+              <div className="gp-rule-val neg">{rule.val} Reward</div>
             </div>
           </div>
         ))}
@@ -353,7 +353,7 @@ function BackupPanel({ state, onRestore }) {
         const parsed = JSON.parse(ev.target.result);
         const raw = parsed.state ?? parsed;   // support both wrapped & raw format
         // Minimum validation
-        if (typeof raw.lust !== "number" || !Array.isArray(raw.unlockedRewards)) {
+        if (typeof raw.reward !== "number" || !Array.isArray(raw.unlockedRewards)) {
           flash("File tidak valid — bukan backup reward yang benar.", false);
           return;
         }
@@ -388,8 +388,8 @@ function BackupPanel({ state, onRestore }) {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 }}>
         {[
           { label: "Reward Dibeli", val: unlockedCount, color: "#4ade80" },
-          { label: "Total Lust",    val: state.lust.toLocaleString("id-ID"), color: "var(--gp-fire)" },
-          { label: "Lifetime Lust", val: state.lifetimeLust.toLocaleString("id-ID"), color: "var(--gp-gold)" },
+          { label: "Total Reward",    val: state.reward.toLocaleString("id-ID"), color: "var(--gp-fire)" },
+          { label: "Lifetime Reward", val: state.lifetimeReward.toLocaleString("id-ID"), color: "var(--gp-gold)" },
           { label: "Streak",        val: state.streakDays + " hari", color: "var(--gp-fire2)" },
         ].map(({ label, val, color }) => (
           <div key={label} style={{
@@ -452,16 +452,16 @@ function BackupPanel({ state, onRestore }) {
       {/* Tip */}
       <div style={{ marginTop: 18, fontSize: 11, color: "var(--gp-tx3)", lineHeight: 1.7 }}>
         <strong>Tip:</strong> Simpan file backup di Google Drive / cloud storage.
-        Import otomatis memulihkan semua reward yang pernah dibeli, Lust, streak, dan riwayat aktivitas.
+        Import otomatis memulihkan semua reward yang pernah dibeli, Reward, streak, dan riwayat aktivitas.
       </div>
     </div>
   );
 }
 
 // ── Main page ─────────────────────────────────────────────────────────────────
-export default function LustDashboard() {
+export default function RewardDashboard() {
   const [tab, setTab] = usePersistedTab("reward", "earn");
-  const { state, snap, loading, derived, redeemReward, setWeeklyGoal, refresh, setState } = useLust();
+  const { state, snap, loading, derived, redeemReward, setWeeklyGoal, refresh, setState } = useReward();
 
   if (loading || !state || !derived) return <GpSkeleton />;
 
@@ -492,8 +492,8 @@ export default function LustDashboard() {
 
         <div className="gp-panel">
           {tab === "earn"      && <EarnPanel   state={state} setWeeklyGoal={setWeeklyGoal} />}
-          {tab === "shop"      && <LustShop    lust={state.lust} unlockedRewards={state.unlockedRewards} onRedeem={redeemReward} />}
-          {tab === "myrewards" && <SelfRewards lustPoints={state.lust} />}
+          {tab === "shop"      && <RewardShop    reward={state.reward} unlockedRewards={state.unlockedRewards} onRedeem={redeemReward} />}
+          {tab === "myrewards" && <SelfRewards rewardPoints={state.reward} />}
           {tab === "season"    && <SeasonPanel state={state} derived={derived} />}
           {tab === "log"       && <ActivityLog log={state.log} />}
           {tab === "backup"    && <BackupPanel state={state} onRestore={setState} />}
