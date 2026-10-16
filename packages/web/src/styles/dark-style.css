@@ -1,0 +1,19 @@
+/* ── dark-style.css — Finance Tracker GUI · Dark Theme ────────────────────── */
+/* Master file importing modular architecture.                                   */
+
+/* Core Theme */
+@import "./theme/base.css";
+@import "./theme/layout.css";
+@import "./theme/components.css";
+@import "./theme/elements.css";
+
+/* Modular Page Styles */
+@import "./theme/pages/sidebar.css";
+@import "./theme/pages/dashboard.css";
+@import "./theme/pages/stocks.css";
+@import "./theme/pages/investments.css";
+@import "./theme/pages/tracker.css";
+@import "./theme/pages/misc.css";
+
+/* Critical Overrides */
+@import "./theme/responsive.css";

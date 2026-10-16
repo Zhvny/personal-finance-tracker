@@ -1,0 +1,56 @@
+/* ── layout.css — Main App Shell ─────────────────────────────────────────── */
+
+.app{display:flex;height:100vh;height:100dvh;overflow:hidden;background:var(--bg);position:relative}
+
+/* Sidebar */
+.sb{width:252px;min-width:252px;background:var(--sb);border-right:1px solid var(--bdr);
+    display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-bottom:16px;
+    padding-top:env(safe-area-inset-top);
+    transition:transform .25s cubic-bezier(.4,0,.2,1), width .22s cubic-bezier(.4,0,.2,1);
+}
+.sb.sb-hidden{width:0;min-width:0;opacity:0;overflow:hidden;pointer-events:none;padding:0;border:none}
+.sb-logo{padding:32px 16px 28px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px; overflow: hidden;}
+.sb-logo-name{font-size:15px;font-weight:700;letter-spacing:-.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.sb-logo-sub{font-size:11px;color:var(--tx2);font-family:var(--mono)}
+.sb-toggle{margin-left:auto;background:none;border:none;color:var(--tx3);font-size:20px;font-weight:700;
+           line-height:1;cursor:pointer;padding:2px 7px;border-radius:6px;transition:all .15s;flex-shrink:0}
+.sb-toggle:hover{background:var(--bg3);color:var(--tx)}
+
+.sb-net{margin:12px 12px 0;background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r);padding:12px 14px}
+.sb-net-lbl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.sb-net-val{font-size:clamp(15px, 4vw, 19px);font-weight:700;font-family:var(--mono);line-height:1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.sb-net-sub{font-size:11px;color:var(--tx2);margin-top:3px}
+.sb-sec{padding:14px 12px 2px}
+.sb-sec-lbl{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--tx3);padding:0 8px;margin-bottom:5px}
+.sb-div{height:1px;background:var(--bdr);margin:6px 12px}
+
+.nav-it{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;
+        transition:all .15s;color:var(--tx2);font-size:13.5px;font-weight:500;
+        border:1px solid transparent;margin-bottom:2px;user-select:none; min-width: 0; overflow: hidden;}
+.nav-it:hover{background:var(--bg3);color:var(--tx)}
+.nav-it.active{background:var(--sb-act);color:var(--ind);border-color:var(--ind-d);box-shadow: var(--sh);}
+.nav-it .ico{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.nav-it > span:not(.ico):not(.nb) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Topbar */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column; min-width: 0; min-height: 0;}
+.topbar{height:56px;min-height:56px;border-bottom:1px solid var(--bdr);padding:0 26px;
+        padding-top:env(safe-area-inset-top);height:calc(56px + env(safe-area-inset-top));
+        display:flex;align-items:center;justify-content:space-between;background:var(--bg2); flex-shrink: 0;}
+.tb-hamburger{display:none}
+.tb-title{font-size:18px;font-weight:700;letter-spacing:-.4px;display:flex;align-items:center;gap:8px;min-width:0; flex: 1; overflow: hidden;}
+.tb-title > span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tb-right{display:flex;align-items:center;gap:10px; flex-shrink: 0;}
+.tb-date{font-size:11px;font-family:var(--mono);color:var(--tx2);background:var(--bg3);padding:5px 12px;border-radius:99px;border:1px solid var(--bdr)}
+
+/* Content Area */
+.content{flex:1;overflow-y:auto;padding:clamp(10px, 3vw, 24px) clamp(12px, 5vw, 42px);
+         overscroll-behavior-y: contain; overflow-x: hidden !important; max-width: 100%; min-height: 0; background: var(--bg);}
+
+
+.sb-backdrop{
+  display:none; position:fixed;inset:0;z-index:899;
+  background:rgba(0,0,0,.5); animation:fadeIn .2s;
+}
+.sb-backdrop.visible{display:block}
+

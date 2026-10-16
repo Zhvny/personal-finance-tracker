@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider                   = "prisma-client-py"
+  interface                  = "asyncio"
+  recursive_type_depth       = 5
+  enable_experimental_decimal = true
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Expense {
+  id               Int      @id @default(autoincrement())
+  amount           Decimal
+  description      String
+  category         String
+  payment_method   String
+  date             DateTime
+  is_recurring     Boolean  @default(false)
+  recurring_period String?
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("expenses")
+}
+
+model Income {
+  id          Int      @id @default(autoincrement())
+  amount      Decimal
+  source      String
+  income_type String
+  date        DateTime
+  description String?
+  is_taxed    Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("incomes")
+}
+
+model Investment {
+  id                 Int               @id @default(autoincrement())
+  asset_type         String
+  ticker             String
+  quantity           Decimal
+  buy_price          Decimal
+  buy_currency       String
+  buy_price_idr      Decimal?
+  buy_date           DateTime          @default(now())
+  status             String            @default("holding")
+  is_favorite        Boolean           @default(false)
+  remaining_quantity Decimal
+  sells              SellTransaction[]
+  historicalPrices   HistoricalPrice[]
+  createdAt          DateTime          @default(now()) @map("created_at")
+
+  @@map("investments")
+}
+
+model SellTransaction {
+  id              Int        @id @default(autoincrement())
+  sell_date       DateTime
+  quantity        Decimal
+  sell_price_usd  Decimal
+  sell_currency   String     @default("IDR")
+  fees            Decimal      @default(0.0)
+  realized_pl_idr Decimal      @default(0.0)
+  realized_pl_pct Decimal      @default(0.0)
+  investment      Investment @relation(fields: [investmentId], references: [id])
+  investmentId    Int        @map("investment_id")
+  ticker          String?
+  createdAt       DateTime   @default(now()) @map("created_at")
+
+  @@map("sell_transactions")
+}
+
+model HistoricalPrice {
+  id            Int        @id @default(autoincrement())
+  investment    Investment @relation(fields: [investmentId], references: [id])
+  investmentId  Int        @map("investment_id")
+  snapshot_date DateTime
+  price_usd     Decimal
+  price_idr     Decimal
+  createdAt     DateTime   @default(now()) @map("created_at")
+
+  @@unique([investmentId, snapshot_date])
+  @@map("historical_prices")
+}
+
+model UserStat {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user_stats")
+}
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  category  String
+  year      Int
+  month     Int
+  limit_amt Decimal
+
+  @@unique([category, year, month])
+  @@map("budgets")
+}
+
+// ==========================================
+// BUSINESS PROFILE DOMAIN MODELS
+// ==========================================
+
+model BusinessProject {
+  id           Int                  @id @default(autoincrement())
+  name         String
+  code         String               @unique
+  description  String?
+  budget       Float
+  startDate    DateTime             @map("start_date")
+  endDate      DateTime             @map("end_date")
+  status       String               @default("active")
+  createdAt    DateTime             @default(now()) @map("created_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+  dailyLogs    DailyProgressLog[]
+  milestones   ProjectMilestone[]
+  attendance   LaborAttendanceLog[]
+
+  @@map("business_projects")
+}
+
+model DailyProgressLog {
+  id                   Int             @id @default(autoincrement())
+  project              BusinessProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId            Int             @map("project_id")
+  logDate              DateTime        @map("log_date")
+  workHours            Float           @default(8.0) @map("work_hours")
+  headcount            Int             @default(0)
+  plannedProgressFloat Float           @default(0.0) @map("planned_progress_pct")
+  actualProgressFloat  Float           @default(0.0) @map("actual_progress_pct")
+  actualCost           Float           @default(0.0) @map("actual_cost")
+  tasksCompleted       String?         @map("tasks_completed")
+  notes                String?
+  createdAt            DateTime        @default(now()) @map("created_at")
+
+  @@unique([projectId, logDate])
+  @@map("daily_progress_logs")
+}
+
+model LaborAttendanceLog {
+  id           Int             @id @default(autoincrement())
+  project      BusinessProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    Int             @map("project_id")
+  date         DateTime
+  workerRole   String          @map("worker_role")
+  presentCount Int             @map("present_count")
+  totalCount   Int             @map("total_count")
+  manHours     Float           @map("man_hours")
+  createdAt    DateTime        @default(now()) @map("created_at")
+
+  @@map("labor_attendance_logs")
+}
+
+model ProjectMilestone {
+  id          Int             @id @default(autoincrement())
+  project     BusinessProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int             @map("project_id")
+  title       String
+  description String?
+  targetDate  DateTime        @map("target_date")
+  weight      Float           @default(1.0)
+  isCompleted Boolean         @default(false) @map("is_completed")
+  completedAt DateTime?       @map("completed_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  @@map("project_milestones")
+}
+

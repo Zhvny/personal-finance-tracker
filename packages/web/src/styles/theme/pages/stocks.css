@@ -1,0 +1,581 @@
+/* ── stocks.css — Quant Terminal Premium v4.0 ─────────────────────────── */
+
+:root {
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 1. Base Terminal Shell */
+.stk-terminal {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 72px); /* Subtract toolbar height */
+  background: var(--bg);
+  color: var(--tx);
+  overflow: hidden;
+}
+
+.stk-main-grid {
+  display: grid !important;
+  grid-template-columns: 320px 1fr;
+  height: 100%;
+  width: 100%;
+  padding: 32px;
+  gap: 32px;
+  box-sizing: border-box;
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .stk-main-grid {
+    padding: 32px 48px;
+    gap: 40px;
+  }
+}
+
+/* Standard Desktop */
+@media (max-width: 1439px) and (min-width: 1025px) {
+  .stk-main-grid {
+    padding: 24px;
+    gap: 24px;
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+/* Small Laptop / Tablet Landscape */
+@media (max-width: 1024px) and (min-width: 841px) {
+  .stk-main-grid {
+    padding: 16px;
+    gap: 16px;
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.stk-main-grid > aside {
+  /* Removed border-right to give breathing room */
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stk-details-main {
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Ensure border radius and shadows of children are not clipped */
+  padding: 4px; 
+  margin: -4px;
+}
+
+.desktop-sidebar {
+  flex-direction: column;
+  background: transparent;
+  padding: 0;
+  z-index: 1;
+  position: static;
+}
+
+.mobile-sidebar {
+  flex-direction: column;
+  background: var(--bg);
+  padding: 20px;
+  z-index: 1100;
+  position: fixed;
+  inset: 72px 0 0 0;
+  overflow-y: auto;
+}
+
+/* Filter Engine Styles */
+.stk-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stk-filter-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--tx3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stk-search-input {
+  background: var(--bg3);
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  color: var(--tx);
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.stk-search-input:focus {
+  border-color: var(--cy);
+  background: var(--bg2);
+  box-shadow: 0 0 0 4px rgba(0, 184, 212, 0.15);
+}
+
+.stk-filter-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.stk-filter-select {
+  background: var(--bg2);
+  border: 1px solid var(--bdr);
+  color: var(--tx);
+  height: 44px;
+  border-radius: 12px;
+  padding: 0 36px 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+.stk-filter-select:hover { background: var(--bg3); border-color: var(--tx3); }
+.stk-filter-select:focus { border-color: var(--cy); outline: none; }
+
+.stk-segmented-control {
+  display: flex;
+  background: var(--bg4);
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+}
+.stk-segmented-btn {
+  flex: 1;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--tx3);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.stk-segmented-btn.active {
+  background: var(--bg2);
+  color: var(--cy);
+  box-shadow: var(--card-shadow);
+}
+
+.stk-preset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stk-filter-slider {
+  width: 100%; height: 8px; background: var(--bg4); border-radius: 4px;
+  appearance: none; outline: none; margin: 12px 0;
+}
+.stk-filter-slider::-webkit-slider-thumb {
+  appearance: none; width: 20px; height: 20px; background: var(--cy);
+  border-radius: 50%; cursor: pointer; border: 3px solid var(--bg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* 2. Terminal Header */
+.tab-toolbar {
+  z-index: 1200 !important;
+  background: rgba(12, 13, 16, 0.8) !important;
+  backdrop-filter: blur(20px);
+}
+
+.stk-term-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
+.stk-term-ticker { font-size: 32px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+.stk-term-price { font-family: var(--mono); font-size: 28px; font-weight: 800; color: var(--tx); letter-spacing: -1px; }
+.stk-term-meta { font-size: 11px; font-weight: 800; color: var(--tx3); text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; }
+
+/* 3. Quant Workspace */
+.stk-term-workspace {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ─── Premium Signal Hub ─── */
+.stk-signal-hub {
+  background: var(--bg2);
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease;
+}
+.stk-signal-hub:hover {
+  transform: translateY(-4px);
+}
+.stk-signal-hub::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; width: 150px; height: 150px;
+  background: radial-gradient(circle, var(--cy) 0%, transparent 70%);
+  opacity: 0.05;
+  pointer-events: none;
+}
+.stk-signal-hub.bullish { border-left: 6px solid var(--gr); }
+.stk-signal-hub.bearish { border-left: 6px solid var(--rd); }
+
+.stk-signal-val { 
+  font-size: 44px; 
+  font-weight: 950; 
+  letter-spacing: -2px; 
+  margin: 12px 0; 
+  line-height: 1;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ─── Premium Ladder UI ─── */
+.stk-ladder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 48px 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+  border-radius: 32px;
+  border: 1px solid var(--glass-border);
+  position: sticky;
+  top: 32px;
+  box-shadow: inset 0 0 40px rgba(255,255,255,0.02);
+  overflow: hidden;
+}
+
+.stk-ladder-version {
+  position: absolute;
+  top: 16px;
+  font-size: 10px;
+  font-weight: 950;
+  color: var(--tx3);
+  letter-spacing: 2px;
+  opacity: 0.4;
+}
+
+/* Central vertical track line */
+.stk-ladder::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  bottom: 80px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--glass-border) 15%, var(--glass-border) 85%, transparent 100%);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.stk-ladder-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  width: 100%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stk-ladder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.stk-ladder-label {
+  font-size: 9px;
+  font-weight: 950;
+  color: var(--tx3);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.stk-ladder-price {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--mono);
+  color: var(--tx);
+  letter-spacing: -0.5px;
+}
+
+/* Current Price - The Hero Element */
+.stk-ladder-hero {
+  margin: 16px 0;
+  padding: 24px 32px;
+  background: var(--bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110%; /* Slightly pop out */
+}
+
+.stk-ladder-hero::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(45deg, var(--cy), transparent, var(--cy));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  opacity: 0.3;
+}
+
+.stk-ladder-hero.bullish { 
+  border-color: rgba(34, 197, 94, 0.4); 
+  box-shadow: 0 15px 45px rgba(34, 197, 94, 0.12);
+}
+.stk-ladder-hero.bearish { 
+  border-color: rgba(239, 68, 68, 0.4); 
+  box-shadow: 0 15px 45px rgba(239, 68, 68, 0.12);
+}
+.stk-ladder-hero.neutral { 
+  border-color: rgba(234, 179, 8, 0.4); 
+  box-shadow: 0 15px 45px rgba(234, 179, 8, 0.12);
+}
+
+.stk-ladder-hero .stk-ladder-label {
+  font-size: 10px;
+  color: var(--tx2);
+  margin-bottom: 6px;
+}
+
+.stk-ladder-hero .stk-ladder-price {
+  font-size: 38px;
+  font-weight: 950;
+  color: var(--tx);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.stk-ladder-hero-badge {
+  margin-top: 14px;
+  font-size: 9px;
+  font-weight: 900;
+  background: var(--bg);
+  padding: 3px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.stk-ladder-hero .pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  border: 2px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+  animation: ladder-pulse 2s infinite;
+}
+
+@keyframes ladder-pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0; }
+}
+
+/* Fading effect for outer levels */
+.stk-ladder-node.outer {
+  opacity: 0.5;
+}
+.stk-ladder-node.outer:hover {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Compact Stats Grid */
+.stk-term-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.stk-term-stat {
+  background: var(--bg2);
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+.stk-term-stat:hover { border-color: var(--tx3); transform: translateY(-2px); }
+.stk-term-stat .lbl { font-size: 10px; font-weight: 900; color: var(--tx3); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+.stk-term-stat .val { font-size: 20px; font-weight: 900; color: var(--tx); letter-spacing: -0.5px; }
+
+/* 4. Watchlist Premium */
+.watchlist-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.watchlist-item {
+  position: relative;
+  background: var(--bg2);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.watchlist-item:hover {
+  background: var(--bg3);
+  border-color: var(--tx3);
+  transform: translateX(6px);
+}
+
+.watchlist-item.active {
+  background: var(--bg3);
+  border-color: var(--cy);
+  box-shadow: 0 8px 20px rgba(0, 184, 212, 0.1);
+}
+
+.watchlist-signal-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  opacity: 0.9;
+}
+
+/* Favorite Button Polish */
+.fav-btn {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.fav-btn:hover {
+  transform: scale(1.3);
+}
+.fav-btn:active {
+  transform: scale(0.9);
+}
+
+/* Tooltip implementation via data-attribute or simple title */
+.fav-btn[title] {
+  position: relative;
+}
+
+/* Ensure watchlist items have enough space for the star */
+.watchlist-item {
+  padding-right: 12px;
+}
+
+/* 5. Mobile Specific Fixes */
+@media (max-width: 840px) {
+  .stk-term-workspace {
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .stk-signal-hub {
+    padding: 24px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stk-signal-val { font-size: 38px !important; }
+  
+  .stk-term-grid {
+    gap: 12px;
+  }
+  
+  .stk-term-stat {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .stk-term-stat .val { font-size: 16px !important; }
+
+  .stk-zone-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+  
+  .stk-zone-price { font-size: 16px !important; }
+}
+
+/* 6. Animations */
+@keyframes stk-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stk-terminal-view {
+  animation: stk-fade-in 0.4s ease-out;
+}
+
+.pulse {
+  animation: stk-pulse 2s infinite;
+}
+
+/* 7. Forecasting Card with Glassmorphism */
+.stk-forecast-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.stk-forecast-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 184, 212, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 184, 212, 0.15);
+}
+
+.stk-forecast-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 184, 212, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glow-pulse 4s infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from { opacity: 0.3; transform: scale(1); }
+  to { opacity: 0.7; transform: scale(1.1); }
+}

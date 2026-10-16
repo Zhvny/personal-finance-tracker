@@ -1,0 +1,35 @@
+{
+  "name": "finance-tracker-gui",
+  "private": true,
+  "version": "2.16.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:audit": "vitest run tests/audit/",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "d3-sankey": "^0.12.3",
+    "dompurify": "^3.4.17",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^6.23.1",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^4.1.9",
+    "jsdom": "^29.1.1",
+    "vite": "^5.4.2",
+    "vite-plugin-pwa": "^1.2.0",
+    "vitest": "^4.1.9"
+  }
+}

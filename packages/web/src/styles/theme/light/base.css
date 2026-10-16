@@ -1,0 +1,43 @@
+/* ── base.css — Light Mode Component Overrides ────────────────────────── */
+
+/* Cards */
+body.light-mode .card  { background: var(--bg2); border-color: var(--bdr); }
+body.light-mode .card-h { background: var(--bg2); border-bottom-color: var(--bdr); }
+body.light-mode .card-t { color: var(--tx2); }
+body.light-mode .card-b { background: var(--bg2); }
+
+/* Stat cards */
+body.light-mode .sc  { background: var(--bg2); border-color: var(--bdr); }
+body.light-mode .sc.clickable:hover { background: var(--bg3); box-shadow: 0 3px 12px rgba(79,110,247,.1); }
+
+/* Table */
+body.light-mode .tbl thead tr  { border-bottom-color: var(--bdr2); }
+body.light-mode .tbl th        { color: var(--tx3); }
+body.light-mode .tbl tbody tr  { border-bottom-color: var(--bdr); }
+body.light-mode .tbl tbody tr:hover { background: var(--bg3); }
+body.light-mode .tbl td        { color: var(--tx); }
+
+/* Pills */
+body.light-mode .pill.g  { background: rgba(5,150,105,.1);  color: var(--gr); }
+body.light-mode .pill.r  { background: rgba(220,38,38,.1);  color: var(--rd); }
+body.light-mode .pill.y  { background: rgba(217,119,6,.1);  color: var(--yl); }
+body.light-mode .pill.c  { background: rgba(8,145,178,.1);  color: var(--cy); }
+body.light-mode .pill.pu { background: rgba(124,58,237,.1); color: var(--pu); }
+
+/* Recharts */
+body.light-mode .recharts-text { fill: var(--tx2) !important; }
+body.light-mode .recharts-cartesian-axis-line { stroke: var(--bdr2) !important; }
+body.light-mode .recharts-cartesian-grid-horizontal line,
+body.light-mode .recharts-cartesian-grid-vertical line { stroke: var(--bdr) !important; }
+
+/* Tooltips */
+body.light-mode .tc-tooltip {
+  background: var(--bg2) !important;
+  border-color: var(--bdr2) !important;
+  box-shadow: 0 4px 16px rgba(80,100,200,.15) !important;
+}
+
+/* Primary button: light mode accent (--ind) equals --ind-b, so force white text */
+body.light-mode .btn-p,
+body.light-mode .btn-p svg { color: #ffffff; }
+body.light-mode .btn-p { box-shadow: 0 4px 14px rgba(67, 56, 202, 0.25); }

@@ -1,0 +1,132 @@
+/* ── components.css — UI Atoms ───────────────────────────────────────────── */
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r);
+     font-size:12.5px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans);
+     transition:all .15s;white-space:nowrap; user-select:none; min-height: 32px; }
+.btn:active   { transform: scale(0.96); }
+.btn-p{background:var(--ind);color:var(--ind-b);}
+.btn-p:hover{filter: brightness(1.1); transform:translateY(-1px);box-shadow:var(--sh)}
+.btn-p svg { color: var(--ind-b); }
+.btn-g{background:var(--bg3);color:var(--tx2);border:1px solid var(--bdr2)}
+.btn-g:hover{background:var(--bg4);color:var(--tx); transform: translateY(-1px); }
+.btn-d{background:var(--ind-d);color:var(--rd);border:1px solid var(--bdr)}
+.btn-d:hover{background:var(--bg4); transform: translateY(-1px); border-color: var(--rd); }
+.btn-grn{background:var(--ind-d);color:var(--gr);border:1px solid var(--bdr)}
+.btn-grn:hover{background:var(--bg4); transform: translateY(-1px); border-color: var(--gr); }
+.btn-s{padding:4px 10px;font-size:11px;border-radius:var(--r); min-height: 28px;}
+
+.btn-icon { background: none; border: none; color: var(--tx2); padding: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: var(--r); }
+.btn-icon:hover { background: var(--bg3); color: var(--tx); }
+.btn-icon.success { color: var(--gr); transform: scale(1.2); }
+
+/* Button Loading State */
+.btn[data-loading="true"] { opacity: .7; cursor: wait; pointer-events: none; }
+.btn[data-loading="true"]::after {
+  content: ''; width: 11px; height: 11px; border-radius: 50%;
+  border: 2px solid currentColor; border-top-color: transparent;
+  animation: comp-spin .8s linear infinite; flex-shrink: 0;
+}
+.btn-spinning svg {
+  animation: comp-spin 1s linear infinite;
+}
+.spin-ico {
+  animation: comp-spin 1s linear infinite;
+}
+@keyframes comp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rl);margin-bottom:16px; overflow: clip; box-shadow: var(--card-sh);}
+.card-h{padding:10px 14px;
+        display:flex;align-items:center;justify-content:space-between;
+        border-bottom:1px solid var(--bdr);gap:8px}
+.card-t{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tx2);display:flex;align-items:center;gap:7px}
+.card-b{padding:clamp(12px, 4vw, 16px)}
+
+/* Stat Cards */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px; width: 100%; max-width: 100%;}
+.sg-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 16px; width: 100%; max-width: 100%; }
+
+.sc{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px 16px;position:relative;overflow:hidden;
+    min-height: 90px; transition: background .15s, border-color .15s, transform .12s;}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sc.inc::before{background:linear-gradient(90deg,var(--gr),transparent)}
+.sc.exp::before{background:linear-gradient(90deg,var(--rd),transparent)}
+.sc.net::before{background:linear-gradient(90deg,var(--ind),transparent)}
+.sc.inv::before{background:linear-gradient(90deg,var(--cy),transparent)}
+
+.sc-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--tx3);margin-bottom:6px;
+        display: flex; align-items: center; gap: 5px; min-width: 0; flex-wrap: nowrap;}
+.sc-val{font-size:clamp(14px, 4vw, 20px);font-weight:800;font-family:var(--mono);line-height:1;margin-bottom:6px;
+        word-break:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.sc-val.g { color: var(--gr); text-shadow: var(--glow-gr); }
+.sc-val.r { color: var(--rd); text-shadow: var(--glow-rd); }
+.sc-val.c { color: var(--cy); text-shadow: var(--glow-cy); }
+.sc-chg{font-size:10px;font-family:var(--mono); font-weight: 500;}
+
+/* StatCard hierarchy variants — focal point vs secondary. */
+.sc-hero{ padding:20px 22px; min-height:120px; }
+.sc-hero .sc-lbl{ font-size:11px; }
+.sc-hero .sc-val{ font-size:clamp(24px, 6vw, 34px); font-weight:900; }
+.sc-compact{ padding:10px 12px; min-height:64px; }
+.sc-compact .sc-val{ font-size:clamp(13px, 3.5vw, 16px); font-weight:700; }
+.sc-compact .sc-chg{ font-size:9.5px; }
+.sc.clickable{ cursor:pointer; }
+.sc.clickable:hover{ border-color:var(--bdr2); transform:translateY(-1px); }
+
+/* Pills
+   Default is MUTED (quiet, no glow) so routine labels don't compete for
+   attention. Add `.emph` for the one status that genuinely matters — it gets
+   a solid fill. Color variants (g/r/y/c) tint text only; glow is reserved for
+   emphasized pills. */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--rp);
+      font-size:10.5px;font-weight:700;background:var(--bg3);color:var(--tx2);border:1px solid var(--bdr)}
+.pill.g{background:var(--bg3);color:var(--gr)}
+.pill.r{background:var(--bg3);color:var(--rd)}
+.pill.y{background:var(--bg3);color:var(--yl)}
+.pill.c{background:var(--bg3);color:var(--cy)}
+/* Emphasized: solid fill for the single most important status only. */
+.pill.emph{border-color:transparent}
+.pill.emph.g{background:var(--ind-d);color:var(--gr);box-shadow:var(--glow-gr)}
+.pill.emph.r{background:var(--ind-d);color:var(--rd);box-shadow:var(--glow-rd)}
+.pill.emph.y{background:var(--ind-d);color:var(--yl)}
+.pill.emph.c{background:var(--ind-d);color:var(--cy);box-shadow:var(--glow-cy)}
+
+
+/* Progress */
+.prog-wrap{height:5px;background:var(--bg4);border-radius:99px;overflow:hidden; -webkit-mask-image: -webkit-radial-gradient(var(--ind-b), var(--ind-b));}
+.prog-fill{height:100%;border-radius:99px;transition:width .5s}
+
+/* Toasts */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--bg3);border:1px solid var(--bdr2);
+       border-radius:10px;padding:11px 16px;display:flex;align-items:center;gap:9px;
+       font-size:13px;font-weight:500;box-shadow:var(--sh);z-index:2100;animation:slideUp .18s; cursor: pointer;}
+.toast:hover { border-color: var(--bdr2); background: var(--bg4); }
+
+/* Toggle Group (e.g. IDR/USD) */
+.toggle-group {
+  display: flex; background: var(--bg4); border-radius: 10px; padding: 3px; gap: 2px; flex-shrink: 0;
+}
+.toggle-btn {
+  padding: 5px 12px; border-radius: 7px; font-size: 11px; font-weight: 700;
+  font-family: var(--mono); border: none; cursor: pointer; transition: all 0.2s;
+  background: transparent; color: var(--tx3);
+}
+.toggle-btn.active { background: var(--bg); color: var(--tx); box-shadow: var(--sh); }
+.toggle-btn.active.primary { background: var(--ind); color: var(--bg2); }
+.toggle-btn.active.info { background: var(--cy); color: var(--bg); }
+
+
+
+/* Shimmer Loading Effect */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg2) 25%, var(--bg4) 50%, var(--bg2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--r, 8px);
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}

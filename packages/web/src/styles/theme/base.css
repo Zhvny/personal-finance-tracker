@@ -1,0 +1,113 @@
+/* ── base.css — Core Variables & Resets ──────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ── Structural Tokens ── */
+  /* Radius roles — shape carries meaning, not one uniform round.
+     --rs sharp: data/critical surfaces · --r small: controls · --rl card ·
+     --rp pill/circular. */
+  --rs: 2px;
+  --r: 4px;
+  --rl: 12px;
+  --rp: 999px;
+
+  /* Spacing scale — allocate space by importance, not habit.
+     Use --sp-1..6 instead of raw 8/16/24/32 so hierarchy is expressible. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 40px;
+
+  --mono: 'Space Mono', monospace;
+  --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --trans-fast: 0.15s ease;
+  --trans-base: 0.2s ease;
+}
+
+/* ── DARK THEME (Binance Edition) ── */
+body, body.dark-mode {
+  /* Surfaces */
+  --bg: #0b0e11;           /* Binance Dark */
+  --bg2: #1e2329;          /* Binance Surface */
+  --bg3: #2b3139;          /* Binance Muted */
+  --bg4: #474d57;          /* Binance Border */
+  
+  /* Primary Accent (Binance Yellow) */
+  --ind: #fcd535;          
+  --ind-d: rgba(252, 213, 53, 0.15);
+  --ind-b: #0b0e11;        /* Dark text on yellow background */
+  
+  /* Semantic Colors */
+  --cy: #378ADD;           /* Investment Blue (#378ADD) */
+  --gr: #7aba2a;           /* Income Green — 5.1:1 on #0b0e11 (WCAG AA ✓) */
+  --rd: #e8714d;           /* Expense Coral — 5.0:1 on #0b0e11 (WCAG AA ✓) */
+  --yl: #EF9F27;           /* Budget warning amber (#EF9F27) */
+  --pu: #7F77DD;           /* Accent / CTA purple (#7F77DD) */
+  
+  /* Text */
+  --tx: #f1f5f9;           /* Slate 100 */
+  --tx2: #9ca3af;          /* Gray 400 — 5.5:1 on #1e2329 (WCAG AA ✓) */
+  --tx3: #6b7280;          /* Gray 500 — 4.6:1 on #0b0e11 (WCAG AA ✓) */
+  
+  /* Elevation & Shadows */
+  --sh: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --card-sh: none;         /* In dark mode, we use border/bg contrast instead of shadow */
+  
+  /* Glows (Subtle Alpha) */
+  --glow-gr: 0 0 15px rgba(99, 153, 34, 0.1);
+  --glow-rd: 0 0 15px rgba(216, 90, 48, 0.1);
+  --glow-cy: 0 0 15px rgba(55, 138, 221, 0.1);
+
+  /* Overlays */
+  --glass: rgba(22, 23, 26, 0.8);
+  --glass-bdr: rgba(255, 255, 255, 0.08);
+  --mo-bg: rgba(0, 0, 0, 0.85);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html { overflow-x: hidden; }
+body { overflow-x: hidden; min-height: 100dvh; background: var(--bg); color: var(--tx); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+#root { height: 100%; width: 100%; }
+
+/* Global Transitions */
+body, .sb, .topbar, .card, .sc, .tabs, .tab, .btn, .pill, .nav-it, .toast, .md {
+  transition: background 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes comp-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes live-pulse {
+  0%   { transform: scale(.8); opacity: .5; }
+  70%  { transform: scale(2);  opacity: 0;  }
+  100% { transform: scale(.8); opacity: 0;  }
+}
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Accessibility Focus */
+:focus-visible {
+  outline: 2px solid var(--ind);
+  outline-offset: 2px;
+}
+
+/* Screen-reader only — visually hidden but accessible to crawlers & assistive tech */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

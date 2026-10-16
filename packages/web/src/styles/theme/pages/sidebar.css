@@ -1,0 +1,107 @@
+/* ── sidebar.css — Sidebar & Navigation ─────────────────────────────────── */
+
+.sb-show-btn {
+  background: var(--bg2); border: 1px solid var(--bdr); color: var(--tx2);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; width: 32px; height: 32px; margin-right: 8px; transition: all 0.2s;
+}
+.sb-show-btn:hover { background: var(--bg3); color: var(--tx); }
+@media (max-width: 768px) { .sb-show-btn { display: none !important; } }
+
+/* Sidebar Stats Card */
+.sb-stats-card {
+  margin: 12px; padding: 12px; border-radius: 12px;
+  background: var(--bg2); border: 1px solid var(--bdr);
+  transition: all 0.2s;
+}
+.sb-stats-card:hover { border-color: var(--bdr2); transform: translateY(-1px); }
+.sb-stats-card.positive { border-left: 3px solid var(--gr); }
+.sb-stats-card.negative { border-left: 3px solid var(--rd); }
+
+.sb-qs-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px; font-size: 11.5px;
+}
+.sb-qs-row:last-child { margin-bottom: 0; }
+
+/* Navigation Badges (Premium Redesign) */
+.nav-it .nb {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--mono);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--bg4);
+  border: 1px solid var(--bdr2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  color: var(--tx2);
+}
+
+/* Glassy effect for badges */
+.nav-it .nb::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: 0.5s;
+}
+.nav-it:hover .nb::before { left: 100%; }
+
+.nav-it.active .nb {
+  border-color: var(--ind-b);
+  background: var(--bg);
+  box-shadow: 0 0 10px rgba(79, 110, 247, 0.1);
+}
+
+/* Color Themes for Badges */
+.nav-it .nb.g { 
+  color: var(--gr); 
+  background: rgba(16, 185, 129, 0.08); 
+  border-color: rgba(16, 185, 129, 0.2); 
+}
+.nav-it .nb.r { 
+  color: var(--rd); 
+  background: rgba(239, 68, 68, 0.08); 
+  border-color: rgba(239, 68, 68, 0.2); 
+}
+.nav-it .nb.c { 
+  color: var(--cy); 
+  background: rgba(6, 182, 212, 0.08); 
+  border-color: rgba(6, 182, 212, 0.2); 
+}
+
+/* Active State Enhancements */
+.nav-it.active .nb.g { background: rgba(16, 185, 129, 0.15); border-color: var(--gr); }
+.nav-it.active .nb.r { background: rgba(239, 68, 68, 0.15); border-color: var(--rd); }
+.nav-it.active .nb.c { background: rgba(6, 182, 212, 0.15); border-color: var(--cy); }
+
+/* Hamburger Fixes */
+.tb-hamburger {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--bdr2);
+  color: var(--tx2);
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tb-hamburger:hover {
+  background: var(--bg3);
+  color: var(--tx);
+  border-color: var(--ind);
+}
+
+.tb-hamburger:active {
+  transform: scale(0.95);
+}

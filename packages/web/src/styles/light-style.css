@@ -1,0 +1,14 @@
+/* ── light-style.css — Finance Tracker GUI · Light Theme ─────────────────── */
+/* Responsibility : modular light mode overrides.                                */
+
+/* Tokens & Core */
+@import "./theme/light/tokens.css";
+@import "./theme/light/base.css";
+
+/* Modular Page Styles */
+@import "./theme/light/pages/sidebar.css";
+@import "./theme/light/pages/dashboard.css";
+@import "./theme/light/pages/stocks.css";
+@import "./theme/light/pages/investments.css";
+@import "./theme/light/pages/tracker.css";
+@import "./theme/light/pages/misc.css";

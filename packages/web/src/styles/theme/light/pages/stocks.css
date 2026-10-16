@@ -1,0 +1,16 @@
+/* ── stocks.css — Light Mode Stock Overrides ─────────────────────────── */
+
+body.light-mode .stk-search-input { 
+  background: var(--bg3); 
+  border-color: var(--bdr2); 
+  color: var(--tx); 
+}
+body.light-mode .stk-search-input:focus { border-color: var(--ind); }
+
+body.light-mode .watchlist-item { background: var(--bg2); border-color: var(--bdr); }
+body.light-mode .watchlist-item.active { background: var(--bg3); border-color: var(--ind-b); }
+body.light-mode .watchlist-item-tkr { color: var(--tx); }
+body.light-mode .watchlist-item.active .watchlist-item-tkr { color: var(--ind-b); }
+
+body.light-mode .stk-anat-label { background: var(--bg); border-color: var(--bdr); }
+body.light-mode .stk-curr-price-badge { background: var(--tx); color: var(--bg); }

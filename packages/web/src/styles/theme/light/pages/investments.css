@@ -1,0 +1,9 @@
+/* ── investments.css — Light Mode Investment Overrides ────────────────── */
+
+body.light-mode .ratio-box { background: var(--bg3); border-color: var(--bdr); }
+body.light-mode .ratio-row { color: var(--tx2); }
+body.light-mode .ratio-track { background: var(--bg4); }
+
+body.light-mode .ityp.stock  { background: rgba(79,110,247,.12); }
+body.light-mode .ityp.crypto { background: rgba(124,58,237,.12); }
+body.light-mode .ityp.gold   { background: rgba(217,119,6,.12);  }

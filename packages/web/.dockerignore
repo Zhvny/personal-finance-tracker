@@ -1,0 +1,28 @@
+# Version Control
+.git
+.gitignore
+
+# Node modules
+node_modules
+
+# Build output
+dist
+build
+
+# Tests & docs (must not ship in production image)
+tests
+docs
+
+# Logs & cache
+*.log
+.cache
+
+# Environment & secrets
+.env
+.env.*
+.env.local
+.env.test
+
+# Misc
+*.md
+!README.md

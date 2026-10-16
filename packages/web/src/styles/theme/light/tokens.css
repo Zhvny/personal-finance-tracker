@@ -1,0 +1,56 @@
+/* ── tokens.css — Light Theme Variables ───────────────────────────────── */
+
+body.light-mode {
+  /* ── Base surfaces ── */
+  --bg:  #f8f9fb;           /* Soft Blue-Gray Light */
+  --bg2: #ffffff;           /* Pure White Surface */
+  --bg3: #f1f3f7;           /* Element Background */
+  --bg4: #e9ecef;           /* Deep Element Background */
+
+  /* ── Sidebar ── */
+  --sb:     #f1f3f7;
+  --sb-act: #ffffff;
+
+  /* ── Borders & Dividers ── */
+  --bdr:  #dee2e6;          /* Standard Light Border */
+  --bdr2: #adb5bd;          /* High Contrast Border */
+
+  /* ── Accent / Brand (High Clarity for Light) ── */
+  --ind:   #4338ca;         /* Indigo 700 (Darker for light mode) */
+  --ind-d: rgba(67, 56, 202, 0.1);
+  --ind-b: #4338ca;         /* High contrast primary icon/accent */
+
+  /* ── Semantic Colors (High Contrast for Light) ── */
+  --cy:  #378ADD;           /* Investment Blue (#378ADD) */
+  --gr:  #639922;           /* Income Green (#639922) */
+  --rd:  #D85A30;           /* Expense Coral (#D85A30) */
+  --yl:  #EF9F27;           /* Budget warning amber (#EF9F27) */
+  --pu:  #7F77DD;           /* Accent / CTA purple (#7F77DD) */
+
+  /* ── Text (Max Contrast) ── */
+  --tx:  #020617;           /* Slate 950 (Near black) */
+  --tx2: #475569;           /* Slate 600 (Readable secondary text) */
+  --tx3: #64748b;           /* Slate 500 (Readable tertiary text) */
+
+  /* ── Shadows & Elevation ── */
+  /* --sh is reserved for TRUE elevation (modals, toasts, popovers that float
+     above the page). Same-level cards stay flat and rely on border/contrast
+     so elevation actually communicates layering. */
+  --sh: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --card-sh: none;
+
+  /* Glassmorphism Overrides */
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-bdr: rgba(0, 0, 0, 0.05);
+  --mo-bg: rgba(0, 0, 0, 0.45);
+  
+  /* Glows (Subtle for Light Mode) */
+  --glow-gr: 0 0 10px rgba(99, 153, 34, 0.15);
+  --glow-rd: 0 0 10px rgba(216, 90, 48, 0.15);
+  --glow-cy: 0 0 10px rgba(55, 138, 221, 0.15);
+}
+
+/* Scrollbar Customization for Light Mode */
+body.light-mode ::-webkit-scrollbar-track { background: var(--bg); }
+body.light-mode ::-webkit-scrollbar-thumb { background: var(--bdr2); border: 3px solid var(--bg); border-radius: 10px; }
+body.light-mode ::-webkit-scrollbar-thumb:hover { background: var(--tx3); }

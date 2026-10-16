@@ -1,0 +1,17 @@
+/* ── misc.css — Light Mode Miscellaneous Overrides ───────────────────── */
+
+body.light-mode .drop-zone { border-color: var(--bdr2); background: var(--bg3); }
+body.light-mode .drop-zone:hover, body.light-mode .drop-zone.drag-over { border-color: var(--ind); background: var(--ind-d); }
+
+body.light-mode .live-dot { background: var(--gr); box-shadow: 0 0 0 2px var(--bg); }
+body.light-mode .live-dot.loading { background: var(--yl); }
+
+body.light-mode .toast { 
+  background: var(--bg2); 
+  color: var(--tx); 
+  border-color: var(--bdr2); 
+  box-shadow: 0 4px 20px rgba(80,100,200,.2); 
+}
+
+body.light-mode .fc { background: var(--bg2); color: var(--tx); border-color: var(--bdr2); }
+body.light-mode .fc::placeholder { color: var(--tx3); }

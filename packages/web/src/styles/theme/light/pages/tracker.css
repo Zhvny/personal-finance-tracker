@@ -1,0 +1,14 @@
+/* ── tracker.css — Light Mode Tracker Overrides ───────────────────────── */
+
+body.light-mode .brow  { border-bottom-color: var(--bdr); }
+body.light-mode .bcat  { color: var(--tx2); }
+
+body.light-mode .cat-lbl { color: var(--tx2); }
+body.light-mode .cat-bw  { background: var(--bg4); }
+body.light-mode .cat-amt { color: var(--tx2); }
+
+body.light-mode .sum-box { background: var(--bg3); border-top-color: var(--bdr2); }
+body.light-mode .si-lbl  { color: var(--tx3); }
+body.light-mode .si-val  { color: var(--tx); }
+
+body.light-mode .tab-toolbar .fc.sel { background-color: var(--bg2); color: var(--tx); border-color: var(--bdr2); }

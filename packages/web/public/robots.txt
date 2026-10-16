@@ -1,0 +1,9 @@
+# Finance Tracker — robots.txt
+# This app requires authentication. Crawlers should not index user-specific pages.
+# Update this file if a public marketing page is added.
+
+User-agent: *
+Disallow: /
+
+# Sitemap (no public sitemap for private SPA — remove comment if public pages added)
+# Sitemap: https://app.financetracker.local/sitemap.xml

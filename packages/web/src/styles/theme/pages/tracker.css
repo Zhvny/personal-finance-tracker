@@ -1,0 +1,53 @@
+/* ── tracker.css — Expense & Income Trackers ─────────────────────────── */
+
+/* Category Bars (Shared) */
+.cat-row { display: flex; align-items: center; gap: clamp(5px, 2vw, 10px); margin-bottom: 11px; }
+.cat-lbl { 
+  width: clamp(52px, 16vw, 88px); font-size: clamp(10px, 2.5vw, 12px); 
+  color: var(--tx2); flex-shrink: 0; overflow: hidden; 
+  text-overflow: ellipsis; white-space: nowrap; 
+}
+.cat-bw { flex: 1; height: 6px; background: var(--bg4); border-radius: 99px; overflow: hidden; }
+.cat-bf { height: 100%; border-radius: 99px; transition: width 0.4s ease-out; }
+.cat-amt { 
+  width: clamp(72px, 28vw, 106px); font-size: clamp(10px, 2.5vw, 12px); 
+  font-family: var(--mono); color: var(--tx2); text-align: right; flex-shrink: 0; 
+}
+
+/* Budget rows */
+.brow { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--bdr); }
+.bcat { width: clamp(64px, 22vw, 102px); font-size: 12px; display: flex; align-items: center; gap: 5px; flex-shrink: 0; overflow: hidden; }
+.bcat span:first-child { flex-shrink: 0; font-size: 14px!important; line-height: 1; display: flex; align-items: center; }
+.bcat span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bbw { flex: 1; min-width: 0; }
+.bpct { font-size: 11px; font-family: var(--mono); width: 36px; text-align: right; flex-shrink: 0; }
+
+/* Summary box (Stat items in a row) */
+.sum-box {
+  background: var(--bg3); padding: 14px 18px; display: flex; gap: 20px; border-top: 1px solid var(--bdr2);
+  overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%;
+}
+.sum-box::-webkit-scrollbar { display: none; }
+.si { flex: 1 1 0; min-width: 60px; }
+.si-lbl { font-size: clamp(9px, 2vw, 10px); color: var(--tx3); text-transform: uppercase; letter-spacing: .7px; margin-bottom: 3px; }
+.si-val { font-size: clamp(13px, 3.5vw, 15px); font-weight: 700; font-family: var(--mono); }
+
+/* Standard Tab/Page Toolbar */
+.tab-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px; flex-wrap: nowrap; box-sizing: border-box; 
+  max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; padding: 2px 0;
+}
+.tab-toolbar::-webkit-scrollbar { display: none; }
+
+.tab-toolbar .fc.sel {
+  flex: 0 0 auto !important; min-width: fit-content;
+  font-size: 11.5px; padding: 0 28px 0 8px; height: 28px;
+}
+
+.tab-toolbar .btn { flex: 0 0 auto; }
+.tab-toolbar-label { 
+  font-size: 12px; color: var(--tx2); font-weight: 700; 
+  white-space: nowrap; margin-right: 4px;
+}
