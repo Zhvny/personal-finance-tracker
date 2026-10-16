@@ -1,0 +1,9 @@
+{
+  "name": "butterfly-stability-tests",
+  "version": "1.0.0",
+  "description": "E2E stability and flickering reproduction tests for Butterfly Effect Map",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "typescript": "^5.0.0"
+  }
+}
