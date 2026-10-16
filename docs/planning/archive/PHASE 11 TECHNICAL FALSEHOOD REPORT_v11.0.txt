@@ -1,0 +1,101 @@
+  🚩 PHASE 11 TECHNICAL FALSEHOOD REPORT (v11.0)
+
+  1. Configuration Theater (Magic Numbers)
+   * Claim: "Zero Magic Numbers: Externalized all RSI, Value, and Risk
+     thresholds into a central configuration block." (MASTER_PLAN.md).
+   * Reality: conductor/senate_service.py L23-24 hardcodes
+     MOMENTUM_RSI_UPPER = Decimal('55') and MOMENTUM_RSI_LOWER =
+     Decimal('45'). No central config.py found.
+
+  2. Maintenance Hallucinations (SQL Syntax & Targets)
+   * Claim: "Implemented patch_legacy_sql_bridge to auto-patch legacy
+     methods" (MASTER_PLAN.md).
+   * Reality: MaintenanceManager.patch_legacy_sql_bridge in maintenance.py
+     searches for _translate_sql in database.py. That function is MISSING.
+     The "patch" only adds a # DEPRECATED comment to non-existent code.
+   * Placeholder Bug: MaintenanceManager still patches code using ?
+     placeholders (SQLite), but Database class requires %s (PostgreSQL).
+
+  3. Logic Simulation (TaskEngine)
+   * Claim: "TaskEngine performs actual system checks... rebalance_portfolio
+     task logic" (MASTER_PLAN.md).
+   * Reality: TaskEngine.process_rebalance in task_engine.py only runs
+     SELECT COUNT(*) FROM system.usage and prints a log. No actual portfolio
+     drift analysis or rebalancing occurs.
+
+  4. SSOT Fragmentation (DB Connection Sprawl)
+   * Claim: "PostgreSQL 17 with Schema-Based Profile Isolation" as SSOT
+     (MASTER_PLAN.md).
+   * Reality: ButterflyService in butterfly_service.py uses manual
+     psycopg2.connect calls and fallback mocks instead of inheriting/using
+     the Database singleton, causing connection leaks and inconsistent
+     schema routing.
+
+  5. Infrastructure Fragility (Root Resolution)
+   * Claim: "Fixed MaintenanceManager to use dynamic path resolution"
+     (MASTER_PLAN.md).
+   * Reality: SafetyManager and MaintenanceManager use different, redundant,
+     and brittle logic (e.g., splitting strings on "apps") to find the
+     project root.
+
+  ---
+
+  👨‍💻 DEVELOPER A: INFRASTRUCTURE & SAFETY
+
+  Task 1: SQL Syntax Alignment
+   - DoD: Update MaintenanceManager regex/replace logic to use %s
+     placeholders and to_char() instead of ? and strftime(). Verify via
+     scripts/health_check.py.
+
+  Task 2: Unified DB Singleton
+   - DoD: Remove all manual psycopg2.connect calls in ButterflyService,
+     MaintenanceManager, and dr_backup.py. Inject Database instance to
+     ensure schema routing (set_search_path) works.
+
+  Task 3: Dynamic Model Discovery
+   - DoD: Refactor model_registry.py. Replace hardcoded MODEL_PATHS with a
+     scanner that finds .json models in data/models/prod/{ticker}/
+     automatically.
+
+  Task 4: Centralized Path & Config SSOT
+   - DoD: Create apps/cli/manager/config.py. Move ALL magic numbers (RSI,
+     ATR, thresholds) and get_project_root() logic here. Update all services
+     to import from this SSOT.
+
+  Task 5: Health Check Hardening
+   - DoD: Update scripts/health_check.py to verify: 1. DB write permissions
+     in all 3 schemas, 2. Model file integrity, 3. Background scheduler PID
+     status.
+
+  Dokumentasikan setelah selesai di docs/planning di file terkait
+
+  ---
+
+  👨‍💻 DEVELOPER B: CORE LOGIC & WEALTH
+
+  Task 6: Real Portfolio Rebalance
+   - DoD: Replace process_rebalance dummy code in task_engine.py. Implement
+     logic to fetch personal.goals vs actual holdings and log real "Drift"
+     percentages.
+
+  Task 7: Pydantic Schema Sync
+   - DoD: Update apps/cli/manager/profile.py. Ensure Pydantic models for
+     Profile exactly match the PostgreSQL system.usage and system.users
+     column types.
+
+  Task 8: Income Service Completion
+   - DoD: Implement IncomeService.save() method. Must use
+     Database.get_cursor() for atomic transactions when updating
+     personal.transactions and personal.budgets.
+
+  Task 9: Advanced Goal Simulations
+   - DoD: Update WealthService.calculate_wealth_projection. Add
+     inflation_rate (default 3%) and tax_drag parameters to the math to make
+     "What-If" sliders realistic.
+
+  Task 10: Dashboard Diagnostics Upgrade
+   - DoD: Refactor check_backend_health in dashboard.py. Instead of SELECT
+     1, try a dummy INSERT/DELETE in system.maintenance_status to verify
+     full CRUD connectivity.
+
+  Dokumentasikan setelah selesai di docs/planning di file terkait

@@ -1,0 +1,141 @@
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+Behavioral Finance UI/Data Issues
+Current issues:
+* Text rendering corruption:
+May 2026 Â· diperbarui 23.56
+Menganalisis dengan geminiâ€¦
+Required fixes:
+* remove malformed encoding artifacts (`Â·`, `â€¦`)
+* verify UTF-8 encoding consistency frontend/backend
+* audit response serialization + frontend rendering pipeline
+Additional issue:
+There is an unexplained blue-colored box beside the “Menganalisis dengan Gemini” text.
+Action required:
+* identify intended function/component
+* if decorative/loading indicator → redesign properly
+* if broken badge/icon → replace with meaningful UI element
+* avoid unexplained visual artifacts
+Data issues:
+The following widgets currently show all zero values:
+* Net Worth Heatmap
+* Risk Exposure
+* Asset Allocation
+* Income Dependency
+* Financial Behaviour Score
+* Impulsivity Index
+* Lifestyle Inflation
+Required:
+* investigate whether:
+  * backend aggregation failing
+  * frontend binding failing
+  * missing seed/demo data
+  * analytics pipeline disconnected
+* implement meaningful fallback/demo state if user data insufficient
+* avoid presenting broken “0 everything” analytics
+(Done)
+
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+docs/planning Marked Complete But Features Not Visible
+Issue:
+All documents under:
+docs/planning
+appear marked as done, but corresponding functionality is not visible/accesssible from GUI.
+Required:
+* produce feature-to-GUI mapping audit
+* identify:
+  * unfinished frontend integration
+  * hidden routes/pages
+  * disabled feature flags
+  * backend-only implementations
+  * inaccessible navigation
+Need:
+A clear document showing:
+planned feature → backend status → frontend status → access location
+(done)
+
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+Advanced Features Showing No Data
+The following features currently show empty/no-state output:
+* Goal-Based Saving
+* 30-Day Cashflow Forecast
+* Budget Planner — 2026/05
+* Lifestyle Inflation Trend
+* Expense Prediction
+* Portfolio Risk Simulation
+Required:
+Implement realistic seeded/demo/generated data.
+Goal-Based Saving requirements:
+Create realistic examples using current real-world pricing:
+* Japan Trip 14D
+* Pokémon TCG 10 Pack
+Use real estimated pricing research for:
+* flights (Premium Economy)
+* accommodation (sekitar Tokyo dan dekat dengan akihabara, yokohama, Ginza, Shibuya, Harajuku)
+* daily expenses (Tokyo Tower dinner, Pokémon Center DX, premium TCG hunt, Universal Studios, Disney Land)
+* Pokémon TCG pack pricing (100 packs)
+Expected:
+Features must demonstrate visible intelligence and functionality even for low-data users.
+(done)
+
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+Expense Tracker Budget Calibration
+Current budgeting assumptions feel unrealistic.
+Required:
+Recalibrate default budget baselines using realistic Jakarta living expenses.
+Need researched estimates for:
+* rent/kost
+* transportation
+* food
+* utilities
+* entertainment
+* emergency spending
+* subscriptions
+* investment allocation
+Goal:
+Budget recommendations should feel geographically realistic and context-aware for Jakarta users.
+Priority:
+Critical
+Expected outcome:
+* no broken/empty analytics
+* no unexplained UI artifacts
+* no invisible completed features
+* improved UX professionalism
+* realistic financial simulation/demo behavior
+(done)
+
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+Receipt Reader UX Problem
+Current message:
+Butuh ANTHROPIC_API_KEY atau GEMINI_API_KEY untuk Vision AI. Tanpa key, otomatis fallback ke Ollama atau Rule Engine.
+Issue:
+The warning permanently visible creates poor UX and reduces perceived product quality.
+Required redesign:
+* keep transparency
+* avoid alarming/system-level wording
+* use passive informative UX instead of warning banner
+Recommended:
+* small muted info tooltip
+* collapsible “AI Engine Status”
+* subtle badge:
+Using Local AI Fallback
+Do NOT show infrastructure/internal dependency messaging prominently to normal users.
+(done)
+
+Please address the following GUI, UX, analytics, and data integrity issues immediately. Several core features appear either partially implemented, disconnected from the frontend, or returning placeholder/zero-state data despite add doumentation at planning documents(docs/planning) after done.
+Stock Analyzer Failure (All Tickers)
+Current error:
+HTTPException: 404: Analysis failed for AMZN
+Issue applies to all tickers.
+Required investigation:
+* verify analyzer pipeline connection
+* verify market data provider
+* verify fetcher adapters
+* verify ticker normalization
+* verify async execution path
+* verify dependency imports/runtime pathing
+* verify frontend endpoint mapping
+Expected:
+* ticker analysis operational for valid US tickers
+* graceful fallback if external provider unavailable
+* actionable frontend error messaging
+(??% progress)

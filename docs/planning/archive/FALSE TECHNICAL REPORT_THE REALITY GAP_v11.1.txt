@@ -1,0 +1,98 @@
+🚩 FALSE TECHNICAL REPORT: "THE REALITY GAP" (v11.1)
+
+  Laporan ini merinci ketidaksesuaian antara klaim di docs/planning dengan
+  fakta di codebase.
+
+  1. Halusinasi "Zero results" Error Handling
+   * Klaim Dokumen (error-handling-remediation.md): "Zero results found for
+     except: pass in apps/".
+   * Fakta di Kode: Masih banyak "silent failure" yang bersembunyi.
+       * apps/cli/main.py: L272 (except: pass) di pengecekan PID.
+       * apps/cli/manager/wealth_service.py: L183 (except: pass) di bagian
+         pengambilan data heatmap. Jika query gagal, UI cuma tampil kosong
+         tanpa error log.
+   * Dampak: Error database terselubung, bikin pusing pas debugging karena
+     "nggak ada error tapi data nggak muncul".
+
+  2. Maintenance Manager "Suicide Patch"
+   * Klaim Dokumen (MASTER_PLAN.md): "Fixed MaintenanceManager to use
+     dynamic path resolution... auto-patch legacy methods".
+   * Fakta di Kode: MaintenanceManager di maintenance.py malah jadi bom
+     waktu.
+       * Placeholder Mismatch: Script maintenance masih mencoba mem-patch
+         kode pakai placeholder ? (SQLite), padahal kelas Database sudah
+         migrasi ke %s (Postgres). Kalau dijalankan, servis
+         Income/Expense/Wealth bakal CRASH.
+       * Ghost Methods: Mencoba mem-patch fungsi _translate_sql yang
+         sebenarnya TIDAK ADA di database.py.
+
+  3. Arsitektur "Zombie" & SSOT Palsu
+   * Klaim Dokumen (baserepository-remediation.md): "Standardize the
+     repository pattern... inheritance verified".
+   * Fakta di Kode: ExpenseService.py memang mewarisi BaseRepository, tapi
+     di bagian atas file masih ada fungsi "Zombie" seperti def
+     _query_expenses. Ini bikin bingung mana yang harus dipakai.
+   * Klaim SSOT: ButterflyService.py masih pakai koneksi manual
+     psycopg2.connect dan mengabaikan logika set_search_path dari kelas
+     Database. Profile Isolation di modul ini RUSAK.
+
+  4. TaskEngine "Theater"
+   * Klaim Dokumen (MASTER_PLAN.md): "TaskEngine performs actual system
+     checks... rebalance logic implemented".
+   * Fakta di Kode: Fungsi process_rebalance cuma berisi SELECT COUNT(*)
+     FROM system.usage. Ini cuma dummy task yang seolah-olah sibuk, padahal
+     nggak ngapa-ngapain.
+
+  ---
+
+  👨‍💻 DEVELOPER A: INFRASTRUCTURE, SAFETY & DEBT
+  Fokus: Membereskan pondasi yang rapuh dan menghentikan "Documentation
+  Theater".
+
+   1. Task 1: SQL Placeholder Alignment
+       * DoD: Ubah semua regex di MaintenanceManager agar menggunakan %s
+         (Postgres) bukan ?. Hapus logika patch _translate_sql yang tidak
+         relevan.
+   2. Task 2: Dynamic Model Discovery
+       * DoD: Refactor model_registry.py. Ganti dictionary hardcoded dengan
+         scanner otomatis yang mencari file .json di data/models/prod/.
+   3. Task 3: Universal Root Resolution
+       * DoD: Pindahkan logika pencarian project_root yang berantakan di
+         SafetyManager dan MaintenanceManager ke satu fungsi di
+         apps/cli/manager/config.py.
+   4. Task 4: Database Connection Purge
+       * DoD: Hapus semua psycopg2.connect manual di ButterflyService dan
+         dr_backup.py. Pakai kelas Database agar Profile Isolation
+         (search_path) berfungsi 100%.
+   5. Task 5: The Final except: pass Execution
+       * DoD: Ganti semua sisa except: pass di main.py dan wealth_service.py
+         dengan logger.error(..., exc_info=True).
+
+  Dokumentasikan setelah selesai di docs/planning di file terkait
+
+  ---
+
+  👨‍💻 DEVELOPER B: BUSINESS LOGIC & WEALTH EXPERIENCE
+  Fokus: Membuat fitur "halusinasi" menjadi kenyataan secara teknis.
+
+   1. Task 6: Real Portfolio Rebalance
+       * DoD: Implementasikan logika rebalancing beneran di
+         TaskEngine.process_rebalance. Hitung selisih antara personal.goals
+         dengan saldo transaksi terakhir.
+   2. Task 7: Service Layer De-Zombification
+       * DoD: Hapus semua fungsi helper legacy (_query_expenses,
+         _execute_income, dll) yang ada di luar class di file servis. Pakai
+         self.db dari BaseRepository.
+   3. Task 8: Income Service Realization
+       * DoD: Implementasikan fungsi save() di IncomeService yang saat ini
+         cuma pass. Harus mendukung input transaksi baru ke skema personal.
+   4. Task 9: Pydantic & Postgres Sync
+       * DoD: Pastikan semua model di profile.py sesuai dengan tipe data di
+         Postgres (misal: tokens di DB adalah INTEGER, pastikan di Pydantic
+         bukan String).
+   5. Task 10: Wealth Simulation Accuracy
+       * DoD: Tambahkan variabel inflasi (default 3%) ke rumus
+         WealthService.calculate_wealth_projection. Saat ini simulasinya
+         terlalu optimis dan tidak realistis.
+
+  Dokumentasikan setelah selesai di docs/planning di file terkait

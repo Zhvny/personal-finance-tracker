@@ -1,0 +1,234 @@
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Business & Tax Reporting (Excel Export)
+Feature:
+BusinessReportService
+Backend:
+✅ Fully implemented
+packages/core/application/business_report_service.py
+Frontend:
+❌ No GUI access
+Current capability:
+* quarterly report generation
+* multi-sheet Excel export
+* Income sheet
+* Expense sheet
+* Summary sheet
+Required GUI integration:
+* add “Export Report” button
+* add export modal/options
+* allow date-range selection
+* support:
+  * quarterly
+  * yearly
+  * custom range
+* background job/export progress UI
+* download center/history
+Expected placement:
+Dashboard → Reports
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Profile & Agent Management
+Feature:
+ProfileManager.add_profile()
+Backend:
+✅ Complete
+apps/cli/manager/profile.py
+Frontend:
+❌ Read-only
+Issue:
+GUI only displays existing profiles.
+Required:
+* profile creation modal
+* schema provisioning workflow
+* profile switcher UX
+* validation flow
+* onboarding wizard
+Expected capabilities:
+* create new profile
+* clone profile
+* archive/delete profile
+* assign agent presets
+Expected placement:
+Settings → Profiles
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Genetic Portfolio Optimizer
+Feature:
+GeneticOptimizer
+Backend:
+✅ Complete
+apps/cli/genetic_optimizer.py
+Frontend:
+❌ Missing entirely
+This is currently one of the highest-value hidden features.
+Required GUI:
+* allocation sliders
+* risk tolerance selector
+* efficient frontier visualization
+* optimization target selector
+* simulation controls
+* mutation/generation progress
+* portfolio comparison view
+Expected placement:
+Investment Tracker → AI Portfolio Lab
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Transaction CRUD Layer Missing
+Features:
+IncomeService.save()
+ExpenseService.save()
+InvestmentService.delete()
+Backend:
+✅ CRUD-ready
+Frontend:
+❌ Analytics-only viewer
+Current issue:
+System behaves like a read-only dashboard instead of a full finance platform.
+Required:
+* add transaction forms
+* edit/delete flows
+* inline quick-add
+* validation UX
+* upload/import support
+* optimistic updates
+* undo support
+Needed sections:
+* Add Income
+* Add Expense
+* Add Investment
+* Delete/Edit Investment
+Priority:
+Critical
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Maintenance & Self-Healing System
+Feature:
+MaintenanceManager.fix_all()
+Backend:
+✅ Complete
+apps/cli/manager/maintenance.py
+Frontend:
+❌ No access
+Required:
+Create:
+System Health / Maintenance
+panel with:
+* database repair
+* resync operations
+* validation checks
+* cache cleanup
+* diagnostics
+* health status
+* repair history logs
+Important:
+Protect destructive operations behind confirmation flow.
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Recurring Transaction Detection
+Feature:
+RecurrenceDetector
+Backend:
+✅ Complete
+finance-tracker-gui/backend/expenses/recurrence_detector.py
+Frontend:
+❌ No visualization
+Required GUI:
+* Upcoming Bills
+* Recurring Expenses
+* Subscription Detection
+* Monthly Obligations
+* Auto-detected patterns
+Potential value:
+This materially improves “smart finance assistant” perception.
+Expected placement:
+Expense Tracker → Recurring
+(done)
+
+Following direct source-code inspection, we identified multiple backend-complete features that currently have no accessible GUI integration path. The application currently exposes only a partial analytics/viewer layer despite substantial operational capability already existing internally. Add doumentation at planning documents(docs/planning) after done.
+This creates:
+* hidden functionality
+* perceived incompleteness
+* wasted engineering effort
+* architecture/frontend mismatch
+* reduced product value visibility
+Dynamic Analytics Threshold Settings
+Feature:
+Config thresholds (RSI/Bollinger/ATR)
+Backend:
+✅ Complete
+apps/cli/manager/config.py
+Frontend:
+❌ Hardcoded/static
+Required:
+Create configurable settings UI for:
+* RSI thresholds
+* Bollinger sensitivity
+* ATR multipliers
+* ML signal confidence
+* volatility thresholds
+* risk presets
+Need:
+real-time configuration without code edits.
+Expected placement:
+Settings → Market Analytics
+Required Deliverable
+Please produce:
+1. Feature exposure audit
+2. Backend/frontend mapping
+3. GUI integration roadmap
+4. Priority ranking
+5. UX wireframe proposals
+6. API exposure verification
+7. Missing route inventory
+8. Feature flag inventory
+9. Integration blockers
+Important:
+A feature marked “done” in planning documents must be:
+* visible
+* accessible
+* navigable
+* testable
+* discoverable from GUI
+Backend-only completion is NOT considered feature completion for production UX.
+(done)

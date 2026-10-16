@@ -1,0 +1,65 @@
+Task 1 — Remove Aggressive Warning Banner
+Current problematic text:
+Butuh ANTHROPIC_API_KEY atau GEMINI_API_KEY untuk Vision AI. Tanpa key, otomatis fallback ke Ollama atau Rule Engine.
+Required:
+* remove persistent warning-style presentation
+* remove alarming/system-level wording
+* avoid exposing infrastructure details to normal users
+Goal:
+The UI should feel consumer-grade, not developer-console-oriented.
+
+Task 2 — Replace With Passive Status Indicator
+Create subtle status component instead.
+Recommended variants:
+Using Local AI
+AI Processing Available
+Enhanced Vision Enabled
+Requirements:
+* muted styling
+* compact badge/chip
+* no warning colors
+* non-intrusive placement
+
+Task 3 — Add Expandable AI Engine Status
+Implement optional/collapsible detail panel.
+Collapsed state:
+* minimal badge only
+Expanded state:
+May contain:
+* current engine
+* fallback status
+* cloud/local mode
+But:
+* no API key warnings
+* no raw infrastructure terminology
+* no alarming phrasing
+
+Task 4 — UX Copy Rewrite
+Rewrite all Receipt Reader messaging to:
+* sound user-friendly
+* reduce technical jargon
+* maintain transparency
+* avoid “missing dependency” tone
+Bad:
+API_KEY missing
+Fallback activated
+Good:
+Using local analysis mode
+Enhanced AI features available when connected
+
+Task 5 — Visual Consistency Audit
+Verify:
+* badge colors
+* spacing
+* typography
+* dark/light mode compatibility
+* mobile responsiveness
+Ensure the AI status element visually matches the rest of the finance dashboard system.
+Acceptance Criteria
+* no permanent warning banner
+* no developer-facing infrastructure messaging
+* passive/professional UX
+* collapsible advanced info
+* clean mobile rendering
+* dark/light theme compatible
+(all done)
