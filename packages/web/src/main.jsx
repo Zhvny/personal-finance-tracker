@@ -10,6 +10,7 @@ import "./styles/dark-style.css";
 import "./styles/light-style.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./AuthContext.jsx";
+import { I18nProvider } from "./i18n/context.js";
 import { ErrorBoundary, OfflineBanner } from "./components.jsx";
 
 // Emergency Mobile Logger — DEV only, never runs in production
@@ -49,7 +50,9 @@ createRoot(document.getElementById("root")).render(
       <OfflineBanner />
       <AuthProvider>
         <BrowserRouter>
-          <App />
+          <I18nProvider>
+            <App />
+          </I18nProvider>
         </BrowserRouter>
       </AuthProvider>
     </ErrorBoundary>

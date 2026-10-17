@@ -10,6 +10,7 @@ import {
   TIER_META,
   CATEGORY_META,
 } from "./rewardCatalogue.js";
+import { useI18n } from "../i18n/context.js";
 import {
   IconCoin, IconAward, IconStar, IconTrophy, IconSparkles, IconImage,
   IconVideo, IconUnlock, IconClose, IconWarning, IconCheck, IconSeason,
@@ -112,15 +113,21 @@ function WeeklyRewardCard({
   onClaim,
   onRedeem,
   submitting,
+  locale,
+  t,
 }) {
   const tier = TIER_META[item.tier] || TIER_META.basic;
-  const category = CATEGORY_META[item.kategori]?.label || item.kategori;
+  const category = CATEGORY_META[item.kategori] ? (locale === "en" ? CATEGORY_META[item.kategori].en : CATEGORY_META[item.kategori].label) : item.kategori;
   const canAfford = userReward >= item.cost;
   const { timeLeft, isExpired } = useCountdown(item.expires_at);
 
   let statusClass = "unclaimed";
   if (item.redeemed) statusClass = "redeemed";
   else if (item.claimed) statusClass = isExpired ? "expired" : "claimed";
+
+  const primaryName = locale === "en" ? (item.name_en || item.name_id) : (item.name_id || item.name_en);
+  const subName = locale === "en" ? (item.name_id !== item.name_en ? item.name_id : null) : (item.name_en !== item.name_id ? item.name_en : null);
+  const description = locale === "en" ? (item.desc_en || item.desc_id) : (item.desc_id || item.desc_en);
 
   return (
     <div className={`gp-card weekly-card ${statusClass} tier-${item.tier}`} style={{ borderColor: `rgba(255,255,255,0.08)` }}>
@@ -142,7 +149,7 @@ function WeeklyRewardCard({
               letterSpacing: "0.5px",
             }}
           >
-            {tier.label}
+            {t(`tier.${item.tier}`, tier.label)}
           </span>
           <span style={{ fontSize: 11, color: "var(--tx3)", background: "var(--bg3)", padding: "2px 8px", borderRadius: 4 }}>
             {category}
@@ -150,30 +157,30 @@ function WeeklyRewardCard({
         </div>
 
         {/* Title & Description */}
-        <div style={{ fontSize: 15, fontWeight: 700, color: "var(--tx)", lineHeight: 1.3, marginBottom: 6 }}>
-          {item.name_id || item.name_en}
+        <div style={{ fontSize: 15, fontWeight: 700, color: "var(--tx)", lineHeight: 1.3, marginBottom: 4 }}>
+          {primaryName}
         </div>
-        {item.name_en && item.name_en !== item.name_id && (
+        {subName && (
           <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 8, fontStyle: "italic" }}>
-            {item.name_en}
+            {subName}
           </div>
         )}
         <div style={{ fontSize: 12, color: "var(--tx2)", lineHeight: 1.5, flex: 1, marginBottom: 14 }}>
-          {item.desc_id || item.desc_en}
+          {description}
         </div>
 
         {/* Status Indicators */}
         {item.claimed && !item.redeemed && !isExpired && (
           <div style={{ fontSize: 11, color: "var(--cy)", background: "rgba(55,138,221,0.12)", padding: "4px 8px", borderRadius: 6, marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
             <IconClock size={12} />
-            <span>Klaim aktif · Kedaluwarsa dlm {timeLeft}</span>
+            <span>{t("shop.claim_active", "Klaim aktif")} {timeLeft}</span>
           </div>
         )}
 
         {isExpired && !item.redeemed && (
           <div style={{ fontSize: 11, color: "var(--rd)", background: "rgba(232,113,77,0.12)", padding: "4px 8px", borderRadius: 6, marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
             <IconWarning size={12} />
-            <span>Kedaluwarsa (14 hari terlampaui)</span>
+            <span>{t("shop.expired_badge", "Kedaluwarsa")}</span>
           </div>
         )}
 
@@ -181,13 +188,13 @@ function WeeklyRewardCard({
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 5, color: "var(--ind, #fcd535)", fontWeight: 700, fontSize: 14 }}>
             <IconCoin size={14} />
-            <span>{item.cost?.toLocaleString("id-ID")}</span>
-            <span style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 400 }}>poin</span>
+            <span>{item.cost?.toLocaleString(locale === "id" ? "id-ID" : "en-US")}</span>
+            <span style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 400 }}>{t("common.pts", "pts")}</span>
           </div>
 
           {item.redeemed ? (
             <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--gr, #7aba2a)", fontSize: 12, fontWeight: 700 }}>
-              <IconCheck size={14} /> Digunakan
+              <IconCheck size={14} /> {t("shop.redeemed_badge", "Digunakan")}
             </span>
           ) : item.claimed && !isExpired ? (
             <button
@@ -196,11 +203,11 @@ function WeeklyRewardCard({
               onClick={() => onRedeem(item)}
               disabled={submitting}
             >
-              Gunakan Sekarang
+              {t("shop.redeem_button", "Gunakan Sekarang")}
             </button>
           ) : isExpired ? (
             <span style={{ color: "var(--tx3)", fontSize: 12, fontWeight: 600 }}>
-              Hangus
+              {t("shop.expired_badge", "Hangus")}
             </span>
           ) : (
             <button
@@ -208,13 +215,8 @@ function WeeklyRewardCard({
               style={{ padding: "6px 12px", fontSize: 12 }}
               onClick={() => onClaim(item)}
               disabled={!canAfford || submitting}
-              title={canAfford ? "Klaim reward untuk minggu ini" : `Kurang ${(item.cost - userReward).toLocaleString("id-ID")} poin`}
             >
-              {canAfford ? (
-                <>Klaim</>
-              ) : (
-                <>Poin Kurang</>
-              )}
+              {canAfford ? t("shop.claim_button", "Klaim") : t("shop.insufficient_points", "Poin Kurang")}
             </button>
           )}
         </div>
@@ -236,6 +238,7 @@ function IconClock({ size = 12, color = "currentColor" }) {
 
 // ── Main Component: RewardShop ────────────────────────────────────────────────
 export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem }) {
+  const { locale, t } = useI18n();
   const [catalogueData, setCatalogueData] = useState({ week_start: null, expires_at: null, items: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -319,20 +322,20 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
   }, [items, categoryFilter, tierFilter]);
 
   const CATEGORIES = [
-    { id: "all", label: "Semua Kategori" },
-    { id: "minuman", label: "Minuman" },
-    { id: "makanan", label: "Makanan" },
-    { id: "snack", label: "Snack" },
-    { id: "barang", label: "Barang" },
-    { id: "pengalaman", label: "Pengalaman" },
+    { id: "all", label: t("cat.all", "Semua Kategori") },
+    { id: "minuman", label: t("cat.minuman", "Minuman") },
+    { id: "makanan", label: t("cat.makanan", "Makanan") },
+    { id: "snack", label: t("cat.snack", "Snack") },
+    { id: "barang", label: t("cat.barang", "Barang") },
+    { id: "pengalaman", label: t("cat.pengalaman", "Pengalaman") },
   ];
 
   const TIERS = [
-    { id: "all", label: "Semua Tier" },
-    { id: "basic", label: "Basic" },
-    { id: "mid", label: "Mid" },
-    { id: "premium", label: "Premium" },
-    { id: "ultra", label: "Ultra" },
+    { id: "all", label: t("tier.all", "Semua Tier") },
+    { id: "basic", label: t("tier.basic", "Basic") },
+    { id: "mid", label: t("tier.mid", "Mid") },
+    { id: "premium", label: t("tier.premium", "Premium") },
+    { id: "ultra", label: t("tier.ultra", "Ultra") },
   ];
 
   return (
@@ -443,6 +446,8 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
               onClaim={handleClaim}
               onRedeem={handleRedeem}
               submitting={submittingId === item.id}
+              locale={locale}
+              t={t}
             />
           ))}
         </div>
