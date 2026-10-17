@@ -317,7 +317,7 @@ def screen_detail(repo: Repo, r: Reward):
     header(f"── Detail: {r.id} ──")
     print(f"  ID      : {r.id}")
     print(f"  Title   : {r.title}")
-    print(f"  Cost    : {r.cost} Lust")
+    print(f"  Cost    : {r.cost} Reward")
     print(f"  Tier    : {r.tier}")
     print(f"  Type    : {r.type}")
     print(f"  Season  : {r.season}")
@@ -388,7 +388,7 @@ def screen_import(repo: Repo):
 
     title  = ask("Judul reward",   default=auto_title)
     tier   = ask_choice("Tier",    VALID_TIERS, default="basic")
-    cost   = ask_int("Harga (Lust)", default=TIER_COST_DEFAULT.get(tier, 500), min_val=1)
+    cost   = ask_int("Harga (Reward)", default=TIER_COST_DEFAULT.get(tier, 500), min_val=1)
     season = ask_int("Season (0 = Season 1)", default=0, min_val=0)
     rtype  = ask_choice("Tipe konten", VALID_TYPES, default=auto_type)
 
@@ -419,7 +419,7 @@ def screen_import(repo: Repo):
     print(f"  Dest  : {dest_dir}")
     print(f"  ID    : {reward_id}")
     print(f"  Title : {title}")
-    print(f"  Tier  : {tier}  |  Cost: {cost} Lust  |  Season: {season}  |  Type: {rtype}")
+    print(f"  Tier  : {tier}  |  Cost: {cost} Reward  |  Season: {season}  |  Type: {rtype}")
     print()
 
     if not confirm("  Proses import?"):
@@ -454,7 +454,7 @@ def screen_add(repo: Repo):
 
     title  = ask("Judul reward")
     tier   = ask_choice("Tier", VALID_TIERS, default="basic")
-    cost   = ask_int("Harga (Lust)", default=TIER_COST_DEFAULT.get(tier, 500), min_val=1)
+    cost   = ask_int("Harga (Reward)", default=TIER_COST_DEFAULT.get(tier, 500), min_val=1)
     season = ask_int("Season (0 = Season 1)", default=0, min_val=0)
     rtype  = ask_choice("Tipe konten", VALID_TYPES, default="Pack")
 
@@ -462,7 +462,7 @@ def screen_add(repo: Repo):
     hr()
     print(f"  ID     : {reward_id}")
     print(f"  Title  : {title}")
-    print(f"  Tier   : {tier}  |  Cost: {cost} Lust  |  Season: {season}  |  Type: {rtype}")
+    print(f"  Tier   : {tier}  |  Cost: {cost} Reward  |  Season: {season}  |  Type: {rtype}")
     hr()
     print()
 

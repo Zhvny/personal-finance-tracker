@@ -6,38 +6,39 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
+.reward-dashboard-root,
 .gp-root {
-  --gp-bg:       #070709;
-  --gp-bg2:      #0e0e12;
-  --gp-bg3:      #14141a;
-  --gp-bg4:      #1c1c24;
-  --gp-border:   rgba(255,255,255,.06);
-  --gp-border2:  rgba(255,255,255,.11);
+  --gp-bg:       var(--bg, #0b0e11);
+  --gp-bg2:      var(--bg2, #1e2329);
+  --gp-bg3:      var(--bg3, #2b3139);
+  --gp-bg4:      var(--bg4, #474d57);
+  --gp-border:   rgba(255,255,255,.08);
+  --gp-border2:  rgba(255,255,255,.14);
 
-  /* Crimson fire palette */
-  --gp-fire:     #e53935;
-  --gp-fire2:    #ff6f60;
-  --gp-fire-glow:rgba(229,57,53,.22);
-  --gp-fire-dim: rgba(229,57,53,.10);
+  /* Primary Accent: Finance Gold / Yellow */
+  --gp-fire:     var(--ind, #fcd535);
+  --gp-fire2:    #ffe066;
+  --gp-fire-glow:rgba(252,213,53,.15);
+  --gp-fire-dim: rgba(252,213,53,.08);
 
   /* Gold rank accent */
-  --gp-gold:     #f5c842;
+  --gp-gold:     var(--ind, #fcd535);
   --gp-gold2:    #ffd96a;
-  --gp-gold-dim: rgba(245,200,66,.12);
+  --gp-gold-dim: rgba(252,213,53,.12);
 
   /* Typography */
-  --gp-tx:       #f0eaf4;
-  --gp-tx2:      #8a8599;
-  --gp-tx3:      #4a4858;
-  --gp-display:  'Syne', sans-serif;
-  --gp-mono:     'JetBrains Mono', monospace;
+  --gp-tx:       var(--tx, #f1f5f9);
+  --gp-tx2:      var(--tx2, #9ca3af);
+  --gp-tx3:      var(--tx3, #6b7280);
+  --gp-display:  var(--sans, 'DM Sans', -apple-system, sans-serif);
+  --gp-mono:     var(--mono, 'Space Mono', monospace);
 
-  /* Rank colors */
+  /* Tier colors as finance accents */
   --gp-bronze:   #cd7f32;
-  --gp-silver:   #c0c0c0;
-  --gp-gold-r:   #f5c842;
-  --gp-platinum: #e5e4e2;
-  --gp-diamond:  #b9f2ff;
+  --gp-silver:   #38bdf8;
+  --gp-gold-r:   #34d399;
+  --gp-platinum: #a78bfa;
+  --gp-diamond:  #fcd535;
   --gp-pure:     #ffe4fc;
 
   font-family:  var(--gp-display);
@@ -47,15 +48,10 @@
   position:     relative;
 }
 
-/* Grain texture overlay */
+/* Texture overlay removed for clean finance aesthetic */
+.reward-dashboard-root::before,
 .gp-root::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: .4;
+  display: none;
 }
 
 /* ── Layout ──────────────────────────────────────────────────────────────── */
@@ -71,12 +67,13 @@
   padding: 32px 28px 24px;
   border-bottom: 1px solid var(--gp-border);
   overflow: hidden;
+  background: var(--bg2, #1e2329);
 }
 .gp-hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 120% at 50% -20%, rgba(229,57,53,.12) 0%, transparent 65%);
+  background: radial-gradient(ellipse 80% 120% at 50% -20%, rgba(55,138,221,.08) 0%, transparent 65%);
   pointer-events: none;
 }
 .gp-hero-eyebrow {
@@ -92,7 +89,7 @@
   font-weight: 800;
   letter-spacing: -1px;
   line-height: 1.1;
-  background: linear-gradient(135deg, var(--gp-tx) 40%, var(--gp-fire2) 100%);
+  background: linear-gradient(135deg, var(--gp-tx) 50%, var(--gp-fire) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
