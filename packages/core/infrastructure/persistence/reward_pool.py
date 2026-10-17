@@ -85,4 +85,7 @@ def seed_pool(conn: Any, schema: Optional[str] = None) -> int:
         pass
     cur.execute(f"SELECT COUNT(*) FROM {table}")
     row = cur.fetchone()
-    return int(row[0] if isinstance(row, (list, tuple)) else row["count"])
+    try:
+        return int(row[0])
+    except Exception:
+        return int(row["count"])
