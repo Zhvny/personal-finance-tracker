@@ -219,10 +219,32 @@ async def proxy_drive_media(drive_id: str, request: Request, sz: Optional[str] =
         logger.exception("Error streaming Drive media")
         raise HTTPException(status_code=500, detail="Internal server error. Check server logs for details.")
 
+class WeeklyClaimRequest(BaseModel):
+    item_id: int
+    profile_id: Optional[str] = "default"
+    week_start: Optional[str] = None
+
+
+class WeeklyRedeemRequest(BaseModel):
+    claim_id: int
+    profile_id: Optional[str] = "default"
+
+
 @router.get("/api/rewards/catalogue")
-async def get_catalogue(request: Request):
+async def get_catalogue(request: Request, profile_id: Optional[str] = "default", week_start: Optional[str] = None, legacy: bool = False):
     from fastapi import BackgroundTasks
     bg = BackgroundTasks()
+
+    if not legacy:
+        try:
+            from datetime import date
+            from packages.core.domain.services.reward_rotation_service import RewardRotationService
+            service = RewardRotationService()
+            ref = date.fromisoformat(week_start) if week_start else None
+            cat = service.get_catalogue(profile_id=profile_id or "default", ref_date=ref)
+            return cat
+        except Exception as exc:
+            logger.warning(f"Weekly rotation catalogue fetch failed, falling back to static manifests: {exc}")
 
     local_path = _GUI / "public" / "rewards"
     local_rewards = []
@@ -254,10 +276,61 @@ async def get_catalogue(request: Request):
                                 m["_thumb_is_drive"] = True
                                 bg.add_task(prewarm_thumbnail, tid, "w320")
                         local_rewards.append(m)
-        except: pass
+        except Exception:
+            pass
     logger.info("Fetched reward catalogue")
     local_rewards.sort(key=lambda x: (x.get("season", 0), x.get("cost", 0)))
     return Response(content=json.dumps(local_rewards), media_type="application/json", background=bg)
+
+
+@router.post("/api/rewards/weekly/claim")
+def claim_weekly_reward(payload: WeeklyClaimRequest):
+    try:
+        from datetime import date
+        from packages.core.domain.services.reward_rotation_service import (
+            RewardRotationService,
+            ClaimConflictError,
+            ClaimExpiredError,
+        )
+        service = RewardRotationService()
+        w_start = date.fromisoformat(payload.week_start) if payload.week_start else None
+        claim = service.claim_reward(
+            profile_id=payload.profile_id or "default",
+            item_id=payload.item_id,
+            week_start=w_start,
+        )
+        return {"ok": True, "claim": claim}
+    except ClaimConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except ClaimExpiredError as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.post("/api/rewards/weekly/redeem")
+def redeem_weekly_reward(payload: WeeklyRedeemRequest):
+    try:
+        from packages.core.domain.services.reward_rotation_service import (
+            RewardRotationService,
+            ClaimConflictError,
+            ClaimExpiredError,
+            ClaimNotFoundError,
+        )
+        service = RewardRotationService()
+        redeemed = service.redeem_claim(
+            claim_id=payload.claim_id,
+            profile_id=payload.profile_id or "default",
+        )
+        return {"ok": True, "redeemed": redeemed}
+    except ClaimNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ClaimConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except ClaimExpiredError as exc:
+        raise HTTPException(status_code=410, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 REWARD_TYPES = ("reward", "savings")
 
