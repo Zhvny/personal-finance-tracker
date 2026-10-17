@@ -1,0 +1,3002 @@
+[
+  {
+    "name_en": "Bottled Mineral Water",
+    "name_id": "Air Mineral Botol",
+    "desc_en": "A cold bottle of mineral water to keep you hydrated all day.",
+    "desc_id": "Sebotol air mineral dingin untuk menemanimu tetap segar seharian.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Iced Sweet Tea",
+    "name_id": "Es Teh Manis",
+    "desc_en": "A familiar glass of sweet iced tea, the cheapest treat around.",
+    "desc_id": "Segelas es teh manis langganan, minuman termurah yang bikin segar.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Hot Sweet Tea",
+    "name_id": "Teh Manis Panas",
+    "desc_en": "A warm glass of sweet tea for a cozy afternoon break.",
+    "desc_id": "Teh manis panas untuk teman istirahat soremu.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Iced Orange Juice",
+    "name_id": "Es Jeruk Peras",
+    "desc_en": "Freshly squeezed orange juice over ice, sweet and bright.",
+    "desc_id": "Jeruk peras segar dengan es, manis dan menyegarkan.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Iced Lemon Tea",
+    "name_id": "Es Teh Lemon",
+    "desc_en": "Iced tea with a squeeze of lemon to wake you up.",
+    "desc_id": "Es teh dengan perasan lemon yang bikin melek lagi.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Hot Black Coffee",
+    "name_id": "Kopi Hitam Panas",
+    "desc_en": "A strong glass of hot black coffee to start your morning.",
+    "desc_id": "Kopi hitam panas yang kuat untuk membuka pagimu.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Iced Palm Sugar Milk Coffee",
+    "name_id": "Es Kopi Susu Gula Aren",
+    "desc_en": "A guilt-free glass of your usual palm-sugar iced coffee.",
+    "desc_id": "Segelas es kopi susu gula aren langgananmu, tanpa rasa bersalah.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Iced Coconut Water",
+    "name_id": "Es Kelapa Muda",
+    "desc_en": "Fresh young coconut water served cold, naturally sweet.",
+    "desc_id": "Air kelapa muda segar disajikan dingin, manisnya alami.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Iced Soy Milk",
+    "name_id": "Es Susu Kedelai",
+    "desc_en": "Chilled soy milk, smooth and light for any time of day.",
+    "desc_id": "Susu kedelai dingin yang lembut dan ringan, cocok kapan saja.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Fresh Sugarcane Juice",
+    "name_id": "Es Tebu Segar",
+    "desc_en": "Cold sugarcane juice, sweet and refreshing for hot days.",
+    "desc_id": "Es tebu segar yang manis dan bikin tenggorokan lega.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Hot Ginger Tea",
+    "name_id": "Teh Jahe Hangat",
+    "desc_en": "A warm ginger tea to soothe your throat and body.",
+    "desc_id": "Teh jahe hangat untuk menenangkan tenggorokan dan badanmu.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Iced Chocolate Drink",
+    "name_id": "Es Cokelat",
+    "desc_en": "A cold chocolate drink, creamy and sweet for hot days.",
+    "desc_id": "Es cokelat dingin yang manis dan lembut di hari panas.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Avocado Juice",
+    "name_id": "Jus Alpukat",
+    "desc_en": "Thick avocado juice with chocolate drizzle, rich and filling.",
+    "desc_id": "Jus alpukat kental dengan lelehan cokelat, mengenyangkan.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Fresh Watermelon Juice",
+    "name_id": "Jus Semangka Segar",
+    "desc_en": "Chilled watermelon juice, sweet and light on a hot day.",
+    "desc_id": "Jus semangka dingin, manis dan ringan di hari terik.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Mixed Fruit Juice",
+    "name_id": "Es Jus Buah Campur",
+    "desc_en": "A tall glass of mixed fruit juice, cold and full of flavor.",
+    "desc_id": "Segelas besar jus buah campur, dingin dan penuh rasa.",
+    "kategori": "minuman",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Boba Milk Tea",
+    "name_id": "Boba Susu",
+    "desc_en": "Chewy boba in cold milk tea, your favorite afternoon treat.",
+    "desc_id": "Boba kenyal dalam susu teh dingin, camilan sore favoritmu.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Iced Thai Tea",
+    "name_id": "Es Thai Tea",
+    "desc_en": "Sweet and creamy Thai tea served over ice.",
+    "desc_id": "Thai tea manis dan creamy yang disajikan dengan es.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Fresh Lemon Squash",
+    "name_id": "Lemon Squash Segar",
+    "desc_en": "A zesty lemon squash to cool you down on a hot day.",
+    "desc_id": "Lemon squash segar yang bikin adem di hari panas.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Iced Matcha Latte",
+    "name_id": "Es Matcha Latte",
+    "desc_en": "Earthy matcha whisked into cold milk, lightly sweet.",
+    "desc_id": "Matcha lembut dicampur susu dingin, manisnya pas.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Iced Yogurt Smoothie",
+    "name_id": "Es Yogurt Smoothie",
+    "desc_en": "A tangy frozen yogurt smoothie, cold and refreshing.",
+    "desc_id": "Yogurt smoothie dingin yang asam segar, bikin melek.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Hot Cappuccino",
+    "name_id": "Cappuccino Panas",
+    "desc_en": "A warm cappuccino with thick foam to start your day.",
+    "desc_id": "Cappuccino panas dengan busa tebal untuk awali harimu.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Fresh Strawberry Juice",
+    "name_id": "Jus Stroberi Segar",
+    "desc_en": "Sweet strawberry juice blended fresh, no added syrup.",
+    "desc_id": "Jus stroberi segar tanpa sirup tambahan, manis alami.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Iced Caramel Macchiato",
+    "name_id": "Es Caramel Macchiato",
+    "desc_en": "Cold espresso with milk and caramel, sweet and bold.",
+    "desc_id": "Espresso dingin dengan susu dan karamel, manis dan kuat.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Iced Lychee Tea",
+    "name_id": "Es Teh Leci",
+    "desc_en": "Fragrant lychee tea over ice, light and refreshing.",
+    "desc_id": "Teh leci wangi dengan es, ringan dan menyegarkan.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Iced Coffee Frappe",
+    "name_id": "Es Kopi Frappe",
+    "desc_en": "Blended iced coffee frappe topped with whipped cream.",
+    "desc_id": "Kopi frappe blender dengan topping krim kocok.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Iced Cookies and Cream Latte",
+    "name_id": "Es Kopi Cookies and Cream",
+    "desc_en": "Cold latte blended with crushed cookies and cream.",
+    "desc_id": "Latte dingin dengan remahan biskuit dan krim lembut.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Virgin Mojito",
+    "name_id": "Mojito Virgin",
+    "desc_en": "Mint, lime and soda over ice, a fresh non-alcoholic drink.",
+    "desc_id": "Mint, jeruk nipis, dan soda dengan es, segar tanpa alkohol.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Passion Fruit Mojito",
+    "name_id": "Mojito Markisa",
+    "desc_en": "Sparkling passion fruit mojito with mint, cold and tangy.",
+    "desc_id": "Mojito markisa bersoda dengan mint, dingin dan asam segar.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Cold-Pressed Green Juice",
+    "name_id": "Jus Hijau Cold-Pressed",
+    "desc_en": "Cold-pressed greens with apple and lemon, healthy and fresh.",
+    "desc_id": "Jus hijau cold-pressed dengan apel dan lemon, sehat dan segar.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "One Liter Palm Sugar Coffee",
+    "name_id": "Kopi Susu Gula Aren Satu Liter",
+    "desc_en": "A full liter of palm sugar milk coffee to share at home.",
+    "desc_id": "Satu liter kopi susu gula aren untuk dinikmati bersama di rumah.",
+    "kategori": "minuman",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Ceremonial Matcha Latte",
+    "name_id": "Matcha Latte Seremonial",
+    "desc_en": "Premium ceremonial matcha whisked into silky cold milk, just for you.",
+    "desc_id": "Matcha seremonial premium dengan susu dingin lembut, khusus buat kamu.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Single Origin Pour Over Coffee",
+    "name_id": "Kopi Pour Over Single Origin",
+    "desc_en": "A hand-poured single origin coffee with rich, clean notes.",
+    "desc_id": "Kopi single origin seduh manual dengan rasa bersih dan kaya.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Dragon Fruit Smoothie",
+    "name_id": "Smoothie Buah Naga",
+    "desc_en": "A vibrant dragon fruit smoothie, cold and lightly sweet.",
+    "desc_id": "Smoothie buah naga berwarna cerah, dingin dan manis ringan.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Premium Cold Brew Bottle",
+    "name_id": "Cold Brew Premium Botol",
+    "desc_en": "A bottle of smooth cold brew steeped for eighteen hours.",
+    "desc_id": "Sebotol cold brew lembut yang diseduh delapan belas jam.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Kombucha Six-Bottle Pack",
+    "name_id": "Paket Enam Botol Kombucha",
+    "desc_en": "Six bottles of fizzy kombucha for your own daily gut care.",
+    "desc_id": "Enam botol kombucha bersoda untuk perawatan pencernaanmu sendiri.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Three-Day Juice Cleanse Pack",
+    "name_id": "Paket Jus Detox Tiga Hari",
+    "desc_en": "Three days of cold-pressed juice delivered to your door.",
+    "desc_id": "Jus cold-pressed untuk tiga hari, diantar sampai rumahmu.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Three-Cup Coffee Tasting",
+    "name_id": "Sesi Cicip Tiga Cangkir Kopi",
+    "desc_en": "Taste three single origin coffees brewed side by side.",
+    "desc_id": "Cicipi tiga kopi single origin yang diseduh berdampingan.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "One-Kilogram Specialty Coffee Beans",
+    "name_id": "Biji Kopi Spesial Satu Kilogram",
+    "desc_en": "A kilogram of freshly roasted specialty coffee beans for home brewing.",
+    "desc_id": "Satu kilogram biji kopi spesial sangrai baru untuk seduhan di rumah.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Premium Loose-Leaf Tea Selection",
+    "name_id": "Pilihan Teh Daun Premium",
+    "desc_en": "A curated tin of premium loose-leaf teas for your slow afternoons.",
+    "desc_id": "Satu kaleng pilihan teh daun premium untuk sore santaimu.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Weekly Cold-Pressed Juice Delivery",
+    "name_id": "Langganan Jus Cold-Pressed Seminggu",
+    "desc_en": "A week of fresh cold-pressed juice sent to your home.",
+    "desc_id": "Jus cold-pressed segar untuk seminggu, diantar ke rumah.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "One-Month Coffee Bean Subscription",
+    "name_id": "Langganan Biji Kopi Sebulan",
+    "desc_en": "A month of specialty coffee beans delivered every week.",
+    "desc_id": "Biji kopi spesial untuk sebulan, dikirim tiap minggu.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Afternoon High Tea for Two",
+    "name_id": "High Tea Sore untuk Dua Orang",
+    "desc_en": "A relaxing high tea for two with tea, coffee and light bites.",
+    "desc_id": "High tea sore santai untuk dua orang dengan teh, kopi, dan camilan ringan.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Kilogram Coffee Bean Pack",
+    "name_id": "Paket Biji Kopi Dua Kilogram",
+    "desc_en": "Two kilos of roasted beans to keep your home brewing going.",
+    "desc_id": "Dua kilogram biji kopi sangrai untuk stok seduh di rumah.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Liter Cold Brew Pack",
+    "name_id": "Paket Cold Brew Dua Liter",
+    "desc_en": "Two liters of cold brew concentrate for a week of coffee.",
+    "desc_id": "Dua liter konsentrat cold brew untuk kopi seminggu.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Artisanal Botanical Drink Collection",
+    "name_id": "Koleksi Minuman Botanikal Artisan",
+    "desc_en": "A curated box of six handcrafted botanical cordials and tonics.",
+    "desc_id": "Kotak berisi enam sirup dan tonik botanikal racikan tangan.",
+    "kategori": "minuman",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "One-Year Specialty Coffee Subscription",
+    "name_id": "Langganan Biji Kopi Spesial Setahun",
+    "desc_en": "A full year of specialty coffee beans delivered monthly to you.",
+    "desc_id": "Biji kopi spesial untuk setahun penuh, dikirim tiap bulan ke rumahmu.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "One-Year Kombucha Home Delivery",
+    "name_id": "Langganan Kombucha Setahun",
+    "desc_en": "A year of fresh kombucha delivered to your door every week.",
+    "desc_id": "Kombucha segar untuk setahun, diantar ke rumahmu tiap minggu.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Aged Pu-Erh Tea Cake",
+    "name_id": "Teh Pu-Erh Cake Tua",
+    "desc_en": "An aged pu-erh tea cake to brew slowly and savour yourself.",
+    "desc_id": "Kue teh pu-erh tua untuk diseduh pelan dan dinikmati sendiri.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Private Latte Art Class for One",
+    "name_id": "Kelas Latte Art Privat Satu Orang",
+    "desc_en": "A one-on-one latte art class with a barista mentor.",
+    "desc_id": "Kelas latte art privat satu lawan satu dengan mentor barista.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Ready-to-Drink Bird Nest Six Pack",
+    "name_id": "Paket Minuman Sarang Walet Isi Enam",
+    "desc_en": "Six bottles of premium cooked edible bird nest drink with rock sugar.",
+    "desc_id": "Enam botol minuman sarang burung walet murni dengan gula batu.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "One-Year Cold-Pressed Juice Subscription",
+    "name_id": "Langganan Jus Cold-Pressed Setahun",
+    "desc_en": "A year of cold-pressed juice delivered to your door weekly.",
+    "desc_id": "Jus cold-pressed untuk setahun, diantar tiap minggu ke rumah.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Specialty Coffee Cupping Masterclass for One",
+    "name_id": "Kelas Cupping Kopi Spesial Satu Orang",
+    "desc_en": "A hands-on cupping masterclass to sharpen your own palate.",
+    "desc_id": "Kelas cupping praktis untuk mengasah seleramu sendiri.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Private Mixology Class for One",
+    "name_id": "Kelas Mixology Privat Satu Orang",
+    "desc_en": "A private class to learn mocktails and coffee drinks for yourself.",
+    "desc_id": "Kelas privat untuk belajar mocktail dan minuman kopi sendiri.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Pure Wild Forest Honey Jar with Honeycomb",
+    "name_id": "Madu Hutan Murni dengan Sarang Lebah",
+    "desc_en": "One kilogram of raw forest honey served with a fresh honeycomb slice.",
+    "desc_id": "Satu kilogram madu hutan mentah murni dengan potongan sarang lebah.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Panama Geisha Roasted Coffee Beans 250g",
+    "name_id": "Biji Kopi Sangrai Panama Geisha 250g",
+    "desc_en": "A rare bag of roasted Panama Geisha beans with delicate floral notes.",
+    "desc_id": "Sebungkus biji kopi langka Panama Geisha dengan aroma floral lembut.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "One-Year Premium Mineral Water Delivery",
+    "name_id": "Langganan Air Mineral Premium Setahun",
+    "desc_en": "A year of premium mineral water delivered to your home.",
+    "desc_id": "Air mineral premium untuk setahun, diantar ke rumahmu.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Barista Certification Course",
+    "name_id": "Kursus Sertifikasi Barista",
+    "desc_en": "A certified barista course to turn your hobby into a real skill.",
+    "desc_id": "Kursus barista bersertifikat untuk mengubah hobimu jadi keahlian.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Rare Silver Needle White Tea Vintage Tin",
+    "name_id": "Kaleng Teh Putih Jarum Perak Langka",
+    "desc_en": "A vintage collector tin of hand-picked Silver Needle white tea buds.",
+    "desc_id": "Kaleng koleksi vintage berisi pucuk teh putih jarum perak petikan tangan.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Six-Month Cold-Pressed Health Juice Plan",
+    "name_id": "Langganan Jus Sehat Cold-Pressed Enam Bulan",
+    "desc_en": "Fresh organic cold-pressed wellness juices delivered to you weekly.",
+    "desc_id": "Jus kesehatan cold-pressed organik segar diantar ke rumahmu tiap minggu.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "One-Year Specialty Coffee and Tea Connoisseur Subscription",
+    "name_id": "Langganan Kopi dan Teh Spesial Setahun",
+    "desc_en": "A year of curated specialty coffee and rare teas delivered monthly.",
+    "desc_id": "Kopi spesial dan teh langka pilihan untuk setahun, dikirim tiap bulan.",
+    "kategori": "minuman",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Nasi Kucing with Anchovy Sambal",
+    "name_id": "Nasi Kucing Sambal Teri",
+    "desc_en": "A pocket-size rice wrap with spicy anchovy sambal for midnight hunger.",
+    "desc_id": "Nasi bungkus mungil dengan sambal teri pedas untuk lapar tengah malammu.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Complete Chicken Congee",
+    "name_id": "Bubur Ayam Komplit",
+    "desc_en": "Warm rice porridge topped with shredded chicken, egg, and crackers.",
+    "desc_id": "Bubur hangat dengan suwiran ayam, telur, dan kerupuk di atasnya.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Fried Stuffed Tofu Fritters",
+    "name_id": "Tahu Isi Gorengan",
+    "desc_en": "Crispy stuffed tofu fritters dipped in fresh green chili sauce.",
+    "desc_id": "Tahu isi renyah dicocol sambal cabai hijau segar.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Nasi Uduk with Fried Chicken",
+    "name_id": "Nasi Uduk Ayam Goreng",
+    "desc_en": "Coconut-milk rice with crispy fried chicken and sambal terasi.",
+    "desc_id": "Nasi uduk gurih dengan ayam goreng renyah dan sambal terasi.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Jakarta Ketoprak Salad",
+    "name_id": "Ketoprak Jakarta",
+    "desc_en": "Rice noodle salad with tofu, beansprouts, and warm peanut sauce.",
+    "desc_id": "Ketoprak dengan tahu, tauge, dan bumbu kacang hangat.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Bandung Steamed Siomay",
+    "name_id": "Siomay Bandung",
+    "desc_en": "Steamed fish dumplings with peanut sauce and a squeeze of lime.",
+    "desc_id": "Siomay ikan kukus dengan bumbu kacang dan perasan jeruk limau.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Malang Meatball Soup",
+    "name_id": "Bakso Malang",
+    "desc_en": "Beef meatball soup with tofu, dumplings, and fried shallots.",
+    "desc_id": "Bakso sapi lengkap dengan tahu, siomay, dan bawang goreng.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Chicken Noodle with Wonton",
+    "name_id": "Mie Ayam Pangsit",
+    "desc_en": "Springy egg noodles with braised chicken and crispy wontons.",
+    "desc_id": "Mie ayam kenyal dengan ayam kecap dan pangsit goreng renyah.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Special Fried Rice Plate",
+    "name_id": "Nasi Goreng Spesial",
+    "desc_en": "Wok-fried rice with chicken, prawn, egg, and pickled cucumber.",
+    "desc_id": "Nasi goreng dengan ayam, udang, telur, dan acar timun.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Madura Chicken Satay",
+    "name_id": "Sate Ayam Madura",
+    "desc_en": "Ten skewers of grilled chicken satay with peanut sauce and lontong.",
+    "desc_id": "Sepuluh tusuk sate ayam dengan bumbu kacang dan lontong.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Complete Gado-Gado",
+    "name_id": "Gado-Gado Komplit",
+    "desc_en": "Vegetable salad with boiled egg, tofu, and thick peanut dressing.",
+    "desc_id": "Gado-gado dengan telur rebus, tahu, dan saus kacang kental.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Magelang Ketupat Tofu Salad",
+    "name_id": "Kupat Tahu Magelang",
+    "desc_en": "Rice cake and fried tofu in sweet soy and peanut sauce.",
+    "desc_id": "Kupat dan tahu goreng dalam kuah kecap manis dan bumbu kacang.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Lamongan Chicken Soto",
+    "name_id": "Soto Ayam Lamongan",
+    "desc_en": "Yellow chicken soup with rice cake, egg, and koya powder.",
+    "desc_id": "Soto ayam kuah kuning dengan lontong, telur, dan bubuk koya.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Fried Catfish with Sambal",
+    "name_id": "Pecel Lele Sambal",
+    "desc_en": "Crispy fried catfish with fiery sambal and fresh vegetables.",
+    "desc_id": "Lele goreng garing dengan sambal pedas dan lalapan segar.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Padang Takeaway Rice Box",
+    "name_id": "Nasi Padang Bungkus",
+    "desc_en": "A takeaway box of spicy Padang dishes with rice and curry sauce.",
+    "desc_id": "Nasi bungkus lauk Padang pedas dengan kuah gulai.",
+    "kategori": "makanan",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Smashed Fried Chicken with Sambal",
+    "name_id": "Ayam Geprek Sambal Bawang",
+    "desc_en": "Crushed crispy chicken in garlic sambal, served with warm rice.",
+    "desc_id": "Ayam goreng geprek dengan sambal bawang dan nasi hangat.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Complete Gudeg Plate",
+    "name_id": "Gudeg Komplit",
+    "desc_en": "Sweet young jackfruit stew with rice, egg, and spicy krecek.",
+    "desc_id": "Gudeg manis dengan nasi, telur, dan krecek pedas.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Solo Liwet Rice Plate",
+    "name_id": "Nasi Liwet Solo",
+    "desc_en": "Savory coconut rice with shredded chicken, egg, and areh broth.",
+    "desc_id": "Nasi liwet gurih dengan ayam suwir, telur, dan kuah areh.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Coto Makassar Beef Soup",
+    "name_id": "Coto Makassar",
+    "desc_en": "Makassar-style beef soup in peanut broth, served with ketupat.",
+    "desc_id": "Soto daging khas Makassar berkuah kacang, disajikan dengan ketupat.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Padang Style Beef Satay",
+    "name_id": "Sate Padang",
+    "desc_en": "Beef satay drenched in thick, spicy Padang curry sauce.",
+    "desc_id": "Sate daging sapi berlumur kuah Padang yang kental dan pedas.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Taliwang Grilled Chicken",
+    "name_id": "Ayam Bakar Taliwang",
+    "desc_en": "Charcoal-grilled chicken basted in spicy Taliwang chili paste.",
+    "desc_id": "Ayam bakar arang berbumbu cabai Taliwang yang pedas.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Aceh Beef Noodles",
+    "name_id": "Mie Aceh Daging",
+    "desc_en": "Thick noodles with beef in rich, spicy Aceh curry broth.",
+    "desc_id": "Mie tebal dengan daging sapi berkuah kari Aceh yang pedas.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Beef Black Soup Rawon",
+    "name_id": "Rawon Daging Sapi",
+    "desc_en": "Dark beef soup with keluak nuts, beansprouts, and salted egg.",
+    "desc_id": "Rawon daging berkuah kluwek dengan tauge dan telur asin.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Madura Duck Rice",
+    "name_id": "Nasi Bebek Madura",
+    "desc_en": "Tender braised duck with spicy coconut sambal over warm rice.",
+    "desc_id": "Bebek bumbu hitam empuk dengan sambal khas Madura.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Oxtail Soup Bowl",
+    "name_id": "Sop Buntut Sapi",
+    "desc_en": "Clear oxtail soup with potato, carrot, and fried shallots.",
+    "desc_id": "Sop buntut kuah bening dengan kentang, wortel, dan bawang goreng.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Personal Pepperoni Pizza",
+    "name_id": "Pizza Pepperoni Personal",
+    "desc_en": "A single-serve pepperoni pizza with mozzarella and tomato sauce.",
+    "desc_id": "Pizza pepperoni satu porsi dengan mozzarella dan saus tomat.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Honey Grilled Beef Ribs",
+    "name_id": "Iga Bakar Madu",
+    "desc_en": "Grilled beef ribs glazed in sweet honey soy, with vegetables.",
+    "desc_id": "Iga sapi bakar bermadu kecap dengan lalapan segar.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Tonkotsu Ramen Bowl",
+    "name_id": "Ramen Tonkotsu",
+    "desc_en": "Rich pork broth ramen with egg, chashu, and bamboo shoots.",
+    "desc_id": "Ramen kuah tonkotsu dengan telur, chashu, dan menma.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Beef Rendang Plate",
+    "name_id": "Rendang Daging Sapi",
+    "desc_en": "Slow-cooked beef rendang with chili sambal and warm rice.",
+    "desc_id": "Rendang daging empuk dengan sambal pedas dan nasi hangat.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Balinese Mixed Rice Plate",
+    "name_id": "Nasi Campur Bali",
+    "desc_en": "Balinese mixed rice with chicken, egg, sate lilit, and lawar.",
+    "desc_id": "Nasi campur Bali dengan ayam, telur, sate lilit, dan lawar.",
+    "kategori": "makanan",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Padang Single Portion Feast",
+    "name_id": "Nasi Padang Seporsi Lengkap",
+    "desc_en": "One plate piled with rendang, gulai, greens, and warm rice for yourself.",
+    "desc_id": "Satu porsi nasi Padang lengkap dengan rendang, gulai, dan sayur.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Crispy Duck with Sambal Plate",
+    "name_id": "Bebek Goreng Kaleyo",
+    "desc_en": "Half a crispy fried duck with green sambal and warm rice.",
+    "desc_id": "Setengah bebek goreng kremes dengan sambal ijo dan nasi hangat.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Bandung Mie Kocok Bowl",
+    "name_id": "Mie Kocok Bandung",
+    "desc_en": "Beef tendon noodle soup with beansprouts, lime, and sambal.",
+    "desc_id": "Mie kocok dengan kikil sapi, tauge, jeruk limau, dan sambal.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Padang Chili Crab Single Serving",
+    "name_id": "Kepiting Saus Padang Seporsi",
+    "desc_en": "One fresh crab in spicy Padang sauce with mantou to mop it up.",
+    "desc_id": "Satu kepiting segar saus Padang pedas dengan mantou.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Palembang Pempek Platter",
+    "name_id": "Pempek Palembang Seporsi",
+    "desc_en": "Kapal selam and keriting pempek with sour cuko sauce, single serving.",
+    "desc_id": "Pempek kapal selam dan keriting dengan cuko khas, seporsi.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Sushi Platter for One",
+    "name_id": "Sushi Set Satu Porsi",
+    "desc_en": "A dozen assorted nigiri and maki rolls plated for one person.",
+    "desc_id": "Selusin nigiri dan maki pilihan disajikan untuk satu orang.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Yakiniku Set for Two",
+    "name_id": "Set Yakiniku Berdua",
+    "desc_en": "Grill your own beef set with rice and banchan, portioned for two.",
+    "desc_id": "Set daging bakar yakiniku dengan nasi dan banchan untuk berdua.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Shabu-Shabu Set for Two",
+    "name_id": "Set Shabu-Shabu Berdua",
+    "desc_en": "Sliced beef, vegetables, and dipping sauces for one two-person pot.",
+    "desc_id": "Daging slice, sayuran, dan saus cocolan untuk satu panci berdua.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Ramen and Gyoza Set",
+    "name_id": "Set Ramen dan Gyoza",
+    "desc_en": "A tonkotsu ramen bowl with a side of pan-fried gyoza.",
+    "desc_id": "Semangkuk ramen tonkotsu dengan gyoza goreng sebagai pendamping.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Fine Dining Dinner for Two",
+    "name_id": "Makan Malam Fine Dining Berdua",
+    "desc_en": "A five-course chef menu for two at a city fine dining restaurant.",
+    "desc_id": "Lima hidangan racikan chef untuk berdua di restoran fine dining.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Sushi Omakase Counter for One",
+    "name_id": "Omakase Sushi Satu Kursi",
+    "desc_en": "Twelve pieces of chef-selected sushi at the counter, seat for one.",
+    "desc_id": "Dua belas sushi pilihan chef di kursi counter untuk satu orang.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Wagyu Yakiniku Set for Two",
+    "name_id": "Set Yakiniku Wagyu Berdua",
+    "desc_en": "Premium wagyu slices grilled at your table, portioned for two.",
+    "desc_id": "Irisan wagyu premium dibakar di meja, porsi untuk berdua.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Steakhouse Dinner for Two",
+    "name_id": "Makan Steak Berdua di Steakhouse",
+    "desc_en": "Two sirloin steaks with sides and sauce at a proper steakhouse.",
+    "desc_id": "Dua sirloin steak dengan side dan saus di steakhouse pilihan.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Private Chef Dinner for Two",
+    "name_id": "Makan Malam Private Chef Berdua",
+    "desc_en": "A chef cooks a five-course dinner in your own home for two.",
+    "desc_id": "Chef memasak lima hidangan di rumahmu sendiri untuk berdua.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Nusantara Tasting Menu for Two",
+    "name_id": "Tasting Menu Nusantara Berdua",
+    "desc_en": "Twelve small Indonesian dishes served as a tasting menu for two.",
+    "desc_id": "Dua belas hidangan kecil Nusantara sebagai tasting menu berdua.",
+    "kategori": "makanan",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Wagyu A5 Striploin Steak Dinner for Two",
+    "name_id": "Makan Malam Steak Wagyu A5 Berdua",
+    "desc_en": "Tender Japanese Wagyu A5 steaks served with gourmet sides for two.",
+    "desc_id": "Steak Wagyu A5 Jepang super empuk dengan hidangan pelengkap berdua.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Premium Alaskan King Crab Dinner for Two",
+    "name_id": "Makan Malam Kepiting Raja Alaska Berdua",
+    "desc_en": "Steamed Alaskan king crab legs with garlic butter sauce for two.",
+    "desc_id": "Kaki kepiting raja Alaska kukus dengan saus mentega bawang putih berdua.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Japanese Kaiseki Full Course for Two",
+    "name_id": "Jamuan Lengkap Kaiseki Jepang Berdua",
+    "desc_en": "An authentic nine-dish seasonal kaiseki feast crafted for two guests.",
+    "desc_id": "Jamuan musim otentik sembilan hidangan kaiseki untuk dua orang.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Omakase Sushi for Two",
+    "name_id": "Omakase Sushi Berdua",
+    "desc_en": "Fifteen courses of omakase sushi for you and a friend.",
+    "desc_id": "Lima belas hidangan omakase sushi untukmu dan seorang teman.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Private Dining Room for Two",
+    "name_id": "Private Room Fine Dining Berdua",
+    "desc_en": "A private dining room with a chef tasting menu for two.",
+    "desc_id": "Ruang makan privat dengan tasting menu chef untuk berdua.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Wagyu Tasting Dinner for Two",
+    "name_id": "Makan Malam Wagyu Berdua",
+    "desc_en": "A multi-course wagyu tasting dinner for two at a premium steakhouse.",
+    "desc_id": "Makan malam tasting wagyu multi-hidangan untuk berdua.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Whole Roasted Suckling Lamb Mini Feast",
+    "name_id": "Jamuan Mini Kambing Guling Muda",
+    "desc_en": "A slow-roasted whole young lamb served with rice and sambal for your family.",
+    "desc_id": "Kambing muda panggang empuk dengan nasi dan aneka sambal untuk keluarga.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Chef's Table for Two",
+    "name_id": "Chef's Table Berdua",
+    "desc_en": "Ten courses served at the chef's counter for you and a friend.",
+    "desc_id": "Sepuluh hidangan di chef's table untukmu dan seorang teman.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Monthly Clean Eating Meal Prep Plan",
+    "name_id": "Langganan Meal Prep Makanan Sehat Sebulan",
+    "desc_en": "A full month of chef-prepared wholesome clean meals delivered daily.",
+    "desc_id": "Satu bulan penuh makanan sehat bersih racikan koki diantar tiap hari.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Month Organic Diet Meal Plan",
+    "name_id": "Langganan Katering Diet Organik Dua Bulan",
+    "desc_en": "Two months of certified organic diet lunches and dinners for one person.",
+    "desc_id": "Dua bulan makan siang dan malam diet organik bersertifikat untuk sendiri.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Private Chef Weekly Meal Service",
+    "name_id": "Layanan Masak Private Chef Mingguan",
+    "desc_en": "A chef prepares your weekly meals at home for a month, personal portions.",
+    "desc_id": "Chef menyiapkan makanan mingguan di rumahmu selama sebulan, porsi sendiri.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Luxury Seafood Banquet for Two",
+    "name_id": "Jamuan Makanan Laut Mewah Berdua",
+    "desc_en": "Grilled lobsters, tiger prawns, and whole grouper with Balinese sambal.",
+    "desc_id": "Lobster bakar, udang windu, dan kerapu utuh dengan sambal khas Bali berdua.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Premium Australian Ribeye 5kg Pack",
+    "name_id": "Paket Daging Ribeye Australia 5kg",
+    "desc_en": "Five kilograms of chilled grain-fed Australian ribeye steaks for home grilling.",
+    "desc_id": "Lima kilogram daging steak ribeye Australia segar untuk stok pangganganmu.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Three-Month Premium Gourmet Catering Plan",
+    "name_id": "Langganan Katering Gourmet Tiga Bulan",
+    "desc_en": "Three months of gourmet artisan dinners delivered to your home every weekday.",
+    "desc_id": "Tiga bulan makan malam gourmet lezat diantar ke rumah setiap hari kerja.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Grand Chef Tasting for Two",
+    "name_id": "Grand Tasting Chef untuk Berdua",
+    "desc_en": "A sixteen-course signature tasting menu for two at the city's best.",
+    "desc_id": "Enam belas hidangan tasting menu untuk berdua di restoran terbaik.",
+    "kategori": "makanan",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Shrimp Cracker Pack",
+    "name_id": "Kerupuk Udang Sekantong",
+    "desc_en": "A crispy pack of shrimp crackers to crunch through while you work.",
+    "desc_id": "Sekantong kerupuk udang renyah untuk camilan sambil kerjamu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Sunflower Seed Pouch",
+    "name_id": "Kuaci Bunga Matahari Sekantong",
+    "desc_en": "A pouch of roasted sunflower seeds for your slow afternoons.",
+    "desc_id": "Sekantong kuaci bunga matahari panggang untuk sore santaimu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Mint Candy Tin",
+    "name_id": "Permen Mint Kaleng Kecil",
+    "desc_en": "A small tin of mint candy that keeps your breath fresh all day.",
+    "desc_id": "Kaleng kecil permen mint yang menjaga napas segar seharianmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Coconut Biscuit Tin",
+    "name_id": "Biskuit Kelapa Kaleng Kecil",
+    "desc_en": "A little tin of coconut biscuits to dunk in your evening tea.",
+    "desc_id": "Kaleng kecil biskuit kelapa untuk dicelup ke teh soremu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Chocolate Wafer Bar",
+    "name_id": "Wafer Cokelat Sebatang",
+    "desc_en": "One chocolate wafer bar for when your desk drawer needs rescuing.",
+    "desc_id": "Sebatang wafer cokelat saat laci mejamu butuh penyelamat.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Spicy Cassava Chips",
+    "name_id": "Keripik Singkong Pedas",
+    "desc_en": "A pack of spicy cassava chips hot enough to wake up your tongue.",
+    "desc_id": "Sekantong keripik singkong pedas yang membangunkan lidahmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Three Bamboo Putu Cakes",
+    "name_id": "Kue Putu Bambu Tiga Biji",
+    "desc_en": "Three warm putu cakes with palm sugar melting in your mouth.",
+    "desc_id": "Tiga kue putu hangat dengan gula merah yang meleleh di mulutmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Palm Sugar Klepon",
+    "name_id": "Klepon Gula Aren",
+    "desc_en": "Chewy klepon balls that burst with palm sugar on your first bite.",
+    "desc_id": "Klepon kenyal yang meletuskan gula aren di gigitan pertamamu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Three Crispy Fried Bananas",
+    "name_id": "Pisang Goreng Crispy Tiga Buah",
+    "desc_en": "Three crispy fried bananas you should eat while they are hot.",
+    "desc_id": "Tiga pisang goreng crispy, paling enak kamu makan saat masih panas.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Small Tahu Gejrot",
+    "name_id": "Tahu Gejrot Porsi Kecil",
+    "desc_en": "A small bowl of tahu gejrot soaked in your favorite sour sauce.",
+    "desc_id": "Semangkuk kecil tahu gejrot bermandi kuah asam manis favoritmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Cireng with Rujak Dip",
+    "name_id": "Cireng Bumbu Rujak",
+    "desc_en": "Fried tapioca bites you dip into tangy rujak sauce.",
+    "desc_id": "Cireng goreng yang kamu cocol ke saus rujak asam segar.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Palm Sugar Lupis Cake",
+    "name_id": "Lupis Gula Merah",
+    "desc_en": "Chewy lupis rolls coated in grated coconut for your tea break.",
+    "desc_id": "Lupis kenyal berlumur kelapa parut dan gula merah, teman tehmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Five Cilok in Broth",
+    "name_id": "Cilok Kuah Lima Tusuk",
+    "desc_en": "Five chewy cilok skewers you dip into a warm peanut broth.",
+    "desc_id": "Lima tusuk cilok kenyal yang kamu cocol ke kuah kacang hangat.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Chocolate Cheese Kue Cubit",
+    "name_id": "Kue Cubit Cokelat Keju",
+    "desc_en": "Bite-sized kue cubit topped with chocolate and cheese for you.",
+    "desc_id": "Kue cubit mungil bertabur cokelat dan keju meleleh untuk camilanmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Five Grilled Otak-Otak",
+    "name_id": "Otak-Otak Bakar Lima Tusuk",
+    "desc_en": "Five grilled otak-otak skewers you dip into sweet peanut sauce.",
+    "desc_id": "Lima tusuk otak-otak bakar dengan saus kacang manis kesukaanmu.",
+    "kategori": "snack",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Mixed Fritters Ten Pieces",
+    "name_id": "Gorengan Campur Sepuluh Biji",
+    "desc_en": "Ten mixed fritters you pick straight from the afternoon cart.",
+    "desc_id": "Sepuluh gorengan campur yang kamu ambil langsung dari gerobak sore.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Seblak with Chicken Feet",
+    "name_id": "Seblak Kerupuk Ceker",
+    "desc_en": "A hot bowl of seblak with crackers and chicken feet to warm you up.",
+    "desc_id": "Semangkuk seblak pedas dengan kerupuk dan ceker untuk menghangatkanmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Sweet Martabak Thick Slice",
+    "name_id": "Terang Bulan Potong Tebal",
+    "desc_en": "A thick slice of sweet martabak loaded with chocolate for you.",
+    "desc_id": "Sepotong martabak manis tebal berlumur cokelat dan kacang untukmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Five Batagor in Sauce",
+    "name_id": "Batagor Kuah Lima Buah",
+    "desc_en": "Five batagor pieces you dunk into creamy peanut sauce.",
+    "desc_id": "Lima buah batagor yang kamu cocol ke saus kacang gurih.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Bandung Siomay Small Portion",
+    "name_id": "Siomay Bandung Porsi Kecil",
+    "desc_en": "Steamed siomay you dress with peanut sauce, lime, and soy.",
+    "desc_id": "Siomay kukus yang kamu siram saus kacang, limau, dan kecap.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Crispy Tofu Chili Soy",
+    "name_id": "Tahu Crispy Sambal Kecap",
+    "desc_en": "Crispy tofu cubes you dip into fresh chili soy sauce.",
+    "desc_id": "Tahu crispy yang kamu cocol ke sambal kecap segar.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Mini Martabak Chocolate Peanut",
+    "name_id": "Martabak Mini Cokelat Kacang",
+    "desc_en": "Bite-sized martabak stuffed with chocolate for your snack.",
+    "desc_id": "Martabak mini dengan isian cokelat dan kacang tumbuk untuk camilanmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Three Fried Pastel Puffs",
+    "name_id": "Pastel Goreng Tiga Buah",
+    "desc_en": "Three fried pastel puffs with savory filling to fill you up.",
+    "desc_id": "Tiga pastel goreng dengan isian sayur gurih yang mengenyangkanmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Three Mayo Risoles",
+    "name_id": "Risoles Mayo Tiga Buah",
+    "desc_en": "Three creamy risoles with egg and mayo inside for your break.",
+    "desc_id": "Tiga risoles lembut dengan isian telur dan mayones untuk istirahatmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Submarine Pempek",
+    "name_id": "Pempek Kapal Selam",
+    "desc_en": "A big pempek stuffed with egg and served with sour sauce for you.",
+    "desc_id": "Pempek kapal selam berisi telur dengan kuah cuko asam untukmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Six Classic Sugar Donuts",
+    "name_id": "Donat Gula Klasik Enam Buah",
+    "desc_en": "Six fluffy donuts rolled in fine sugar for your coffee break.",
+    "desc_id": "Enam donat lembut yang diguling di gula halus untuk teman kopimu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Six Mentai Dimsum",
+    "name_id": "Dimsum Mentai Enam Buah",
+    "desc_en": "Six dimsum with torched mentai sauce to spoil your palate.",
+    "desc_id": "Enam dimsum dengan saus mentai yang dibakar untuk memanjakan lidahmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Srikaya Cheese Toast",
+    "name_id": "Roti Bakar Srikaya Keju",
+    "desc_en": "Grilled toast you load with pandan srikaya and melted cheese.",
+    "desc_id": "Roti bakar yang kamu isi srikaya pandan dan keju meleleh.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Two Butter Croissants",
+    "name_id": "Kroasan Mentega Dua Buah",
+    "desc_en": "Two flaky butter croissants to go with your coffee.",
+    "desc_id": "Dua kroasan mentega berlapis untuk teman kopimu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Strawberry Honey Waffle",
+    "name_id": "Wafel Madu Stroberi",
+    "desc_en": "A warm waffle with honey, strawberries, and cream on your plate.",
+    "desc_id": "Wafel hangat dengan madu, stroberi, dan krim untukmu.",
+    "kategori": "snack",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Croffle Chocolate Cheese",
+    "name_id": "Croffle Cokelat Keju",
+    "desc_en": "A warm croffle topped with melted chocolate and cheese for your treat.",
+    "desc_id": "Croffle hangat bertabur cokelat leleh dan keju untuk camilanmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Milk Pudding Boba Cup",
+    "name_id": "Puding Susu Boba Satu Cup",
+    "desc_en": "A silky milk pudding cup topped with chewy brown sugar boba.",
+    "desc_id": "Satu cup puding susu lembut dengan topping boba gula aren kenyal.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Banana Cheese Roll Pack",
+    "name_id": "Pisang Aroma Keju Sebungkus",
+    "desc_en": "A pack of banana rolls filled with cheese and chocolate for you.",
+    "desc_id": "Sebungkus pisang aroma isi keju dan cokelat untuk camilanmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Two Cheese Tarts",
+    "name_id": "Cheese Tart Dua Buah",
+    "desc_en": "Two creamy cheese tarts with a buttery crust just for you.",
+    "desc_id": "Dua cheese tart lembut dengan kulit mentega renyah untukmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Three French Macarons",
+    "name_id": "Makaron Prancis Tiga Buah",
+    "desc_en": "Three French macarons, crisp outside and chewy inside.",
+    "desc_id": "Tiga makaron Prancis, renyah di luar dan kenyal di dalam.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "One Soft Cinnamon Roll",
+    "name_id": "Cinnamon Roll Lembut Sebuah",
+    "desc_en": "One soft cinnamon roll glazed with cream cheese for your break.",
+    "desc_id": "Satu cinnamon roll lembut berlumur krim keju untuk istirahatmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Tiramisu Dessert Jar",
+    "name_id": "Tiramisu Satu Jar",
+    "desc_en": "A jar of tiramisu layered with coffee-soaked sponge and mascarpone.",
+    "desc_id": "Satu jar tiramisu berlapis sponge kopi dan mascarpone lembut.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Slice of Lapis Legit",
+    "name_id": "Lapis Legit Sepotong",
+    "desc_en": "A thick slice of rich, layer-by-layer baked lapis legit.",
+    "desc_id": "Sepotong tebal lapis legit kaya rasa yang dipanggang berlapis-lapis.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Slice of Matcha Cheesecake",
+    "name_id": "Cheesecake Matcha Sepotong",
+    "desc_en": "A slice of matcha cheesecake with a smooth green tea finish.",
+    "desc_id": "Sepotong cheesecake matcha dengan rasa teh hijau yang lembut.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Mini Basque Cheesecake",
+    "name_id": "Cheesecake Basque Mini",
+    "desc_en": "A mini Basque cheesecake with a caramelized top for you.",
+    "desc_id": "Cheesecake Basque mini dengan permukaan karamel untukmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Eight Chocolate Pralines",
+    "name_id": "Praline Cokelat Delapan Buah",
+    "desc_en": "Eight pralines filled with ganache, nuts, and caramel.",
+    "desc_id": "Delapan praline berisi ganache, kacang, dan karamel.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Three Premium Fruit Tarts",
+    "name_id": "Fruit Tart Premium Tiga Buah",
+    "desc_en": "Three fruit tarts topped with fresh fruit and custard.",
+    "desc_id": "Tiga fruit tart dengan topping buah segar dan custard lembut.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Personal Charcuterie Box",
+    "name_id": "Kotak Charcuterie Pribadi",
+    "desc_en": "A personal box of cured meats, cheese, and fruit for one.",
+    "desc_id": "Kotak charcuterie pribadi berisi daging olahan, keju, dan buah.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Single Origin Couverture Chocolate",
+    "name_id": "Cokelat Couverture Single Origin",
+    "desc_en": "A bar of single origin couverture chocolate for slow tasting.",
+    "desc_id": "Sebatang cokelat couverture single origin untuk kamu cicip pelan.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Personal Cheese and Cracker Board",
+    "name_id": "Papan Keju dan Kerupuk Pribadi",
+    "desc_en": "A personal board of camembert, brie, and crackers.",
+    "desc_id": "Papan camembert, brie, dan kerupuk porsi pribadi untukmu.",
+    "kategori": "snack",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Half Kilo Premium Chocolate",
+    "name_id": "Cokelat Premium Setengah Kilo",
+    "desc_en": "Half a kilo of assorted premium chocolate for your stash.",
+    "desc_id": "Setengah kilo aneka cokelat premium untuk stok camilanmu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Twenty Piece Praline Box",
+    "name_id": "Kotak Praline Dua Puluh Buah",
+    "desc_en": "Twenty handcrafted pralines boxed for your own treat.",
+    "desc_id": "Dua puluh praline buatan tangan dalam kotak untuk camilanmu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Whole Basque Cheesecake",
+    "name_id": "Cheesecake Basque Utuh",
+    "desc_en": "A whole Basque cheesecake you can enjoy over the week.",
+    "desc_id": "Cheesecake Basque utuh yang bisa kamu nikmati sepanjang minggu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Whole Fudgy Brownie Tray",
+    "name_id": "Brownies Fudgy Satu Loyang",
+    "desc_en": "A whole tray of dense fudge brownies all for you.",
+    "desc_id": "Satu loyang penuh brownies fudge padat untukmu sendiri.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Whole Premium Lapis Legit",
+    "name_id": "Lapis Legit Premium Utuh",
+    "desc_en": "A whole premium lapis legit cake baked layer by layer.",
+    "desc_id": "Lapis legit premium utuh yang dipanggang berlapis-lapis.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Frozen Dimsum Stock Box",
+    "name_id": "Stok Dimsum Frozen Satu Box",
+    "desc_en": "A box of frozen premium dimsum to steam whenever you like.",
+    "desc_id": "Satu box dimsum premium frozen, tinggal kukus kapan kamu mau.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Imported Cheese Tasting Box",
+    "name_id": "Kotak Cita Rasa Keju Impor",
+    "desc_en": "A box of imported cheeses to taste at your own pace.",
+    "desc_id": "Kotak aneka keju impor untuk kamu cicip sesuai selera.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Single Origin Chocolate Collection",
+    "name_id": "Koleksi Cokelat Single Origin",
+    "desc_en": "A collection of single origin chocolate bars for your tasting.",
+    "desc_id": "Koleksi cokelat single origin untuk kamu cicipi satu per satu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Twelve Piece Macaron Box",
+    "name_id": "Kotak Makaron Dua Belas Buah",
+    "desc_en": "A box of twelve macarons in assorted flavors for you.",
+    "desc_id": "Satu kotak dua belas makaron aneka rasa untukmu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "One Liter Gelato Tub",
+    "name_id": "Gelato Satu Liter",
+    "desc_en": "A one liter tub of gelato in your favorite flavors.",
+    "desc_id": "Satu liter gelato dalam rasa favoritmu untuk disimpan di rumah.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Whole Strawberry Shortcake",
+    "name_id": "Strawberry Shortcake Utuh",
+    "desc_en": "A whole strawberry shortcake with fresh cream for you.",
+    "desc_id": "Strawberry shortcake utuh dengan krim segar untukmu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Imported Snack Selection Box",
+    "name_id": "Kotak Camilan Impor Pilihan",
+    "desc_en": "A box of imported snacks hand-picked for your pantry.",
+    "desc_id": "Kotak camilan impor pilihan untuk stok camilanmu di rumah.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Korean Snack Tasting Box",
+    "name_id": "Kotak Camilan Korea Pilihan",
+    "desc_en": "A box of popular Korean snacks for your movie nights.",
+    "desc_id": "Kotak camilan Korea populer untuk menemani nontonmu.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "One Kilo Artisan Chocolate",
+    "name_id": "Cokelat Artisan Satu Kilo",
+    "desc_en": "A kilo of artisan chocolate crafted for the true sweet tooth.",
+    "desc_id": "Satu kilo cokelat artisan untuk pencinta manis sejati.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Premium Dessert Tasting Box",
+    "name_id": "Kotak Cicip Dessert Premium",
+    "desc_en": "A premium dessert tasting box with an assortment of sweets.",
+    "desc_id": "Kotak cicip dessert premium berisi aneka hidangan manis pilihan.",
+    "kategori": "snack",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Dish Soap Refill 200 ml",
+    "name_id": "Sabun Cuci Piring Refill 200 ml",
+    "desc_en": "A pouch of dish soap to keep your plates and sink clean.",
+    "desc_id": "Sabun cuci piring isi ulang biar piring dan wastafelmu bersih.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Facial Tissue Box 250 Sheets",
+    "name_id": "Kotak Tisu Wajah 250 Lembar",
+    "desc_en": "A box of soft tissues for your desk, room, or bag.",
+    "desc_id": "Satu kotak tisu lembut buat meja, kamar, atau tasmu.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Black Pilot Pens Three Pack",
+    "name_id": "Pulpen Pilot Hitam Isi Tiga",
+    "desc_en": "Three black Pilot pens that make your notes look neat.",
+    "desc_id": "Tiga pulpen Pilot hitam biar catatanmu rapi dan gampang dibaca.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Medical Masks Box Of 50",
+    "name_id": "Masker Medis Kotak Isi 50",
+    "desc_en": "A box of 50 medical masks to keep you protected on busy days.",
+    "desc_id": "Satu kotak masker medis isi 50 biar kamu tetap aman di luar.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "School Notebook 58 Pages",
+    "name_id": "Buku Tulis Sinar Dunia 58 Lembar",
+    "desc_en": "A 58 page notebook ready for your class and meeting notes.",
+    "desc_id": "Buku tulis 58 lembar siap dipakai buat catatan kuliah dan rapat.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "One Kilo Chicken Eggs",
+    "name_id": "Telur Ayam Negeri 1 Kg",
+    "desc_en": "One kilo of fresh eggs to stock up your kitchen this week.",
+    "desc_id": "Telur ayam segar satu kilo buat stok dapur seminggu ini.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Lifebuoy Soap Four Bar Pack",
+    "name_id": "Sabun Lifebuoy Batang Isi Empat",
+    "desc_en": "Four bars of antibacterial soap to keep your bath routine going.",
+    "desc_id": "Sabun antibakteri isi empat batang buat stok mandi bulan ini.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Alkaline AA Batteries Eight Pack",
+    "name_id": "Baterai AA Alkaline Isi Delapan",
+    "desc_en": "Eight AA batteries so your remotes and clocks keep running.",
+    "desc_id": "Baterai AA isi delapan biar remote dan jam dindingmu tetap jalan.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Two Pack Toothbrushes",
+    "name_id": "Sikat Gigi Isi Dua",
+    "desc_en": "Two fresh toothbrushes to swap in when your old one wears out.",
+    "desc_id": "Dua sikat gigi baru buat ganti yang lama sudah waktunya pensiun.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Thick Cotton Bath Towel",
+    "name_id": "Handuk Mandi Katun Tebal",
+    "desc_en": "A thick cotton towel that dries fast and feels soft on your skin.",
+    "desc_id": "Handuk katun tebal yang cepat kering dan lembut di kulitmu.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "One Kilo Powder Detergent",
+    "name_id": "Deterjen Bubuk Satu Kilo",
+    "desc_en": "A kilo of washing powder to get you through a month of laundry.",
+    "desc_id": "Deterjen bubuk satu kilo buat sebulan penuh cuci baju.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Five Pack Microfiber Cloths",
+    "name_id": "Kain Lap Microfiber Isi Lima",
+    "desc_en": "Five microfiber cloths that make wiping and cleaning much easier.",
+    "desc_id": "Lima kain microfiber biar bersih-bersih jadi jauh lebih gampang.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Foldable UV Umbrella",
+    "name_id": "Payung Lipat Anti UV",
+    "desc_en": "A compact umbrella that keeps you dry and shaded all year.",
+    "desc_id": "Payung lipat ringkas yang jaga kamu dari hujan dan panas terik.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "One Litre Tritan Water Bottle",
+    "name_id": "Botol Minum Tritan Satu Liter",
+    "desc_en": "A one litre bottle to help you drink more water every day.",
+    "desc_id": "Botol satu liter biar kamu lebih rajin minum air putih tiap hari.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Twenty Plastic Clothes Hangers",
+    "name_id": "Gantungan Baju Plastik Isi Dua Puluh",
+    "desc_en": "Twenty sturdy hangers to finally tidy up your wardrobe.",
+    "desc_id": "Dua puluh gantungan kuat biar lemari pakaianmu akhirnya rapi.",
+    "kategori": "barang",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "750 ml Stainless Tumbler",
+    "name_id": "Tumbler Stainless 750 ml",
+    "desc_en": "A stainless tumbler that keeps your drink cold through the day.",
+    "desc_id": "Tumbler stainless yang bikin minumanmu tetap dingin seharian.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "10,000 mAh Power Bank",
+    "name_id": "Powerbank 10.000 mAh",
+    "desc_en": "A 10,000 mAh power bank to keep your phone alive on the go.",
+    "desc_id": "Powerbank 10.000 mAh biar ponselmu nggak mati di perjalanan.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Wireless TWS Earbuds",
+    "name_id": "Headset Bluetooth TWS",
+    "desc_en": "Wireless earbuds for calls and playlists without tangled cables.",
+    "desc_id": "Earbuds nirkabel buat telepon dan dengar lagu tanpa kabel kusut.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Cosmos Desk Fan",
+    "name_id": "Kipas Angin Meja Cosmos",
+    "desc_en": "A desk fan that keeps your room cool during hot afternoons.",
+    "desc_id": "Kipas angin meja yang bikin kamarmu adem saat siang panas.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Local Brand Men's Sneakers",
+    "name_id": "Sepatu Sneakers Lokal Pria",
+    "desc_en": "A pair of local sneakers that go with almost any outfit.",
+    "desc_id": "Sepatu sneakers lokal yang cocok dipadukan dengan outfit apa saja.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Waterproof Laptop Backpack",
+    "name_id": "Tas Ransel Laptop Anti Air",
+    "desc_en": "A water resistant backpack with a padded slot for your laptop.",
+    "desc_id": "Ransel tahan air dengan slot berlapis busa khusus laptopmu.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Philips Electric Iron",
+    "name_id": "Setrika Listrik Philips",
+    "desc_en": "A Philips iron that makes your work shirts look sharp again.",
+    "desc_id": "Setrika Philips yang bikin kemeja kerjamu rapi kembali.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Four Tier Shoe Rack",
+    "name_id": "Rak Sepatu Susun Empat",
+    "desc_en": "A four tier rack that finally gives all your shoes a home.",
+    "desc_id": "Rak empat tingkat biar semua sepatumu akhirnya punya tempat.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Miyako Three Jar Blender",
+    "name_id": "Blender Miyako Tiga Gelas",
+    "desc_en": "A three jar blender for smoothies, sambal, and daily cooking.",
+    "desc_id": "Blender tiga gelas buat bikin jus, sambal, dan masak harian.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "LED Desk Study Lamp",
+    "name_id": "Lampu Belajar LED Meja",
+    "desc_en": "An LED desk lamp that is easy on your eyes for late reading.",
+    "desc_id": "Lampu meja LED yang nyaman di mata buat baca sampai malam.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Melamine Dining Set",
+    "name_id": "Set Peralatan Makan Melamin",
+    "desc_en": "A melamine dining set that makes family meals feel tidy.",
+    "desc_id": "Set makan melamin biar acara makan keluarga terasa lebih rapi.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Miyako One Litre Rice Cooker",
+    "name_id": "Rice Cooker Miyako Satu Liter",
+    "desc_en": "A one litre rice cooker so warm rice is ready whenever you are.",
+    "desc_id": "Rice cooker satu liter biar nasi hangat selalu siap kapan pun.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Full Face SNI Helmet",
+    "name_id": "Helm SNI Full Face",
+    "desc_en": "A certified full face helmet to keep your daily ride safe.",
+    "desc_id": "Helm full face ber-SNI biar perjalanan harianmu lebih aman.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Synthetic Leather Work Bag",
+    "name_id": "Tas Kerja Kulit Sintetis",
+    "desc_en": "A sleek work bag that carries your laptop and documents.",
+    "desc_id": "Tas kerja elegan buat bawa laptop dan berkas dokumenmu.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Casio Analog Wristwatch",
+    "name_id": "Jam Tangan Casio Analog",
+    "desc_en": "A Casio analog watch that fits both work and weekend looks.",
+    "desc_id": "Jam tangan Casio analog yang cocok buat kerja maupun akhir pekan.",
+    "kategori": "barang",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Electric Hand Mixer",
+    "name_id": "Mixer Tangan Listrik",
+    "desc_en": "A hand mixer to whip eggs and batter without sore arms.",
+    "desc_id": "Mixer tangan buat kocok telur dan adonan tanpa pegal.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Nonstick Cookware Set",
+    "name_id": "Set Panci Anti Lengket",
+    "desc_en": "A nonstick pot and pan set for everyday home cooking.",
+    "desc_id": "Set panci dan wajan anti lengket buat masak harian di rumah.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Mini Bookshelf",
+    "name_id": "Rak Buku Mini",
+    "desc_en": "A small shelf that gives your books and plants a tidy spot.",
+    "desc_id": "Rak kecil biar buku dan tanamanmu punya tempat rapi.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Electric Kettle 1.8 Litre",
+    "name_id": "Teko Listrik 1,8 Liter",
+    "desc_en": "A stainless kettle that boils water in a few minutes.",
+    "desc_id": "Teko stainless yang mendidihkan air cuma beberapa menit.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Manual Coffee Grinder",
+    "name_id": "Gilingan Kopi Manual",
+    "desc_en": "A hand grinder for a fresh cup of coffee every morning.",
+    "desc_id": "Gilingan kopi manual buat kopi segar tiap pagi.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Yoga Mat and Dumbbell Set",
+    "name_id": "Matras Yoga dan Set Dumbbell",
+    "desc_en": "A mat and a pair of dumbbells for workouts at home.",
+    "desc_id": "Matras dan sepasang dumbbell buat olahraga di rumah.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Badminton Racket Set",
+    "name_id": "Set Raket Badminton",
+    "desc_en": "A racket pair with a bag for weekend games with a friend.",
+    "desc_id": "Sepasang raket dengan tas buat main akhir pekan sama teman.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Mechanical Gaming Keyboard",
+    "name_id": "Keyboard Mekanik Gaming",
+    "desc_en": "A mechanical keyboard that makes typing and gaming feel better.",
+    "desc_id": "Keyboard mekanik yang bikin ngetik dan main game lebih enak.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Hair Dryer",
+    "name_id": "Pengering Rambut",
+    "desc_en": "A hair dryer with heat settings for quick morning styling.",
+    "desc_id": "Pengering rambut dengan atur suhu buat styling pagi cepat.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Beard Trimmer",
+    "name_id": "Alat Cukur Kumis dan Jenggot",
+    "desc_en": "A rechargeable trimmer for a neat beard and hairline.",
+    "desc_id": "Trimmer isi ulang biar kumis dan jenggotmu rapi.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Fishing Rod and Reel Combo",
+    "name_id": "Set Pancing dan Reel",
+    "desc_en": "A rod and reel set ready for a calm day by the water.",
+    "desc_id": "Set pancing dan reel siap buat hari santai di pinggir air.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Mini Massage Gun",
+    "name_id": "Alat Pijat Getar Mini",
+    "desc_en": "A small massage gun to loosen tight muscles after work.",
+    "desc_id": "Alat pijat getar kecil buat melepas otot kaku habis kerja.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Gaming Headset with Mic",
+    "name_id": "Headset Gaming dengan Mic",
+    "desc_en": "A gaming headset with a clear mic for calls and late sessions.",
+    "desc_id": "Headset gaming dengan mic jernih buat telepon dan main malam.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Electric Air Fryer 2 Litre",
+    "name_id": "Air Fryer Listrik 2 Liter",
+    "desc_en": "A two litre air fryer for crispy food with less oil.",
+    "desc_id": "Air fryer dua liter buat masakan renyah dengan minyak sedikit.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Leather Formal Shoes",
+    "name_id": "Sepatu Kulit Formal",
+    "desc_en": "A pair of leather shoes that looks sharp for work.",
+    "desc_id": "Sepasang sepatu kulit yang bikin penampilan kerjamu rapi.",
+    "kategori": "barang",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Portable Washing Machine 3 Kg",
+    "name_id": "Mesin Cuci Portabel 3 Kg",
+    "desc_en": "A compact washer for your room, dorm, or small flat.",
+    "desc_id": "Mesin cuci ringkas buat kamar, kos, atau kontrakan kecil.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Jet Water Pump",
+    "name_id": "Pompa Air Jet Pump",
+    "desc_en": "A water pump that keeps the flow steady at every tap.",
+    "desc_id": "Pompa air biar aliran air di semua keran tetap lancar.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Portable Sewing Machine",
+    "name_id": "Mesin Jahit Portable",
+    "desc_en": "A portable sewing machine for repairs and small projects.",
+    "desc_id": "Mesin jahit portabel buat perbaikan dan proyek kecil.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Home CCTV 4-Channel Kit",
+    "name_id": "Paket CCTV Rumah 4 Kanal",
+    "desc_en": "A four camera CCTV kit to watch over your home.",
+    "desc_id": "Paket CCTV empat kamera buat mengawasi rumahmu.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Electric Oven 30 Litre",
+    "name_id": "Oven Listrik 30 Liter",
+    "desc_en": "A 30 litre oven for baking bread and roasting at home.",
+    "desc_id": "Oven 30 liter buat bikin roti dan memanggang di rumah.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Portable Karaoke Speaker",
+    "name_id": "Speaker Karaoke Portabel",
+    "desc_en": "A loud speaker with a mic for karaoke nights at home.",
+    "desc_id": "Speaker keras dengan mic buat malam karaoke di rumah.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Portable Air Cooler",
+    "name_id": "Pendingin Udara Portabel",
+    "desc_en": "An air cooler that takes the edge off hot afternoons.",
+    "desc_id": "Pendingin udara portabel yang bikin siang panas lebih adem.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "24-Inch LED TV",
+    "name_id": "TV LED 24 Inci",
+    "desc_en": "A 24 inch LED TV that fits a bedroom or small room.",
+    "desc_id": "TV LED 24 inci yang pas buat kamar atau ruangan kecil.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Static Exercise Bike",
+    "name_id": "Sepeda Statis",
+    "desc_en": "A static bike for cardio without leaving the house.",
+    "desc_id": "Sepeda statis buat kardio tanpa perlu keluar rumah.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "4K Action Camera",
+    "name_id": "Kamera Aksi 4K",
+    "desc_en": "An action camera to capture rides, dives, and trips.",
+    "desc_id": "Kamera aksi buat merekam gowes, diving, dan travelling.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Home Espresso Machine",
+    "name_id": "Mesin Kopi Espresso Rumahan",
+    "desc_en": "A home espresso machine so your morning coffee costs less.",
+    "desc_id": "Mesin espresso rumahan biar kopi pagimu lebih hemat.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Mini Fridge 100 Litre",
+    "name_id": "Kulkas Mini 100 Liter",
+    "desc_en": "A mini fridge to keep drinks and food cold in your room.",
+    "desc_id": "Kulkas mini buat jaga minuman dan makanan tetap dingin di kamarmu.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Yamaha F310 Acoustic Guitar",
+    "name_id": "Gitar Akustik Yamaha F310",
+    "desc_en": "A Yamaha acoustic guitar to finally play your favourite songs.",
+    "desc_id": "Gitar akustik Yamaha buat akhirnya main lagu favoritmu.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Polygon Mountain Bike 27.5",
+    "name_id": "Sepeda Gunung Polygon 27,5",
+    "desc_en": "An entry mountain bike for weekend rides out of town.",
+    "desc_id": "Sepeda gunung entry level buat gowes akhir pekan ke luar kota.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "Redmi 13C 128GB Smartphone",
+    "name_id": "Ponsel Redmi 13C 128GB",
+    "desc_en": "An affordable phone upgrade with a big screen and battery.",
+    "desc_id": "Upgrade ponsel terjangkau dengan layar dan baterai lega.",
+    "kategori": "barang",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "30-Minute Arcade Play",
+    "name_id": "Main Arcade 30 Menit",
+    "desc_en": "A quick arcade run to burn tokens and beat your own high score.",
+    "desc_id": "Main arcade sebentar buat habiskan token dan kalahkan skor sendiri.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "One-Hour Karaoke Room",
+    "name_id": "Karaoke Satu Jam",
+    "desc_en": "Book a karaoke room for an hour and sing your favorite songs loud.",
+    "desc_id": "Sewa ruang karaoke satu jam dan nyanyikan lagu favoritmu sepuasnya.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "One-Hour Billiard Table",
+    "name_id": "Sewa Meja Biliar Satu Jam",
+    "desc_en": "Rent a billiard table for an hour and settle a score with a friend.",
+    "desc_id": "Sewa meja biliar satu jam dan adu jago sama temanmu.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 50,
+    "active": true
+  },
+  {
+    "name_en": "Single Ferris Wheel Ride",
+    "name_id": "Naik Komidi Putar",
+    "desc_en": "One ride on the ferris wheel with a view over the whole city.",
+    "desc_id": "Sekali naik komidi putar sambil lihat pemandangan kota dari atas.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Public Pool Entry Ticket",
+    "name_id": "Tiket Masuk Kolam Renang",
+    "desc_en": "Spend an afternoon swimming laps at your neighborhood pool.",
+    "desc_id": "Habiskan sore berenang di kolam renang dekat rumahmu.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 75,
+    "active": true
+  },
+  {
+    "name_en": "Regular Cinema Ticket",
+    "name_id": "Tiket Bioskop Reguler",
+    "desc_en": "Catch the newest film at your usual cinema, popcorn optional.",
+    "desc_id": "Nonton film terbaru di bioskop langgananmu, popcorn opsional.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Barbershop Haircut Session",
+    "name_id": "Potong Rambut di Barbershop",
+    "desc_en": "A fresh cut and a clean shave at the barbershop down the street.",
+    "desc_id": "Potong rambut dan cukur rapi di barbershop dekat rumah.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "Simple Manicure and Pedicure",
+    "name_id": "Manikur Pedikur Sederhana",
+    "desc_en": "Clean up your nails with a simple manicure and pedicure.",
+    "desc_id": "Rapikan kuku tangan dan kaki dengan manikur pedikur sederhana.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 100,
+    "active": true
+  },
+  {
+    "name_en": "One-Hour Badminton Court",
+    "name_id": "Sewa Lapangan Badminton Satu Jam",
+    "desc_en": "Book a badminton court for an hour and sweat it out.",
+    "desc_id": "Sewa lapangan badminton satu jam dan keringatan bareng teman.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "Bicycle Rental Around Town",
+    "name_id": "Sewa Sepeda Keliling Kota",
+    "desc_en": "Rent a bicycle and roll around town at your own pace.",
+    "desc_id": "Sewa sepeda dan keliling kota santai tanpa buru-buru.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 125,
+    "active": true
+  },
+  {
+    "name_en": "One-Hour Futsal Court",
+    "name_id": "Sewa Lapangan Futsal Satu Jam",
+    "desc_en": "Grab a futsal court for an hour and play a full match.",
+    "desc_id": "Sewa lapangan futsal satu jam dan main satu pertandingan penuh.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Local Museum Entry Ticket",
+    "name_id": "Tiket Masuk Museum Lokal",
+    "desc_en": "Spend an afternoon exploring a local museum at your own pace.",
+    "desc_id": "Habiskan sore menjelajah museum lokal dengan santai.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Two-Hour Console Rental",
+    "name_id": "Sewa PlayStation Dua Jam",
+    "desc_en": "Rent a console for two hours and play with your friends.",
+    "desc_id": "Sewa PlayStation dua jam dan main bareng teman-temanmu.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 150,
+    "active": true
+  },
+  {
+    "name_en": "Evening Night Market Walk",
+    "name_id": "Jalan-Jalan Pasar Malam",
+    "desc_en": "Wander a night market and try whatever smells good.",
+    "desc_id": "Jalan-jalan di pasar malam dan cobain jajanan yang wanginya menggoda.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Local Gig Concert Ticket",
+    "name_id": "Tiket Konser Musik Lokal",
+    "desc_en": "Watch a local band play live at a small venue this weekend.",
+    "desc_id": "Nonton band lokal tampil live di panggung kecil akhir pekan ini.",
+    "kategori": "pengalaman",
+    "tier": "basic",
+    "cost": 200,
+    "active": true
+  },
+  {
+    "name_en": "Movie Night with Popcorn",
+    "name_id": "Nonton Bioskop Plus Popcorn",
+    "desc_en": "A cinema ticket with a popcorn and drink combo for one.",
+    "desc_id": "Tiket bioskop plus paket popcorn dan minuman buat kamu sendiri.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Two-Hour Karaoke with Friends",
+    "name_id": "Karaoke Dua Jam Bareng Teman",
+    "desc_en": "Two hours in a karaoke room, song list entirely up to you.",
+    "desc_id": "Dua jam di ruang karaoke, daftar lagunya sepenuhnya pilihanmu.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Three-Hour Internet Cafe Pass",
+    "name_id": "Main Warnet Tiga Jam",
+    "desc_en": "Three hours at an internet cafe with your squad.",
+    "desc_id": "Tiga jam main di warnet bareng geng kamu.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 300,
+    "active": true
+  },
+  {
+    "name_en": "Indoor Climbing Day Pass",
+    "name_id": "Tiket Panjat Dinding Indoor",
+    "desc_en": "A day pass to climb walls indoors, rental shoes included.",
+    "desc_id": "Tiket sehari panjat dinding indoor, sewa sepatu sudah termasuk.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "One-Hour Full Body Massage",
+    "name_id": "Pijat Badan Satu Jam",
+    "desc_en": "A full hour of full body massage to undo a rough week.",
+    "desc_id": "Pijat badan satu jam penuh buat lepas pegal setelah seminggu kerja.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Beginner Pottery Class",
+    "name_id": "Kelas Keramik untuk Pemula",
+    "desc_en": "Shape your first bowl on a wheel with a patient instructor.",
+    "desc_id": "Bentuk mangkuk pertamamu di atas roda bersama instruktur sabar.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 400,
+    "active": true
+  },
+  {
+    "name_en": "Bowling Night with Friends",
+    "name_id": "Main Bowling Bareng Teman",
+    "desc_en": "Two games of bowling with shoe rental included.",
+    "desc_id": "Dua game bowling, sewa sepatu sudah termasuk.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Ten-Minute Go-Kart Race",
+    "name_id": "Balapan Go-Kart Sepuluh Menit",
+    "desc_en": "Ten minutes on the kart track to see who is fastest.",
+    "desc_id": "Sepuluh menit di sirkuit go-kart buat cari siapa yang paling cepat.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Nail Art Manicure Session",
+    "name_id": "Manikur Nail Art",
+    "desc_en": "Get a manicure with the nail art design you pick yourself.",
+    "desc_id": "Manikur dengan desain nail art yang kamu pilih sendiri.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 500,
+    "active": true
+  },
+  {
+    "name_en": "Beginner Cooking Class",
+    "name_id": "Kelas Memasak untuk Pemula",
+    "desc_en": "Learn three easy dishes you can actually cook at home.",
+    "desc_id": "Belajar tiga masakan simpel yang bisa kamu masak sendiri di rumah.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Planetarium and Museum Combo",
+    "name_id": "Tiket Planetarium dan Museum",
+    "desc_en": "A planetarium show plus museum entry in one ticket.",
+    "desc_id": "Tiket pertunjukan planetarium sekaligus masuk museum.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 650,
+    "active": true
+  },
+  {
+    "name_en": "Waterpark Day Pass for Two",
+    "name_id": "Tiket Waterpark Berdua",
+    "desc_en": "A full day of slides and pools at the waterpark for two.",
+    "desc_id": "Sehari penuh main seluncuran dan kolam waterpark berdua.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Paintball Session with 100 Balls",
+    "name_id": "Sesi Paintball 100 Bola",
+    "desc_en": "Split into teams and fire 100 paintballs each round.",
+    "desc_id": "Bagi tim dan tembak 100 bola paintball tiap ronde.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 800,
+    "active": true
+  },
+  {
+    "name_en": "Private Badminton Coaching",
+    "name_id": "Latihan Badminton dengan Pelatih",
+    "desc_en": "Two hours of badminton drills with a private coach.",
+    "desc_id": "Dua jam latihan badminton didampingi pelatih pribadi.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Escape Room Night with Friends",
+    "name_id": "Main Escape Room Bareng Teman",
+    "desc_en": "Lock yourselves in a themed room and solve it in 60 minutes.",
+    "desc_id": "Terkunci di ruangan bertema dan pecahkan teka-tekinya dalam 60 menit.",
+    "kategori": "pengalaman",
+    "tier": "mid",
+    "cost": 1000,
+    "active": true
+  },
+  {
+    "name_en": "Four-Star Hotel Staycation",
+    "name_id": "Staycation Hotel Bintang Empat",
+    "desc_en": "One night in a four-star hotel with breakfast for two.",
+    "desc_id": "Satu malam di hotel bintang empat lengkap sarapan berdua.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Full-Day Spa Retreat",
+    "name_id": "Spa Seharian",
+    "desc_en": "A full day of massage, scrub, and soak at a local spa.",
+    "desc_id": "Sehari penuh pijat, lulur, dan berendam di spa lokal.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Theme Park Day Pass",
+    "name_id": "Tiket Masuk Taman Hiburan Sehari",
+    "desc_en": "A full day pass for every ride at the theme park.",
+    "desc_id": "Tiket sehari untuk semua wahana di taman hiburan.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 1500,
+    "active": true
+  },
+  {
+    "name_en": "Sunset Sailing Cruise for Two",
+    "name_id": "Berlayar Senja Berdua",
+    "desc_en": "A calm two-hour sailing trip along the coast at sunset for two.",
+    "desc_id": "Perjalanan berlayar santai dua jam di tepi pantai saat senja berdua.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Beginner Surfing Lesson",
+    "name_id": "Kursus Selancar untuk Pemula",
+    "desc_en": "Two hours of surfing lessons with board and instructor.",
+    "desc_id": "Dua jam belajar selancar, papan dan instruktur sudah disiapkan.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Rafting Trip Down the River",
+    "name_id": "Arung Jeram Sehari",
+    "desc_en": "A half-day white water rafting trip with guide and gear.",
+    "desc_id": "Setengah hari arung jeram bersama pemandu dan perlengkapan lengkap.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 2000,
+    "active": true
+  },
+  {
+    "name_en": "Photography Masterclass Workshop",
+    "name_id": "Workshop Fotografi",
+    "desc_en": "A one-day photography workshop with a working photographer.",
+    "desc_id": "Workshop fotografi sehari bersama fotografer profesional.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Cooking Masterclass with Local Chef",
+    "name_id": "Kelas Memasak Bersama Chef Lokal",
+    "desc_en": "Cook a full menu hands-on with a local chef.",
+    "desc_id": "Masak satu menu lengkap langsung bersama chef lokal.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 2500,
+    "active": true
+  },
+  {
+    "name_en": "Weekend Glamping Trip",
+    "name_id": "Glamping Akhir Pekan",
+    "desc_en": "Two nights in a glamping tent with a mountain view.",
+    "desc_id": "Dua malam di tenda glamping dengan pemandangan gunung.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Horse Riding Lesson Package",
+    "name_id": "Paket Kursus Menunggang Kuda",
+    "desc_en": "Three horse riding lessons with a trained instructor.",
+    "desc_id": "Tiga sesi belajar menunggang kuda bersama instruktur terlatih.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 3000,
+    "active": true
+  },
+  {
+    "name_en": "Open Water Diving Course",
+    "name_id": "Kursus Diving Open Water",
+    "desc_en": "Get certified for open water diving over three days.",
+    "desc_id": "Ambil sertifikasi diving open water dalam tiga hari.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Night Beach Villa Stay",
+    "name_id": "Menginap Dua Malam di Vila Pantai",
+    "desc_en": "Two nights in a beach villa with breakfast each morning.",
+    "desc_id": "Dua malam di vila tepi pantai lengkap sarapan tiap pagi.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 4000,
+    "active": true
+  },
+  {
+    "name_en": "Premium Concert Ticket",
+    "name_id": "Tiket Konser Premium",
+    "desc_en": "A premium seat at a big concert you have been waiting for.",
+    "desc_id": "Kursi premium di konser besar yang sudah lama kamu tunggu.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Weekend Trip to Yogyakarta",
+    "name_id": "Trip Akhir Pekan ke Yogyakarta",
+    "desc_en": "A two-day Yogyakarta trip covering temples and street food.",
+    "desc_id": "Trip dua hari ke Yogyakarta, keliling candi dan jajan kuliner jalanan.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Weekend Yoga Retreat",
+    "name_id": "Retret Yoga Akhir Pekan",
+    "desc_en": "Two days of yoga sessions and healthy meals outside the city.",
+    "desc_id": "Dua hari penuh sesi yoga dan makanan sehat di luar kota.",
+    "kategori": "pengalaman",
+    "tier": "premium",
+    "cost": 5000,
+    "active": true
+  },
+  {
+    "name_en": "Beginner Freediving Course",
+    "name_id": "Kursus Freediving Pemula",
+    "desc_en": "Learn to freedive in two days with certification included.",
+    "desc_id": "Belajar freediving dua hari sampai dapat sertifikatnya.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Certified Digital Marketing Course",
+    "name_id": "Kursus Digital Marketing Bersertifikat",
+    "desc_en": "A short certified course to sharpen your digital marketing skills.",
+    "desc_id": "Kursus singkat bersertifikat buat mengasah kemampuan digital marketing.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Day Bromo Sunrise Trip",
+    "name_id": "Trip Bromo Dua Hari",
+    "desc_en": "A two-day Bromo trip with a sunrise viewpoint and jeep ride.",
+    "desc_id": "Trip dua hari ke Bromo dengan titik matahari terbit dan naik jeep.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 6000,
+    "active": true
+  },
+  {
+    "name_en": "Advanced Open Water Diving Certification",
+    "name_id": "Sertifikasi Diving Advanced Open Water",
+    "desc_en": "Level up your diving with an advanced certification course.",
+    "desc_id": "Naik level diving dengan kursus sertifikasi advanced.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Weekend Trip to Belitung",
+    "name_id": "Trip Akhir Pekan ke Belitung",
+    "desc_en": "A three-day Belitung trip with island hopping and beaches.",
+    "desc_id": "Trip tiga hari ke Belitung dengan island hopping dan pantainya.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 7000,
+    "active": true
+  },
+  {
+    "name_en": "Personal Trainer Program",
+    "name_id": "Program Personal Trainer",
+    "desc_en": "A month of personal training sessions with a certified coach.",
+    "desc_id": "Sebulan sesi latihan bersama pelatih pribadi bersertifikat.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Beginner Paragliding Course",
+    "name_id": "Kursus Paralayang Pemula",
+    "desc_en": "Learn to fly a paraglider with a tandem intro flight.",
+    "desc_id": "Belajar menerbangkan paralayang, termasuk penerbangan tandem.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 8000,
+    "active": true
+  },
+  {
+    "name_en": "Professional Makeup Course",
+    "name_id": "Kursus Tata Rias Profesional",
+    "desc_en": "A certified makeup course covering daily and bridal looks.",
+    "desc_id": "Kursus tata rias bersertifikat untuk tampilan harian sampai pengantin.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Two-Day Komodo Sailing Trip",
+    "name_id": "Trip Berlayar Komodo Dua Hari",
+    "desc_en": "Two days sailing Komodo with snorkeling and dragons.",
+    "desc_id": "Dua hari berlayar di Komodo, snorkeling dan lihat komodo langsung.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 9000,
+    "active": true
+  },
+  {
+    "name_en": "Certified Culinary Arts Program",
+    "name_id": "Program Kuliner Bersertifikat",
+    "desc_en": "A full culinary program to cook at a professional level.",
+    "desc_id": "Program kuliner lengkap biar bisa memasak level profesional.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Three-Day Bali Trip for Two",
+    "name_id": "Liburan Bali Tiga Hari Berdua",
+    "desc_en": "A three-day Bali getaway for two with hotel and transfers.",
+    "desc_id": "Liburan tiga hari ke Bali berdua, hotel dan transportasi termasuk.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 10000,
+    "active": true
+  },
+  {
+    "name_en": "Three-Day Lombok Trip",
+    "name_id": "Trip Lombok Tiga Hari",
+    "desc_en": "Three days in Lombok with beaches, waterfalls, and a guide.",
+    "desc_id": "Tiga hari di Lombok, keliling pantai dan air terjun bareng pemandu.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Certified Yoga Instructor Course",
+    "name_id": "Kursus Instruktur Yoga Bersertifikat",
+    "desc_en": "Get certified to teach yoga after an intensive course.",
+    "desc_id": "Ambil sertifikasi instruktur yoga lewat kursus intensif.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 12000,
+    "active": true
+  },
+  {
+    "name_en": "Five-Day Bali and Gili Trip",
+    "name_id": "Trip Bali dan Gili Lima Hari",
+    "desc_en": "Five days across Bali and the Gili islands, hotels included.",
+    "desc_id": "Lima hari keliling Bali dan Kepulauan Gili, hotel sudah termasuk.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  },
+  {
+    "name_en": "One-Week Coding Bootcamp",
+    "name_id": "Bootcamp Coding Satu Minggu",
+    "desc_en": "A one-week intensive coding bootcamp with a certificate.",
+    "desc_id": "Bootcamp coding intensif satu minggu lengkap dengan sertifikat.",
+    "kategori": "pengalaman",
+    "tier": "ultra",
+    "cost": 15000,
+    "active": true
+  }
+]
