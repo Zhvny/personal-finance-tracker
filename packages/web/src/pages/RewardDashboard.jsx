@@ -45,10 +45,10 @@ const EARN_RULES = [
 // ── Loading skeleton ──────────────────────────────────────────────────────────
 function GpSkeleton() {
   return (
-    <div className="gp-root">
+    <div className="reward-dashboard-root">
       <div style={{ padding: "40px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
         {[180, 80, 120, 200].map((h, i) => (
-          <div key={i} style={{ height: h, borderRadius: 16, background: "linear-gradient(90deg, var(--gp-bg2) 25%, var(--gp-bg3) 50%, var(--gp-bg2) 75%)", backgroundSize: "200% 100%", animation: "gp-shimmer 1.4s infinite linear" }} />
+          <div key={i} style={{ height: h, borderRadius: 16, background: "linear-gradient(90deg, var(--bg2, #1e2329) 25%, var(--bg3, #2b3139) 50%, var(--bg2, #1e2329) 75%)", backgroundSize: "200% 100%", animation: "gp-shimmer 1.4s infinite linear" }} />
         ))}
       </div>
     </div>
@@ -475,7 +475,7 @@ export default function RewardDashboard() {
   ];
 
   return (
-    <div className="gp-root">
+    <div className="reward-dashboard-root">
       <div className="gp-page">
         <h1 className="sr-only">Earn Rewards — Gamified Financial Goals &amp; Milestones</h1>
         <Hero     state={state} derived={derived} snap={snap} onRefresh={refresh} />

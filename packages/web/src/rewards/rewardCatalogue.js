@@ -11,10 +11,18 @@ const BASE = "/rewards";
 
 // ── Tier metadata (DRY — single source of truth for UI rendering) ─────────────
 export const TIER_META = Object.freeze({
-  basic:   { color: "#8a8599",  label: "Basic",   order: 1 },
-  mid:     { color: "#ff6f60",  label: "Mid",     order: 2 },
-  premium: { color: "#f5c842",  label: "Premium", order: 3 },
-  ultra:   { color: "#ffe4fc",  label: "Ultra",   order: 4 },
+  basic:   { color: "#38bdf8",  label: "Basic",   order: 1 },
+  mid:     { color: "#34d399",  label: "Mid",     order: 2 },
+  premium: { color: "#a78bfa",  label: "Premium", order: 3 },
+  ultra:   { color: "#fcd535",  label: "Ultra",   order: 4 },
+});
+
+export const CATEGORY_META = Object.freeze({
+  minuman:    { label: "Minuman",    en: "Drinks",      order: 1 },
+  makanan:    { label: "Makanan",    en: "Food",        order: 2 },
+  snack:      { label: "Snack",      en: "Snacks",      order: 3 },
+  barang:     { label: "Barang",     en: "Goods",       order: 4 },
+  pengalaman: { label: "Pengalaman", en: "Experiences", order: 5 },
 });
 
 // ── Content file → public URL ─────────────────────────────────────────────────
@@ -57,23 +65,46 @@ export async function loadCatalogue(forceRefresh = false) {
   
   try {
     const data = await apiFetch("/rewards/catalogue");
-    if (!data) return [];
+    if (!data) return { week_start: null, expires_at: null, items: [] };
     
-    const sorted = data.sort((a, b) => {
-      // Sort: season ASC, then tier order ASC, then cost ASC
-      if (a.season !== b.season) return a.season - b.season;
+    const isArray = Array.isArray(data);
+    const rawItems = isArray ? data : (data.items ?? []);
+    
+    const sorted = rawItems.sort((a, b) => {
       const ta = TIER_META[a.tier]?.order ?? 0;
       const tb = TIER_META[b.tier]?.order ?? 0;
       if (ta !== tb) return ta - tb;
       return a.cost - b.cost;
     });
+
+    const result = {
+      week_start: isArray ? null : data.week_start,
+      expires_at: isArray ? null : data.expires_at,
+      items: sorted,
+    };
     
-    _cachedCatalogue = sorted;
-    return sorted;
+    _cachedCatalogue = result;
+    return result;
   } catch (err) {
     console.error("Failed to load rewards catalogue:", err);
-    return [];
+    return { week_start: null, expires_at: null, items: [], error: err.message || "Failed to load catalogue" };
   }
+}
+
+export async function claimWeeklyReward(itemId, weekStart) {
+  return await apiFetch("/rewards/weekly/claim", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ item_id: itemId, week_start: weekStart }),
+  });
+}
+
+export async function redeemWeeklyReward(claimId) {
+  return await apiFetch("/rewards/weekly/redeem", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ claim_id: claimId }),
+  });
 }
 
 // ── Count content by type ─────────────────────────────────────────────────────
