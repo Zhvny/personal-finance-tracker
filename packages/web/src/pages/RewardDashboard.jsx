@@ -11,6 +11,7 @@ import SelfRewards from "../rewards/SelfRewards.jsx";
 import { RANKS, REWARD_RULES, daysRemainingInSeason, currentSeason } from "../rewards/rewardEngine.js";
 import { saveState } from "../rewards/rewardStore.js";
 import { usePersistedTab } from "../finance/useApi.js";
+import { useI18n } from "../i18n/context.js";
 import {
   IconStreak, IconMultiplier, IconCoin, IconTrophy, IconTarget, IconVexBolt,
   IconLeaf, IconUp, IconDown, IconWarning, IconPenalty, IconMilestone,
@@ -462,16 +463,17 @@ function BackupPanel({ state, onRestore }) {
 export default function RewardDashboard() {
   const [tab, setTab] = usePersistedTab("reward", "earn");
   const { state, snap, loading, derived, redeemReward, setWeeklyGoal, refresh, setState } = useReward();
+  const { t } = useI18n();
 
   if (loading || !state || !derived) return <GpSkeleton />;
 
   const TABS = [
-    { id: "earn",       label: "Earn",          Icon: IconCoin      },
-    { id: "shop",       label: "Shop",          Icon: IconAward     },
-    { id: "myrewards",  label: "My Rewards",    Icon: IconSparkles  },
-    { id: "season",     label: "Season & Rank", Icon: IconSeason    },
-    { id: "log",        label: "Activity",      Icon: IconCalStat   },
-    { id: "backup",     label: "Backup",        Icon: IconSave      },
+    { id: "earn",       label: t("tab.earn", "Earn Points"),          Icon: IconCoin      },
+    { id: "shop",       label: t("tab.shop", "Weekly Shop"),          Icon: IconAward     },
+    { id: "myrewards",  label: t("tab.myrewards", "My Rewards"),      Icon: IconSparkles  },
+    { id: "season",     label: t("tab.season", "Ranks & Season"),     Icon: IconSeason    },
+    { id: "log",        label: t("tab.activity", "Activity Log"),     Icon: IconCalStat   },
+    { id: "backup",     label: t("tab.backup", "Backup & Sync"),      Icon: IconSave      },
   ];
 
   return (

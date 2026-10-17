@@ -10,6 +10,7 @@ import { fmt, fmtS } from "./finance/constants.js";
 import { Toast, ModuleLoader, Modal } from "./components.jsx";
 import AppErrorBoundary from "./components/common/ErrorBoundary.jsx";
 import { sidebarStyle, PageWrapper } from "./animations.jsx";
+import { useI18n } from "./i18n/context.js";
 import {
   NAV_ICON_JSX,
   IconDashboard,
@@ -279,7 +280,7 @@ const PAGES = [
 
 // ─── MOBILE SHELL ────────────────────────────────────────────────────────────
 
-const MobileShell = ({ children, active, onNav, loading, light, onTheme, onReload, isOffline }) => {
+const MobileShell = ({ children, active, onNav, loading, light, onTheme, onReload, isOffline, locale, onToggleLocale }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -296,6 +297,9 @@ const MobileShell = ({ children, active, onNav, loading, light, onTheme, onReloa
       <header className="m-header">
         <div className="m-brand">Alpha</div>
         <div className="m-actions">
+           <button onClick={onToggleLocale} className="m-act-btn" style={{ fontWeight: 700, fontSize: 11, minWidth: 32 }} title="Switch Language">
+             {locale?.toUpperCase()}
+           </button>
            <button onClick={onTheme} className="m-act-btn">{light ? <IconMoon size={18}/> : <IconSun size={18}/>}</button>
            <button onClick={handleReload} className={`m-act-btn ${loading ? 'spin' : ''} ${success ? 'success' : ''}`}><IconRefresh size={18}/></button>
         </div>
@@ -360,6 +364,7 @@ export default function App() {
   const [showIntro, setShowIntro] = useState(false);
   const [isMobile,  setIsMobile]  = useState(window.innerWidth <= 800);
   const [isOffline, setIsOffline] = useState(!!window.__FT_OFFLINE__);
+  const { locale, setLocale, t } = useI18n();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 800);
@@ -452,6 +457,8 @@ export default function App() {
           loading={metaLoading}
           light={light} onTheme={() => setLight(!light)} onReload={handleReload}
           isOffline={isOffline}
+          locale={locale}
+          onToggleLocale={() => setLocale(locale === "en" ? "id" : "en")}
         >
           {renderContent()}
         </MobileShell>
@@ -620,9 +627,17 @@ export default function App() {
               <span style={{ marginLeft: 10 }}>{PAGES.find(p => p.id === page)?.label}</span>
             </div>
             <div className="tb-right">
+              <button
+                className="btn-icon"
+                onClick={() => setLocale(locale === "en" ? "id" : "en")}
+                title={locale === "en" ? "Ganti ke Bahasa Indonesia" : "Switch to English"}
+                style={{ fontSize: 11, fontWeight: 700, minWidth: 34, padding: "0 6px" }}
+              >
+                {locale?.toUpperCase()}
+              </button>
               <button className="btn-icon" onClick={() => setLight(!light)} title="Ganti Tema">{light ? <IconMoon size={16} /> : <IconSun size={16} />}</button>
               <button className={`btn-icon ${metaLoading ? 'spin' : ''} ${success ? 'success' : ''}`} onClick={handleReload} title="Refresh Data"><IconRefresh size={16} /></button>
-              <div className="tb-date">{new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</div>
+              <div className="tb-date">{new Date().toLocaleDateString(locale === "id" ? "id-ID" : "en-GB", { day: "2-digit", month: "short", year: "numeric" })}</div>
             </div>
           </header>
           <div className="content">

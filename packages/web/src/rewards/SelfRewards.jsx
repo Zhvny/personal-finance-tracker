@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchSelfRewards, createSelfReward, redeemSelfReward, deleteSelfReward } from "./rewardStore.js";
 import { IconGift, IconAward, IconTarget, IconSparkles, IconStar, IconCoin, IconCheck } from "../icons.jsx";
+import { useI18n } from "../i18n/context.js";
 
 const CATEGORY_OPTIONS = [
   { id: "gift", label: "Gift", Icon: IconGift },
@@ -177,6 +178,7 @@ function CreateRewardForm({ onCreated, onCancel, loading, setLoading }) {
 }
 
 export default function SelfRewards({ rewardPoints = 0 }) {
+  const { t } = useI18n();
   const [rewards, setRewards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -203,7 +205,7 @@ export default function SelfRewards({ rewardPoints = 0 }) {
   const handleCreated = (result) => {
     setRewards(result.state?.selfRewards ?? rewards);
     setShowForm(false);
-    showToast("Self-reward created!");
+    showToast(t("self_reward.create_btn", "Self-reward created!"));
   };
 
   const handleRedeem = async (id) => {
@@ -211,7 +213,7 @@ export default function SelfRewards({ rewardPoints = 0 }) {
     try {
       const result = await redeemSelfReward(id);
       setRewards(result.state?.selfRewards ?? rewards);
-      showToast("Reward redeemed! You earned it.");
+      showToast(t("shop.redeem_success", "Reward redeemed! You earned it."));
     } catch (ex) {
       showToast(ex.message, "error");
     } finally {
@@ -220,12 +222,12 @@ export default function SelfRewards({ rewardPoints = 0 }) {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Remove this self-reward?")) return;
+    if (!window.confirm(t("self_reward.delete_confirm", "Remove this self-reward?"))) return;
     setLoading(true);
     try {
       const result = await deleteSelfReward(id);
       setRewards(result.state?.selfRewards ?? rewards);
-      showToast("Reward removed.");
+      showToast(t("common.success", "Reward removed."));
     } catch (ex) {
       showToast(ex.message, "error");
     } finally {
@@ -249,9 +251,9 @@ export default function SelfRewards({ rewardPoints = 0 }) {
       {/* Header */}
       <div className="sr-header">
         <div className="sr-header-left">
-          <span className="sr-title">Self-Rewards</span>
+          <span className="sr-title">{t("self_reward.title", "Self-Rewards")}</span>
           <span className="sr-subtitle">
-            Spend your <strong>{rewardPoints}</strong> Reward points on personal goals
+            {t("self_reward.subtitle", "Spend your Reward points on personal goals")} (<strong>{rewardPoints}</strong> {t("common.points", "poin")})
           </span>
         </div>
         <button
@@ -259,7 +261,7 @@ export default function SelfRewards({ rewardPoints = 0 }) {
           onClick={() => setShowForm(true)}
           disabled={showForm}
         >
-          + New Reward
+          + {t("self_reward.create_btn", "New Reward")}
         </button>
       </div>
 
