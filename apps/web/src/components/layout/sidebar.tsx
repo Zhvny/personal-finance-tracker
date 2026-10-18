@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { ProfileCreatorModal } from "@/components/ui/profile-creator-modal";
 import { clientProxyUrl } from "@/lib/api";
+import { useI18n } from "@/i18n/context";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,15 +34,15 @@ interface ProfileData {
 // ── Navigation definitions ────────────────────────────────────────────────────
 
 const PERSONAL_NAV = [
-  { name: "Overview",   href: "/overview",  icon: Activity        },
-  { name: "Analytics",  href: "/analytics", icon: LayoutDashboard },
-  { name: "Behavioral", href: "/behavioral", icon: Brain          },
-  { name: "Reward",     href: "/reward",     icon: Gift           },
-  { name: "Log Cockpit", href: "/logs",      icon: Terminal       },
+  { name: "Overview",   key: "nav.overview",   href: "/overview",  icon: Activity        },
+  { name: "Analytics",  key: "nav.analytics",  href: "/analytics", icon: LayoutDashboard },
+  { name: "Behavioral", key: "nav.behavioral", href: "/behavioral", icon: Brain          },
+  { name: "Reward",     key: "nav.reward",     href: "/reward",     icon: Gift           },
+  { name: "Log Cockpit", key: "nav.logs",       href: "/logs",      icon: Terminal       },
 ];
 
 const BUSINESS_ONLY_NAV = [
-  { name: "Business Cockpit", href: "/business", icon: Building2 },
+  { name: "Business Cockpit", key: "nav.business", href: "/business", icon: Building2 },
 ];
 
 // ── Profile Card ─────────────────────────────────────────────────────────────
@@ -309,6 +310,7 @@ function ActiveProfileCard({
 
 export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const pathname = usePathname();
+  const { locale, setLocale, t } = useI18n();
   const [hovered, setHovered] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -473,7 +475,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     isActive ? "text-foreground" : "text-muted-foreground"
                   }`}
                 >
-                  {item.name}
+                  {t(item.key, item.name)}
                 </span>
 
                 {/* Active dot badge */}
@@ -488,6 +490,18 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             );
           })}
         </nav>
+
+        {/* Language Switcher */}
+        <div className="px-5 py-2.5 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+          <span>{t("common.language", "Language")}:</span>
+          <button
+            onClick={() => setLocale(locale === "en" ? "id" : "en")}
+            className="px-2.5 py-1 text-xs font-bold rounded-md bg-muted text-foreground border border-border hover:bg-muted/80 transition-colors"
+            title={locale === "en" ? "Ganti ke Bahasa Indonesia" : "Switch to English"}
+          >
+            {locale.toUpperCase()}
+          </button>
+        </div>
 
         {/* Active Profile Card */}
         {profileError ? (

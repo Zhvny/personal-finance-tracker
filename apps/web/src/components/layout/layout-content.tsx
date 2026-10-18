@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { Sidebar } from "./sidebar";
 import { Header } from "./header";
+import { I18nProvider, useI18n } from "@/i18n/context";
 
-export function LayoutContent({ children }: { children: React.ReactNode }) {
+function ContentInner({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { t } = useI18n();
 
   return (
     <div className="min-h-dvh bg-background">
@@ -13,7 +15,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-md focus:outline-none focus:ring-2 focus:ring-ring"
       >
-        Skip to main content
+        {t("nav.skip_to_content", "Skip to main content")}
       </a>
 
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -26,5 +28,13 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     </div>
+  );
+}
+
+export function LayoutContent({ children }: { children: React.ReactNode }) {
+  return (
+    <I18nProvider>
+      <ContentInner>{children}</ContentInner>
+    </I18nProvider>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import RewardsPanel from './panel';
+import { RewardHeader } from './reward-header';
 
 export const metadata: Metadata = {
   title: 'Rewards',
@@ -24,10 +25,7 @@ export const metadata: Metadata = {
 export default function RewardPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Rewards</h1>
-        <p className="text-muted-foreground mt-1">Live status of the reward economy, served by the engagement service.</p>
-      </div>
+      <RewardHeader />
       <RewardsPanel />
     </div>
   );
