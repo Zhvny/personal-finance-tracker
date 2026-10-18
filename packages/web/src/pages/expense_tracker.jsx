@@ -19,6 +19,7 @@ import {
 import { IconRefresh, IconAdd, IconDelete, IconExpense, IconEdit, IconClose, IconCheck,
          IconRecords, IconSummary, IconTax, IconRepeat, IconWallet } from "../icons.jsx";
 import TrendChart from "../finance/TrendChart.jsx";
+import { useI18n } from "../i18n/context.js";
 
 // ── Skeletons ───────────────────────────────────────────────────────────────
 function RecordsSkeleton() {
@@ -55,17 +56,18 @@ function SummarySkeleton() {
 
 // ── Sub-component: Expense records table ──────────────────────────────────────
 function RecordsTable({ expenses, onDelete, onEdit }) {
-  if (!expenses.length) return <Empty variant="expense" msg="Belum ada catatan pengeluaran." sub="Tambahkan transaksi pengeluaran pertama kamu untuk mulai menganalisis." />;
+  const { t } = useI18n();
+  if (!expenses.length) return <Empty variant="expense" msg={t("expense.empty_records")} sub={t("expense.empty_records_sub")} />;
   return (
-    <div className="tbl-wrap" tabIndex={0} role="region" aria-label="Scrollable data table">
+    <div className="tbl-wrap" tabIndex={0} role="region" aria-label={t("expense.table_label")}>
         <table className="tbl">
         <thead>
           <tr>
-            <th className="col-date">Date</th>
-            <th className="col-cat">Category</th>
-            <th className="tbl-col-hide-sm">Method</th>
-            <th className="tbl-col-hide-sm">Description</th>
-            <th className="r col-amt">Amount</th>
+            <th className="col-date">{t("expense.col_date")}</th>
+            <th className="col-cat">{t("expense.col_category")}</th>
+            <th className="tbl-col-hide-sm">{t("expense.col_method")}</th>
+            <th className="tbl-col-hide-sm">{t("expense.col_description")}</th>
+            <th className="r col-amt">{t("expense.col_amount")}</th>
             <th className="col-act"></th>
           </tr>
         </thead>
@@ -79,8 +81,8 @@ function RecordsTable({ expenses, onDelete, onEdit }) {
               <td className="r col-amt" style={{ fontFamily: "var(--mono)", fontWeight: 700, color: "var(--rd)" }}>{fmt(e.amount)}</td>
               <td className="col-act">
                 <div style={{ display: "flex", gap: 4 }}>
-                  <button className="btn btn-g btn-s" title="Edit" onClick={() => onEdit(e)}><IconEdit size={12} /></button>
-                  <button className="btn btn-g btn-s" title="Delete" onClick={() => onDelete(e.id)}><IconClose size={12} /></button>
+                  <button className="btn btn-g btn-s" title={t("common.edit")} onClick={() => onEdit(e)}><IconEdit size={12} /></button>
+                  <button className="btn btn-g btn-s" title={t("common.delete")} onClick={() => onDelete(e.id)}><IconClose size={12} /></button>
                 </div>
               </td>
             </tr>
@@ -93,6 +95,7 @@ function RecordsTable({ expenses, onDelete, onEdit }) {
 
 // ── Sub-component: Monthly Summary ────────────────────────────────────────────
 function MonthlySummary({ year, month }) {
+  const { t } = useI18n();
   const { data, loading } = useExpenseSummary(year, month);
   if (loading) return <LoadingSpinner />;
   if (!data)   return null;
@@ -104,12 +107,12 @@ function MonthlySummary({ year, month }) {
   return (
     <div>
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-h"><span className="card-t">By Category — {month}/{year}</span></div>
-        <div className="tbl-wrap" tabIndex={0} role="region" aria-label="Scrollable data table">
+        <div className="card-h"><span className="card-t">{t("expense.by_category", { month, year })}</span></div>
+        <div className="tbl-wrap" tabIndex={0} role="region" aria-label={t("expense.table_label")}>
         <table className="tbl">
-            <thead><tr><th>Category</th><th className="r">Total</th><th className="r">% of Spend</th><th className="r">Records</th></tr></thead>
+            <thead><tr><th>{t("expense.col_category")}</th><th className="r">{t("expense.col_total")}</th><th className="r">{t("expense.col_pct_spend")}</th><th className="r">{t("expense.col_records")}</th></tr></thead>
             <tbody>
-              {entries.length === 0 && <tr><td colSpan={4}><Empty variant="expense" msg="Belum ada pengeluaran bulan ini." sub="Tambahkan transaksi pertama kamu untuk mulai melacak pengeluaran." /></td></tr>}
+              {entries.length === 0 && <tr><td colSpan={4}><Empty variant="expense" msg={t("expense.empty_month")} sub={t("expense.empty_month_sub")} /></td></tr>}
               {entries.map(([cat, amt]) => (
                 <tr key={cat}>
                   <td><span className="pill c" style={{display:'inline-flex',alignItems:'center',gap:4}}><CatIcon cat={cat} size={12} /> {cat}</span></td>
@@ -122,13 +125,13 @@ function MonthlySummary({ year, month }) {
           </table>
         </div>
         <SumBox items={[
-          { label: "Total", value: fmt(data.total), color: "var(--rd)" },
-          { label: "Records", value: data.count },
-          { label: "Average", value: fmt(data.average || 0), color: "var(--cy)" },
+          { label: t("expense.col_total"), value: fmt(data.total), color: "var(--rd)" },
+          { label: t("expense.col_records"), value: data.count },
+          { label: t("expense.average"), value: fmt(data.average || 0), color: "var(--cy)" },
         ]} />
       </div>
       <div className="card">
-        <div className="card-h"><span className="card-t">Spending Distribution</span></div>
+        <div className="card-h"><span className="card-t">{t("expense.distribution")}</span></div>
         <div className="card-b">
           {entries.map(([cat, amt]) => (
             <div key={cat} className="cat-row" style={{ marginBottom: 14 }}>
@@ -147,6 +150,7 @@ function MonthlySummary({ year, month }) {
 
 // ── Sub-component: Budget Status ──────────────────────────────────────────────
 function BudgetPanel({ year, month }) {
+  const { t } = useI18n();
   const { data, loading } = useExpenseBudget(year, month);
   if (loading) return <LoadingSpinner />;
   if (!data)   return null;
@@ -155,9 +159,9 @@ function BudgetPanel({ year, month }) {
 
   return (
     <div className="card">
-      <div className="card-h"><span className="card-t">Budget Tracking — {month}/{year}</span></div>
+      <div className="card-h"><span className="card-t">{t("expense.budget_tracking", { month, year })}</span></div>
       <div className="card-b">
-        {budgets.length === 0 && <Empty msg="Belum ada budget yang diatur." />}
+        {budgets.length === 0 && <Empty msg={t("expense.no_budget")} />}
         {budgets.map(b => {
           const pct = Math.min(100, (b.actual / b.limit) * 100);
           const color = pct >= 90 ? "var(--rd)" : pct >= 75 ? "var(--yl)" : "var(--gr)";
@@ -178,8 +182,8 @@ function BudgetPanel({ year, month }) {
                 <div className="cat-bf" style={{ width: `${pct}%`, background: color, height: "100%" }} />
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10, color: "var(--tx3)" }}>
-                 <span>{pct.toFixed(0)}% used</span>
-                 <span>{fmt(Math.max(0, b.limit - b.actual))} remaining</span>
+                 <span>{t("expense.pct_used", { pct: pct.toFixed(0) })}</span>
+                 <span>{t("expense.remaining", { amount: fmt(Math.max(0, b.limit - b.actual)) })}</span>
               </div>
             </div>
           );
@@ -191,6 +195,7 @@ function BudgetPanel({ year, month }) {
 
 // ── Sub-component: Expense trend over 12 months ──────────────────────────────
 function ExpenseTrendSection() {
+  const { t } = useI18n();
   const { data: trend, loading } = useExpenseTrend(12);
   if (loading || !trend?.length) return null;
   const active = trend.filter(m => m.total > 0);
@@ -201,11 +206,11 @@ function ExpenseTrendSection() {
 
   return (
     <TrendChart
-      title="12-Month Spending Trend"
+      title={t("expense.trend_title")}
       height={155}
       fmt={n => (n === null || n === undefined) ? "—" : `Rp${Math.abs(n).toLocaleString("id-ID")}`}
       series={[
-        { key: "total", label: "Total", color: "var(--rd)", data: active.map(m => ({ label: m.label, value: m.total })) },
+        { key: "total", label: t("expense.col_total"), color: "var(--rd)", data: active.map(m => ({ label: m.label, value: m.total })) },
         ...cats.map(cat => ({
           key: cat, label: cat,
           color: catColors[cat] || "var(--tx2)",
@@ -218,6 +223,7 @@ function ExpenseTrendSection() {
 
 // ── Add Expense Modal ──────────────────────────────────────────────────────────
 function AddModal({ onClose, onSaved }) {
+  const { t } = useI18n();
   const [form, setForm] = useState({ description: "", amount: "", category: "Food & Drink", date: today(), payment_method: "cash", is_recurring: false });
   const [saving, setSaving] = useState(false);
   const set = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
@@ -227,28 +233,28 @@ function AddModal({ onClose, onSaved }) {
     setSaving(true);
     try {
       await apiAddExpense({ ...form, amount: +form.amount });
-      onSaved("Pengeluaran berhasil disimpan.");
+      onSaved(t("expense.save_success"));
       onClose();
     } catch (e) { onSaved("" + e.message, "error"); }
     finally { setSaving(false); }
   };
 
   return (
-    <Modal title="Add Expense" onClose={onClose}
-      footer={<><button className="btn btn-g" onClick={onClose}>Cancel</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save"}</button></>}>
+    <Modal title={t("expense.add_title")} onClose={onClose}
+      footer={<><button className="btn btn-g" onClick={onClose}>{t("common.cancel")}</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? t("expense.saving") : t("common.save")}</button></>}>
       <FormRow>
-        <FormGroup label="Description"><input className="fc" placeholder="Lunch at Menteng" value={form.description} onChange={set("description")} /></FormGroup>
-        <FormGroup label="Amount (IDR)"><input className="fc" type="number" placeholder="50000" value={form.amount} onChange={set("amount")} /></FormGroup>
+        <FormGroup label={t("expense.form_description")}><input className="fc" placeholder={t("expense.placeholder_desc")} value={form.description} onChange={set("description")} /></FormGroup>
+        <FormGroup label={t("expense.form_amount")}><input className="fc" type="number" placeholder={t("expense.placeholder_amount")} value={form.amount} onChange={set("amount")} /></FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Category">
+        <FormGroup label={t("expense.form_category")}>
           <select className="fc sel" value={form.category} onChange={set("category")}>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </FormGroup>
-        <FormGroup label="Date"><input className="fc" type="date" value={form.date} onChange={set("date")} /></FormGroup>
+        <FormGroup label={t("expense.form_date")}><input className="fc" type="date" value={form.date} onChange={set("date")} /></FormGroup>
       </FormRow>
-      <FormGroup label="Payment Method">
+      <FormGroup label={t("expense.form_payment")}>
         <select className="fc sel" value={form.payment_method} onChange={set("payment_method")}>
           {PAY_LIST.map(p => <option key={p} value={p}>{p}</option>)}
         </select>
@@ -259,6 +265,7 @@ function AddModal({ onClose, onSaved }) {
 
 // ── Edit Expense Modal ─────────────────────────────────────────────────────────
 function EditModal({ expense, onClose, onSaved }) {
+  const { t } = useI18n();
   const [form, setForm] = useState({
     description:    expense.description,
     amount:         expense.amount,
@@ -274,28 +281,28 @@ function EditModal({ expense, onClose, onSaved }) {
     setSaving(true);
     try {
       await apiUpdateExpense(expense.id, { ...form, amount: +form.amount });
-      onSaved("Pengeluaran berhasil diupdate.");
+      onSaved(t("expense.update_success"));
       onClose();
     } catch (e) { onSaved("" + e.message, "error"); }
     finally { setSaving(false); }
   };
 
   return (
-    <Modal title="Edit Expense" onClose={onClose}
-      footer={<><button className="btn btn-g" onClick={onClose}>Cancel</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save"}</button></>}>
+    <Modal title={t("expense.edit_title")} onClose={onClose}
+      footer={<><button className="btn btn-g" onClick={onClose}>{t("common.cancel")}</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? t("expense.saving") : t("common.save")}</button></>}>
       <FormRow>
-        <FormGroup label="Description"><input className="fc" value={form.description} onChange={set("description")} /></FormGroup>
-        <FormGroup label="Amount (IDR)"><input className="fc" type="number" value={form.amount} onChange={set("amount")} /></FormGroup>
+        <FormGroup label={t("expense.form_description")}><input className="fc" value={form.description} onChange={set("description")} /></FormGroup>
+        <FormGroup label={t("expense.form_amount")}><input className="fc" type="number" value={form.amount} onChange={set("amount")} /></FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Category">
+        <FormGroup label={t("expense.form_category")}>
           <select className="fc sel" value={form.category} onChange={set("category")}>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </FormGroup>
-        <FormGroup label="Date"><input className="fc" type="date" value={form.date} onChange={set("date")} /></FormGroup>
+        <FormGroup label={t("expense.form_date")}><input className="fc" type="date" value={form.date} onChange={set("date")} /></FormGroup>
       </FormRow>
-      <FormGroup label="Payment Method">
+      <FormGroup label={t("expense.form_payment")}>
         <select className="fc sel" value={form.payment_method} onChange={set("payment_method")}>
           {PAY_LIST.map(p => <option key={p} value={p}>{p}</option>)}
         </select>
@@ -307,18 +314,19 @@ function EditModal({ expense, onClose, onSaved }) {
 // ── Recurring Panel ─────────────────────────────────────────────────────────────
 
 function RecurringPanel({ year, month }) {
+  const { t } = useI18n();
   const { data, loading, error, reload } = useRecurringExpenses({ intervalMs: 0 });
   const items = data?.items || data || [];
 
   if (error) return <ApiError error={error} onRetry={reload} />;
-  if (!loading && !items.length) return <Empty variant="expense" msg="No recurring expenses." />;
+  if (!loading && !items.length) return <Empty variant="expense" msg={t("expense.recurring_empty")} />;
 
   return (
     <div className="card">
-      <div className="card-h"><span className="card-t">Recurring Transactions</span></div>
+      <div className="card-h"><span className="card-t">{t("expense.recurring_title")}</span></div>
       <div className="card-b">
         <table className="tbl">
-          <thead><tr><th>Description</th><th>Amount</th><th>Frequency</th><th>Next Date</th></tr></thead>
+          <thead><tr><th>{t("expense.col_description")}</th><th>{t("expense.col_amount")}</th><th>{t("expense.recurring_col_frequency")}</th><th>{t("expense.recurring_col_next")}</th></tr></thead>
           <tbody>
             {items.map(r => (
               <tr key={r.id}>
@@ -338,6 +346,7 @@ function RecurringPanel({ year, month }) {
 // ── Merchant Panel ─────────────────────────────────────────────────────────────
 
 function MerchantPanel() {
+  const { t } = useI18n();
   const [merchants, setMerchants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
@@ -368,15 +377,15 @@ function MerchantPanel() {
 
   return (
     <div className="card">
-      <div className="card-h"><span className="card-t">Merchant Map</span></div>
+      <div className="card-h"><span className="card-t">{t("expense.merchant_title")}</span></div>
       <div className="card-b">
         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <input className="fc" placeholder="Merchant name…" value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAdd()} />
-          <button className="btn btn-p btn-s" onClick={handleAdd} disabled={!name.trim()}>Add</button>
+          <input className="fc" placeholder={t("expense.merchant_placeholder")} value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAdd()} />
+          <button className="btn btn-p btn-s" onClick={handleAdd} disabled={!name.trim()}>{t("expense.merchant_add")}</button>
         </div>
-        {merchants.length === 0 && <div style={{ color: "var(--tx3)", fontSize: 13 }}>No merchants mapped.</div>}
+        {merchants.length === 0 && <div style={{ color: "var(--tx3)", fontSize: 13 }}>{t("expense.merchant_empty")}</div>}
         <table className="tbl">
-          <thead><tr><th>Merchant</th><th>Action</th></tr></thead>
+          <thead><tr><th>{t("expense.merchant_col_merchant")}</th><th>{t("expense.merchant_col_action")}</th></tr></thead>
           <tbody>
             {merchants.map(m => (
               <tr key={m}>
@@ -393,6 +402,7 @@ function MerchantPanel() {
 
 // ── Main exported component ────────────────────────────────────────────────────
 export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
+  const { t } = useI18n();
   const [tab, setTab]           = usePersistedTab("expenses", "records");
   const [showAdd, setShowAdd]       = useState(false);
   const [editItem, setEditItem]       = useState(null);
@@ -425,7 +435,7 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
   const handleDelete = id => setConfirmDeleteId(id);
   const doDelete = async () => {
     await apiDeleteExpense(confirmDeleteId);
-    onToast("Deleted."); reload();
+    onToast(t("expense.deleted")); reload();
   };
   const handleAdded  = (msg, t = "success") => { onToast(msg, t); reload(); };
   const handleEdited = (msg, t = "success") => { onToast(msg, t); reload(); };
@@ -436,22 +446,22 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
     <>
       {confirmDeleteId !== null && (
         <ConfirmDialog
-          message="Hapus pengeluaran ini? Tindakan tidak bisa dibatalkan."
-          confirmLabel="Hapus"
+          message={t("expense.delete_confirm")}
+          confirmLabel={t("common.delete")}
           danger
           onConfirm={doDelete}
           onCancel={() => setConfirmDeleteId(null)}
         />
       )}
     <div>
-      <h1 className="sr-only">Expense Tracker — Manage &amp; Analyze Your Spending</h1>
+      <h1 className="sr-only">{t("expense.sr_title")}</h1>
       <Tabs
         tabs={[
-          { key: "records",   label: "Records",   icon: <IconRecords size={13} /> },
-          { key: "summary",   label: "Summary",   icon: <IconSummary size={13} /> },
-          { key: "budget",    label: "Budget",    icon: <IconTax     size={13} /> },
-          { key: "recurring", label: "Recurring", icon: <IconRepeat  size={13} /> },
-          { key: "merchant",  label: "Merchant",  icon: <IconWallet  size={13} /> },
+          { key: "records",   label: t("expense.tab_records"),   icon: <IconRecords size={13} /> },
+          { key: "summary",   label: t("expense.tab_summary"),   icon: <IconSummary size={13} /> },
+          { key: "budget",    label: t("expense.tab_budget"),    icon: <IconTax     size={13} /> },
+          { key: "recurring", label: t("expense.tab_recurring"), icon: <IconRepeat  size={13} /> },
+          { key: "merchant",  label: t("expense.tab_merchant"),  icon: <IconWallet  size={13} /> },
         ]}
         active={tab} onChange={setTab}
       />
@@ -462,34 +472,34 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
           {loading ? <RecordsSkeleton /> : (
             <>
               <div className="sg">
-                <div className="sc exp"><div className="sc-lbl">Total Expenses</div><div className="sc-val r">{fmt(total)}</div></div>
-                <div className="sc"><div className="sc-lbl">All Records</div><div className="sc-val n">{totalCount}</div></div>
-                <div className="sc"><div className="sc-lbl">Average</div><div className="sc-val n" style={{ fontSize: 16 }}>{expenses.length ? fmt(total / expenses.length) : "—"}</div></div>
+                <div className="sc exp"><div className="sc-lbl">{t("expense.total")}</div><div className="sc-val r">{fmt(total)}</div></div>
+                <div className="sc"><div className="sc-lbl">{t("expense.all_records")}</div><div className="sc-val n">{totalCount}</div></div>
+                <div className="sc"><div className="sc-lbl">{t("expense.average")}</div><div className="sc-val n" style={{ fontSize: 16 }}>{expenses.length ? fmt(total / expenses.length) : "—"}</div></div>
               </div>
 
               <div className="tab-toolbar">
-                <button className="btn btn-g btn-s" onClick={reload} title="Refresh Data"><IconRefresh size={13} /> Reload</button>
-                <button className="btn btn-g btn-s" onClick={() => downloadCSV(`/expenses/export?year=${year}`, `expenses_${year}.csv`)} title="Export CSV">↓ CSV</button>
-                <button className="btn btn-p btn-s" onClick={() => setShowAdd(true)} title="New (N)">＋ Add Expense</button>
+                <button className="btn btn-g btn-s" onClick={reload} title={t("dashboard.refresh_data")}><IconRefresh size={13} /> {t("expense.reload")}</button>
+                <button className="btn btn-g btn-s" onClick={() => downloadCSV(`/expenses/export?year=${year}`, `expenses_${year}.csv`)} title={t("expense.export_csv")}>{t("expense.csv")}</button>
+                <button className="btn btn-p btn-s" onClick={() => setShowAdd(true)} title={t("expense.new")}>{t("expense.add")}</button>
               </div>
 
               <div className="card">
                 <div className="card-h">
-                  <span className="card-t">Expense History</span>
+                  <span className="card-t">{t("expense.history")}</span>
                 </div>
                 <RecordsTable expenses={expenses} onDelete={handleDelete} onEdit={setEditItem} />
 
                 {totalPages > 1 && (
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 18px 14px", borderTop: "1px solid var(--bdr)" }}>
                     <span style={{ fontSize: 11, color: "var(--tx3)", fontFamily: "var(--mono)" }}>
-                      {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, totalCount)} of {totalCount}
+                      {t("expense.page_of", { from: page * PAGE_SIZE + 1, to: Math.min((page + 1) * PAGE_SIZE, totalCount), total: totalCount })}
                     </span>
                     <div style={{ display: "flex", gap: 5 }}>
-                      <button className="btn btn-g btn-s" onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}>← Prev</button>
+                      <button className="btn btn-g btn-s" onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}>{t("expense.prev")}</button>
                       <span style={{ fontSize: 11, color: "var(--tx2)", padding: "4px 8px", fontFamily: "var(--mono)" }}>
                         {page + 1} / {totalPages}
                       </span>
-                      <button className="btn btn-g btn-s" onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}>Next →</button>
+                      <button className="btn btn-g btn-s" onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}>{t("expense.next")}</button>
                     </div>
                   </div>
                 )}
@@ -503,7 +513,7 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
       {tab === "summary" && (
         <div>
           <div className="tab-toolbar">
-            <span className="tab-toolbar-label">Monthly Summary:</span>
+            <span className="tab-toolbar-label">{t("expense.summary_toolbar")}</span>
             <select className="fc sel" value={month} onChange={e => setMonth(+e.target.value)}>
               {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
                 <option key={m} value={m}>{String(m).padStart(2, "0")}</option>
@@ -526,7 +536,7 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
       {tab === "budget" && (
         <div>
           <div className="tab-toolbar">
-            <span className="tab-toolbar-label">Budget for Year/Month:</span>
+            <span className="tab-toolbar-label">{t("expense.budget_toolbar")}</span>
             <select className="fc sel" value={month} onChange={e => setMonth(+e.target.value)}>
               {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
                 <option key={m} value={m}>{String(m).padStart(2, "0")}</option>
@@ -544,9 +554,9 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
       {tab === "recurring" && (
         <div>
           <div className="tab-toolbar">
-            <span className="tab-toolbar-label">Recurring Expenses</span>
-            <button className="btn btn-p btn-s" onClick={async () => { await apiFetch("/expenses/recurring/apply", { method: "POST" }); onToast("Recurring applied."); reload(); }}>
-              <IconRefresh size={12} /> Apply Recurring
+            <span className="tab-toolbar-label">{t("expense.recurring_toolbar")}</span>
+            <button className="btn btn-p btn-s" onClick={async () => { await apiFetch("/expenses/recurring/apply", { method: "POST" }); onToast(t("expense.recurring_applied")); reload(); }}>
+              <IconRefresh size={12} /> {t("expense.apply_recurring")}
             </button>
           </div>
           {loading ? <LoadingSpinner /> : <RecurringPanel year={year} month={month} />}
@@ -557,7 +567,7 @@ export default function ExpenseTracker({ onToast, initialYear, initialMonth }) {
       {tab === "merchant" && (
         <div>
           <div className="tab-toolbar">
-            <span className="tab-toolbar-label">Merchant Map</span>
+            <span className="tab-toolbar-label">{t("expense.merchant_title")}</span>
           </div>
           {loading ? <LoadingSpinner /> : <MerchantPanel />}
         </div>
