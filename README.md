@@ -1,214 +1,156 @@
-# Alpha - Finance Tracker Ecosystem
+<div align="center">
+  <img src="apps/web/public/og-image.png" alt="Alpha" width="360" />
 
-> Full-stack personal finance, investment, and AI analytics suite.
-> Developed by Zhvny · v10.x · Python + TypeScript monorepo running a **microservice topology**.
+  **Alpha — Personal Finance Tracker & Wealth Engine**
 
----
+  ![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688) ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776ab) ![Next.js 15](https://img.shields.io/badge/Next.js-15-000000) ![React 19](https://img.shields.io/badge/React-19-38bdf8) ![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-336791) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ed)
 
-## Overview
+  Bahasa: **Indonesia** · [English](README.en.md)
+</div>
 
-Alpha tracks expenses, income, and investments (stocks/crypto/gold), computes FIFO P/L,
-runs stock analytics (technical indicators, XGBoost ML "Sniper" models, genetic optimizer,
-regime-aware Agent Senate voting), reads receipts via an OCR ensemble, and gamifies good
-financial behavior (rewards + behavioral finance index).
+Platform pelacak keuangan pribadi, portofolio investasi, dan analitik AI cerdas berbasis arsitektur microservices. Menggabungkan manajemen kas multi-profil, pelacakan FIFO multi-aset (saham, kripto, emas), pemindaian struk OCR ensemble, optimasi portofolio genetik, model prediksi ML, serta gamifikasi reward mingguan dan analisis perilaku finansial.
 
-- **Repo layout**: monorepo managed by **Turborepo + pnpm** (`apps/` + `packages/`).
-- **Runtime**: microservices - one public gateway (:8444) fronting six domain services,
-  plus a Next.js web dashboard, an Electron GUI, and a Textual TUI CLI.
+## Fitur Utama
 
----
+- **Ledger & Anggaran** - pencatatan multi-rekening, kategori kustom, pelacakan pengeluaran & pemasukan, transaksi berulang, estimasi *safe-to-spend*, dan peramalan saldo masa depan.
+- **Portofolio & Investasi** - pelacakan aset komprehensif (saham IDX, kripto, emas) dengan kalkulasi FIFO P/L otomatis, riwayat transaksi dividen, dan perbandingan performa.
+- **Market Analytics & ML** - analisis teknikal real-time, model klasifikasi XGBoost Sniper, optimasi bobot portofolio berbasis algoritma genetik, dan sistem konsensus *Agent Senate*.
+- **Insights & Receipt OCR** - pemindaian struk belanja ensemble 3-engine (Tesseract + EasyOCR + PaddleOCR) dengan *majority voting*, deteksi anomali otomatis, dan *AI financial health score*.
+- **Reward & Gamifikasi** - rotasi self-reward mingguan (12 item dari pool 300+ item bilingual, 5 kategori, 25 tingkat harga), carry-over klaim 14 hari, pelacak streak menabung, dan peringkat disiplin.
+- **Platform & Keamanan** - isolasi multi-profil (Pribadi & Bisnis), autentikasi CIA Triad + tanda tangan HMAC, pembatasan laju (*rate limiting*), audit log SQLite, dan integrasi bot notifikasi Telegram.
 
-## Architecture
+## Arsitektur Sistem
 
-```
+Topologi microservices terdistribusi dengan API Gateway terpusat yang merutekan request ke enam domain service independen:
+
+```text
                        ┌──────────────┐
-   browser/GUI ───────►│   gateway    │ :8444  exact-route proxy built from
-   CLI (local) ───────►│  (FastAPI)   │        each service's OpenAPI spec
+   Browser / Web ─────►│   Gateway    │ :8444  Reverse proxy otomatis
+   CLI / Mobile ──────►│  (FastAPI)   │        berbasis OpenAPI spec
                        └──────┬───────┘
       ┌──────────┬───────────┬┴─────────┬────────────┬────────────┐
       ▼          ▼           ▼          ▼            ▼            ▼
- platform     ledger    portfolio    market     insights    engagement
- :8450        :8451     :8452        :8453      :8454       :8455
- auth         expenses  investments  stocks     receipts    behavioral
- profiles     income    reports      ml/genetic merchant   rewards
- logs/ws/tg   budget    dashboard    senate     ai/analytics
-              goals/nl                scheduler
+   platform    ledger    portfolio    market     insights    engagement
+    :8450      :8451       :8452       :8453       :8454       :8455
+   Autentikasi Transaksi   Investasi   Saham IDX   OCR Struk   Perilaku
+   Multi-Profil Anggaran   FIFO P/L    Model ML    AI Advisor  Reward Pool
+   Notifikasi  Peramalan   Laporan     Optimizer   Anomali     Rotasi Mingguan
       └──────────┴───────────┴──────────┬─┴────────────┴────────────┘
                                         ▼
-                                 PostgreSQL (shared - stage 1)
+                                 PostgreSQL 16
 ```
 
-| Service | Port | Owns |
+| Service | Port | Domain & Tanggung Jawab |
 |---|---|---|
-| `gateway` | 8444 | Public entry; HTTP reverse proxy (exact route table from `/openapi.json`) + WebSocket proxy (`/ws/*`) |
-| `platform` | 8450 | auth, profiles, logs, notifications (WS), Telegram bot/webhook, `/api/config` |
-| `ledger` | 8451 | expenses, income, transactions/accounts/categories, budget, recurring, confirmations, safe-to-spend, forecast, net worth, goals, NL finance |
-| `portfolio` | 8452 | investments (FIFO), reports, dashboard aggregator |
-| `market` | 8453 | stocks, ML stocks, genetic optimizer, butterfly risk map, Agent Senate, market scheduler |
-| `insights` | 8454 | receipt OCR ensemble, merchant map, AI advisor, analytics, anomalies, health score |
-| `engagement` | 8455 | behavioral finance (FBS), reward economy |
+| `gateway` | 8444 | Entry point publik, reverse proxy HTTP otomatis, WebSocket proxy (`/ws/*`) |
+| `platform` | 8450 | Autentikasi, manajemen profil, audit log, notifikasi WebSocket, bot Telegram |
+| `ledger` | 8451 | Pengeluaran, pemasukan, kategori, anggaran, safe-to-spend, peramalan saldo |
+| `portfolio` | 8452 | Investasi multi-aset, kalkulasi FIFO P/L, rekapitulasi dividen, ringkasan dasbor |
+| `market` | 8453 | Analisis saham, model XGBoost ML, algoritma genetik, Agent Senate, scheduler |
+| `insights` | 8454 | OCR struk belanja ensemble, pemetaan merchant, deteksi anomali pengeluaran |
+| `engagement` | 8455 | Indeks keuangan perilaku (FBS), rotasi reward mingguan, carry-over klaim |
 
-Router implementations live in the shared library `packages/api/backend/routers/`;
-each service mounts only its subset (see `services/<name>/main.py`). The gateway
-discovers routes automatically - adding a router needs zero gateway changes.
+## Stack Teknologi
 
----
+| Layer | Teknologi |
+|---|---|
+| Frontend | [Next.js](https://nextjs.org) 15 (Kanonik) + [Vite](https://vite.dev) 5 / [React](https://react.dev) 19, Tailwind CSS, Recharts, Context i18n ID/EN |
+| Backend | Python 3.12, [FastAPI](https://fastapi.tiangolo.com), Uvicorn, Pydantic v2, HTTPX, Prisma Client Python |
+| Analitik & ML | pandas, NumPy, yfinance, XGBoost, Algoritma Genetik, Ollama (opsional) |
+| OCR Struk | Ensemble [Tesseract](https://github.com/tesseract-ocr/tesseract) + [EasyOCR](https://github.com/JaidedAI/EasyOCR) + [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) |
+| Database | [PostgreSQL](https://www.postgresql.org) 16 (skema multi-profil terisolasi) + SQLite lokal |
+| Orkestrasi | [Turborepo](https://turbo.build), pnpm 11, Docker Compose, Kubernetes (`k8s/`) |
 
-## Repository Structure
+## Struktur Direktori
 
 ```text
-alpha/
+personal-finance-tracker/
 ├── apps/
-│   ├── api/                 # legacy monolith entry (deprecated wrapper) + config
-│   ├── cli/                 # Textual TUI - SSOT of domain engines
-│   ├── finance-tracker-gui/ # desktop GUI (React/Electron)
-│   └── web/                 # Next.js web dashboard
+│   ├── web/                 # Dashboard kanonik Next.js 15 (App Router, Tailwind, TypeScript)
+│   ├── cli/                 # TUI terminal Textual (Rich) interaktif
+│   └── api/                 # Wrapper legacy monolith (backward-compatible)
 ├── packages/
-│   ├── api/                 # backend library: routers, security, automation, infra
-│   ├── core/                # domain/application/infrastructure (Clean Architecture)
-│   ├── database/            # Prisma client bridge (Python)
-│   ├── types/               # shared TS definitions
-│   └── web/                 # shared UI components
-├── services/                # ← microservice runtime (canonical)
-│   ├── runtime/bootstrap.py # shared app factory (logging, middleware, health, lifespan)
-│   ├── gateway/  platform/  ledger/
-│   ├── portfolio/ market/   insights/ engagement/
-├── k8s/                     # gateway.yaml, domain-services.yaml, db-*, ingress
-├── migrations/              # numbered SQL schema migrations
-├── docs/                    # documentation hubs (see map below)
-├── docker-compose.yml       # dev topology (hot-reload mounts)
-├── docker-compose.prod.yml  # production topology
-├── Dockerfile               # shared backend image (all services = same image, different CMD)
-├── run.bat                  # unified launcher: GUI stack / CLI / log cockpit
-├── run-services.bat         # boots all 6 services + gateway locally (no Docker)
-└── .env.example             # port registry + required vars
+│   ├── api/                 # Library backend bersama: router, autentikasi CIA, otomatisasi
+│   ├── core/                # Clean Architecture: domain, layanan aplikasi, infrastruktur
+│   │   ├── domain/          # Entitas bisnis, engine reward, model matematis
+│   │   ├── application/     # Kasus penggunaan: ledger, portofolio, insight, OCR
+│   │   └── infrastructure/  # Repositori PostgreSQL, seeder reward pool 300 item
+│   ├── database/            # Skema Prisma & jembatan migrasi
+│   ├── types/               # Definisi tipe TypeScript bersama
+│   └── web/                 # Aplikasi web legacy Vite (React 19, i18n ID/EN)
+├── services/                # Runtime Microservices (Kanonik)
+│   ├── gateway/             # Gateway reverse proxy (:8444)
+│   ├── platform/            # Service platform & user (:8450)
+│   ├── ledger/              # Service transaksi & anggaran (:8451)
+│   ├── portfolio/           # Service investasi & laporan (:8452)
+│   ├── market/              # Service pasar modal & ML (:8453)
+│   ├── insights/            # Service OCR & analitik struk (:8454)
+│   ├── engagement/          # Service reward & scheduler rotasi (:8455)
+│   └── runtime/             # Bootstrap bersama, logging, circuit breaker, rate limiter
+├── migrations/              # Migrasi skema SQL bernomor (001–021)
+├── k8s/                     # Manifes Kubernetes: gateway, domain-services, ingress
+├── scripts/                 # Utilitas administrasi & simulasi 26 minggu
+├── docker-compose.yml       # Topologi Docker development
+├── docker-compose.prod.yml  # Topologi Docker production
+└── README.md
 ```
 
----
+Jelajahi kode: [services](services/) · [packages](packages/) · [apps](apps/) · [migrations](migrations/) · [k8s](k8s/)
 
-## Tech Stack
+## Cara Run (Development)
 
-| Layer | Tech |
-|---|---|
-| API | Python 3.12, FastAPI, uvicorn, Prisma (Python client), httpx |
-| Analytics/ML | pandas, yfinance, XGBoost, genetic optimizer, Ollama (local LLM, lazy-loaded) |
-| OCR | Tesseract + EasyOCR + PaddleOCR ensemble w/ majority voting |
-| Web/GUI | React, Next.js, Tailwind, Recharts; Electron for desktop |
-| CLI | Python Textual (Rich) TUI |
-| Data | PostgreSQL (canonical) + SQLite profile-isolated local stores |
-| Orchestration | Turborepo, pnpm, Docker Compose, Kubernetes (k8s/) |
+Prasyarat: Python 3.12+, Node.js 20+ (22 disarankan), pnpm 11, PostgreSQL 16 (atau Docker).
 
----
-
-## Prerequisites
-
-- Python 3.12+, Node.js 20+ (22 recommended), pnpm 11
-- PostgreSQL 16 (or `docker compose up postgres`)
-- Tesseract OCR binary (optional - receipt scanning)
-- Ollama (optional - local AI advisor)
-
-## Quick Start
-
-### Option A - full topology with Docker (recommended)
+### Opsi A — Docker Compose (Topologi Lengkap)
 
 ```bash
-cp .env.example .env          # set SECRET_KEY etc.
-docker compose up --build     # gateway + 6 services + postgres + web
-# web  → http://localhost:3000
-# API  → http://localhost:8444  (gateway health: /health)
+# Salin konfigurasi environment
+cp .env.example .env
+
+# Jalankan seluruh service, gateway, database, dan web
+docker compose up --build
+
+# Akses aplikasi:
+# Web Dashboard  → http://localhost:3000
+# API Gateway    → http://localhost:8444  (Health check: http://localhost:8444/health)
 ```
 
-### Option B - local processes, no Docker
+### Opsi B — Lokal tanpa Docker
 
 ```bash
-pnpm install                  # workspace deps (web/packages)
+# 1. Pasang dependensi workspace (frontend & tooling)
+pnpm install
+
+# 2. Pasang dependensi Python
 pip install -r requirements.prod.txt
-./run-services.bat            # Windows; or run each: python -m services.<name>.main
+
+# 3. Jalankan seluruh microservices + gateway
+# Windows:
+./run-services.bat
+# Linux/macOS: jalankan python -m services.<nama_service>.main di masing-masing terminal
+
+# 4. Jalankan frontend (terminal terpisah)
+pnpm --filter @finance-tracker/web dev    # Dashboard Next.js (:3000)
+# atau
+pnpm --filter finance-tracker-gui dev    # Dashboard Vite legacy (:5173)
 ```
 
-### Legacy monolith (deprecated but functional)
+## Verifikasi & Pengujian
 
 ```bash
-./run.bat                     # menu: GUI stack (API+web+n8n), CLI, log cockpit
-cd apps/api && python main.py # same app directly
+# Jalankan seluruh unit test suite Python
+pytest tests/unit/
+
+# Jalankan simulasi rotasi reward 26 minggu
+python scripts/simulate_rotation.py
+
+# Verifikasi kompilasi TypeScript frontend
+pnpm --filter @finance-tracker/web exec tsc --noEmit
+
+# Verifikasi build frontend legacy
+pnpm --filter finance-tracker-gui build
 ```
 
-The monolith mounts **all** routers on one port; new work must go through `services/`.
+## License
 
----
-
-## Environment Variables
-
-See [`.env.example`](.env.example) - highlights:
-
-| Variable | Default | Notes |
-|---|---|---|
-| `ALPHA_GATEWAY_PORT` | `8444` | Gateway public port |
-| `ALPHA_GATEWAY_TARGETS` | localhost peers | Override downstream URLs (compose/k8s set this) |
-| `ALPHA_SERVICE_PORT` | per-service | Port override inside containers |
-| `DATABASE_URL` | - | Shared Postgres DSN (stage-1) |
-| `SECRET_KEY` | - | **Required**, never ship the default in production |
-| `FINANCE_TRACKER_CORS_ORIGINS` | localhost list | Allowed browser origins |
-| `ENABLE_TELEGRAM_POLL` | `0` | Opt-in Telegram bot long-polling (platform service) |
-
-Port registry is authoritative in `.env.example`: gateway 8444, domain services 8450–8455.
-
----
-
-## Development
-
-```bash
-pnpm dev            # turbo dev (web + packages)
-pnpm lint           # eslint + ruff check .
-pnpm test           # turbo test (vitest)
-python -m pytest tests/          # python suites
-ruff check .                     # python lint
-python -m services.<name>.main   # run one service
-```
-
-Health endpoints per service: `/health` (live), `/health/ready` (DB readiness),
-`/info` (authenticated metadata). Gateway aggregate: `GET :8444/health`.
-
-Logs rotate into `logs/<service-name>.log`.
-
----
-
-## Deployment
-
-| Target | Entry point |
-|---|---|
-| Dev (Docker) | `docker compose up --build` |
-| Production (Docker) | `docker compose --env-file .env.prod -f docker-compose.prod.yml up -d` |
-| Kubernetes | `kubectl apply -f k8s/` (db-secret → statefulset/service → domain-services → gateway → ingress) |
-
-- One backend image serves every Python service (command differs per container).
-- Ingress terminates at `alpha-gateway`; tailscale sidecar runs on gateway only.
-- Run `psql "$DATABASE_URL" -f migrations/0XX_*.sql` in order after first boot
-  (schema initializer also validates on startup).
-
----
-
-## Security Notes
-
-- Never deploy with the default `SECRET_KEY` (config raises at boot without it).
-- CORS defaults to localhost only; override via `FINANCE_TRACKER_CORS_ORIGINS`.
-- Internal services (8450–8455) are assumed network-private; expose only the gateway.
-- Known stage-1 debts and their review triggers live in
-  [`docs/maintenance/HONEY_DEBT.md`](docs/maintenance/HONEY_DEBT.md).
-
----
-
-## Documentation Map
-
-| Doc | Role |
-|---|---|
-| `services/` + `docker-compose.yml` | Current architecture (this file §Architecture) |
-| [`docs/services/alpha-microservice.md`](docs/services/alpha-microservice.md) | Endpoint reference (legacy naming; valid through gateway) |
-| [`docs/DATABASE_STRATEGY.md`](docs/DATABASE_STRATEGY.md) + `migrations/` | Persistence strategy & schema versions |
-| [`docs/system/architecture.md`](docs/system/architecture.md) | Domain logic blueprint (CLI-era context) |
-| [`docs/maintenance/HONEY_DEBT.md`](docs/maintenance/HONEY_DEBT.md) | Tech-debt ledger with triggers |
-| [`docs/features/*.md`](docs/features) | Feature specs + n8n workflow JSONs |
-
----
-
-> Finance Tracker Ecosystem - Zhvny
+`MIT LICENSE` (Copyright © 2026 Zhvny).
