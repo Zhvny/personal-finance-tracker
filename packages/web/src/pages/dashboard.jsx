@@ -11,9 +11,11 @@ import { useTotalCredit, useMacro, useDashboard, useDashboardMetadata, useAppCon
 import TrendChart from "../finance/TrendChart.jsx";
 import { NetWorthHistoryChart, SavingRateChart } from "../finance/NetWorthHistoryChart.jsx";
 import SankeyChart from "../finance/SankeyChart.jsx";
+import { useI18n } from "../i18n/context.js";
 
 // ── Widget: Macro Market Overview ───────────────────────────────────────────
 function MacroMarketOverview() {
+  const { t } = useI18n();
   const { data: macro, loading, error, reload } = useMacro();
   
   if (error) return <ApiError error={error} onRetry={reload} />;
@@ -23,28 +25,28 @@ function MacroMarketOverview() {
     <div className="card" style={{ marginBottom: 16 }}>
       <div className="card-h">
         <span className="card-t" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <IconInsight size={14} /> Global Macro Market
+          <IconInsight size={14} /> {t("dashboard.macro_title")}
         </span>
-        <div style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 700 }}>REAL-TIME VECTORS</div>
+        <div style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 700 }}>{t("dashboard.macro_vectors")}</div>
       </div>
       <div className="card-b" style={{ padding: "16px 20px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 16 }}>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>REGIME</div>
+            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>{t("dashboard.regime")}</div>
             <div style={{ fontSize: 16, fontWeight: 900, color: "var(--cy)" }}>{macro?.regime || "—"}</div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>LIQUIDITY (LPI)</div>
+            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>{t("dashboard.liquidity")}</div>
             <div style={{ fontSize: 16, fontWeight: 900 }}>{macro?.lpi != null ? macro.lpi.toFixed(1) : "—"}</div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>YIELD CURVE</div>
+            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>{t("dashboard.yield_curve")}</div>
             <div style={{ fontSize: 16, fontWeight: 900, color: (macro?.ycmo ?? 0) >= 0 ? "var(--gr)" : "var(--rd)" }}>
               {macro?.ycmo != null ? macro.ycmo.toFixed(1) : "—"}
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>INFLATION (ICM)</div>
+            <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1, marginBottom: 4 }}>{t("dashboard.inflation")}</div>
             <div style={{ fontSize: 16, fontWeight: 900, color: (macro?.icm ?? 0) > 0.4 ? "var(--rd)" : "var(--gr)" }}>
               {macro?.icm != null ? macro.icm.toFixed(1) : "—"}
             </div>
@@ -57,6 +59,7 @@ function MacroMarketOverview() {
 
 // ── Widget: 12-month trend chart ──────────────────────────────────────────────
 function MonthlyTrendChart() {
+  const { t } = useI18n();
   const { data, loading, error, reload } = useTotalCredit();
   
   if (error) return <ApiError error={error} onRetry={reload} />;
@@ -68,12 +71,12 @@ function MonthlyTrendChart() {
 
   return (
     <TrendChart
-      title="12-Month Trend"
+      title={t("dashboard.trend_title")}
       height={150}
       fmt={fmt}
       series={[
-        { key: "income",  label: "Income",  color: "var(--gr)", data: active.map(m => ({ label: m.label, value: m.income  })) },
-        { key: "expense", label: "Expense", color: "var(--rd)", data: active.map(m => ({ label: m.label, value: m.expense })) },
+        { key: "income",  label: t("dashboard.income"),            color: "var(--gr)", data: active.map(m => ({ label: m.label, value: m.income  })) },
+        { key: "expense", label: t("dashboard.expense_singular"),  color: "var(--rd)", data: active.map(m => ({ label: m.label, value: m.expense })) },
       ]}
     />
   );
@@ -81,6 +84,7 @@ function MonthlyTrendChart() {
 
 // ── Widget: Category breakdown ───────────────────────────────────────────────
 function CategoryBreakdown({ byCategory, loading }) {
+  const { t } = useI18n();
   if (loading) return <WidgetSkeleton rows={4} h={200} />;
 
   const entries = Object.entries(byCategory || {}).sort((a, b) => b[1] - a[1]);
@@ -89,8 +93,8 @@ function CategoryBreakdown({ byCategory, loading }) {
   if (!entries.length) return (
     <Empty
       variant="expense"
-      msg="Belum ada pengeluaran bulan ini."
-      sub="Mulai catat pengeluaran untuk melihat breakdown per kategori."
+      msg={t("dashboard.category_empty")}
+      sub={t("dashboard.category_empty_sub")}
     />
   );
 
@@ -111,6 +115,7 @@ function CategoryBreakdown({ byCategory, loading }) {
 
 // ── Widget: Cashflow Sankey ──────────────────────────────────────────────────
 function CashflowSankey() {
+  const { t } = useI18n();
   const { data: sankeyData, loading, error, reload } = useSankeyData();
   const [width, setWidth] = React.useState(600);
   const containerRef = React.useRef(null);
@@ -133,9 +138,9 @@ function CashflowSankey() {
     <div className="card" style={{ marginBottom: 16 }}>
       <div className="card-h">
         <span className="card-t" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <IconIncome size={14} /> Cashflow Path
+          <IconIncome size={14} /> {t("dashboard.cashflow_path")}
         </span>
-        <div style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 700 }}>MONTHLY FLOW</div>
+        <div style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 700 }}>{t("dashboard.monthly_flow")}</div>
       </div>
       <div className="card-b" ref={containerRef} style={{ padding: "16px 20px" }}>
         <SankeyChart data={sankeyData} width={width} height={320} />
@@ -146,22 +151,23 @@ function CashflowSankey() {
 
 // ── Widget: Portfolio sidebar ───────────────────────────────────────────────
 function PortfolioSidebar({ holdings, plTotal, loading, onNav }) {
+  const { t } = useI18n();
   if (loading) return <WidgetSkeleton rows={5} h={350} />;
 
   return (
     <div className="card" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <div className="card-h">
         <span className="card-t" style={{ display:"flex", alignItems:"center", gap:6 }}>
-          <IconInvestment size={14} /> Portfolio
+          <IconInvestment size={14} /> {t("dashboard.portfolio")}
         </span>
-        <button className="btn btn-g btn-s" onClick={() => onNav("investments")}>View →</button>
+        <button className="btn btn-g btn-s" onClick={() => onNav("investments")}>{t("dashboard.view")}</button>
       </div>
       <div className="card-b" style={{ padding: "12px 14px", flex: 1, overflowY: "auto" }}>
         {!holdings?.length
           ? <Empty
               variant="investment"
-              msg="Belum ada holdings aktif."
-              sub="Beli aset pertama untuk memulai portfolio."
+              msg={t("dashboard.portfolio_empty")}
+              sub={t("dashboard.portfolio_empty_sub")}
             />
           : holdings.map((inv, i) => (
             <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--bdr)", minWidth: 0 }}>
@@ -180,7 +186,7 @@ function PortfolioSidebar({ holdings, plTotal, loading, onNav }) {
                       </div>
                       <div style={{ fontSize: 11, color: "var(--tx2)" }}>{fmtS(inv.pl)}</div>
                     </>
-                  : <div style={{ fontSize: 11, color: "var(--tx3)" }}>no price</div>
+                  : <div style={{ fontSize: 11, color: "var(--tx3)" }}>{t("dashboard.no_price")}</div>
                 }
               </div>
             </div>
@@ -188,7 +194,7 @@ function PortfolioSidebar({ holdings, plTotal, loading, onNav }) {
         }
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 14px 14px", borderTop: "1px solid var(--bdr2)", flexShrink: 0 }}>
-        <span style={{ fontSize: 11, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: ".5px" }}>Unrealized P/L</span>
+        <span style={{ fontSize: 11, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: ".5px" }}>{t("dashboard.unrealized_pl")}</span>
         <span style={{ fontSize: 13, fontWeight: 700, fontFamily: "var(--mono)", color: plTotal >= 0 ? "var(--gr)" : "var(--rd)" }}>{fmtS(plTotal)}</span>
       </div>
     </div>
@@ -197,6 +203,7 @@ function PortfolioSidebar({ holdings, plTotal, loading, onNav }) {
 
 // ── Widget: Hero Visuals ────────────────────────────────────────────────────
 const HeroVisual = () => {
+  const { t } = useI18n();
   return (
     <div className="card" style={{ 
       height: 120, marginBottom: 16, overflow: "hidden", position: "relative",
@@ -207,9 +214,9 @@ const HeroVisual = () => {
          background: "linear-gradient(135deg, var(--bg2) 0%, var(--bg) 100%)",
          display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 32px"
        }}>
-          <div style={{ fontSize: 22, fontWeight: 900, color: "var(--tx)", letterSpacing: -0.5 }}>Strategic Wealth</div>
+          <div style={{ fontSize: 22, fontWeight: 900, color: "var(--tx)", letterSpacing: -0.5 }}>{t("dashboard.hero_title")}</div>
           <div style={{ fontSize: 12, color: "var(--tx3)", maxWidth: 360, marginTop: 4, lineHeight: 1.4 }}>
-            Building long-term equity through quantitative analysis and disciplined asset allocation.
+            {t("dashboard.hero_sub")}
           </div>
        </div>
     </div>
@@ -218,6 +225,7 @@ const HeroVisual = () => {
 
 // ── Main Dashboard ─────────────────────────────────────────────────────────────
 export default function Dashboard({ onNav }) {
+  const { t } = useI18n();
   // 1. Data hooks
   const { data: meta, loading: metaLoading, error: metaError, reload: reloadMeta } = useDashboardMetadata();
   const { data: dash, loading: dashLoading, error: dashError, reload: reloadDash } = useDashboard();
@@ -254,12 +262,12 @@ export default function Dashboard({ onNav }) {
 
   return (
     <div>
-      <h1 className="sr-only">Finance Dashboard — Track Income, Expenses &amp; Investments</h1>
+      <h1 className="sr-only">{t("dashboard.sr_title")}</h1>
       {/* ── Sticky Toolbar ── */}
       <div className="db-toolbar">
         <button className="db-action-btn db-refresh-mobile-hide" onClick={handleReload} disabled={dashLoading}>
           <IconRefresh size={14} style={{ animation: dashLoading ? "comp-spin 1s linear infinite" : "none" }} />
-          {dashLoading ? "Refreshing..." : "Refresh Data"}
+          {dashLoading ? t("dashboard.refreshing") : t("dashboard.refresh_data")}
         </button>
       </div>
 
@@ -274,11 +282,11 @@ export default function Dashboard({ onNav }) {
           <div style={{ marginBottom: "var(--sp-4)" }}>
             <StatCard
               variant="hero"
-              label={<><IconWallet size={13} /> Net Cash Flow — {monthLabel}</>}
+              label={<><IconWallet size={13} /> {t("dashboard.net_cash_flow", { month: monthLabel })}</>}
               value={fmtS(net)}
               accent={net >= 0 ? "var(--gr)" : "var(--rd)"}
               color={net >= 0 ? "g" : "r"}
-              sub={net >= 0 ? "Surplus this month" : "Deficit this month"}
+              sub={net >= 0 ? t("dashboard.surplus") : t("dashboard.deficit")}
             />
           </div>
 
@@ -286,59 +294,59 @@ export default function Dashboard({ onNav }) {
           <div className="sg-4">
             <StatCard
               variant="compact"
-              label={<><IconIncome size={11} /> Income</>}
+              label={<><IconIncome size={11} /> {t("dashboard.income")}</>}
               value={fmt(income.total_this)}
               color="g"
               className="clickable"
               sub={pctChg(income.total_this, income.total_prev) !== null
                 ? `${pctChg(income.total_this, income.total_prev) >= 0 ? "▲" : "▼"} ${Math.abs(pctChg(income.total_this, income.total_prev)).toFixed(1)}%`
-                : "no prior data"}
+                : t("dashboard.no_prior_data")}
               onClick={() => onNav("income")}
             />
             <StatCard
               variant="compact"
-              label={<><IconExpense size={11} /> Expenses</>}
+              label={<><IconExpense size={11} /> {t("dashboard.expenses")}</>}
               value={fmt(expense.total_this)}
               color="r"
               className="clickable"
               sub={pctChg(expense.total_this, expense.total_prev) !== null
                 ? `${pctChg(expense.total_this, expense.total_prev) >= 0 ? "▲" : "▼"} ${Math.abs(pctChg(expense.total_this, expense.total_prev)).toFixed(1)}%`
-                : "no prior data"}
+                : t("dashboard.no_prior_data")}
               onClick={() => onNav("expenses")}
             />
             <StatCard
               variant="compact"
-              label={<><IconRepeat size={11} /> Fixed Cost</>}
+              label={<><IconRepeat size={11} /> {t("dashboard.fixed_cost")}</>}
               value={fmtS(monthlyFixed)}
               color="y"
               className="clickable"
-              sub={`${confirmedCount} recurring`}
+              sub={t("dashboard.recurring_count", { count: confirmedCount })}
               onClick={() => onNav("expenses")}
             />
             {/* Health score only when computed — no filler placeholder. */}
             {healthScore ? (
               <StatCard
                 variant="compact"
-                label={<><IconHealth size={11} /> Health</>}
+                label={<><IconHealth size={11} /> {t("dashboard.health")}</>}
                 value={`${healthScore.total_score}`}
                 color={healthScore.total_score >= 80 ? "g" : healthScore.total_score >= 60 ? "y" : "r"}
-                sub={`Grade ${healthScore.grade}`}
+                sub={t("dashboard.grade", { grade: healthScore.grade })}
               />
             ) : safeToSpend ? (
               <StatCard
                 variant="compact"
-                label={<><IconWallet size={11} /> Safe To Spend</>}
+                label={<><IconWallet size={11} /> {t("dashboard.safe_to_spend")}</>}
                 value={fmtS(safeToSpend.safe_to_spend ?? 0)}
                 color="g"
-                sub={`Bal ${fmtS(safeToSpend.current_balance ?? 0)}`}
+                sub={t("dashboard.balance", { amount: fmtS(safeToSpend.current_balance ?? 0) })}
               />
             ) : goals?.length ? (
               <StatCard
                 variant="compact"
-                label={<><IconTarget size={11} /> Goals</>}
+                label={<><IconTarget size={11} /> {t("dashboard.goals")}</>}
                 value={`${goals.length}`}
                 color="n"
-                sub="active"
+                sub={t("dashboard.active")}
               />
             ) : null}
           </div>
@@ -371,7 +379,7 @@ export default function Dashboard({ onNav }) {
           {/* ── Spending ratio ── */}
           <div className="ratio-box">
             <div className="ratio-row">
-              <span style={{display:"flex",alignItems:"center",gap:5}}><IconPieChart size={13} />Spending Ratio</span>
+              <span style={{display:"flex",alignItems:"center",gap:5}}><IconPieChart size={13} />{t("dashboard.spending_ratio")}</span>
               <span style={{ fontSize: 11, fontFamily: "var(--mono)", color: "var(--tx3)" }}>
                 {fmt(expVal)} / {fmt(incVal)}
               </span>
@@ -379,13 +387,13 @@ export default function Dashboard({ onNav }) {
             <div className="ratio-val" style={{ color: rc }}>{ratio.toFixed(1)}%</div>
             <div className="ratio-track">
               <div className="ratio-fill" style={{ width: `${Math.min(ratio, 100)}%`, background: rc }} />
-              <div className="ratio-marker" style={{ left: "50%", background: "var(--gr)" }} title="50% — healthy threshold" />
-              <div className="ratio-marker" style={{ left: "80%", background: "var(--yl)" }} title="80% — warning threshold" />
+              <div className="ratio-marker" style={{ left: "50%", background: "var(--gr)" }} title={t("dashboard.threshold_healthy")} />
+              <div className="ratio-marker" style={{ left: "80%", background: "var(--yl)" }} title={t("dashboard.threshold_warning")} />
             </div>
             <div style={{ display:"flex", justifyContent:"space-between", marginTop: 5, fontSize: 10, color: "var(--tx3)", fontFamily: "var(--mono)" }}>
-              <span style={{ color: "var(--gr)" }}>50% good</span>
-              <span style={{ color: "var(--yl)" }}>80% warning</span>
-              <span style={{ color: "var(--rd)" }}>100% critical</span>
+              <span style={{ color: "var(--gr)" }}>{t("dashboard.good_50")}</span>
+              <span style={{ color: "var(--yl)" }}>{t("dashboard.warning_80")}</span>
+              <span style={{ color: "var(--rd)" }}>{t("dashboard.critical_100")}</span>
             </div>
           </div>
 
@@ -393,8 +401,8 @@ export default function Dashboard({ onNav }) {
           <ErrorBoundary>
             <div className="card">
               <div className="card-h">
-                <span className="card-t">Expenses by Category</span>
-                <button className="btn btn-g btn-s" onClick={() => onNav("expenses")}>View all →</button>
+                <span className="card-t">{t("dashboard.expenses_by_category")}</span>
+                <button className="btn btn-g btn-s" onClick={() => onNav("expenses")}>{t("dashboard.view_all")}</button>
               </div>
               <div className="card-b" style={{ paddingBottom: 8 }}>
                 <CategoryBreakdown byCategory={expense.by_category} loading={dashLoading && !dash} />
@@ -421,16 +429,11 @@ export default function Dashboard({ onNav }) {
             {ratio > 80 ? <IconWarning size={17} /> : <IconInsight size={17} />}
           </div>
           <div className="ins-txt">
-            <strong>Spending is {ratio <= 50 ? "healthy" : ratio <= 80 ? "moderate" : "high"}.</strong>{" "}
-            You've spent <strong>{ratio.toFixed(0)}%</strong> of income this month —{" "}
-            {ratio <= 50
-              ? "well within the healthy 50% threshold."
-              : ratio <= 80
-                ? "approaching the 80% warning threshold."
-                : "consider reducing discretionary spending."}
+            <strong>{t("dashboard.insight_intro", { level: ratio <= 50 ? t("dashboard.level_healthy") : ratio <= 80 ? t("dashboard.level_moderate") : t("dashboard.level_high") })}</strong>{" "}
+            {t("dashboard.insight_spent_pre")} <strong>{ratio.toFixed(0)}%</strong> {t("dashboard.insight_spent_post", { tail: ratio <= 50 ? t("dashboard.tail_healthy") : ratio <= 80 ? t("dashboard.tail_moderate") : t("dashboard.tail_high") })}
             <br />
             <span className="ins-action" onClick={() => onNav("expenses")}>
-              View Expenses <IconArrowRight size={11} />
+              {t("dashboard.view_expenses")} <IconArrowRight size={11} />
             </span>
           </div>
         </div>
@@ -438,13 +441,13 @@ export default function Dashboard({ onNav }) {
           <div className="ins-ico"><IconInfo size={17} /></div>
           <div className="ins-txt">
             {topCat
-              ? <><strong>Top expense: {topCat[0]}</strong> — accounts for{" "}
-                  {expense.total_this > 0 ? (topCat[1] / expense.total_this * 100).toFixed(0) : 0}% ({fmt(topCat[1])}) of total spending.</>
-              : <><strong>No expenses recorded</strong> yet this month. Start tracking your spending!</>
+              ? <><strong>{t("dashboard.top_expense", { cat: topCat[0] })}</strong>{" "}
+                  {t("dashboard.top_expense_body", { pct: expense.total_this > 0 ? (topCat[1] / expense.total_this * 100).toFixed(0) : 0, amount: fmt(topCat[1]) })}</>
+              : <><strong>{t("dashboard.no_expenses")}</strong> {t("dashboard.no_expenses_body")}</>
             }
             <br />
             <span className="ins-action" onClick={() => onNav(topCat ? "expenses" : "receipt")}>
-              {topCat ? "Set Budget →" : "Add Expense →"} <IconArrowRight size={11} />
+              {topCat ? t("dashboard.set_budget") : t("dashboard.add_expense")} <IconArrowRight size={11} />
             </span>
           </div>
         </div>
