@@ -17,6 +17,7 @@ import {
   IconPieChart, IconBarChart, IconCheck, IconStock, IconCrypto, IconGold,
   IconPortfolio, IconAnalysis, IconStar, IconWallet } from "../icons.jsx";
 import TrendChart from "../finance/TrendChart.jsx";
+import { useI18n } from "../i18n/context.js";
 
 // IDR/USD display helpers — fxRate passed as argument, sourced from /api/config
 // Never hardcoded: useFxRate() hook returns backend value with 16500 fallback.
@@ -88,19 +89,20 @@ function RealizedSkeleton() {
 
 // ── Sub-component: Holdings table ─────────────────────────────────────────────
 function HoldingsTable({ investments, onSell, onDelete, onToggleFavorite, showUSD = false, fxRate = 16500 }) {
-  if (!investments.length) return <Empty variant="investment" msg="Portfolio kosong." sub="Tambah investasi pertamamu untuk mulai membangun aset!" />;
+  const { t } = useI18n();
+  if (!investments.length) return <Empty variant="investment" msg={t("portfolio.empty_holdings_msg")} sub={t("portfolio.empty_holdings_sub")} />;
   return (
-    <div className="tbl-wrap" tabIndex={0} role="region" aria-label="Scrollable data table">
+    <div className="tbl-wrap" tabIndex={0} role="region" aria-label={t("expense.table_label")}>
         <table className="tbl">
         <thead>
           <tr>
             <th style={{ width: 30 }}></th>
-            <th className="col-cat">Ticker</th><th className="tbl-col-hide-xs">Type</th>
-            <th className="tbl-col-hide-sm r">Qty</th>
-            <th className="tbl-col-hide-sm r">Remaining</th>
-            <th className="tbl-col-hide-sm r">Buy Price</th>
-            <th className="tbl-col-hide-sm r">Curr. Price</th>
-            <th className="r col-amt">P/L</th><th className="r">P/L %</th>
+            <th className="col-cat">{t("portfolio.col_ticker")}</th><th className="tbl-col-hide-xs">{t("portfolio.col_type")}</th>
+            <th className="tbl-col-hide-sm r">{t("portfolio.col_qty")}</th>
+            <th className="tbl-col-hide-sm r">{t("portfolio.col_remaining")}</th>
+            <th className="tbl-col-hide-sm r">{t("portfolio.col_buy_price")}</th>
+            <th className="tbl-col-hide-sm r">{t("portfolio.col_curr_price")}</th>
+            <th className="r col-amt">{t("portfolio.col_pl")}</th><th className="r">{t("portfolio.col_pl_pct")}</th>
             <th className="col-act"></th>
           </tr>
         </thead>
@@ -126,7 +128,7 @@ function HoldingsTable({ investments, onSell, onDelete, onToggleFavorite, showUS
             return (
               <tr key={inv.id || Math.random()} className={inv.is_favorite ? "fav-row" : ""}>
                 <td>
-                  <button className="btn-icon" onClick={() => onToggleFavorite(inv.id)} title="Toggle Favorite">
+                  <button className="btn-icon" onClick={() => onToggleFavorite(inv.id)} title={t("portfolio.toggle_favorite")}>
                     <IconStar size={14} color={inv.is_favorite ? "var(--yl)" : "var(--tx3)"} style={{ fill: inv.is_favorite ? "var(--yl)" : "none" }} />
                   </button>
                 </td>
@@ -141,12 +143,12 @@ function HoldingsTable({ investments, onSell, onDelete, onToggleFavorite, showUS
                 <td className="tbl-col-hide-sm r" style={{ fontFamily: "var(--mono)", fontSize: 11, color: hasLivePrice ? "var(--cy)" : "var(--tx3)" }}>
                   {hasLivePrice 
                     ? fmtCur(currPriceIdr, showUSD, fxRate) 
-                    : <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--tx3)" }}>{fmtCur(currPriceIdr, showUSD, fxRate)} <span style={{fontSize:9, padding:"1px 4px", borderRadius:4, background:"var(--bg4)", color:"var(--tx3)"}} title="Harga pasar belum tersedia; menggunakan Buy Price">Buy Price</span></span>}
+                    : <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--tx3)" }}>{fmtCur(currPriceIdr, showUSD, fxRate)} <span style={{fontSize:9, padding:"1px 4px", borderRadius:4, background:"var(--bg4)", color:"var(--tx3)"}} title={t("portfolio.no_live_price_title")}>{t("portfolio.col_buy_price")}</span></span>}
                 </td>
                 <td className="r">
                   {hasLivePrice
                     ? <PLBadge pl={showUSD ? plIdr / fxRate : plIdr} isUSD={showUSD} />
-                    : <span className="pill dim" style={{fontSize:9}} title="P/L membutuhkan data harga pasar">N/A</span>}
+                    : <span className="pill dim" style={{fontSize:9}} title={t("portfolio.pl_needs_price")}>N/A</span>}
                 </td>
                 <td className="r">
                   {hasLivePrice
@@ -157,7 +159,7 @@ function HoldingsTable({ investments, onSell, onDelete, onToggleFavorite, showUS
                   <div style={{ display: "flex", gap: 5, flexWrap: "nowrap", alignItems: "center" }}>
                     {inv.status !== "sold" && (
                       <button className="btn btn-d btn-s btn-sell" onClick={() => onSell(inv)}>
-                        <IconSell size={12} /> <span className="btn-sell-text">Sell</span>
+                        <IconSell size={12} /> <span className="btn-sell-text">{t("portfolio.sell")}</span>
                       </button>
                     )}
                     <button className="btn btn-g btn-s" onClick={() => onDelete(inv.id)}>
@@ -176,13 +178,14 @@ function HoldingsTable({ investments, onSell, onDelete, onToggleFavorite, showUS
 
 // ── Sub-component: Price history chart for a single holding ──────────────────
 function PriceHistoryChart({ inv }) {
+  const { t } = useI18n();
   const { data: history, loading } = useInvHistory(inv?.id);
   if (!inv) return null;
-  if (loading) return <div style={{ padding: 12, fontSize: 11, color: "var(--tx3)" }}>Loading…</div>;
+  if (loading) return <div style={{ padding: 12, fontSize: 11, color: "var(--tx3)" }}>{t("common.loading")}</div>;
   if (!history?.length || history.length < 2) return (
     <div style={{ padding: 12, fontSize: 11, color: "var(--tx3)" }}>
-      No price history found for this period. 
-      (Purchase date: {inv.buy_date?.slice(0, 10)})
+      {t("portfolio.no_history", { date: inv.buy_date?.slice(0, 10) })} 
+
     </div>
   );
 
@@ -195,14 +198,14 @@ function PriceHistoryChart({ inv }) {
         border: "1px solid var(--bdr2)", letterSpacing: 0.5,
         textTransform: "uppercase"
       }}>
-        Since Purchase ({inv.buy_date?.slice(0, 10)})
+        {t("portfolio.since_purchase", { date: inv.buy_date?.slice(0, 10) })}
       </div>
       <TrendChart
-        title={`${inv.ticker} — Price History`}
+        title={t("portfolio.price_history_title", { ticker: inv.ticker })}
         height={200}
         fmt={n => `Rp${Math.round(n).toLocaleString("id-ID")}`}
         series={[{
-          key: "price", label: "Price (IDR)", color: TYPE_COLOR[inv.asset_type] || "var(--ind-b)",
+          key: "price", label: t("portfolio.price_legend"), color: TYPE_COLOR[inv.asset_type] || "var(--ind-b)",
           data: history.map(h => ({ label: h.snapshot_date?.slice(0, 10), value: h.price_idr })),
         }]}
       />
@@ -212,6 +215,7 @@ function PriceHistoryChart({ inv }) {
 
 // ── Sub-component: Portfolio value over time (all active holdings P/L sum) ────
 function PortfolioTrendChart({ investments }) {
+  const { t } = useI18n();
   // Build per-asset type value breakdown using available data
   const types = [...new Set(investments.map(i => i.asset_type))];
   if (!investments.length || types.length === 0) return null;
@@ -222,7 +226,7 @@ function PortfolioTrendChart({ investments }) {
 
   return (
     <div className="card">
-      <div className="card-h"><span className="card-t">Unrealized P/L per Asset</span></div>
+      <div className="card-h"><span className="card-t">{t("portfolio.unrealized_per_asset")}</span></div>
       <div className="card-b">
         {hasPL.sort((a, b) => (b.pl || 0) - (a.pl || 0)).map(inv => {
           const color = (inv.pl || 0) >= 0 ? "var(--gr)" : "var(--rd)";
@@ -254,6 +258,7 @@ function PortfolioTrendChart({ investments }) {
 
 // ── Sub-component: Allocation chart ──────────────────────────────────────────
 function AllocationChart({ investments }) {
+  const { t } = useI18n();
   const byType = investments.reduce((acc, inv) => {
     const val = (inv.current_price_idr ?? inv.buy_price) * (inv.remaining_quantity ?? inv.quantity);
     acc[inv.asset_type] = (acc[inv.asset_type] || 0) + val;
@@ -261,7 +266,7 @@ function AllocationChart({ investments }) {
   }, {});
   const total = Object.values(byType).reduce((s, v) => s + v, 0);
 
-  if (!investments.length) return <Empty variant="investment" msg="Portfolio masih kosong." sub="Tambahkan aset pertama untuk melihat distribusi alokasi portfolio kamu." />;
+  if (!investments.length) return <Empty variant="investment" msg={t("portfolio.empty_alloc_msg")} sub={t("portfolio.empty_alloc_sub")} />;
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {Object.entries(byType).map(([type, val]) => {
@@ -292,8 +297,9 @@ function AllocationChart({ investments }) {
 
 // ── Sub-component: P/L bar chart ──────────────────────────────────────────────
 function PLChart({ investments }) {
+  const { t } = useI18n();
   const active = investments.filter(i => i.pl !== null && i.pl !== undefined);
-  if (!active.length) return <Empty variant="investment" msg="Belum ada data harga live." sub="Refresh harga untuk melihat P/L chart setiap aset." />;
+  if (!active.length) return <Empty variant="investment" msg={t("portfolio.empty_pl_msg")} sub={t("portfolio.empty_pl_sub")} />;
   const maxAbs = Math.max(...active.map(i => Math.abs(i.pl)), 1);
   return (
     <div>
@@ -314,42 +320,43 @@ function PLChart({ investments }) {
 
 // ── Sub-component: Realized P/L ───────────────────────────────────────────────
 function RealizedPL({ data }) {
+  const { t } = useI18n();
   if (!data) return <LoadingSpinner />;
   const { transactions, summary } = data;
   return (
     <>
       <div className="sg">
         <div className="sc" style={{ borderTop: `2px solid ${summary.total_pl >= 0 ? "var(--gr)" : "var(--rd)"}` }}>
-          <div className="sc-lbl">Total Realized P/L</div>
+          <div className="sc-lbl">{t("portfolio.total_realized_pl")}</div>
           <div className={`sc-val ${summary.total_pl >= 0 ? "g" : "r"}`}>{fmtS(summary.total_pl)}</div>
         </div>
         <div className="sc">
-          <div className="sc-lbl">Win / Loss</div>
+          <div className="sc-lbl">{t("portfolio.win_loss")}</div>
           <div className="sc-val n">
             <span style={{ color: "var(--gr)" }}>{summary.wins}W</span> / <span style={{ color: "var(--rd)" }}>{summary.losses}L</span>
           </div>
         </div>
         <div className="sc">
-          <div className="sc-lbl">Win Rate</div>
+          <div className="sc-lbl">{t("portfolio.win_rate")}</div>
           <div className="sc-val i">{summary.win_rate?.toFixed(0) || 0}%</div>
         </div>
       </div>
       <div className="card">
-        <div className="card-h"><span className="card-t">Closed Positions</span></div>
-        <div className="tbl-wrap" tabIndex={0} role="region" aria-label="Scrollable data table">
+        <div className="card-h"><span className="card-t">{t("portfolio.closed_positions")}</span></div>
+        <div className="tbl-wrap" tabIndex={0} role="region" aria-label={t("expense.table_label")}>
         <table className="tbl">
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Ticker</th>
-                <th className="tbl-col-hide-sm r">Qty</th>
-                <th className="tbl-col-hide-sm r">Sell Price</th>
-                <th className="r">Realized P/L</th>
-                <th className="r">P/L %</th>
+                <th>{t("income.col_date")}</th>
+                <th>{t("portfolio.col_ticker")}</th>
+                <th className="tbl-col-hide-sm r">{t("portfolio.col_qty")}</th>
+                <th className="tbl-col-hide-sm r">{t("portfolio.col_sell_price")}</th>
+                <th className="r">{t("portfolio.tab_realized")}</th>
+                <th className="r">{t("portfolio.col_pl_pct")}</th>
               </tr>
             </thead>
             <tbody>
-              {!transactions.length && <tr><td colSpan={6}><Empty variant="investment" msg="Belum ada posisi yang ditutup." sub="Posisi yang telah dijual (closed) akan muncul di sini sebagai riwayat transaksi." /></td></tr>}
+              {!transactions.length && <tr><td colSpan={6}><Empty variant="investment" msg={t("portfolio.empty_realized_msg")} sub={t("portfolio.empty_realized_sub")} /></td></tr>}
               {transactions.map((r, i) => (
                 <tr key={i}>
                   <td style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--tx2)" }}>{r.sell_date?.slice(0, 10)}</td>
@@ -370,6 +377,7 @@ function RealizedPL({ data }) {
 
 // ── Add Investment Modal ───────────────────────────────────────────────────────
 function AddModal({ onClose, onSaved }) {
+  const { t } = useI18n();
   const [form, setForm] = useState({ ticker: "", asset_type: "stock", quantity: "", buy_price: "", buy_currency: "IDR", buy_date: today() });
   const [saving, setSaving] = useState(false);
   const set = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
@@ -379,37 +387,37 @@ function AddModal({ onClose, onSaved }) {
     setSaving(true);
     try {
       await apiAddInvestment({ ...form, quantity: +form.quantity, buy_price: +form.buy_price });
-      onSaved("Investasi berhasil disimpan!");
+      onSaved(t("portfolio.save_success"));
       onClose();
     } catch (e) { onSaved(e.message, "error"); }
     finally { setSaving(false); }
   };
 
   return (
-    <Modal title="Add Investment" onClose={onClose}
-      footer={<><button className="btn btn-g" onClick={onClose}>Cancel</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save"}</button></>}>
+    <Modal title={t("portfolio.add_title")} onClose={onClose}
+      footer={<><button className="btn btn-g" onClick={onClose}>{t("common.cancel")}</button><button className="btn btn-p" onClick={handleSave} disabled={saving}>{saving ? t("expense.saving") : t("common.save")}</button></>}>
       <FormRow>
-        <FormGroup label="Ticker"><input className="fc" placeholder="BBCA.JK / BTC / XAU" value={form.ticker} onChange={set("ticker")} /></FormGroup>
-        <FormGroup label="Asset Type">
+        <FormGroup label={t("portfolio.col_ticker")}><input className="fc" placeholder={t("portfolio.placeholder_ticker")} value={form.ticker} onChange={set("ticker")} /></FormGroup>
+        <FormGroup label={t("portfolio.asset_type")}>
           <select className="fc sel" value={form.asset_type} onChange={set("asset_type")}>
-            <option value="stock">Stock</option>
-            <option value="crypto">Crypto</option>
-            <option value="gold">Gold</option>
+            <option value="stock">{t("portfolio.opt_stock")}</option>
+            <option value="crypto">{t("portfolio.opt_crypto")}</option>
+            <option value="gold">{t("portfolio.opt_gold")}</option>
           </select>
         </FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Quantity"><input className="fc" type="number" step="any" placeholder="100" value={form.quantity} onChange={set("quantity")} /></FormGroup>
-        <FormGroup label="Buy Price / unit"><input className="fc" type="number" step="any" placeholder="9500" value={form.buy_price} onChange={set("buy_price")} /></FormGroup>
+        <FormGroup label={t("portfolio.quantity")}><input className="fc" type="number" step="any" placeholder={t("portfolio.placeholder_qty")} value={form.quantity} onChange={set("quantity")} /></FormGroup>
+        <FormGroup label={t("portfolio.buy_price_unit")}><input className="fc" type="number" step="any" placeholder={t("portfolio.placeholder_price")} value={form.buy_price} onChange={set("buy_price")} /></FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Currency">
+        <FormGroup label={t("portfolio.currency")}>
           <select className="fc sel" value={form.buy_currency} onChange={set("buy_currency")}>
-            <option value="IDR">IDR (Rupiah)</option>
-            <option value="USD">USD (Dollar)</option>
+            <option value="IDR">{t("portfolio.opt_idr")}</option>
+            <option value="USD">{t("portfolio.opt_usd")}</option>
           </select>
         </FormGroup>
-        <FormGroup label="Buy Date"><input className="fc" type="date" value={form.buy_date} onChange={set("buy_date")} /></FormGroup>
+        <FormGroup label={t("portfolio.buy_date")}><input className="fc" type="date" value={form.buy_date} onChange={set("buy_date")} /></FormGroup>
       </FormRow>
     </Modal>
   );
@@ -417,6 +425,7 @@ function AddModal({ onClose, onSaved }) {
 
 // ── Sell Modal ─────────────────────────────────────────────────────────────────
 function SellModal({ inv, onClose, onSaved }) {
+  const { t } = useI18n();
   const [form, setForm] = useState({ quantity: "", sell_price: "", sell_currency: "IDR", sell_date: today(), fees: "0" });
   const [saving, setSaving] = useState(false);
   const set = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
@@ -438,33 +447,33 @@ function SellModal({ inv, onClose, onSaved }) {
         quantity: +form.quantity, sell_price: +form.sell_price,
         sell_currency: form.sell_currency, sell_date: form.sell_date, fees: +form.fees,
       });
-      onSaved(`Sold ${form.quantity} ${inv.ticker} — P/L: ${fmtS(res.realized_pl)}`, res.realized_pl >= 0 ? "success" : "error");
+      onSaved(t("portfolio.sold_toast", { qty: form.quantity, ticker: inv.ticker, pl: fmtS(res.realized_pl) }), res.realized_pl >= 0 ? "success" : "error");
       onClose();
     } catch (e) { onSaved(e.message, "error"); }
     finally { setSaving(false); }
   };
 
   return (
-    <Modal title={`Sell ${inv.ticker}`} onClose={onClose}
-      footer={<><button className="btn btn-g" onClick={onClose}>Cancel</button><button className="btn btn-d" onClick={handleSell} disabled={saving}>{saving ? "Processing…" : "Execute Sell"}</button></>}>
+    <Modal title={t("portfolio.sell_title", { ticker: inv.ticker })} onClose={onClose}
+      footer={<><button className="btn btn-g" onClick={onClose}>{t("common.cancel")}</button><button className="btn btn-d" onClick={handleSell} disabled={saving}>{saving ? t("portfolio.processing") : t("portfolio.execute_sell")}</button></>}>
       <div style={{ background: "var(--bg3)", border: "1px solid var(--bdr)", borderRadius: "var(--r)", padding: "11px 13px", marginBottom: 14, fontFamily: "var(--mono)", fontSize: 12 }}>
-        <div style={{ color: "var(--tx2)" }}>You own: <strong style={{ color: "var(--tx)" }}>{remaining} units</strong></div>
-        <div style={{ color: "var(--tx2)" }}>Buy price: <strong style={{ color: "var(--tx)" }}>{fmt(inv.buy_price)} {inv.buy_currency}</strong></div>
+        <div style={{ color: "var(--tx2)" }}>{t("portfolio.you_own")} <strong style={{ color: "var(--tx)" }}>{remaining} {t("portfolio.units")}</strong></div>
+        <div style={{ color: "var(--tx2)" }}>{t("portfolio.buy_price_label")} <strong style={{ color: "var(--tx)" }}>{fmt(inv.buy_price)} {inv.buy_currency}</strong></div>
       </div>
       <FormRow>
-        <FormGroup label={`Qty to Sell (max ${remaining} ${inv.asset_type === 'gold' ? 'grams' : 'units'})`}><input className="fc" type="number" step="any" value={form.quantity} onChange={set("quantity")} /></FormGroup>
-        <FormGroup label={`Sell Price / ${inv.asset_type === 'gold' ? 'gram' : 'unit'}`}><input className="fc" type="number" step="any" value={form.sell_price} onChange={set("sell_price")} /></FormGroup>
+        <FormGroup label={t("portfolio.qty_to_sell", { max: remaining, unit: inv.asset_type === 'gold' ? t("portfolio.unit_grams") : t("portfolio.units") })}><input className="fc" type="number" step="any" value={form.quantity} onChange={set("quantity")} /></FormGroup>
+        <FormGroup label={t("portfolio.sell_price_per", { unit: inv.asset_type === 'gold' ? t("portfolio.unit_gram") : t("portfolio.unit_singular") })}><input className="fc" type="number" step="any" value={form.sell_price} onChange={set("sell_price")} /></FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Currency">
+        <FormGroup label={t("portfolio.currency")}>
           <select className="fc sel" value={form.sell_currency} onChange={set("sell_currency")}>
             <option value="IDR">IDR</option>
             <option value="USD">USD</option>
           </select>
         </FormGroup>
-        <FormGroup label="Sell Date"><input className="fc" type="date" value={form.sell_date} onChange={set("sell_date")} /></FormGroup>
+        <FormGroup label={t("portfolio.sell_date")}><input className="fc" type="date" value={form.sell_date} onChange={set("sell_date")} /></FormGroup>
       </FormRow>
-      <FormGroup label="Fees (IDR)"><input className="fc" type="number" placeholder="0" value={form.fees} onChange={set("fees")} /></FormGroup>
+      <FormGroup label={t("portfolio.fees_idr")}><input className="fc" type="number" placeholder={t("portfolio.placeholder_fees")} value={form.fees} onChange={set("fees")} /></FormGroup>
       {estPL !== null && (
         <div style={{ background: "var(--ind-d)", border: "1px solid rgba(79,110,247,.25)", borderRadius: "var(--r)", padding: "10px 13px", fontSize: 12, fontFamily: "var(--mono)" }}>
           Est. P/L: <span style={{ color: estPL >= 0 ? "var(--gr)" : "var(--rd)", fontWeight: 700 }}>
@@ -478,17 +487,18 @@ function SellModal({ inv, onClose, onSaved }) {
 
 // ── Sub-component: Analysis tab — must be a real component (not IIFE) so hooks obey Rules of Hooks
 function AnalysisTab({ investments, active }) {
+  const { t } = useI18n();
   const [selectedId, setSelectedId] = useState(active[0]?.id ?? null);
   const selectedInv = active.find(i => i.id === selectedId) ?? active[0] ?? null;
   return (
     <>
       <div className="g2">
         <div className="card">
-          <div className="card-h"><span className="card-t">Allocation by Type</span></div>
+          <div className="card-h"><span className="card-t">{t("portfolio.allocation_by_type")}</span></div>
           <div className="card-b"><AllocationChart investments={investments} /></div>
         </div>
         <div className="card">
-          <div className="card-h"><span className="card-t">P/L per Asset</span></div>
+          <div className="card-h"><span className="card-t">{t("portfolio.pl_per_asset")}</span></div>
           <div className="card-b"><PLChart investments={investments} /></div>
         </div>
       </div>
@@ -496,7 +506,7 @@ function AnalysisTab({ investments, active }) {
       {active.length > 0 && (
         <div className="card">
           <div className="card-h">
-            <span className="card-t">Price History</span>
+            <span className="card-t">{t("portfolio.price_history")}</span>
             <select className="fc sel" style={{ width: "fit-content", minWidth: 100, flex: "0 0 auto" }}
               value={selectedId ?? ""} onChange={e => setSelectedId(+e.target.value)}>
               {active.map(inv => <option key={inv.id} value={inv.id}>{inv.ticker}</option>)}
@@ -517,6 +527,7 @@ function AnalysisTab({ investments, active }) {
 // ── Main exported component ───────────────────────────────────────────────────
 
 function NetWorthPanel() {
+  const { t } = useI18n();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -524,18 +535,18 @@ function NetWorthPanel() {
     apiFetch('/net-worth').then(d => { setData(d); setLoading(false); }).catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div style={{ color: 'var(--tx3)', fontSize: 13 }}>Loading net worth…</div>;
-  if (!data) return <Empty variant='expense' msg='No net worth data.' />;
+  if (loading) return <div style={{ color: 'var(--tx3)', fontSize: 13 }}>{t("common.loading")}</div>;
+  if (!data) return <Empty variant='expense' msg={t("portfolio.empty_networth_msg")} />;
 
   return (
     <div className='card'>
-      <div className='card-h'><span className='card-t'>Net Worth</span></div>
+      <div className='card-h'><span className='card-t'>{t("portfolio.net_worth")}</span></div>
       <div className='card-b'>
         <div className='sg'>
-          <div className='sc'><div className='sc-lbl'>Total Assets</div><div className='sc-val n' style={{fontSize:16}}>{fmt(data.total_assets)}</div></div>
-          <div className='sc'><div className='sc-lbl'>Total Liabilities</div><div className='sc-val r' style={{fontSize:16}}>{fmt(data.total_liabilities)}</div></div>
+          <div className='sc'><div className='sc-lbl'>{t("portfolio.total_assets")}</div><div className='sc-val n' style={{fontSize:16}}>{fmt(data.total_assets)}</div></div>
+          <div className='sc'><div className='sc-lbl'>{t("portfolio.total_liabilities")}</div><div className='sc-val r' style={{fontSize:16}}>{fmt(data.total_liabilities)}</div></div>
           <div className='sc' style={{ borderTop: '2px solid ' + ((data.net_worth ?? 0) >= 0 ? 'var(--gr)' : 'var(--rd)') }}>
-            <div className='sc-lbl'>Net Worth</div>
+            <div className='sc-lbl'>{t("portfolio.net_worth")}</div>
             <div className={'sc-val ' + ((data.net_worth ?? 0) >= 0 ? 'g' : 'r')} style={{fontSize:18}}>{fmt(data.net_worth)}</div>
           </div>
         </div>
@@ -545,6 +556,7 @@ function NetWorthPanel() {
 }
 
 export default function InvestmentTracker({ onToast }) {
+  const { t } = useI18n();
   const [tab, setTab]           = usePersistedTab("investment", "portfolio");
   const [showAdd, setShowAdd]   = useState(false);
   const [sellTarget, setSell]   = useState(null);
@@ -568,13 +580,13 @@ export default function InvestmentTracker({ onToast }) {
     try {
       await apiRefreshPrices();
       await reloadInv();
-      if (!silent) onToast("Harga diperbarui dari pasar.");
+      if (!silent) onToast(t("portfolio.prices_updated"));
     } catch (e) {
-      if (!silent) onToast("Price refresh failed: " + e.message, "error");
+      if (!silent) onToast(t("portfolio.refresh_failed", { error: e.message }), "error");
     } finally {
       setRefreshing(false);
     }
-  }, [reloadInv, onToast]);
+  }, [reloadInv, onToast, t]);
 
   // Auto-refresh live prices after page renders (deferred — don't block initial render)
   useEffect(() => {
@@ -600,7 +612,7 @@ export default function InvestmentTracker({ onToast }) {
       await apiToggleFavorite(id);
       await reloadInv();
     } catch (e) {
-      onToast("Gagal mengubah status favorit: " + e.message, "error");
+      onToast(t("portfolio.fav_failed", { error: e.message }), "error");
     }
   };
 
@@ -623,16 +635,16 @@ export default function InvestmentTracker({ onToast }) {
   const handleToast = (msg, type = "success") => { onToast(msg, type); reloadInv(); reloadReal(); };
   const handleDelete = async id => {
     await apiDeleteInvestment(id);
-    handleToast("Deleted.");
+    handleToast(t("portfolio.deleted"));
   };
 
   const handlePrune = () => setConfirmPrune(true);
   const doPrune = async () => {
     try {
       const res = await apiPrunePortfolio();
-      handleToast(`Cleaned: ${res.deleted} removed, ${res.kept_holding} holdings kept.`);
+      handleToast(t("portfolio.pruned", { deleted: res.deleted, kept: res.kept_holding }));
     } catch (e) {
-      handleToast("Clean DB failed: " + e.message, "error");
+      handleToast(t("portfolio.prune_failed", { error: e.message }), "error");
     }
   };
 
@@ -642,21 +654,21 @@ export default function InvestmentTracker({ onToast }) {
     <>
       {confirmPrune && (
         <ConfirmDialog
-          message={"Remove all fully-sold (zero remaining) entries from the portfolio DB? All P/L records are kept. Only empty rows are removed."}
-          confirmLabel="Clean DB"
+          message={t("portfolio.prune_confirm_msg")}
+          confirmLabel={t("portfolio.clean_db")}
           danger
           onConfirm={doPrune}
           onCancel={() => setConfirmPrune(false)}
         />
       )}
     <div>
-      <h1 className="sr-only">Investment Tracker — Portfolio, Stocks, Crypto &amp; Gold</h1>
+      <h1 className="sr-only">{t("portfolio.sr_title")}</h1>
       <Tabs
         tabs={[
-          { key: "portfolio", label: "Portfolio",    icon: <IconStock    size={13} /> },
-          { key: "analysis",  label: "Analysis",     icon: <IconBarChart size={13} /> },
-          { key: "realized",  label: "Realized P/L", icon: <IconCheck    size={13} /> },
-          { key: "networth",  label: "Net Worth",    icon: <IconWallet   size={13} /> },
+          { key: "portfolio", label: t("portfolio.tab_portfolio"),    icon: <IconStock    size={13} /> },
+          { key: "analysis",  label: t("portfolio.tab_analysis"),     icon: <IconBarChart size={13} /> },
+          { key: "realized",  label: t("portfolio.tab_realized"), icon: <IconCheck    size={13} /> },
+          { key: "networth",  label: t("portfolio.net_worth"),    icon: <IconWallet   size={13} /> },
         ]}
         active={tab} onChange={setTab}
       />
@@ -667,12 +679,12 @@ export default function InvestmentTracker({ onToast }) {
           {invLoading ? <PortfolioSkeleton /> : (
             <>
               <div className="sg inv-stat-grid">
-                <div className="sc"><div className="sc-lbl">Total Invested</div><div className="sc-val n" style={{fontSize:16}}>{showUSD ? fmtUSD(totalBuy, fxRate) : fmtShortM(totalBuy)}</div></div>
-                <div className="sc inv"><div className="sc-lbl">Current Value</div><div className="sc-val c" style={{fontSize:16}}>{showUSD ? fmtUSD(totalCurr, fxRate) : fmtShortM(totalCurr)}</div></div>
+                <div className="sc"><div className="sc-lbl">{t("portfolio.total_invested")}</div><div className="sc-val n" style={{fontSize:16}}>{showUSD ? fmtUSD(totalBuy, fxRate) : fmtShortM(totalBuy)}</div></div>
+                <div className="sc inv"><div className="sc-lbl">{t("portfolio.current_value")}</div><div className="sc-val c" style={{fontSize:16}}>{showUSD ? fmtUSD(totalCurr, fxRate) : fmtShortM(totalCurr)}</div></div>
                 <div className="sc" style={{ borderTop: `2px solid ${totalPL >= 0 ? "var(--gr)" : "var(--rd)"}` }}>
-                  <div className="sc-lbl">Unrealized P/L</div>
+                  <div className="sc-lbl">{t("portfolio.unrealized_pl")}</div>
                   <div className={`sc-val ${totalPL >= 0 ? "g" : "r"}`} style={{fontSize:15}}>{showUSD ? fmtUSD(totalPL, fxRate) : fmtShortM(totalPL)}</div>
-                  <div className="sc-chg nt">{totalBuy > 0 ? (totalPL / totalBuy * 100).toFixed(1) : 0}% overall</div>
+                  <div className="sc-chg nt">{t("portfolio.overall_pct", { pct: totalBuy > 0 ? (totalPL / totalBuy * 100).toFixed(1) : 0 })}</div>
                 </div>
               </div>
 
@@ -683,19 +695,19 @@ export default function InvestmentTracker({ onToast }) {
                 </div>
                 <button className="btn btn-g btn-s" onClick={() => refreshPrices(false)} disabled={refreshing}>
                   <IconRefresh size={12} style={{ animation: refreshing ? "comp-spin 1s linear infinite" : "none" }} />
-                  {refreshing ? "Refreshing..." : "Refresh Prices"}
+                  {refreshing ? t("dashboard.refreshing") : t("dashboard.refresh_data")}
                 </button>
-                <button className="btn btn-g btn-s" onClick={handlePrune} title="Remove fully-sold entries from DB">
-                  <IconClean size={12} /> Prune
+                <button className="btn btn-g btn-s" onClick={handlePrune} title={t("portfolio.prune_title")}>
+                  <IconClean size={12} /> {t("portfolio.prune")}
                 </button>
                 <button className="btn btn-p btn-s" onClick={() => setShowAdd(true)}>
-                  <IconAdd size={12} /> Add Investment
+                  <IconAdd size={12} /> {t("portfolio.add_investment")}
                 </button>
               </div>
 
               <div className="card">
                 <div className="card-h">
-                  <span className="card-t">Portfolio Holdings</span>
+                  <span className="card-t">{t("portfolio.holdings")}</span>
                 </div>
                 <HoldingsTable
                   investments={active}

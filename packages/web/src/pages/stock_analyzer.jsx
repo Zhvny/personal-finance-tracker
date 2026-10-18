@@ -3,6 +3,7 @@ import { apiFetch, useDebounce, useCacheFetch, useWebSocket } from "../finance/u
 import { TickerProvider, useTicker } from "../finance/TickerContext.jsx";
 import { getSignalVariant } from "../finance/constants.js";
 import { PageWrapper } from "../animations.jsx";
+import { useI18n } from "../i18n/context.js";
 import { 
   IconUp, IconDown, IconRefresh, IconSearch, IconBarChart, 
   IconPieChart, IconInfo, IconActivity, IconTarget, IconAlertCircle,
@@ -51,6 +52,7 @@ const getSignalColor = (sig) => {
 
 // â”€â”€â”€ Shared Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ScoreGauge = ({ score, size = 100 }) => {
+  const { t } = useI18n();
   const pct = (score / 10) * 100;
   const color = score >= 7.5 ? "var(--gr)" : score >= 5.5 ? "var(--cy)" : score > 0 ? "var(--yl)" : "var(--rd)";
   return (
@@ -63,13 +65,14 @@ const ScoreGauge = ({ score, size = 100 }) => {
       </svg>
       <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         <span style={{ fontSize: size * 0.24, fontWeight: 900, color: "var(--tx)" }}>{fmt(score, 1)}</span>
-        <span style={{ fontSize: size * 0.09, color: "var(--tx3)", textTransform: "uppercase", fontWeight: 700 }}>Score</span>
+        <span style={{ fontSize: size * 0.09, color: "var(--tx3)", textTransform: "uppercase", fontWeight: 700 }}>{t("stock.score")}</span>
       </div>
     </div>
   );
 };
 
 const PriceStructure = memo(({ data }) => {
+  const { t } = useI18n();
   const isBull = data.signal.includes("BUY") || data.signal.includes("BULL");
   const isBear = data.signal.includes("SELL") || data.signal.includes("BEAR");
   const variant = isBull ? "bullish" : isBear ? "bearish" : "neutral";
@@ -78,19 +81,19 @@ const PriceStructure = memo(({ data }) => {
   const levels = useMemo(() => {
     const p = data.price;
     const raw = [
-      { id: "r2",  label: "Resistance 2",   val: data.resistance * 1.05, type: "res", isOuter: true },
-      { id: "r1",  label: "Resistance",     val: data.resistance,       type: "res" },
-      { id: "tp2", label: "Take Profit 2",  val: data.take_profit * 1.03, type: "tp" },
-      { id: "tp1", label: "Take Profit 1",  val: data.take_profit,       type: "tp" },
-      { id: "p",   label: "Current Price",  val: p,                      type: "price", isHero: true },
-      { id: "sl1", label: "Stop Loss 1",    val: data.stop_loss,         type: "sl" },
-      { id: "sl2", label: "Stop Loss 2",    val: data.stop_loss * 0.97,  type: "sl" },
-      { id: "s1",  label: "Support 1",      val: data.support,           type: "sup" },
-      { id: "s2",  label: "Support 2",      val: data.support * 0.95,    type: "sup", isOuter: true },
+      { id: "r2",  label: t("stock.resistance_2"),   val: data.resistance * 1.05, type: "res", isOuter: true },
+      { id: "r1",  label: t("stock.resistance_1"),     val: data.resistance,       type: "res" },
+      { id: "tp2", label: t("stock.tp_2"),  val: data.take_profit * 1.03, type: "tp" },
+      { id: "tp1", label: t("stock.tp_1"),  val: data.take_profit,       type: "tp" },
+      { id: "p",   label: t("stock.current_price"),  val: p,                      type: "price", isHero: true },
+      { id: "sl1", label: t("stock.sl_1"),    val: data.stop_loss,         type: "sl" },
+      { id: "sl2", label: t("stock.sl_2"),    val: data.stop_loss * 0.97,  type: "sl" },
+      { id: "s1",  label: t("stock.support_1"),      val: data.support,           type: "sup" },
+      { id: "s2",  label: t("stock.support_2"),      val: data.support * 0.95,    type: "sup", isOuter: true },
     ];
     // Sort descending: Highest price at top
     return raw.sort((a, b) => b.val - a.val);
-  }, [data]);
+  }, [data, t]);
 
   return (
     <div className="stk-ladder">
@@ -104,7 +107,7 @@ const PriceStructure = memo(({ data }) => {
             {l.isHero ? (
               <div className={`stk-ladder-hero ${variant}`}>
                 <div className="pulse-ring" style={{ color: getSignalColor(data.signal) }} />
-                <div className="stk-ladder-label">LATEST PRICE FOCUS</div>
+                <div className="stk-ladder-label">{t("stock.latest_price_focus")}</div>
                 <div className="stk-ladder-price">
                   {fmtPrice(l.val, data.ticker)}
                 </div>
@@ -197,6 +200,7 @@ function StockAnalyzerSkeleton({ isMobile }) {
 
 // â”€â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const WhaleActivity = memo(({ ticker, assetType }) => {
+  const { t } = useI18n();
   const [whale, setWhale] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -221,7 +225,7 @@ const WhaleActivity = memo(({ ticker, assetType }) => {
   if (whale?.error) {
     return (
       <div className="card" style={{ padding: 14, background: "rgba(239,68,68,.05)", borderRadius: 16, border: "1px dashed rgba(239,68,68,.3)", marginBottom: 16, fontSize: 11, color: "var(--rd)" }}>
-        ⚠️ Whale Activity Tracker: {typeof whale.error === "string" ? whale.error : whale.error?.message || "Service unavailable"}
+        {t("stock.whale_error", { error: typeof whale.error === "string" ? whale.error : whale.error?.message || t("stock.service_unavailable") })}
       </div>
     );
   }
@@ -242,14 +246,14 @@ const WhaleActivity = memo(({ ticker, assetType }) => {
        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
              <IconActivity size={18} color={isWhale ? "var(--cy)" : "var(--tx3)"} />
-             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>WHALE ACTIVITY TRACKER</span>
+             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>{t("stock.whale_title")}</span>
           </div>
           {isWhale && (
             <div style={{ 
               fontSize: 9, fontWeight: 900, color: "var(--bg)", background: "var(--cy)", 
               padding: "4px 10px", borderRadius: 8, animation: "pulse 2s infinite" 
             }}>
-              ACTIVE SIGNAL
+              {t("stock.active_signal")}
             </div>
           )}
        </div>
@@ -269,7 +273,7 @@ const WhaleActivity = memo(({ ticker, assetType }) => {
                     {signal.replace(/_/g, " ")}
                   </div>
                   <div style={{ fontSize: 10, color: "var(--tx3)", fontWeight: 700 }}>
-                    VOL RATIO: {fmt(whale?.vol_ratio, 2)}x â€¢ PRICE RANGE: {fmt(whale?.price_range_pct, 2)}%
+                    {t("stock.vol_ratio", { val: fmt(whale?.vol_ratio, 2) })} â€¢ {t("stock.price_range", { val: fmt(whale?.price_range_pct, 2) })}
                   </div>
                </div>
             </div>
@@ -278,7 +282,7 @@ const WhaleActivity = memo(({ ticker, assetType }) => {
               padding: 12, borderRadius: 12, border: "1px solid var(--bdr)",
               fontFamily: "monospace"
             }}>
-               {whale?.description?.replace(/\[.*?\]/g, "").replace(/âš ï¸ /g, "") || "No significant institutional activity detected in recent sessions."}
+               {whale?.description?.replace(/\[.*?\]/g, "").replace(/âš ï¸ /g, "") || t("stock.whale_none")}
             </div>
          </div>
        )}
@@ -315,33 +319,33 @@ const InfoTooltip = ({ text }) => {
   );
 };
 
-const getDxyExplanation = (val, assetType) => {
+const getDxyExplanation = (val, assetType, t) => {
   const isNumeric = typeof val === "number" && isFinite(val);
   const absVal = isNumeric ? Math.abs(val) : null;
   const isDivergent = isNumeric && absVal > 1.5;
   const category = (assetType || "").toLowerCase() === "crypto" ? "crypto" : "equities";
 
   const definitions = {
-    dxy: "DXY Divergence (DCDS): Measures statistical deviation between asset price and US Dollar Index. High values indicate a 'Breakdown' in standard liquidity rules.",
-    usd: "Relasi USD Correlation: Standard benchmark where USD strength (DXY Up) typically forces capital out of risk assets (Equities/Crypto)."
+    dxy: t("stock.dxy_def_dxy"),
+    usd: t("stock.dxy_def_usd")
   };
 
   const impacts = {
     equities: {
-      normal: "Impact Makro: High inverse correlation. USD strength pressures global earnings and reduces valuation multiples.",
-      divergent: "Regime Divergent: Stocks are ignoring USD strength (Irrational Exuberance) or ignoring USD weakness (Structural Risk)."
+      normal: t("stock.dxy_imp_eq_normal"),
+      divergent: t("stock.dxy_imp_eq_div")
     },
     crypto: {
-      normal: "Impact Makro: Pure liquidity proxy. BTC/ETH usually move inversely to USD; highly sensitive to global M2 supply changes.",
-      divergent: "Regime Divergent: Crypto is decoupling. Could indicate independent bull run or imminent liquidity flush if USD spikes."
+      normal: t("stock.dxy_imp_crypto_normal"),
+      divergent: t("stock.dxy_imp_crypto_div")
     }
   };
 
   const stateDesc = !isNumeric
-    ? "Awaiting macro synchronization. Statistical engine is mapping correlation matrix."
+    ? t("stock.dxy_state_await")
     : isDivergent 
-      ? "Breakdown Detected! Asset is decoupling from historical USD liquidity trends. Extreme volatility expected."
-      : "Standard Regime. Asset is moving in sync with USD liquidity cycles. Negative correlation is intact.";
+      ? t("stock.dxy_state_breakdown")
+      : t("stock.dxy_state_standard");
 
   const impactDesc = isDivergent ? impacts[category].divergent : impacts[category].normal;
 
@@ -356,14 +360,16 @@ const getDxyExplanation = (val, assetType) => {
 };
 
 const DXYStatus = ({ type }) => {
-  if (type === "loading") return <div className="pulse">Macro data syncing</div>;
-  if (type === "unavailable") return "DXY unavailable";
-  if (type === "insufficient") return "Awaiting correlation data";
-  if (type === "retrying") return <div className="pulse" style={{ opacity: 0.7 }}>Revalidating...</div>;
+  const { t } = useI18n();
+  if (type === "loading") return <div className="pulse">{t("stock.dxy_syncing")}</div>;
+  if (type === "unavailable") return t("stock.dxy_unavailable");
+  if (type === "insufficient") return t("stock.dxy_awaiting");
+  if (type === "retrying") return <div className="pulse" style={{ opacity: 0.7 }}>{t("stock.dxy_revalidating")}</div>;
   return null;
 };
 
 const DXYPanel = ({ data, assetType }) => {
+  const { t } = useI18n();
   const { ticker } = data;
   const { data: fetchRes, loading, error, isStale } = useCacheFetch(ticker ? `/stocks/analyze/${ticker}/dxy` : null);
   
@@ -378,12 +384,12 @@ const DXYPanel = ({ data, assetType }) => {
 
   const isNumeric = typeof val === "number" && isFinite(val);
   const color = !isNumeric ? "var(--tx3)" : (val > 1.5 ? "var(--rd)" : val < -1.5 ? "var(--gr)" : "var(--cy)");
-  const dxyExp = getDxyExplanation(val, assetType);
+  const dxyExp = getDxyExplanation(val, assetType, t);
 
   return (
     <div style={{ background: "var(--bg3)", padding: 16, borderRadius: 16, border: "1px solid var(--bdr)", position: "relative" }}>     
       <div className="lbl" style={{ fontSize: 8, marginBottom: 6, display: "flex", alignItems: "center" }}>
-        DXY Divergence
+        {t("stock.dxy_divergence")}
         <InfoTooltip text={dxyExp} />
       </div>
       <div style={{ fontSize: (isLoading || isUnavailable || isInsufficient || isRetrying || val === null) ? 10 : 16, fontWeight: 900, color }}>
@@ -402,13 +408,14 @@ const DXYPanel = ({ data, assetType }) => {
         )}
       </div>
       {(isLoading || isRetrying) && (
-        <div style={{ position: "absolute", bottom: 4, right: 8, fontSize: 7, opacity: 0.5 }}>BACKGROUND TASK</div>
+        <div style={{ position: "absolute", bottom: 4, right: 8, fontSize: 7, opacity: 0.5 }}>{t("stock.background_task")}</div>
       )}
     </div>
   );
 };
 
 const SenateAgent = memo(({ ticker, assetType }) => {
+  const { t } = useI18n();
   const [res, setRes] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -445,7 +452,7 @@ const SenateAgent = memo(({ ticker, assetType }) => {
        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
              <IconShieldCheck size={18} color="var(--ind-b)" />
-             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>AGENT SENATE CONSENSUS</span>
+             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>{t("stock.senate_title")}</span>
           </div>
           {res && (
             <span style={{ fontSize: 9, fontWeight: 800, color: getVoteColor(res.consensus), background: `rgba(${res.consensus === "BUY" ? "34, 197, 94" : res.consensus === "SELL" ? "239, 68, 68" : "156, 163, 175"}, 0.1)`, padding: "4px 10px", borderRadius: 12 }}>
@@ -463,9 +470,9 @@ const SenateAgent = memo(({ ticker, assetType }) => {
             {/* Top Consensus Detail */}
             <div style={{ padding: 16, background: "var(--bg3)", borderRadius: 20, border: "1px solid var(--bdr)", position: "relative", overflow: "hidden" }}>
                <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: 4, background: getVoteColor(res.consensus) }} />
-               <div style={{ fontSize: 9, fontWeight: 900, color: "var(--tx3)", marginBottom: 8, textTransform: "uppercase" }}>Executive Summary</div>
+               <div style={{ fontSize: 9, fontWeight: 900, color: "var(--tx3)", marginBottom: 8, textTransform: "uppercase" }}>{t("stock.exec_summary")}</div>
                <div style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.5, color: "var(--tx2)" }}>
-                  {res.opinions.find(o => o.agent.includes("Quant"))?.rationale || "Consensus reached based on multi-agent validation."}
+                  {res.opinions.find(o => o.agent.includes("Quant"))?.rationale || t("stock.senate_fallback")}
                </div>
             </div>
 
@@ -477,7 +484,7 @@ const SenateAgent = memo(({ ticker, assetType }) => {
                        <span style={{ fontSize: 8, fontWeight: 900, color: "var(--tx3)" }}>{op.agent.toUpperCase()}</span>
                        <span style={{ fontSize: 8, fontWeight: 900, color: getVoteColor(op.vote) }}>{op.vote}</span>
                     </div>
-                    <div style={{ fontSize: 11, fontWeight: 700 }}>{Math.round(op.confidence * 100)}% Conf.</div>
+                    <div style={{ fontSize: 11, fontWeight: 700 }}>{t("stock.conf_pct", { pct: Math.round(op.confidence * 100) })}</div>
                     <div style={{ height: 2, background: "var(--bg4)", marginTop: 6, borderRadius: 1 }}>
                        <div style={{ height: "100%", width: `${op.confidence * 100}%`, background: getVoteColor(op.vote), borderRadius: 1 }} />
                     </div>
@@ -486,17 +493,18 @@ const SenateAgent = memo(({ ticker, assetType }) => {
             </div>
             
             <div style={{ fontSize: 8, color: "var(--tx3)", textAlign: "center", opacity: 0.5 }}>
-               SYSTEM REGIME: {res.market_regime.toUpperCase()} | AS OF {new Date(res.timestamp).toLocaleTimeString()}
+               {t("stock.system_regime", { regime: res.market_regime.toUpperCase(), time: new Date(res.timestamp).toLocaleTimeString() })}
             </div>
          </div>
        ) : (
-         <div style={{ padding: 20, textAlign: "center", color: "var(--tx3)", fontSize: 11 }}>No consensus data available.</div>
+         <div style={{ padding: 20, textAlign: "center", color: "var(--tx3)", fontSize: 11 }}>{t("stock.no_consensus")}</div>
        )}
     </div>
   );
 });
 
 const TickerSearch = memo(({ value, onChange, onAnalyze, isMobile }) => {
+  const { t } = useI18n();
   return (
     <div style={{ position: "relative", flex: isMobile ? 1 : 'none', marginBottom: isMobile ? 0 : 24 }}>
       <IconSearch size={isMobile ? 20 : 16} style={{ 
@@ -508,7 +516,7 @@ const TickerSearch = memo(({ value, onChange, onAnalyze, isMobile }) => {
       }} />
       <input 
          type="text" 
-         placeholder={isMobile ? "SEARCH TICKER..." : "QUICK SEARCH..."} 
+         placeholder={isMobile ? t("stock.search_ticker") : t("stock.quick_search")} 
          className="stk-search-input" 
          style={{ 
            paddingLeft: isMobile ? 48 : 42, 
@@ -537,6 +545,7 @@ export default function StockAnalyzer() {
 }
 
 function StockAnalyzerContent() {
+  const { t } = useI18n();
   const { data, loading: tickerLoading, error, analyze, clearError } = useTicker();
   const [baseLoading, setBaseLoading] = useState(false);
   const [baseError, setBaseError] = useState(null);
@@ -570,8 +579,8 @@ function StockAnalyzerContent() {
     }
   }, [debouncedSearch, analyze]);
 
-  const handleAnalyze = useCallback((t) => {
-    const symbol = (typeof t === "string" ? t : searchInput).trim().toUpperCase();
+  const handleAnalyze = useCallback((tk) => {
+    const symbol = (typeof tk === "string" ? tk : searchInput).trim().toUpperCase();
     if (!symbol) return;
     if (isMobile) setShowFilters(false);
     analyze(symbol);
@@ -649,11 +658,11 @@ function StockAnalyzerContent() {
       }
     } catch (e) { 
       console.error("Data load failed", e);
-      setBaseError(e?.message || String(e) || "Gagal memuat data pasar Stock Analyzer.");
+      setBaseError(e?.message || String(e) || t("stock.load_failed"));
     } finally {
       if (!silent) setBaseLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     loadBaseData();
@@ -771,8 +780,8 @@ function StockAnalyzerContent() {
   };
 
   return (
-    <PageWrapper title="Quant Terminal">
-      <h1 className="sr-only">Stock Analyzer — Quant Terminal for Market Research &amp; Analysis</h1>
+    <PageWrapper title={t("stock.quant_terminal")}>
+      <h1 className="sr-only">{t("stock.sr_title")}</h1>
       <div className="tab-toolbar" style={{ 
         padding: "0 20px", 
         marginBottom: 20, 
@@ -808,9 +817,9 @@ function StockAnalyzerContent() {
                 <div style={{ display: "flex", flexDirection: "column" }}>
                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div className="pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: (macro?.regime === "BULLISH" ? "var(--gr)" : "var(--rd)") }} />
-                      <span style={{ fontSize: 12, fontWeight: 900, color: "var(--tx)" }}>{macro?.regime || "SYNCING"}</span>
+                      <span style={{ fontSize: 12, fontWeight: 900, color: "var(--tx)" }}>{macro?.regime || t("stock.syncing")}</span>
                    </div>
-                   <span style={{ fontSize: 9, fontWeight: 800, color: "var(--tx3)", letterSpacing: 1 }}>MARKET REGIME</span>
+                   <span style={{ fontSize: 9, fontWeight: 800, color: "var(--tx3)", letterSpacing: 1 }}>{t("stock.market_regime")}</span>
                 </div>
              </div>
              <div style={{ display: "flex", gap: 12 }}>
@@ -828,12 +837,12 @@ function StockAnalyzerContent() {
                   <div className="card" style={{ padding: "8px 16px", background: "var(--glass)", border: "1px solid var(--bdr)", borderRadius: 12, display: "flex", alignItems: "center", gap: 12 }}>
                      <div style={{ textAlign: "right" }}>
                         <div style={{ fontSize: 12, fontWeight: 900, color: "var(--tx)" }}>{fmt(macro?.lpi, 2)}</div>
-                        <div style={{ fontSize: 8, fontWeight: 800, color: "var(--tx3)" }}>LIQUIDITY</div>
+                        <div style={{ fontSize: 8, fontWeight: 800, color: "var(--tx3)" }}>{t("stock.liquidity")}</div>
                      </div>
                      <div style={{ width: 1, height: 20, background: "var(--bdr)" }} />
                      <div style={{ textAlign: "right" }}>
                         <div style={{ fontSize: 12, fontWeight: 900, color: "var(--tx)" }}>{fmt(macro?.ycmo, 2)}</div>
-                        <div style={{ fontSize: 8, fontWeight: 800, color: "var(--tx3)" }}>YIELD CURVE</div>
+                        <div style={{ fontSize: 8, fontWeight: 800, color: "var(--tx3)" }}>{t("stock.yield_curve")}</div>
                      </div>
                   </div>
                 )}
@@ -850,14 +859,14 @@ function StockAnalyzerContent() {
          }}>
            <div>
              <div style={{ fontWeight: 800, fontSize: 13, color: "var(--rd)", marginBottom: 4 }}>
-               ⚠️ {error ? "Gagal Menganalisis Ticker" : "Gagal Memuat Data Pasar Stock Analyzer"}
+               ⚠️ {error ? t("stock.analyze_failed") : t("stock.load_failed_title")}
              </div>
               <div style={{ fontSize: 11, color: "var(--tx2)" }}>
                 {typeof (error || baseError) === "string" ? (error || baseError) : (error?.message || baseError?.message || String(error || baseError))}
               </div>
            </div>
            <button className="btn btn-g btn-s" onClick={() => { if (error) clearError(); loadBaseData(); }}>
-             <IconRefresh size={13} style={{ marginRight: 4 }} /> Coba Lagi
+             <IconRefresh size={13} style={{ marginRight: 4 }} /> {t("common.retry")}
            </button>
          </div>
        )}
@@ -869,7 +878,7 @@ function StockAnalyzerContent() {
               display: isMobile && !showFilters ? "none" : "flex"
            }}>
               <div className="card" style={{ padding: 24, marginBottom: 20, background: "var(--bg2)", borderRadius: 24, border: "1px solid var(--bdr)", boxShadow: "var(--card-shadow)" }}>
-                <div style={{ fontSize: 11, fontWeight: 900, color: "var(--tx3)", marginBottom: 20, letterSpacing: 1.5 }}>STRATEGIC FILTERS</div>
+                <div style={{ fontSize: 11, fontWeight: 900, color: "var(--tx3)", marginBottom: 20, letterSpacing: 1.5 }}>{t("stock.strategic_filters")}</div>
                 
                 {!isMobile && (
                   <TickerSearch 
@@ -882,11 +891,11 @@ function StockAnalyzerContent() {
 
                 <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
                   <div className="stk-filter-group">
-                    <label className="stk-filter-label">Market Sector</label>
+                    <label className="stk-filter-label">{t("stock.market_sector")}</label>
                     <div className="stk-filter-select-wrap">
                       <select className="stk-filter-select" value={filterCat} onChange={e => setFilterCat(e.target.value)}>
-                        <option value="ALL">ALL ASSETS</option>
-                        <option value="STOCKS">EQUITIES</option>
+                        <option value="ALL">{t("stock.opt_all")}</option>
+                        <option value="STOCKS">{t("stock.opt_equities")}</option>
                         <option value="CRYPTO">CRYPTO</option>
                         <option value="FOREX">FOREX</option>
                       </select>
@@ -895,7 +904,7 @@ function StockAnalyzerContent() {
                   </div>
                   
                   <div className="stk-filter-group">
-                    <label className="stk-filter-label">ML Bias</label>
+                    <label className="stk-filter-label">{t("stock.ml_bias")}</label>
                     <div className="stk-segmented-control">
                       {["ALL", "BULLISH", "BEARISH"].map(s => (
                         <button key={s} className={`stk-segmented-btn ${filterSignal === s ? "active" : ""}`} onClick={() => setFilterSignal(s)}>{s}</button>
@@ -908,12 +917,12 @@ function StockAnalyzerContent() {
                     <button className={`btn btn-s ${activePreset === "SNIPER" ? "btn-p" : "btn-g"}`} style={{ borderRadius: 12, height: 40 }} onClick={() => applyPreset("SNIPER")}>SNIPER</button>
                   </div>
                 </div>
-                <button className="btn btn-g btn-s" style={{ width: "100%", marginTop: 24, borderRadius: 12, height: 44, fontWeight: 900 }} onClick={() => applyPreset("CLEAR")}>RESET ENGINE</button>
+                <button className="btn btn-g btn-s" style={{ width: "100%", marginTop: 24, borderRadius: 12, height: 44, fontWeight: 900 }} onClick={() => applyPreset("CLEAR")}>{t("stock.reset_engine")}</button>
               </div>
 
               <div className="watchlist-container" style={{ flex: 1, overflowY: "auto", paddingRight: 4 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                   <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1.5 }}>LIVE POOL ({filteredWatchlist.length})</div>
+                   <div style={{ fontSize: 10, fontWeight: 900, color: "var(--tx3)", letterSpacing: 1.5 }}>{t("stock.live_pool", { count: filteredWatchlist.length })}</div>
                    <IconActivity size={14} color="var(--gr)" className="pulse" />
                 </div>
                 <div className="watchlist-grid">
@@ -956,16 +965,16 @@ function StockAnalyzerContent() {
               {tickerLoading ? (
                 <div style={{ height: "80vh", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 24 }}>
                    <div className="spinner-premium" />
-                   <div style={{ fontSize: 11, fontWeight: 900, color: "var(--tx3)", letterSpacing: 3, animation: "pulse 2s infinite" }}>QUANT_ENGINE_LOAD</div>
+                   <div style={{ fontSize: 11, fontWeight: 900, color: "var(--tx3)", letterSpacing: 3, animation: "pulse 2s infinite" }}>{t("stock.engine_loading")}</div>
                 </div>
               ) : error ? (
                 <div style={{ height: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", border: "2px dashed var(--rd)", borderRadius: 32, margin: isMobile ? 20 : 32, background: "rgba(239, 68, 68, 0.02)" }}>
                    <div style={{ background: "var(--bg2)", padding: 40, borderRadius: "50%", border: "1px solid var(--rd)", marginBottom: 24 }}>
                       <IconAlertCircle size={64} style={{ color: "var(--rd)" }} />
                    </div>
-                   <div style={{ fontSize: 16, fontWeight: 900, color: "var(--rd)", letterSpacing: 2, textAlign: "center" }}>ANALYSIS_FAILURE</div>
-                   <p style={{ fontSize: 11, color: "var(--tx2)", marginTop: 12, maxWidth: 360, textAlign: "center", lineHeight: 1.6 }}>{typeof error === "string" ? error : error?.message || "Analysis failed. Check API server."}</p>
-                   <button className="btn btn-g btn-s" style={{ marginTop: 24, borderRadius: 12 }} onClick={() => clearError()}>RETURN TO HUB</button>
+                   <div style={{ fontSize: 16, fontWeight: 900, color: "var(--rd)", letterSpacing: 2, textAlign: "center" }}>{t("stock.analysis_failure")}</div>
+                   <p style={{ fontSize: 11, color: "var(--tx2)", marginTop: 12, maxWidth: 360, textAlign: "center", lineHeight: 1.6 }}>{typeof error === "string" ? error : error?.message || t("stock.analysis_failed_msg")}</p>
+                   <button className="btn btn-g btn-s" style={{ marginTop: 24, borderRadius: 12 }} onClick={() => clearError()}>{t("stock.return_hub")}</button>
                 </div>
               ) : data ? (
                 <div key={data.ticker} className="stk-terminal-view">
@@ -981,7 +990,7 @@ function StockAnalyzerContent() {
                             </button>
                             <div>
                                <div className="stk-term-ticker">{data.ticker}</div>
-                               <div className="stk-term-meta">{data._category || "SPOT ASSET"} â€¢ REAL-TIME FEED</div>
+                               <div className="stk-term-meta">{t("stock.real_time_feed", { category: data._category || t("stock.spot_asset") })}</div>
                             </div>
                          </div>
                          <div style={{ textAlign: "right" }}>
@@ -1030,7 +1039,7 @@ function StockAnalyzerContent() {
                                         )}
                                      </div>
                                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--tx2)", marginTop: 8 }}>
-                                        Confidence: <span style={{ color: "var(--tx)" }}>{data.ml_prob != null ? `${fmt(data.ml_prob * 100, 1)}%` : "---"}</span>
+                                        {t("stock.confidence")} <span style={{ color: "var(--tx)" }}>{data.ml_prob != null ? `${fmt(data.ml_prob * 100, 1)}%` : "---"}</span>
                                      </div>
                                   </div>
                                   <ScoreGauge score={data.score} size={isMobile ? 100 : 140} />
@@ -1045,17 +1054,17 @@ function StockAnalyzerContent() {
                             {/* Forecasting & Kelly Sizing */}
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                                <div className="stk-forecast-card">
-                                  <div style={{ fontSize: 9, fontWeight: 950, color: "var(--tx3)", letterSpacing: 1, marginBottom: 12, position: "relative", zIndex: 1 }}>AI PRICE FORECAST</div>
+                                  <div style={{ fontSize: 9, fontWeight: 950, color: "var(--tx3)", letterSpacing: 1, marginBottom: 12, position: "relative", zIndex: 1 }}>{t("stock.ai_forecast")}</div>
                                   <div style={{ display: "flex", justifyContent: "space-around", position: "relative", zIndex: 1 }}>
                                      <div style={{ textAlign: "center" }}>
-                                        <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>1 WEEK</div>
+                                        <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>{t("stock.one_week")}</div>
                                         <div style={{ fontSize: 18, fontWeight: 900, color: data.forecast_1w > 0 ? "var(--gr)" : data.forecast_1w < 0 ? "var(--rd)" : "var(--tx3)" }}>
                                            {data.forecast_1w === 0 || data.forecast_1w === null ? "N/A" : `${data.forecast_1w > 0 ? "+" : ""}${fmt(data.forecast_1w * 100, 1)}%`}
                                         </div>
                                      </div>
                                      <div style={{ width: 1, height: 30, background: "var(--glass-border)" }} />
                                      <div style={{ textAlign: "center" }}>
-                                        <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>1 MONTH</div>
+                                        <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>{t("stock.one_month")}</div>
                                         <div style={{ fontSize: 18, fontWeight: 900, color: data.forecast_1m > 0 ? "var(--gr)" : data.forecast_1m < 0 ? "var(--rd)" : "var(--tx3)" }}>
                                            {data.forecast_1m === 0 || data.forecast_1m === null ? "N/A" : `${data.forecast_1m > 0 ? "+" : ""}${fmt(data.forecast_1m * 100, 1)}%`}
                                         </div>
@@ -1063,9 +1072,9 @@ function StockAnalyzerContent() {
                                   </div>
                                </div>
                                <div className="stk-forecast-card">
-                                  <div style={{ fontSize: 9, fontWeight: 950, color: "var(--tx3)", letterSpacing: 1, marginBottom: 12, position: "relative", zIndex: 1 }}>KELLY SIZING</div>
+                                  <div style={{ fontSize: 9, fontWeight: 950, color: "var(--tx3)", letterSpacing: 1, marginBottom: 12, position: "relative", zIndex: 1 }}>{t("stock.kelly_sizing")}</div>
                                   <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
-                                     <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>RECOMMENDED ALLOCATION</div>
+                                     <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 4 }}>{t("stock.rec_allocation")}</div>
                                      <div style={{ fontSize: 22, fontWeight: 950, color: "var(--cy)" }}>
                                         {data.kelly_fraction === 0 || data.kelly_fraction === null ? "N/A" : `${fmt(data.kelly_fraction * 100, 1)}%`}
                                      </div>
@@ -1078,22 +1087,22 @@ function StockAnalyzerContent() {
                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                                      <IconPieChart size={18} color="var(--cy)" />
-                                     <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>MACRO INTELLIGENCE</span>
+                                     <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>{t("stock.macro_intel")}</span>
                                   </div>
                                   <span style={{ fontSize: 10, fontWeight: 950, color: data.vol_regime === "HIGH" ? "var(--rd)" : "var(--gr)", background: data.vol_regime === "HIGH" ? "rgba(239, 68, 68, 0.1)" : "rgba(34, 197, 94, 0.1)", padding: "4px 12px", borderRadius: 20 }}>
-                                     {data.vol_regime} VOLATILITY
+                                     {t("stock.volatility", { regime: data.vol_regime })}
                                   </span>
                                </div>
                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
                                   <div style={{ background: "var(--bg3)", padding: 16, borderRadius: 16, border: "1px solid var(--bdr)" }}>
-                                     <div className="lbl" style={{ fontSize: 8, marginBottom: 6 }}>Liquidity (LPI)</div>
+                                     <div className="lbl" style={{ fontSize: 8, marginBottom: 6 }}>{t("stock.liquidity_lpi")}</div>
                                      <div style={{ fontSize: 16, fontWeight: 900, color: data.css > 70 ? "var(--gr)" : "var(--tx)" }}>
                                         {fmt(data.css, 1)}
                                      </div>
                                   </div>
                                   <DXYPanel data={data} assetType={data._category?.includes("CRYPTO") ? "crypto" : "stock"} />
                                   <div style={{ background: "var(--bg3)", padding: 16, borderRadius: 16, border: "1px solid var(--bdr)" }}>
-                                     <div className="lbl" style={{ fontSize: 8, marginBottom: 6 }}>Sentiment (CSI)</div>
+                                     <div className="lbl" style={{ fontSize: 8, marginBottom: 6 }}>{t("stock.sentiment_csi")}</div>
                                      <div style={{ fontSize: 16, fontWeight: 900 }}>
                                         {fmt(data.csi, 1)}
                                      </div>
@@ -1102,7 +1111,7 @@ function StockAnalyzerContent() {
                             </div>
 
                             {/* Whale Activity Tracker */}
-                            <ButterflyErrorBoundary message="Institutional Data Unavailable">
+                            <ButterflyErrorBoundary message={t("stock.institutional_unavailable")}>
                                <WhaleActivity ticker={data.ticker} assetType={data._category?.includes("CRYPTO") ? "crypto" : "stock"} />
                             </ButterflyErrorBoundary>
 
@@ -1110,7 +1119,7 @@ function StockAnalyzerContent() {
                             <ButterflyMap ticker={data.ticker} />
 
                             {/* Agent Senate Consensus (New) */}
-                            <ButterflyErrorBoundary message="Consensus Engine Offline">
+                            <ButterflyErrorBoundary message={t("stock.consensus_offline")}>
                                <SenateAgent ticker={data.ticker} assetType={data._category} />
                             </ButterflyErrorBoundary>
                          </div>
@@ -1128,8 +1137,8 @@ function StockAnalyzerContent() {
                    <div className="pulse-slow" style={{ background: "var(--bg2)", padding: 40, borderRadius: "50%", border: "1px solid var(--bdr)", marginBottom: 24 }}>
                       <IconFlash size={64} style={{ color: "var(--bg4)" }} />
                    </div>
-                   <div style={{ fontSize: 16, fontWeight: 900, color: "var(--tx3)", letterSpacing: 2, textAlign: "center" }}>INITIALIZE QUANT TERMINAL</div>
-                   <p style={{ fontSize: 11, color: "var(--tx3)", marginTop: 12, opacity: 0.6 }}>SELECT AN ASSET FROM THE POOL TO BEGIN ANALYSIS</p>
+                   <div style={{ fontSize: 16, fontWeight: 900, color: "var(--tx3)", letterSpacing: 2, textAlign: "center" }}>{t("stock.initialize_terminal")}</div>
+                   <p style={{ fontSize: 11, color: "var(--tx3)", marginTop: 12, opacity: 0.6 }}>{t("stock.select_asset")}</p>
                 </div>
               )}
            </main>

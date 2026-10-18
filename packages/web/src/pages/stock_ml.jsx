@@ -4,6 +4,7 @@ import { getSignalVariant } from "../finance/constants.js";
 import { PageWrapper } from "../animations.jsx";
 import { IconRefresh, IconInfo, IconBarChart, IconSearch, IconInsight } from "../icons.jsx";
 import { Skeleton } from "../components.jsx";
+import { useI18n } from "../i18n/context.js";
 
 // ── Skeleton ───────────────────────────────────────────────────────────────
 function StockMLSkeleton() {
@@ -29,6 +30,7 @@ function StockMLSkeleton() {
 }
 
 export default function StockML() {
+  const { t } = useI18n();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,7 +44,7 @@ export default function StockML() {
       setData(res || []);
     } catch (err) {
       console.error(err);
-      setError(err?.message || String(err) || "Failed to load ML predictions");
+      setError(err?.message || String(err) || t("stock_ml.load_fail"));
     } finally {
       setLoading(false);
     }
@@ -67,62 +69,62 @@ export default function StockML() {
   };
 
   return (
-    <PageWrapper title="SHPIS Engine">
-      <h1 className="sr-only">ML Stock Predictor — AI Signal &amp; Prediction Engine</h1>
+    <PageWrapper>
+      <h1 className="sr-only">{t("stock_ml.sr_title")}</h1>
       {loading && data.length === 0 ? (
         <StockMLSkeleton />
       ) : error ? (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: 320, gap: 16, border: "1px dashed rgba(239,68,68,.4)", borderRadius: 20, padding: 36, background: "rgba(239,68,68,.05)", margin: "20px 0" }}>
           <div style={{ fontSize: 36 }}>⚠️</div>
-          <div style={{ fontWeight: 900, fontSize: 16, color: "var(--rd)", letterSpacing: 1 }}>ML PREDICTION ENGINE ERROR</div>
+          <div style={{ fontWeight: 900, fontSize: 16, color: "var(--rd)", letterSpacing: 1 }}>{t("stock_ml.error_title")}</div>
           <div style={{ fontSize: 12, color: "var(--tx2)", textAlign: "center", maxWidth: 460, lineHeight: 1.6 }}>
             {typeof error === "string" ? error : error?.message || String(error)}
           </div>
           <div style={{ fontSize: 11, color: "var(--tx3)", textAlign: "center", maxWidth: 440 }}>
-            Pastikan server API backend aktif di <code>http://localhost:8444</code> dan model XGBoost telah dilatih via CLI menu 6.
+            {t("stock_ml.hint_pre")} <code>http://localhost:8444</code> {t("stock_ml.hint_post")}
           </div>
           <button className="btn btn-g btn-s" onClick={loadData} style={{ marginTop: 8 }}>
-            <IconRefresh size={14} style={{ marginRight: 6 }} /> Coba Lagi
+            <IconRefresh size={14} style={{ marginRight: 6 }} /> {t("common.retry")}
           </button>
         </div>
       ) : data.length === 0 ? (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: 280, gap: 14, border: "1px dashed var(--bdr)", borderRadius: 20, padding: 32, background: "var(--bg2)", margin: "20px 0" }}>
           <IconBarChart size={40} color="var(--tx3)" />
-          <div style={{ fontWeight: 800, fontSize: 14, color: "var(--tx)" }}>Belum Ada Model ML Aktif</div>
+          <div style={{ fontWeight: 800, fontSize: 14, color: "var(--tx)" }}>{t("stock_ml.empty_title")}</div>
           <div style={{ fontSize: 12, color: "var(--tx3)", textAlign: "center", maxWidth: 420 }}>
-            Tidak ada prediksi ML yang tersimpan. Jalankan latihan model di CLI atau pastikan <code>stock-ml</code> service aktif.
+            {t("stock_ml.empty_pre")} <code>stock-ml</code> {t("stock_ml.empty_post")}
           </div>
           <button className="btn btn-p btn-s" onClick={loadData}>
-            <IconRefresh size={14} style={{ marginRight: 6 }} /> Refresh Data
+            <IconRefresh size={14} style={{ marginRight: 6 }} /> {t("dashboard.refresh_data")}
           </button>
         </div>
       ) : (
         <>
           {error && (
             <div style={{ padding: "10px 16px", borderRadius: 12, background: "rgba(239,68,68,.1)", border: "1px solid rgba(239,68,68,.3)", color: "var(--rd)", fontSize: 12, marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>⚠️ <strong>Gagal Memperbarui:</strong> {typeof error === "string" ? error : error?.message || String(error)}</span>
-              <button className="btn btn-s" style={{ background: "transparent", color: "var(--rd)", border: "none" }} onClick={loadData}>Coba Lagi</button>
+              <span>⚠️ <strong>{t("stock_ml.update_failed")}</strong> {typeof error === "string" ? error : error?.message || String(error)}</span>
+              <button className="btn btn-s" style={{ background: "transparent", color: "var(--rd)", border: "none" }} onClick={loadData}>{t("common.retry")}</button>
             </div>
           )}
           <div className="sg" style={{ gridTemplateColumns: "repeat(5, 1fr)", gap: 16, marginBottom: 20 }}>
             <div className="sc net" style={{ padding: 16 }}>        
-              <div className="sc-lbl">MODELS</div>
+              <div className="sc-lbl">{t("stock_ml.models")}</div>
               <div className="sc-val">{data.length}</div>
             </div>
             <div className="sc net" style={{ padding: 16, borderLeft: "4px solid var(--cy)" }}>
-              <div className="sc-lbl">AVG PRECISION</div>
+              <div className="sc-lbl">{t("stock_ml.avg_precision")}</div>
               <div className="sc-val" style={{ color: "var(--cy)" }}>
                 {(data.reduce((acc, r) => acc + (r.precision || 0), 0) / (data.length || 1) * 100).toFixed(1)}%
               </div>
             </div>
             <div className="sc net" style={{ padding: 16, borderLeft: "4px solid var(--gr)" }}>
-              <div className="sc-lbl">TOTAL SIGNALS</div>
+              <div className="sc-lbl">{t("stock_ml.total_signals")}</div>
               <div className="sc-val" style={{ color: "var(--gr)" }}>
                 {data.reduce((acc, r) => acc + (r.n_signals || 0), 0).toLocaleString()}
               </div>
             </div>
             <div className="sc net" style={{ padding: 16, borderLeft: "4px solid var(--yl)" }}>
-              <div className="sc-lbl">LAST UPDATE</div>
+              <div className="sc-lbl">{t("stock_ml.last_update")}</div>
               <div className="sc-val" style={{ color: "var(--yl)", fontSize: 14 }}>
                 {(() => {
                   const ts = data[0]?.timestamp || data[0]?.updated_at || data[0]?.date;
@@ -134,18 +136,18 @@ export default function StockML() {
               </div>
             </div>
             <button className="btn btn-p" style={{ height: "100%", borderRadius: 12, fontWeight: 900 }} onClick={loadData} disabled={loading}>
-               {loading ? <IconRefresh size={16} style={{ animation: "comp-spin 1s linear infinite" }} /> : "SYNC DATA"}
+               {loading ? <IconRefresh size={16} style={{ animation: "comp-spin 1s linear infinite" }} /> : t("stock_ml.sync_data")}
             </button>
           </div>
           <div className="card" style={{ padding: 0, overflow: "hidden" }}>
             <table className="tbl">
               <thead>
                 <tr>
-                  <th style={{ paddingLeft: 20 }}>Asset</th>
-                  <th>Acc.</th>
-                  <th>Precision</th>
-                  <th style={{ textAlign: "center" }}>Signal</th>
-                  <th style={{ paddingRight: 20, textAlign: "right" }}>Confidence</th>
+                  <th style={{ paddingLeft: 20 }}>{t("stock_ml.col_asset")}</th>
+                  <th>{t("stock_ml.col_acc")}</th>
+                  <th>{t("stock_ml.col_precision")}</th>
+                  <th style={{ textAlign: "center" }}>{t("stock_ml.col_signal")}</th>
+                  <th style={{ paddingRight: 20, textAlign: "right" }}>{t("stock_ml.col_confidence")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -174,9 +176,9 @@ export default function StockML() {
 
           <div style={{ marginTop: 16, padding: 16, background: "var(--bg3)", borderRadius: 12, fontSize: 11, color: "var(--tx3)", lineHeight: 1.5 }}>
              <IconInsight size={14} style={{ marginRight: 6, verticalAlign: "middle", color: "var(--cy)" }} />
-             <strong>Model Confidence (SoftMax Probability):</strong> This value represents the <strong>Class Probability</strong> calculated via a SoftMax function. 
-             It indicates the model's mathematical certainty (0-100%) that the current market features align with historical patterns for the predicted signal (BUY, SELL, or NEUTRAL). 
-             A confidence above 70% triggers a "SNIPER" classification.
+             <strong>{t("stock_ml.insight_title")}</strong> {t("stock_ml.insight_body")} 
+ 
+
           </div>
         </>
       )}
