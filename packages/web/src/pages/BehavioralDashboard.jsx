@@ -19,6 +19,7 @@ import NetWorthHeatmap    from "../behavioral/NetWorthHeatmap.jsx";
 import AIInsightPanel     from "../behavioral/AIInsightPanel.jsx";
 import AIPassiveStatus     from "../behavioral/AIPassiveStatus.jsx";
 import { useAIStatus }    from "../finance/useApi.js";
+import { useI18n }        from "../i18n/context.js";
 
 // ── Loading skeleton ──────────────────────────────────────────────────────────
 function Skeleton({ h = 120, mb = 12 }) {
@@ -47,6 +48,7 @@ function LoadingState() {
 
 // ── Error state ───────────────────────────────────────────────────────────────
 function ErrorState({ error, onRetry }) {
+  const { t } = useI18n();
   // Normalize to string — error may be an Error object, string, or null
   const errStr = typeof error === "string"
     ? error
@@ -56,18 +58,18 @@ function ErrorState({ error, onRetry }) {
   const is500    = errStr.includes("500") || (typeof error === "object" && error !== null && error.status === 500);
   const isOffline = errStr.includes("Failed to fetch") || errStr.includes("API Offline") || (typeof error === "object" && error !== null && error.type === "OFFLINE");
 
-  let title = "Failed to load behavioral data";
-  let suggestion = "Check your connection and try again.";
+  let title = t("behavioral.load_failed_title");
+  let suggestion = t("behavioral.load_failed_sub");
 
   if (is404) {
-    title = "Endpoint Not Found (404)";
-    suggestion = "The behavioral finance module might be disabled or its routes are missing.";
+    title = t("behavioral.err_404_title");
+    suggestion = t("behavioral.err_404_sub");
   } else if (is500) {
-    title = "Internal Server Error (500)";
-    suggestion = "The backend crashed while computing your report. Check 'debug_gui.log'.";
+    title = t("behavioral.err_500_title");
+    suggestion = t("behavioral.err_500_sub");
   } else if (isOffline) {
-    title = "Backend Unreachable";
-    suggestion = "Make sure 'python api_server.py' is running and accessible.";
+    title = t("behavioral.err_offline_title");
+    suggestion = t("behavioral.err_offline_sub");
   }
 
   return (
@@ -77,14 +79,14 @@ function ErrorState({ error, onRetry }) {
     }}>
       <div style={{ fontSize: 13, fontWeight: 700, color: "var(--rd)", marginBottom: 6 }}>{title}</div>
       <div style={{ fontSize: 11, color: "var(--tx3)", fontFamily: "'Space Mono', monospace", marginBottom: 14, wordBreak: "break-all" }}>
-        {errStr || "Unknown error"}
+        {errStr || t("behavioral.unknown_error")}
       </div>
       <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 16 }}>
         {suggestion}
       </div>
       <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
-        <button className="btn btn-g btn-s" onClick={onRetry}>Retry</button>
-        <button className="btn btn-s" style={{ background: "var(--bg3)" }} onClick={() => window.location.reload()}>Reload App</button>
+        <button className="btn btn-g btn-s" onClick={onRetry}>{t("common.retry")}</button>
+        <button className="btn btn-s" style={{ background: "var(--bg3)" }} onClick={() => window.location.reload()}>{t("behavioral.reload_app")}</button>
       </div>
     </div>
   );
@@ -92,14 +94,15 @@ function ErrorState({ error, onRetry }) {
 
 // ── Tab definitions ───────────────────────────────────────────────────────────
 const TABS = [
-  { id: "behavior", Icon: IconBehavioral, label: "Behavioral Finance", sub: "FBS · Impulse · Lifestyle Inflation" },
-  { id: "risk",     Icon: IconRisk,       label: "Risk Exposure",      sub: "Allocation · Fragility Score"   },
-  { id: "heatmap",  Icon: IconHeatmap,    label: "Net Worth Heatmap",  sub: "Net Worth · Monthly Heatmap" },
-  { id: "ai",       Icon: IconInfo,       label: "AI Insights",         sub: "Claude / Gemini / Ollama / Rules · Analisis Personal" },
+  { id: "behavior", Icon: IconBehavioral, labelKey: "behavioral.tab_behavior", subKey: "behavioral.tab_behavior_sub" },
+  { id: "risk",     Icon: IconRisk,       labelKey: "behavioral.tab_risk",     subKey: "behavioral.tab_risk_sub"     },
+  { id: "heatmap",  Icon: IconHeatmap,    labelKey: "behavioral.tab_heatmap",  subKey: "behavioral.tab_heatmap_sub"  },
+  { id: "ai",       Icon: IconInfo,       labelKey: "behavioral.tab_ai",       subKey: "behavioral.tab_ai_sub"       },
 ];
 
 // ── Tab bar ───────────────────────────────────────────────────────────────────
 function TabBar({ active, onChange }) {
+  const { t } = useI18n();
   return (
     <div className="tabs" style={{ marginBottom: 20, display: "flex", gap: 6, overflowX: "auto", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
       {TABS.map(tab => {
@@ -122,11 +125,11 @@ function TabBar({ active, onChange }) {
             <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 2 }}>
               <span style={{ display:"flex",alignItems:"center" }}><tab.Icon size={15} /></span>
               <span className="beh-tab-label" style={{ fontSize: 12, fontWeight: 700, color: on ? "var(--ind-b)" : "var(--tx2)", whiteSpace: "nowrap" }}>
-                {tab.label}
+                {t(tab.labelKey)}
               </span>
             </div>
             <div className="beh-tab-sub" style={{ fontSize: 9, color: "var(--tx3)", fontFamily: "'Space Mono', monospace", paddingLeft: 22, whiteSpace: "nowrap" }}>
-              {tab.sub}
+              {t(tab.subKey)}
             </div>
           </button>
         );
@@ -137,6 +140,7 @@ function TabBar({ active, onChange }) {
 
 // ── Main export ───────────────────────────────────────────────────────────────
 export default function BehavioralDashboard() {
+  const { t } = useI18n();
   const [tab, setTab] = usePersistedTab("behavioral", "behavior");
   const { loading, error, report, reload } = useBehavioralData();
   const { data: balances } = useBalances();
@@ -261,15 +265,15 @@ export default function BehavioralDashboard() {
 
   return (
     <div>
-      <h1 className="sr-only">Behavioral Finance — Spending Habits &amp; Financial Insights</h1>
+      <h1 className="sr-only">{t("behavioral.sr_title")}</h1>
       {/* Header — description hidden on mobile to save space */}
       <div style={{ marginBottom: 14, display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
         <div className="beh-header-desc">
           <div style={{ fontSize: 10, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 4 }}>
-            User Behavioral Analytics
+            {t("behavioral.header_title")}
           </div>
           <div style={{ fontSize: 12, color: "var(--tx2)", lineHeight: 1.5, maxWidth: 540 }}>
-            Behavioral Finance insights derived from your real transaction data.
+            {t("behavioral.header_sub")}
           </div>
         </div>
         <AIPassiveStatus status={aiStatus} loading={aiStatusLoading} />

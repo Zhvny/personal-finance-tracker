@@ -8,6 +8,7 @@ import AIPassiveStatus from "../behavioral/AIPassiveStatus.jsx";
 import { fmt, CATEGORIES, PAY_LIST, API_BASE } from "../finance/constants.js";
 import { CatIcon } from "../finance/icon-maps.jsx";
 import { Modal, Empty, FormGroup, FormRow } from "../components.jsx";
+import { useI18n } from "../i18n/context.js";
 import { IconCamera, IconCheck, IconSparkles, IconScan, IconFlash, IconML, IconRecords, IconFile, IconIncome, IconBarChart } from "../icons.jsx";
 
 // â”€â”€ Merchant memory API helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -36,6 +37,7 @@ function ConfidenceBadge({ confidence, aiPowered, processingTime }) {
 }
 
 function ReceiptCard({ receipt, index, onEdit, onExport, exported }) {
+  const { t } = useI18n();
   const isIncome = receipt.transaction_type === "income";
   const color    = isIncome ? "var(--gr)" : "var(--rd)";
   const icon     = isIncome ? "â†“" : "â†‘";
@@ -43,7 +45,7 @@ function ReceiptCard({ receipt, index, onEdit, onExport, exported }) {
     <div style={{ background:"var(--bg2)", border:"1px solid var(--bdr)", borderRadius:"var(--rl)", padding:18, marginBottom:12, borderLeft:`3px solid ${color}` }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, gap:10 }}>
         <div style={{ minWidth:0 }}>
-          <div style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>{icon} {receipt.merchant_name || "Unknown Merchant"}</div>
+          <div style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>{icon} {receipt.merchant_name || t("receipt.unknown_merchant")}</div>
           <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
             <span style={{ fontSize:11, color:"var(--tx3)", fontFamily:"var(--mono)" }}>{receipt.transaction_date?.slice(0,10)}</span>
             <ConfidenceBadge 
@@ -105,14 +107,14 @@ function ReceiptCard({ receipt, index, onEdit, onExport, exported }) {
       )}
 
       <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-        <button className="btn btn-g btn-s" onClick={() => onEdit(index)}>Edit</button>
+        <button className="btn btn-g btn-s" onClick={() => onEdit(index)}>{t("common.edit")}</button>
         {!exported.has(index) ? (
           <>
-            <button className="btn btn-grn btn-s" onClick={() => onExport(index, "expense")}>Export â†’ Expense</button>
-            <button className="btn btn-p btn-s"   onClick={() => onExport(index, "income")}>Export â†’ Income</button>
+            <button className="btn btn-grn btn-s" onClick={() => onExport(index, "expense")}>{t("receipt.export_expense")}</button>
+            <button className="btn btn-p btn-s"   onClick={() => onExport(index, "income")}>{t("receipt.export_income")}</button>
           </>
         ) : (
-          <span className="pill g">Exported to {exported.get(index)}</span>
+          <span className="pill g">{t("receipt.exported_to", { target: exported.get(index) })}</span>
         )}
       </div>
     </div>
@@ -120,6 +122,7 @@ function ReceiptCard({ receipt, index, onEdit, onExport, exported }) {
 }
 
 function EditModal({ receipt, onSave, onClose }) {
+  const { t } = useI18n();
   const [form, setForm] = useState({
     merchant_name:    receipt.merchant_name || "",
     total_amount:     receipt.total_amount  || 0,
@@ -142,32 +145,32 @@ function EditModal({ receipt, onSave, onClose }) {
   };
 
   return (
-    <Modal title="Edit Receipt" onClose={onClose}
+    <Modal title={t("receipt.edit_title")} onClose={onClose}
       footer={
         <>
-          <button className="btn btn-g" onClick={onClose}>Cancel</button>
-          <button className="btn btn-p" onClick={handleSave}>Save</button>
+          <button className="btn btn-g" onClick={onClose}>{t("common.cancel")}</button>
+          <button className="btn btn-p" onClick={handleSave}>{t("common.save")}</button>
         </>
       }>
       <FormRow>
-        <FormGroup label="Merchant"><input className="fc" value={form.merchant_name} onChange={set("merchant_name")} /></FormGroup>
-        <FormGroup label="Amount (IDR)"><input className="fc" type="number" value={form.total_amount} onChange={set("total_amount")} /></FormGroup>
+        <FormGroup label={t("receipt.f_merchant")}><input className="fc" value={form.merchant_name} onChange={set("merchant_name")} /></FormGroup>
+        <FormGroup label={t("expense.form_amount")}><input className="fc" type="number" value={form.total_amount} onChange={set("total_amount")} /></FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Date"><input className="fc" type="date" value={form.transaction_date} onChange={set("transaction_date")} /></FormGroup>
-        <FormGroup label="Type">
+        <FormGroup label={t("expense.form_date")}><input className="fc" type="date" value={form.transaction_date} onChange={set("transaction_date")} /></FormGroup>
+        <FormGroup label={t("receipt.f_type")}>
           <select className="fc sel" value={form.transaction_type} onChange={set("transaction_type")}>
-            <option value="expense">Expense</option><option value="income">Income</option>
+            <option value="expense">{t("dashboard.expense_singular")}</option><option value="income">{t("nav.income")}</option>
           </select>
         </FormGroup>
       </FormRow>
       <FormRow>
-        <FormGroup label="Payment">
+        <FormGroup label={t("receipt.f_payment")}>
           <select className="fc sel" value={form.payment_method} onChange={set("payment_method")}>
             {PAY_LIST.map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </FormGroup>
-        <FormGroup label="Category">
+        <FormGroup label={t("expense.form_category")}>
           <select className="fc sel" value={form.category} onChange={set("category")}>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -185,8 +188,8 @@ function EditModal({ receipt, onSave, onClose }) {
         />
         <label htmlFor="rem-merchant" style={{ fontSize: 12, color: "var(--tx2)", cursor: "pointer", userSelect: "none" }}>
           {remembered
-            ? <span style={{ color:"#60a5fa" }}><IconCheck size={11} style={{ marginRight:4, verticalAlign:"middle" }} /> Ingat bahwa <strong>{form.merchant_name || "merchant ini"}</strong> â†’ <strong>{form.category}</strong></span>
-            : <>Ingat <strong>{form.merchant_name || "merchant ini"}</strong> sebagai <strong>{form.category}</strong> untuk scan berikutnya</>
+            ? <span style={{ color:"#60a5fa" }}><IconCheck size={11} style={{ marginRight:4, verticalAlign:"middle" }} /> {t("receipt.remember_done_pre")} <strong>{form.merchant_name || t("receipt.this_merchant")}</strong> → <strong>{form.category}</strong></span>
+            : <>{t("receipt.remember_next_pre")} <strong>{form.merchant_name || t("receipt.this_merchant")}</strong> {t("receipt.remember_next_mid")} <strong>{form.category}</strong> {t("receipt.remember_next_post")}</>
           }
         </label>
       </div>
@@ -195,6 +198,7 @@ function EditModal({ receipt, onSave, onClose }) {
 }
 
 function DropZone({ onFiles, aiMode }) {
+  const { t } = useI18n();
   const [dragging, setDragging] = useState(false);
   const inputRef     = useRef(); // gallery / file picker (no capture)
   const cameraRef    = useRef(); // camera only
@@ -225,13 +229,13 @@ function DropZone({ onFiles, aiMode }) {
         <IconCamera size={36} color="var(--tx3)" />
       </div>
       <div className="dz-txt" style={{ textAlign: "center", lineHeight: 1.6 }}>
-        <div><strong>Upload Document (PNG/JPG/WebP)</strong></div>
+        <div><strong>{t("receipt.upload_title")}</strong></div>
         <div style={{ display:"flex", justifyContent:"center", gap:6, marginTop:8, flexWrap:"wrap" }}>
-          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconFile size={11} /> Invoice / Faktur</span>
-          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconRecords size={11} /> Kwitansi</span>
-          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconScan size={11} /> Struk / Receipt</span>
-          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconBarChart size={11} /> Mutasi Rekening</span>
-          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconIncome size={11} /> Bukti Transfer Bank</span>
+          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconFile size={11} /> {t("receipt.doc_invoice")}</span>
+          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconRecords size={11} /> {t("receipt.doc_receipt")}</span>
+          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconScan size={11} /> {t("receipt.doc_struct")}</span>
+          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconBarChart size={11} /> {t("receipt.doc_mutation")}</span>
+          <span style={{ fontSize:10, padding:"2px 8px", borderRadius:99, background:"var(--bg3)", color:"var(--tx2)", border:"1px solid var(--bdr)", display:"inline-flex", alignItems:"center", gap:4 }}><IconIncome size={11} /> {t("receipt.doc_transfer")}</span>
         </div>
         {aiMode && (
           <div style={{ display:"flex", justifyContent:"center", gap:6, marginTop:6, flexWrap:"wrap" }}>
@@ -247,32 +251,33 @@ function DropZone({ onFiles, aiMode }) {
       <div style={{ display:"flex", justifyContent:"center", gap:8, marginTop:14, flexWrap:"wrap" }}>
         <button className="btn btn-p btn-s" style={{ gap:5 }}
           onClick={e => { e.stopPropagation(); inputRef.current.click(); }}>
-          <IconCamera size={13} /> Pilih dari Galeri
+          <IconCamera size={13} /> {t("receipt.pick_gallery")}
         </button>
         {isMobile && (
           <button className="btn btn-g btn-s" style={{ gap:5 }}
             onClick={e => { e.stopPropagation(); cameraRef.current.click(); }}>
-            <IconCamera size={13} /> Buka Kamera
+            <IconCamera size={13} /> {t("receipt.open_camera")}
           </button>
         )}
       </div>
-      <div style={{ fontSize:11, color:"var(--tx3)", marginTop:8, textAlign:"center" }}>atau seret &amp; lepas foto di sini</div>
+      <div style={{ fontSize:11, color:"var(--tx3)", marginTop:8, textAlign:"center" }}>{t("receipt.drag_hint")}</div>
     </div>
   );
 }
 
 function ModeBadge({ selected, onSelect, status }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   const OPTIONS = [
-    { id: "auto",      label: "AI Auto",       icon: <IconSparkles size={14} />, desc: "Otomatis pilih Claude/Gemini/Ollama", color: "var(--pu)" },
-    { id: "claude",    label: "Vision Claude",  icon: <IconScan size={14} />, desc: "Claude 3.5 Opus (Akurasi tertinggi)", color: "#a78bfa" },
-    { id: "gemini",    label: "Gemini 2.5 Flash",  icon: <IconFlash size={14} />, desc: "Gemini 2.5 Flash (Tercepat & Stabil)", color: "#4f46e5" },
-    { id: "ollama",    label: "Vision Ollama",  icon: <IconML size={14} />, desc: "Local LLM (Ollama Vision)", color: "#34d399" },
-    { id: "rules",     label: "OCR Offline",    icon: <IconRecords size={14} />, desc: "Rule Engine (Tanpa AI)", color: "#60a5fa" },
-    { id: "Tesseract", label: "OCR Tesseract", icon: <IconFile size={14} />, desc: "Legacy OCR — Printed text", color: "var(--tx2)" },
-    { id: "EasyOCR",   label: "OCR EasyOCR",   icon: <IconFile size={14} />, desc: "Legacy OCR — Stylized text", color: "var(--tx2)" },
-    { id: "PaddleOCR", label: "OCR PaddleOCR", icon: <IconFile size={14} />, desc: "Legacy OCR — Documentation", color: "var(--tx2)" },
+    { id: "auto",      label: "AI Auto",       icon: <IconSparkles size={14} />, desc: t("receipt.eng_auto_desc"), color: "var(--pu)" },
+    { id: "claude",    label: "Vision Claude",  icon: <IconScan size={14} />, desc: t("receipt.eng_claude_desc"), color: "#a78bfa" },
+    { id: "gemini",    label: "Gemini 2.5 Flash",  icon: <IconFlash size={14} />, desc: t("receipt.eng_gemini_desc"), color: "#4f46e5" },
+    { id: "ollama",    label: "Vision Ollama",  icon: <IconML size={14} />, desc: t("receipt.eng_ollama_desc"), color: "#34d399" },
+    { id: "rules",     label: "OCR Offline",    icon: <IconRecords size={14} />, desc: t("receipt.eng_rules_desc"), color: "#60a5fa" },
+    { id: "Tesseract", label: "OCR Tesseract", icon: <IconFile size={14} />, desc: t("receipt.eng_tesseract_desc"), color: "var(--tx2)" },
+    { id: "EasyOCR",   label: "OCR EasyOCR",   icon: <IconFile size={14} />, desc: t("receipt.eng_easyocr_desc"), color: "var(--tx2)" },
+    { id: "PaddleOCR", label: "OCR PaddleOCR", icon: <IconFile size={14} />, desc: t("receipt.eng_paddleocr_desc"), color: "var(--tx2)" },
   ];
 
   const current = OPTIONS.find(o => o.id === selected) || OPTIONS[0];
@@ -304,12 +309,12 @@ function ModeBadge({ selected, onSelect, status }) {
           }}>
             <div style={{ padding: "8px 14px", borderBottom: "1px solid var(--bdr)", marginBottom: 4 }}>
               <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".8px", color: "var(--tx3)" }}>
-                Pilih Engine Scan Struk
+                {t("receipt.engine_title")}
               </div>
               <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 2 }}>
                 {status?.active === "none" && !["Tesseract", "EasyOCR", "PaddleOCR"].includes(selected) 
-                  ? "AI tidak aktif — gunakan OCR Legacy atau Rule Engine" 
-                  : "Pilih mode yang sesuai dengan kualitas struk"}
+                  ? t("receipt.engine_ai_off")
+                  : t("receipt.engine_hint")}
               </div>
             </div>
             {OPTIONS.map(opt => (
@@ -368,6 +373,7 @@ function InfoTooltip({ text }) {
 }
 
 export default function ReceiptReader({ onToast }) {
+  const { t } = useI18n();
   const [receipts,    setReceipts]  = useState([]);
   const [scanning,    setScanning]  = useState(false);
   const [scanError,   setScanError] = useState(null);
@@ -432,7 +438,7 @@ export default function ReceiptReader({ onToast }) {
             _processingTime: elapsed 
           })));
         } else {
-          lastErr = `${files[i].name}: ${res.error || "No data parsed"}`;
+          lastErr = `${files[i].name}: ${res.error || t("receipt.no_data")}`;
           onToast(lastErr, "error");
         }
       } catch (e) {
@@ -456,7 +462,7 @@ export default function ReceiptReader({ onToast }) {
         Tesseract: "OCR Tesseract", EasyOCR: "OCR EasyOCR", PaddleOCR: "OCR PaddleOCR"
       };
       const method = labels[selectedEngine] || (results[0]?._aiPowered ? "AI" : "OCR");
-      onToast(`${results.length} receipt(s) diproses dengan ${method} dalam ${totalElapsed}s.`);
+      onToast(t("receipt.processed", { count: results.length, method, time: totalElapsed }));
     }
   };
 
@@ -464,8 +470,8 @@ export default function ReceiptReader({ onToast }) {
     try {
       await apiExportReceipt(target, receipts[idx]);
       setExported(m => new Map(m).set(idx, target));
-      onToast(`Exported to ${target} tracker.`);
-    } catch (e) { onToast("Export failed: " + e.message, "error"); }
+      onToast(t("receipt.exported_to", { target }));
+    } catch (e) { onToast(t("receipt.export_failed", { error: e.message }), "error"); }
   };
 
   const handleSaveEdit = updated => {
@@ -481,12 +487,12 @@ export default function ReceiptReader({ onToast }) {
       try { await apiExportReceipt(target, receipts[i]); setExported(m => new Map(m).set(i, target)); count++; }
       catch { /* skip */ }
     }
-    onToast(`Exported ${count} receipts.`);
+    onToast(t("receipt.exported_count", { count }));
   };
 
   return (
     <div>
-      <h1 className="sr-only">Receipt Reader — AI-Powered OCR for Expense Scanning</h1>
+      <h1 className="sr-only">{t("receipt.sr_title")}</h1>
       {/* AI provider status &amp; OCR Engine Selector — Unified ModeBadge */}
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16, flexWrap:"wrap", gap:12 }}>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
@@ -512,13 +518,13 @@ export default function ReceiptReader({ onToast }) {
         }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "var(--rd)", display: "flex", alignItems: "center", gap: 6 }}>
-              <IconWarning size={15} color="var(--rd)" /> Gagal Membaca Struk
+              <IconWarning size={15} color="var(--rd)" /> {t("receipt.scan_error_title")}
             </div>
             <div style={{ fontSize: 11, color: "var(--tx2)", marginTop: 2 }}>
               {typeof scanError === "string" ? scanError : scanError?.message || String(scanError)}
             </div>
           </div>
-          <button className="btn btn-g btn-s" onClick={() => setScanError(null)}>Tutup</button>
+          <button className="btn btn-g btn-s" onClick={() => setScanError(null)}>{t("common.close")}</button>
         </div>
       )}
 
@@ -527,13 +533,13 @@ export default function ReceiptReader({ onToast }) {
           <div style={{ width:20, height:20, borderRadius:"50%", border:"2px solid var(--ind-b)", borderTopColor:"transparent", animation:"spin 1s linear infinite", flexShrink:0 }} />
           <div style={{ flex:1, minWidth:0 }}>
             <div style={{ fontSize:13, fontWeight:600 }}>
-              {aiStatus?.active === "claude" ? "Claude Vision sedang membaca struk..."
-               : aiStatus?.active === "gemini" ? "Gemini sedang membaca struk..."
-               : aiStatus?.active === "ollama" ? "Ollama sedang menganalisis struk..."
-               : aiStatus?.active === "rules" ? "Rule Engine sedang memproses struk..."
-               : "Scanning receipts..."}
+              {aiStatus?.active === "claude" ? t("receipt.scan_claude")
+               : aiStatus?.active === "gemini" ? t("receipt.scan_gemini")
+               : aiStatus?.active === "ollama" ? t("receipt.scan_ollama")
+               : aiStatus?.active === "rules" ? t("receipt.scan_rules")
+               : t("receipt.scanning")}
             </div>
-            <div style={{ fontSize:11, color:"var(--tx2)", marginTop:2 }}>{scanProgress.done} / {scanProgress.total} diproses</div>
+            <div style={{ fontSize:11, color:"var(--tx2)", marginTop:2 }}>{t("receipt.processing_count", { done: scanProgress.done, total: scanProgress.total })}</div>
           </div>          <div style={{ width:80, flexShrink:0 }}>
             <div className="prog-wrap">
               <div className="prog-fill" style={{ width:`${scanProgress.total > 0 ? scanProgress.done/scanProgress.total*100 : 0}%`, background:"var(--ind)" }} />
@@ -546,13 +552,13 @@ export default function ReceiptReader({ onToast }) {
         <div style={{ marginTop:20 }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14, flexWrap:"wrap", gap:8 }}>
             <div style={{ fontSize:13, color:"var(--tx2)" }}>
-              <strong style={{ color:"var(--tx)" }}>{receipts.length}</strong> receipt(s) ·{" "}
-              <span style={{ color:"var(--gr)" }}>{[...exported.values()].filter(v => v==="income").length} income</span> ·{" "}
-              <span style={{ color:"var(--rd)" }}>{[...exported.values()].filter(v => v==="expense").length} expense</span> exported
+              <strong style={{ color:"var(--tx)" }}>{receipts.length}</strong> {t("receipt.list_count")} ·{" "}
+              <span style={{ color:"var(--gr)" }}>{[...exported.values()].filter(v => v==="income").length} {t("receipt.income_lc")}</span> ·{" "}
+              <span style={{ color:"var(--rd)" }}>{[...exported.values()].filter(v => v==="expense").length} {t("receipt.expense_lc")}</span> {t("receipt.exported_lc")}
             </div>
             <div style={{ display:"flex", gap:8 }}>
-              <button className="btn btn-g btn-s" onClick={() => { setReceipts([]); setExported(new Map()); }}>Clear</button>
-              <button className="btn btn-p btn-s" onClick={handleExportAll}>Export All</button>
+              <button className="btn btn-g btn-s" onClick={() => { setReceipts([]); setExported(new Map()); }}>{t("receipt.clear")}</button>
+              <button className="btn btn-p btn-s" onClick={handleExportAll}>{t("receipt.export_all")}</button>
             </div>
           </div>
           {receipts.map((r, i) => (
@@ -564,13 +570,13 @@ export default function ReceiptReader({ onToast }) {
       {!scanning && receipts.length === 0 && (
         <div style={{ marginTop:24 }}>
           <div style={{ background:"var(--bg2)", border:"1px solid var(--bdr)", borderRadius:"var(--rl)", padding:24 }}>
-            <div style={{ fontSize:13, fontWeight:700, marginBottom:12, color:"var(--tx2)", textTransform:"uppercase", letterSpacing:".8px" }}>How to Use</div>
+            <div style={{ fontSize:13, fontWeight:700, marginBottom:12, color:"var(--tx2)", textTransform:"uppercase", letterSpacing:".8px" }}>{t("receipt.how_to_use")}</div>
             {[
-              ["1.", "Upload struk foto",      "PNG/JPG/WebP â€” foto kamera atau screenshot"],
-              ["2.", "AI membaca struk",        "Claude/Gemini/Ollama menganalisis gambar, tidak perlu OCR manual"],
-              ["3.", "Ekstraksi otomatis",      "Nama merchant, jumlah, tanggal, metode bayar, kategori + insight AI"],
-              ["4.", "Edit jika perlu",         "Klik Edit untuk koreksi data sebelum export"],
-              ["5.", "Export ke tracker",       "Langsung masuk ke DB Expense/Income yang sama dengan CLI"],
+              ["1.", t("receipt.step1_title"),      t("receipt.step1_desc")],
+              ["2.", t("receipt.step2_title"),        t("receipt.step2_desc")],
+              ["3.", t("receipt.step3_title"),      t("receipt.step3_desc")],
+              ["4.", t("receipt.step4_title"),         t("receipt.step4_desc")],
+              ["5.", t("receipt.step5_title"),       t("receipt.step5_desc")],
             ].map(([num, title, desc]) => (
               <div key={num} style={{ display:"flex", gap:12, marginBottom:12 }}>
                 <span style={{ fontSize:14, flexShrink:0, fontFamily:"var(--mono)", color:"var(--ind-b)", fontWeight:700 }}>{num}</span>

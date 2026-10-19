@@ -12,6 +12,7 @@ import {
   IconSearch, IconFilter, IconCalendar, IconUp, IconDown, IconDownload,
   IconCheck, IconClose
 } from "../icons.jsx";
+import { useI18n } from "../i18n/context.js";
 
 const fmtIDR = n => "Rp " + new Intl.NumberFormat("id-ID").format(Math.round(n || 0));
 const fmtCompact = n => {
@@ -25,6 +26,7 @@ const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
 const monthPrefix = (y, m) => `${y}-${String(m).padStart(2, "0")}`;
 
 export default function BusinessAnalytics() {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState("overview");
   const [dashData, setDashData]     = useState(null);
   const [allExpenses, setAllExpenses] = useState([]);
@@ -266,8 +268,8 @@ export default function BusinessAnalytics() {
           result.push({
             txId: `EXP-${e.id}`,
             date: (e.date || "").slice(0, 10),
-            title: `Anomali Pengeluaran ${e.category || "other"} — ${fmtIDR(amt)}`,
-            detail: `Transaksi "${e.description || e.category || "pengeluaran"}" melewati batas toleransi statistik (${zHigh ? "Z-score > 2.2σ" : "outlier IQR"} terhadap rata-rata kategori ${cat}: ${fmtIDR(round2(mean))}).`,
+            title: t("business.anom_expense_title", { category: e.category || "other", amount: fmtIDR(amt) }),
+            detail: t("business.anom_expense_detail", { description: e.description || e.category || t("business.anom_fallback_expense"), test: zHigh ? t("business.anom_zscore") : t("business.anom_iqr"), category: cat, mean: fmtIDR(round2(mean)) }),
             severity: "high"
           });
         }
@@ -278,8 +280,8 @@ export default function BusinessAnalytics() {
       result.push({
         txId: null,
         date: dash.monthLabel,
-        title: `Kenaikan Beban Bulanan +${dash.expMoM.toFixed(1)}%`,
-        detail: `Total pengeluaran bulan ini ${fmtIDR(dash.exp)} melonjak +${dash.expMoM.toFixed(1)}% dibanding bulan sebelumnya (${fmtIDR(dash.prevExp)}), melebihi ambang toleransi 20%.`,
+        title: t("business.anom_rise_title", { value: dash.expMoM.toFixed(1) }),
+        detail: t("business.anom_rise_detail", { expense: fmtIDR(dash.exp), value: dash.expMoM.toFixed(1), previous: fmtIDR(dash.prevExp) }),
         severity: "high"
       });
     }
@@ -287,13 +289,13 @@ export default function BusinessAnalytics() {
       result.push({
         txId: null,
         date: dash.monthLabel,
-        title: `Defisit Bulanan ${fmtIDR(Math.abs(dash.profit))}`,
-        detail: `Pengeluaran ${fmtIDR(dash.exp)} melebihi pemasukan ${fmtIDR(dash.inc)} sehingga terjadi defisit. Margin ${dash.margin.toFixed(1)}%, indeks produktivitas ${dash.productivity.toFixed(1)}%.`,
+        title: t("business.anom_deficit_title", { amount: fmtIDR(Math.abs(dash.profit)) }),
+        detail: t("business.anom_deficit_detail", { expense: fmtIDR(dash.exp), income: fmtIDR(dash.inc), margin: dash.margin.toFixed(1), productivity: dash.productivity.toFixed(1) }),
         severity: "critical"
       });
     }
     return result.sort((a, b) => a.date.localeCompare(b.date));
-  }, [allExpenses, dash]);
+  }, [allExpenses, dash, t]);
 
   // ── Rekomendasi terstruktur (berbasis metrik riil) ──
   const recommendations = useMemo(() => {
@@ -302,49 +304,49 @@ export default function BusinessAnalytics() {
 
     if (dash.profit > 0) {
       recs.push({
-        priority: "Kunci Alokasi Investment Surplus",
-        action: `Alokasikan 40–50% dari net surplus ${fmtIDR(dash.profit)} ke instrumen yield-bearing (DCA emas/indeXT/obligasi ritel), sisanya untuk cadangan dana darurat minimal 6 bulan.`,
+        priority: t("business.rec_surplus_priority"),
+        action: t("business.rec_surplus_action", { amount: fmtIDR(dash.profit) }),
         tone: "gr"
       });
     } else if (dash.profit < 0) {
       recs.push({
-        priority: "Koreksi Defisit Bulanan (Prioritas Utama)",
-        action: `Defisit ${fmtIDR(Math.abs(dash.profit))} berarti pengeluaran ${fmtIDR(dash.exp)} melampaui pemasukan ${fmtIDR(dash.inc)}. Pangkas kategori terbesar (${(expenseSegments[0]?.name || "-")} sebesar ${fmtIDR(expenseSegments[0]?.amount || 0)}) dan/atau dorong pertumbuhan omzet.`,
+        priority: t("business.rec_deficit_priority"),
+        action: t("business.rec_deficit_action", { deficit: fmtIDR(Math.abs(dash.profit)), expense: fmtIDR(dash.exp), income: fmtIDR(dash.inc), category: expenseSegments[0]?.name || "-", categoryAmount: fmtIDR(expenseSegments[0]?.amount || 0) }),
         tone: "rd"
       });
     }
 
     if (dash.expMoM !== null && dash.expMoM > 10) {
       recs.push({
-        priority: "Pengendalian Biaya",
-        action: `Beban naik +${dash.expMoM.toFixed(1)}% MoM. Tinjau ulang setiap pengeluaran tak terencana dan terapkan sistem persetujuan untuk nominal di atas ambang kategori.`,
+        priority: t("business.rec_cost_priority"),
+        action: t("business.rec_cost_action", { value: dash.expMoM.toFixed(1) }),
         tone: "yl"
       });
     }
     if (dash.margin >= 0 && dash.margin < 20) {
       recs.push({
-        priority: "Peningkatan Profitabilitas",
-        action: `Margin ${dash.margin.toFixed(1)}% masih tipis. Naikkan tarif/layanan bernilai tambah atau kurangi biaya tetap agar margin > 20%.`,
+        priority: t("business.rec_margin_priority"),
+        action: t("business.rec_margin_action", { margin: dash.margin.toFixed(1) }),
         tone: "yl"
       });
     }
     overBudgetCats.slice(0, 2).forEach(b => {
       recs.push({
-        priority: `Anggaran ${b.name} Melewati Batas`,
-        action: `Realisasi ${fmtIDR(b.actual)} sudah ${b.pct.toFixed(0)}% dari target ${fmtIDR(b.target)}. Evaluasi apakah batas perlu direvisi atau perlu pembatasan transaksi kategori ini.`,
+        priority: t("business.rec_overbudget_priority", { category: b.name }),
+        action: t("business.rec_overbudget_action", { actual: fmtIDR(b.actual), percent: b.pct.toFixed(0), target: fmtIDR(b.target) }),
         tone: "rd"
       });
     });
 
     if (recs.length === 0) {
       recs.push({
-        priority: "Pertahankan Kondisi Stabil",
-        action: `Tidak ada koreksi signifikan. Pertahankan tren pengeluaran dan pertimbangkan menaikkan target tabungan bulan depan.`,
+        priority: t("business.rec_stable_priority"),
+        action: t("business.rec_stable_action"),
         tone: "gr"
       });
     }
     return recs;
-  }, [dash, budgetActual, expenseSegments]);
+  }, [dash, budgetActual, expenseSegments, t]);
 
   // ── Ledger transaksi riil dengan penanda anomali ──
   const transactionFeed = useMemo(() => {
@@ -354,26 +356,26 @@ export default function BusinessAnalytics() {
         date: (e.date || "").slice(0, 10),
         type: "expense",
         category: e.category || "other",
-        description: e.description || "Pengeluaran",
+        description: e.description || t("business.tx_fallback_expense"),
         amount: num(e.amount),
         status: "normal",
-        segment: e.payment_method ? `Metode: ${e.payment_method}` : "OpEx / COGS"
+        segment: e.payment_method ? t("business.tx_method", { method: e.payment_method }) : t("business.tx_opex")
       })),
       ...allIncomes.map(i => ({
         id: `INC-${i.id}`,
         date: (i.date || "").slice(0, 10),
         type: "income",
         category: i.income_type || "other",
-        description: i.source || i.description || "Pemasukan",
+        description: i.source || i.description || t("business.tx_fallback_income"),
         amount: num(i.amount),
         status: "normal",
-        segment: "Pemasukan Riil"
+        segment: t("business.tx_real_income")
       }))
     ];
     const anomalyIds = new Set(detectedAnomalies.filter(a => a.txId).map(a => a.txId));
     list.forEach(t => { if (anomalyIds.has(t.id)) t.status = "anomaly"; });
     return list.sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
-  }, [allExpenses, allIncomes, detectedAnomalies]);
+  }, [allExpenses, allIncomes, detectedAnomalies, t]);
 
   const filteredTx = useMemo(() => {
     const q = searchQuery.toLowerCase();
@@ -418,47 +420,47 @@ export default function BusinessAnalytics() {
       incomeTarget, expenseTarget, savingsTarget,
       incDev, expDev, savDev,
       incStatus, expStatus, savStatus,
-      incMethod: "Rata-rata pemasukan riil 3 bulan terakhir",
-      expMethod: "Total batas anggaran bulan berjalan",
-      savMethod: "Rata-rata surplus bersih 3 bulan terakhir (min. 0)"
+      incMethod: t("business.kpi_inc_method"),
+      expMethod: t("business.kpi_exp_method"),
+      savMethod: t("business.kpi_sav_method")
     };
-  }, [trendSeries, budgetMap, dash]);
+  }, [trendSeries, budgetMap, dash, t]);
 
   const execCondition = useMemo(() => {
-    if (dash.profit > 0 && dash.margin >= 20) return { label: "SANGAT SEHAT (OPTIMAL)", tone: "var(--gr)" };
-    if (dash.profit > 0) return { label: "SEHAT (STABIL)", tone: "var(--cy)" };
-    if (dash.profit === 0) return { label: "IMPAS (NETRAL)", tone: "var(--yl)" };
-    return { label: "DEFISIT (BUTUH KOREKSI)", tone: "var(--rd)" };
-  }, [dash]);
+    if (dash.profit > 0 && dash.margin >= 20) return { label: t("business.cond_vhealthy"), tone: "var(--gr)" };
+    if (dash.profit > 0) return { label: t("business.cond_healthy"), tone: "var(--cy)" };
+    if (dash.profit === 0) return { label: t("business.cond_breakeven"), tone: "var(--yl)" };
+    return { label: t("business.cond_deficit"), tone: "var(--rd)" };
+  }, [dash, t]);
 
   const execInsight = useMemo(() => {
     const parts = [];
     if (dash.profit > 0) {
-      parts.push(`Bulan ${dash.monthLabel} ditutup dengan net surplus <strong>${fmtIDR(dash.profit)}</strong> dan profit margin <strong>${dash.margin.toFixed(1)}%</strong>.`);
+      parts.push(t("business.insight_surplus", { month: dash.monthLabel, amount: fmtIDR(dash.profit), margin: dash.margin.toFixed(1) }));
     } else if (dash.profit < 0) {
-      parts.push(`Bulan ${dash.monthLabel} ditutup dengan defisit <strong>${fmtIDR(Math.abs(dash.profit))}</strong> — pengeluaran <strong>${fmtIDR(dash.exp)}</strong> melebihi pemasukan <strong>${fmtIDR(dash.inc)}</strong>.`);
+      parts.push(t("business.insight_deficit", { month: dash.monthLabel, deficit: fmtIDR(Math.abs(dash.profit)), expense: fmtIDR(dash.exp), income: fmtIDR(dash.inc) }));
     } else {
-      parts.push(`Bulan ${dash.monthLabel} tercatat impas (net surplus Rp 0).`);
+      parts.push(t("business.insight_breakeven", { month: dash.monthLabel }));
     }
-    if (dash.incMoM !== null) parts.push(`Omzet berubah <strong>${dash.incMoM >= 0 ? "+" : ""}${dash.incMoM.toFixed(1)}%</strong> dibanding bulan sebelumnya.`);
-    if (dash.expMoM !== null) parts.push(`Beban biaya <strong>${dash.expMoM <= 0 ? "turun" : "naik"} ${Math.abs(dash.expMoM).toFixed(1)}% MoM</strong>.`);
-    if (dash.productivity < 0) parts.push("Indeks produktivitas negatif: setiap Rp 100 biaya menghasilkan kerugian, sehingga prioritas utama adalah pemangkasan beban dan/atau pertumbuhan pemasukan.");
-    else if (dash.productivity >= 20) parts.push("Indeks produktivitas positif: setiap Rp 100 biaya menghasilkan keuntungan di atas ambang sehat 20%.");
-    else if (dash.inc > 0) parts.push("Indeks produktivitas masih di bawah ambang sehat 20%.");
+    if (dash.incMoM !== null) parts.push(t("business.insight_inc_mom", { value: (dash.incMoM >= 0 ? "+" : "") + dash.incMoM.toFixed(1) }));
+    if (dash.expMoM !== null) parts.push(dash.expMoM <= 0 ? t("business.insight_exp_down", { value: Math.abs(dash.expMoM).toFixed(1) }) : t("business.insight_exp_up", { value: Math.abs(dash.expMoM).toFixed(1) }));
+    if (dash.productivity < 0) parts.push(t("business.insight_prod_neg"));
+    else if (dash.productivity >= 20) parts.push(t("business.insight_prod_pos"));
+    else if (dash.inc > 0) parts.push(t("business.insight_prod_low"));
     return parts.join(" ");
-  }, [dash]);
+  }, [dash, t]);
 
   const tabs = [
-    { id: "overview",        label: "Executive Summary" },
-    { id: "kpi",             label: "KPI & Metrics" },
-    { id: "trends",          label: "Visualisasi & Tren" },
-    { id: "target",          label: "Target vs Actual" },
-    { id: "segmentation",    label: "Segmentasi" },
-    { id: "forecast",        label: "Forecasting" },
-    { id: "anomalies",       label: "Anomali & Exception" },
-    { id: "recommendations", label: "Rekomendasi" },
-    { id: "drilldown",       label: "Drill-down Detail" },
-    { id: "methodology",     label: "Metodologi Data" },
+    { id: "overview",        label: t("business.tab_overview") },
+    { id: "kpi",             label: t("business.tab_kpi") },
+    { id: "trends",          label: t("business.tab_trends") },
+    { id: "target",          label: t("business.tab_target") },
+    { id: "segmentation",    label: t("business.tab_segmentation") },
+    { id: "forecast",        label: t("business.tab_forecast") },
+    { id: "anomalies",       label: t("business.tab_anomalies") },
+    { id: "recommendations", label: t("business.tab_recommendations") },
+    { id: "drilldown",       label: t("business.tab_drilldown") },
+    { id: "methodology",     label: t("business.tab_methodology") },
   ];
 
   const statusPill = (status) => {
@@ -475,9 +477,9 @@ export default function BusinessAnalytics() {
     const win = window.open("", "_blank");
     if (win) {
       const rows = [
-        ["Total Income", kpi.incomeTarget, dash.inc, kpi.incStatus],
-        ["Total Expense Limit", kpi.expenseTarget, dash.exp, kpi.expStatus],
-        ["Net Profit / Tabungan", kpi.savingsTarget, dash.profit, kpi.savStatus]
+        [t("business.kpi_row_income"), kpi.incomeTarget, dash.inc, kpi.incStatus],
+        [t("business.kpi_row_expense"), kpi.expenseTarget, dash.exp, kpi.expStatus],
+        [t("business.kpi_row_net"), kpi.savingsTarget, dash.profit, kpi.savStatus]
       ].map(([label, target, actual, status]) =>
         `<tr><td>${label}</td><td>${fmtIDR(target)}</td><td>${fmtIDR(actual)}</td><td>${status}</td></tr>`
       ).join("");
@@ -485,7 +487,7 @@ export default function BusinessAnalytics() {
         <!DOCTYPE html>
         <html>
         <head>
-          <title>Executive BI/BA Report — Alpha Finance</title>
+          <title>${t("business.report_doc_title")}</title>
           <style>
             @media print { @page { margin: 15mm; size: A4; } }
             body { font-family: -apple-system, sans-serif; padding: 24px; color: #111; line-height: 1.6; }
@@ -496,16 +498,16 @@ export default function BusinessAnalytics() {
           </style>
         </head>
         <body onload="window.print()">
-          <h1>Executive Performance &amp; BI Analytics Report</h1>
-          <p><strong>Periode:</strong> ${dash.monthLabel} | <strong>Generated:</strong> ${new Date().toLocaleDateString('id-ID')} | <strong>Profil:</strong> ${activeProfile?.active || "-"}</p>
-          <h2>Ringkasan Eksekutif</h2>
-          <p>Omzet Bulan Ini: <strong>${fmtIDR(dash.inc)}</strong> | Total Biaya: <strong>${fmtIDR(dash.exp)}</strong> | Net Surplus: <strong>${fmtIDR(dash.profit)}</strong></p>
-          <p>Profit Margin: <strong>${dash.margin.toFixed(1)}%</strong> | Produktivitas: <strong>${dash.productivity.toFixed(1)}%</strong> | Kondisi: <strong>${execCondition.label}</strong></p>
+          <h1>${t("business.report_h1")}</h1>
+          <p><strong>${t("business.report_period")}:</strong> ${dash.monthLabel} | <strong>${t("business.report_generated")}:</strong> ${new Date().toLocaleDateString('id-ID')} | <strong>${t("business.report_profile")}:</strong> ${activeProfile?.active || "-"}</p>
+          <h2>${t("business.report_summary_h")}</h2>
+          <p>${t("business.report_income_label")}: <strong>${fmtIDR(dash.inc)}</strong> | ${t("business.report_expense_label")}: <strong>${fmtIDR(dash.exp)}</strong> | ${t("business.report_net_label")}: <strong>${fmtIDR(dash.profit)}</strong></p>
+          <p>${t("business.report_margin_label")}: <strong>${dash.margin.toFixed(1)}%</strong> | ${t("business.report_productivity_label")}: <strong>${dash.productivity.toFixed(1)}%</strong> | ${t("business.report_condition_label")}: <strong>${execCondition.label}</strong></p>
 
-          <h2>Metrik KPI Utilitas</h2>
+          <h2>${t("business.report_kpi_h")}</h2>
           <table class="kpi-table">
             <thead>
-              <tr><th>Indikator KPI</th><th>Target</th><th>Realisasi</th><th>Status</th></tr>
+              <tr><th>${t("business.kpi_indicator")}</th><th>${t("business.kpi_target")}</th><th>${t("business.kpi_actual")}</th><th>${t("business.kpi_status")}</th></tr>
             </thead>
             <tbody>
               ${rows}
@@ -533,6 +535,9 @@ export default function BusinessAnalytics() {
       return <p style={{ fontSize: 12, color: "var(--tx3)" }}>Belum ada data tren bulanan. Tambahkan transaksi terlebih dahulu.</p>;
     }
     const max = Math.max(...trendSeries.map(t => Math.max(t.inc, t.exp)), 1);
+  const netLabel = t("business.net");
+  const incomeLabel = t("business.income");
+  const expenseLabel = t("business.expense");
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {trendSeries.map(t => (
@@ -540,19 +545,19 @@ export default function BusinessAnalytics() {
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6 }}>
               <span style={{ fontWeight: 700 }}>{t.label}</span>
               <span style={{ color: "var(--tx3)" }}>
-                Net: <strong style={{ color: t.net >= 0 ? "var(--gr)" : "var(--rd)" }}>{fmtCompact(t.net)}</strong>
+                {netLabel}: <strong style={{ color: t.net >= 0 ? "var(--gr)" : "var(--rd)" }}>{fmtCompact(t.net)}</strong>
               </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 52, fontSize: 10, color: "var(--tx3)" }}>Income</span>
+                <span style={{ width: 52, fontSize: 10, color: "var(--tx3)" }}>{incomeLabel}</span>
                 <div style={{ flex: 1, background: "var(--bg4)", height: 10, borderRadius: 99, overflow: "hidden" }}>
                   <div style={{ width: `${(t.inc / max) * 100}%`, height: "100%", background: "var(--gr)", borderRadius: 99 }} />
                 </div>
                 <span style={{ width: 64, textAlign: "right", fontSize: 10, fontFamily: "var(--mono)" }}>{fmtCompact(t.inc)}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 52, fontSize: 10, color: "var(--tx3)" }}>Expense</span>
+                <span style={{ width: 52, fontSize: 10, color: "var(--tx3)" }}>{expenseLabel}</span>
                 <div style={{ flex: 1, background: "var(--bg4)", height: 10, borderRadius: 99, overflow: "hidden" }}>
                   <div style={{ width: `${(t.exp / max) * 100}%`, height: "100%", background: "var(--yl)", borderRadius: 99 }} />
                 </div>
@@ -580,10 +585,10 @@ export default function BusinessAnalytics() {
             </div>
             <div>
               <h1 style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>
-                Business Intelligence &amp; Analytics (BI/BA) Cockpit
+                {t("business.title")}
               </h1>
               <div style={{ fontSize: 12, color: "var(--tx3)", marginTop: 2 }}>
-                Executive Suite — Periode: <strong>{dash.monthLabel}</strong> · Profil: <strong>{activeProfile?.active || "—"}</strong>
+                {t("business.subtitle", { period: dash.monthLabel, profile: activeProfile?.active || "—" })}
               </div>
             </div>
           </div>
@@ -591,10 +596,10 @@ export default function BusinessAnalytics() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <button className="btn btn-g btn-s" onClick={loadData} disabled={loading} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <IconRefresh size={14} className={loading ? "spin" : ""} /> Refresh
+            <IconRefresh size={14} className={loading ? "spin" : ""} /> {t("common.refresh")}
           </button>
           <button className="btn btn-p btn-s" onClick={() => setReportModal(true)} style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 700 }}>
-            <IconDownload size={14} /> Export Report (.MD / .HTML / .PDF)
+            <IconDownload size={14} /> {t("business.export_report")}
           </button>
         </div>
       </div>
@@ -623,35 +628,35 @@ export default function BusinessAnalytics() {
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
             <div style={{ background: "var(--bg2)", borderLeft: "4px solid var(--gr)", borderRadius: 14, padding: 18, border: "1px solid var(--bdr)" }}>
-              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>Total Omzet / Income</div>
+              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>{t("business.total_income")}</div>
               <div style={{ fontSize: 22, fontWeight: 900, fontFamily: "var(--mono)", color: "var(--gr)", marginTop: 6 }}>{fmtCompact(dash.inc)}</div>
               <div style={{ fontSize: 11, color: dash.incMoM === null ? "var(--tx3)" : (dash.incMoM >= 0 ? "var(--gr)" : "var(--rd)"), marginTop: 4 }}>
-                {dash.incMoM === null ? "MoM: N/A (tidak ada data bulan sebelumnya)" : `${dash.incMoM >= 0 ? "+" : ""}${dash.incMoM.toFixed(1)}% MoM`}
+                {dash.incMoM === null ? t("business.mom_na") : t("business.mom_change", { value: (dash.incMoM >= 0 ? "+" : "") + dash.incMoM.toFixed(1) })}
               </div>
             </div>
             <div style={{ background: "var(--bg2)", borderLeft: "4px solid var(--yl)", borderRadius: 14, padding: 18, border: "1px solid var(--bdr)" }}>
-              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>Total Biaya / Expense</div>
+              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>{t("business.total_expense")}</div>
               <div style={{ fontSize: 22, fontWeight: 900, fontFamily: "var(--mono)", color: "var(--yl)", marginTop: 6 }}>{fmtCompact(dash.exp)}</div>
               <div style={{ fontSize: 11, color: dash.expMoM === null ? "var(--tx3)" : (dash.expMoM <= 0 ? "var(--gr)" : "var(--rd)"), marginTop: 4 }}>
-                {dash.expMoM === null ? "MoM: N/A (tidak ada data bulan sebelumnya)" : `${dash.expMoM <= 0 ? "-" : "+"}${Math.abs(dash.expMoM).toFixed(1)}% MoM ${dash.expMoM <= 0 ? "(Efisiensi)" : ""}`}
+                {dash.expMoM === null ? t("business.mom_na") : t("business.mom_expense", { value: (dash.expMoM <= 0 ? "-" : "+") + Math.abs(dash.expMoM).toFixed(1), suffix: dash.expMoM <= 0 ? t("business.efficiency_paren") : "" })}
               </div>
             </div>
             <div style={{ background: "var(--bg2)", borderLeft: "4px solid var(--cy)", borderRadius: 14, padding: 18, border: "1px solid var(--bdr)" }}>
-              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>Net Profit / Surplus</div>
+              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>{t("business.net_profit")}</div>
               <div style={{ fontSize: 22, fontWeight: 900, fontFamily: "var(--mono)", color: dash.profit >= 0 ? "var(--cy)" : "var(--rd)", marginTop: 6 }}>{fmtCompact(dash.profit)}</div>
-              <div style={{ fontSize: 11, color: "var(--tx2)", marginTop: 4 }}>Margin: {dash.margin.toFixed(1)}%</div>
+              <div style={{ fontSize: 11, color: "var(--tx2)", marginTop: 4 }}>{t("business.margin", { value: dash.margin.toFixed(1) })}</div>
             </div>
             <div style={{ background: "var(--bg2)", borderLeft: "4px solid var(--pu)", borderRadius: 14, padding: 18, border: "1px solid var(--bdr)" }}>
-              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>Indeks Produktivitas</div>
+              <div style={{ fontSize: 10, textTransform: "uppercase", color: "var(--tx3)", fontWeight: 700 }}>{t("business.productivity_index")}</div>
               <div style={{ fontSize: 22, fontWeight: 900, fontFamily: "var(--mono)", color: dash.productivity >= 0 ? "var(--pu)" : "var(--rd)", marginTop: 6 }}>{dash.productivity.toFixed(1)}%</div>
-              <div style={{ fontSize: 11, color: "var(--tx3)", marginTop: 4 }}>Hasil per 100 Biaya</div>
+              <div style={{ fontSize: 11, color: "var(--tx3)", marginTop: 4 }}>{t("business.per_100_cost")}</div>
             </div>
           </div>
 
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Executive Insight &amp; Kondisi Bisnis</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.insight_title")}</h3>
             <p style={{ fontSize: 13, color: "var(--tx2)", lineHeight: 1.6 }}>
-              Kondisi bulan <strong>{dash.monthLabel}</strong>: <strong style={{ color: execCondition.tone }}>{execCondition.label}</strong>.{" "}
+              {t("business.condition_prefix")} <strong>{dash.monthLabel}</strong>: <strong style={{ color: execCondition.tone }}>{execCondition.label}</strong>.{" "}
               <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(execInsight) }} />
             </p>
           </div>
@@ -661,24 +666,24 @@ export default function BusinessAnalytics() {
       {/* 2. KPI & METRICS */}
       {activeTab === "kpi" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>Matriks Key Performance Indicators (KPI)</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>{t("business.kpi_matrix")}</h3>
           <p style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 16 }}>
-            Target dihitung dari data riil ({kpi.incMethod}; {kpi.expMethod}; {kpi.savMethod}). Periode: {dash.monthLabel}.
+            {t("business.kpi_note", { methods: kpi.incMethod + "; " + kpi.expMethod + "; " + kpi.savMethod, period: dash.monthLabel })}
           </p>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--bdr)", color: "var(--tx3)", textTransform: "uppercase" }}>
-                  <th style={{ padding: "10px" }}>Indikator KPI</th>
-                  <th style={{ padding: "10px" }}>Target</th>
-                  <th style={{ padding: "10px" }}>Realisasi</th>
-                  <th style={{ padding: "10px" }}>Deviasi</th>
-                  <th style={{ padding: "10px" }}>Status</th>
+                  <th style={{ padding: "10px" }}>{t("business.kpi_indicator")}</th>
+                  <th style={{ padding: "10px" }}>{t("business.kpi_target")}</th>
+                  <th style={{ padding: "10px" }}>{t("business.kpi_actual")}</th>
+                  <th style={{ padding: "10px" }}>{t("business.kpi_deviation")}</th>
+                  <th style={{ padding: "10px" }}>{t("business.kpi_status")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style={{ borderBottom: "1px solid var(--bdr)" }}>
-                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>Total Omzet (Income)</td>
+                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>{t("business.kpi_row_income")}</td>
                   <td style={{ padding: "12px 10px", color: "var(--tx3)" }}>{fmtIDR(kpi.incomeTarget)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 800, color: "var(--gr)" }}>{fmtIDR(dash.inc)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 700, color: kpi.incDev >= 0 ? "var(--gr)" : "var(--rd)" }}>
@@ -687,16 +692,16 @@ export default function BusinessAnalytics() {
                   <td style={{ padding: "12px 10px" }}>{statusPill(kpi.incStatus)}</td>
                 </tr>
                 <tr style={{ borderBottom: "1px solid var(--bdr)" }}>
-                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>Batas Pengeluaran (Expense)</td>
+                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>{t("business.kpi_row_expense")}</td>
                   <td style={{ padding: "12px 10px", color: "var(--tx3)" }}>{fmtIDR(kpi.expenseTarget)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 800, color: "var(--yl)" }}>{fmtIDR(dash.exp)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 700, color: kpi.expDev <= 0 ? "var(--gr)" : "var(--rd)" }}>
-                    {kpi.expDev >= 0 ? "+" : ""}{kpi.expDev.toFixed(1)}% {kpi.expDev <= 0 ? "(Hemat)" : ""}
+                    {kpi.expDev >= 0 ? "+" : ""}{kpi.expDev.toFixed(1)}% {kpi.expDev <= 0 ? t("business.saved_paren") : ""}
                   </td>
                   <td style={{ padding: "12px 10px" }}>{statusPill(kpi.expStatus)}</td>
                 </tr>
                 <tr style={{ borderBottom: "1px solid var(--bdr)" }}>
-                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>Net Profit / Savings</td>
+                  <td style={{ padding: "12px 10px", fontWeight: 700 }}>{t("business.kpi_row_net")}</td>
                   <td style={{ padding: "12px 10px", color: "var(--tx3)" }}>{fmtIDR(kpi.savingsTarget)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 800, color: dash.profit >= 0 ? "var(--cy)" : "var(--rd)" }}>{fmtIDR(dash.profit)}</td>
                   <td style={{ padding: "12px 10px", fontWeight: 700, color: kpi.savDev >= 0 ? "var(--gr)" : "var(--rd)" }}>
@@ -714,23 +719,23 @@ export default function BusinessAnalytics() {
       {activeTab === "trends" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Tren Bulanan Income vs Expense (Data Riil)</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.trend_title")}</h3>
             {renderTrendBars()}
           </div>
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Heatmap Intensitas Belanja Harian (W1–W4) — {dash.monthLabel}</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.heatmap_title", { month: dash.monthLabel })}</h3>
             {heatmapData.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--tx3)" }}>Belum ada transaksi pengeluaran pada periode {dash.monthLabel}.</p>
+              <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.heatmap_empty", { month: dash.monthLabel })}</p>
             ) : (
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, textAlign: "center" }}>
                   <thead>
                     <tr style={{ borderBottom: "1px solid var(--bdr)", color: "var(--tx3)" }}>
-                      <th style={{ padding: 10, textAlign: "left" }}>Hari</th>
-                      <th style={{ padding: 10 }}>Minggu 1</th>
-                      <th style={{ padding: 10 }}>Minggu 2</th>
-                      <th style={{ padding: 10 }}>Minggu 3</th>
-                      <th style={{ padding: 10 }}>Minggu 4</th>
+                      <th style={{ padding: 10, textAlign: "left" }}>{t("business.day")}</th>
+                      <th style={{ padding: 10 }}>{t("business.week", { n: 1 })}</th>
+                      <th style={{ padding: 10 }}>{t("business.week", { n: 2 })}</th>
+                      <th style={{ padding: 10 }}>{t("business.week", { n: 3 })}</th>
+                      <th style={{ padding: 10 }}>{t("business.week", { n: 4 })}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -761,9 +766,9 @@ export default function BusinessAnalytics() {
       {/* 4. TARGET VS ACTUAL */}
       {activeTab === "target" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>Evaluasi Target Anggaran per Kategori — {dash.monthLabel}</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>{t("business.target_title", { month: dash.monthLabel })}</h3>
           {budgetActual.length === 0 ? (
-            <p style={{ fontSize: 12, color: "var(--tx3)" }}>Belum ada skema anggaran untuk periode ini.</p>
+            <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.target_empty")}</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {budgetActual.map(c => {
@@ -774,7 +779,7 @@ export default function BusinessAnalytics() {
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 12 }}>
                       <span style={{ fontWeight: 700 }}>{c.name}</span>
                       <span>
-                        Realisasi: <strong style={{ color: isOver ? "var(--rd)" : pct >= 80 ? "var(--yl)" : "var(--gr)" }}>{fmtIDR(c.actual)}</strong> / {fmtIDR(c.target)} ({pct.toFixed(1)}%)
+                        {t("business.actual_label")}: <strong style={{ color: isOver ? "var(--rd)" : pct >= 80 ? "var(--yl)" : "var(--gr)" }}>{fmtIDR(c.actual)}</strong> / {fmtIDR(c.target)} ({pct.toFixed(1)}%)
                       </span>
                     </div>
                     <div style={{ background: "var(--bg4)", height: 8, borderRadius: 99, overflow: "hidden" }}>
@@ -792,16 +797,16 @@ export default function BusinessAnalytics() {
       {activeTab === "segmentation" && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Segmentasi Sumber Pendapatan — {dash.monthLabel}</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.seg_income_title", { month: dash.monthLabel })}</h3>
             {incomeSegments.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--tx3)" }}>Tidak ada pemasukan riil pada periode ini.</p>
+              <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.seg_income_empty")}</p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {incomeSegments.map(s => (
                   <div key={s.name} style={{ background: "var(--bg3)", padding: 12, borderRadius: 10, display: "flex", justifyContent: "space-between", fontSize: 12 }}>
                     <div>
                       <div style={{ fontWeight: 700 }}>{s.name}</div>
-                      <div style={{ fontSize: 10, color: "var(--tx3)" }}>{s.pct.toFixed(1)}% dari total</div>
+                      <div style={{ fontSize: 10, color: "var(--tx3)" }}>{t("business.pct_of_total", { value: s.pct.toFixed(1) })}</div>
                     </div>
                     <div style={{ fontWeight: 800, color: "var(--gr)" }}>{fmtIDR(s.amount)}</div>
                   </div>
@@ -810,16 +815,16 @@ export default function BusinessAnalytics() {
             )}
           </div>
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Segmentasi Pengeluaran per Kategori — {dash.monthLabel}</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.seg_expense_title", { month: dash.monthLabel })}</h3>
             {expenseSegments.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--tx3)" }}>Tidak ada pengeluaran pada periode ini.</p>
+              <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.seg_expense_empty")}</p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {expenseSegments.map(s => (
                   <div key={s.name} style={{ background: "var(--bg3)", padding: 12, borderRadius: 10, display: "flex", justifyContent: "space-between", fontSize: 12 }}>
                     <div>
                       <div style={{ fontWeight: 700 }}>{s.name}</div>
-                      <div style={{ fontSize: 10, color: "var(--tx3)" }}>{s.pct.toFixed(1)}% dari total</div>
+                      <div style={{ fontSize: 10, color: "var(--tx3)" }}>{t("business.pct_of_total", { value: s.pct.toFixed(1) })}</div>
                     </div>
                     <div style={{ fontWeight: 800, color: "var(--yl)" }}>{fmtIDR(s.amount)}</div>
                   </div>
@@ -833,25 +838,25 @@ export default function BusinessAnalytics() {
       {/* 6. FORECASTING */}
       {activeTab === "forecast" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Proyeksi Performansi 3 Bulan Ke Depan</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.forecast_title")}</h3>
           <p style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 16 }}>
-            Proyeksi berdasarkan regresi linear atas tren riil {trendSeries.length} bulan terakhir (pemasukan tanpa transfer).
+            {t("business.forecast_sub", { months: trendSeries.length })}
           </p>
           {forecastData.length === 0 ? (
-            <p style={{ fontSize: 12, color: "var(--tx3)" }}>Data histori belum cukup untuk memproyeksikan tren.</p>
+            <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.forecast_empty")}</p>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
               {forecastData.map(f => (
                 <div key={f.label} style={{ background: "var(--bg3)", padding: 14, borderRadius: 12, border: "1px solid var(--bdr)" }}>
                   <div style={{ fontSize: 11, color: "var(--tx3)", fontWeight: 700 }}>{f.label}</div>
                   <div style={{ fontSize: 14, fontWeight: 800, color: "var(--gr)", marginTop: 4 }}>
-                    Omzet: {f.inc === null ? "N/A" : fmtCompact(f.inc)}
+                    {t("business.revenue_label")}: {f.inc === null ? "N/A" : fmtCompact(f.inc)}
                   </div>
                   <div style={{ fontSize: 12, color: "var(--yl)", marginTop: 2 }}>
-                    Biaya: {f.exp === null ? "N/A" : fmtCompact(f.exp)}
+                    {t("business.cost_label")}: {f.exp === null ? "N/A" : fmtCompact(f.exp)}
                   </div>
                   <div style={{ fontSize: 12, marginTop: 2, fontWeight: 700, color: f.net === null ? "var(--tx3)" : (f.net >= 0 ? "var(--cy)" : "var(--rd)") }}>
-                    Net: {f.net === null ? "N/A" : fmtCompact(f.net)}
+                    {t("business.net")}: {f.net === null ? "N/A" : fmtCompact(f.net)}
                   </div>
                 </div>
               ))}
@@ -863,9 +868,9 @@ export default function BusinessAnalytics() {
       {/* 7. ANOMALI */}
       {activeTab === "anomalies" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12, color: "var(--rd)" }}>Deteksi Anomali &amp; Exception Analysis</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12, color: "var(--rd)" }}>{t("business.anomalies_title")}</h3>
           {detectedAnomalies.length === 0 ? (
-            <p style={{ fontSize: 12, color: "var(--tx3)" }}>Semua transaksi dalam batas normal (tidak ada anomali statistik terdeteksi).</p>
+            <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.anomalies_empty")}</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {detectedAnomalies.map((a, i) => (
@@ -875,10 +880,10 @@ export default function BusinessAnalytics() {
                   borderRadius: 12, padding: 14
                 }}>
                   <div style={{ fontWeight: 700, color: a.severity === "critical" ? "var(--rd)" : "var(--yl)", fontSize: 13 }}>
-                    {a.severity === "critical" ? "CRITICAL: " : "HIGH: "}{a.title}
+                    {a.severity === "critical" ? t("business.sev_critical") : t("business.sev_high")}{a.title}
                   </div>
                   <div style={{ fontSize: 11, color: "var(--tx2)", marginTop: 4 }}>{a.detail}</div>
-                  <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 4 }}>Periode: {a.date} {a.txId ? `| ID: ${a.txId}` : ""}</div>
+                  <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 4 }}>{t("business.period_label")}: {a.date} {a.txId ? `| ID: ${a.txId}` : ""}</div>
                 </div>
               ))}
             </div>
@@ -889,7 +894,7 @@ export default function BusinessAnalytics() {
       {/* 8. REKOMENDASI */}
       {activeTab === "recommendations" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Rekomendasi Tindakan Terstruktur</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.recs_title")}</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {recommendations.map((r, i) => (
               <div key={i} style={{ background: "var(--bg3)", padding: 14, borderRadius: 12, borderLeft: `4px solid var(--${r.tone})` }}>
@@ -905,42 +910,42 @@ export default function BusinessAnalytics() {
       {activeTab === "drilldown" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800 }}>Drill-down Transaksi Level Mikro</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 800 }}>{t("business.drilldown_title")}</h3>
             <input
               type="text"
-              placeholder="Cari transaksi..."
+              placeholder={t("business.search_placeholder")}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               style={{ background: "var(--bg3)", border: "1px solid var(--bdr)", borderRadius: 8, padding: "6px 12px", color: "var(--tx)", fontSize: 12 }}
             />
           </div>
           {transactionFeed.length === 0 ? (
-            <p style={{ fontSize: 12, color: "var(--tx3)" }}>Belum ada transaksi untuk ditampilkan.</p>
+            <p style={{ fontSize: 12, color: "var(--tx3)" }}>{t("business.drilldown_empty")}</p>
           ) : (
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, textAlign: "left" }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid var(--bdr)", color: "var(--tx3)" }}>
-                    <th style={{ padding: 8 }}>ID/Tanggal</th>
-                    <th style={{ padding: 8 }}>Tipe</th>
-                    <th style={{ padding: 8 }}>Deskripsi &amp; Segment</th>
-                    <th style={{ padding: 8 }}>Status</th>
-                    <th style={{ padding: 8, textAlign: "right" }}>Jumlah</th>
+                    <th style={{ padding: 8 }}>{t("business.col_id_date")}</th>
+                    <th style={{ padding: 8 }}>{t("business.col_type")}</th>
+                    <th style={{ padding: 8 }}>{t("business.col_desc_segment")}</th>
+                    <th style={{ padding: 8 }}>{t("business.kpi_status")}</th>
+                    <th style={{ padding: 8, textAlign: "right" }}>{t("business.col_amount")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredTx.map(t => (
-                    <tr key={t.id} style={{ borderBottom: "1px solid var(--bdr)" }}>
-                      <td style={{ padding: 8, fontFamily: "var(--mono)" }}><strong>{t.id}</strong><div style={{ color: "var(--tx3)", fontSize: 10 }}>{t.date}</div></td>
-                      <td style={{ padding: 8 }}><span className={`pill ${t.type === "income" ? "g" : "r"}`}>{t.type}</span></td>
-                      <td style={{ padding: 8 }}><strong>{t.description}</strong><div style={{ color: "var(--tx3)", fontSize: 10 }}>{t.segment}</div></td>
+                  {filteredTx.map(tx => (
+                    <tr key={tx.id} style={{ borderBottom: "1px solid var(--bdr)" }}>
+                      <td style={{ padding: 8, fontFamily: "var(--mono)" }}><strong>{tx.id}</strong><div style={{ color: "var(--tx3)", fontSize: 10 }}>{tx.date}</div></td>
+                      <td style={{ padding: 8 }}><span className={`pill ${tx.type === "income" ? "g" : "r"}`}>{tx.type}</span></td>
+                      <td style={{ padding: 8 }}><strong>{tx.description}</strong><div style={{ color: "var(--tx3)", fontSize: 10 }}>{tx.segment}</div></td>
                       <td style={{ padding: 8 }}>
-                        {t.status === "anomaly"
-                          ? <span className="pill r">ANOMALY</span>
-                          : <span className="pill g">NORMAL</span>}
+                        {tx.status === "anomaly"
+                          ? <span className="pill r">{t("business.badge_anomaly")}</span>
+                          : <span className="pill g">{t("business.badge_normal")}</span>}
                       </td>
-                      <td style={{ padding: 8, textAlign: "right", fontWeight: 700, fontFamily: "var(--mono)", color: t.type === "income" ? "var(--gr)" : "var(--tx)" }}>
-                        {t.type === "income" ? "+" : "-"}{fmtIDR(t.amount)}
+                      <td style={{ padding: 8, textAlign: "right", fontWeight: 700, fontFamily: "var(--mono)", color: tx.type === "income" ? "var(--gr)" : "var(--tx)" }}>
+                        {tx.type === "income" ? "+" : "-"}{fmtIDR(tx.amount)}
                       </td>
                     </tr>
                   ))}
@@ -954,23 +959,23 @@ export default function BusinessAnalytics() {
       {/* 10. METODOLOGI */}
       {activeTab === "methodology" && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 16, padding: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>Sumber Data &amp; Metodologi KPI</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t("business.methodology_title")}</h3>
           <div style={{ fontSize: 12, color: "var(--tx2)", lineHeight: 1.8 }}>
             <p>
-              Seluruh angka dihitung dari data riil skema PostgreSQL profile aktif: <strong>{activeProfile?.active || "—"}</strong>
-              {activeProfile?.active_type ? ` (tipe: ${activeProfile.active_type})` : ""}.
+              {t("business.method_intro")} <strong>{activeProfile?.active || "—"}</strong>
+              {activeProfile?.active_type ? t("business.method_type", { type: activeProfile.active_type }) : ""}.
             </p>
             <ul style={{ paddingLeft: 18, display: "flex", flexDirection: "column", gap: 4 }}>
-              <li><strong>Ringkasan / MoM:</strong> `/api/dashboard` (total_this &amp; total_prev); pemasukan tidak termasuk transfer, konsisten dengan repositori income.</li>
-              <li><strong>KPI:</strong> Target omzet = rata-rata pemasukan riil 3 bulan terakhir; target pengeluaran = total batas anggaran bulan berjalan; target tabungan = rata-rata surplus 3 bulan terakhir (min. 0). Status: Income ≥100% EXCEEDED / ≥90% ON TRACK / sisanya BEHIND; Expense ≤100% ON TRACK / ≤115% WARNING / &gt;115% OVER BUDGET; Savings ≥100% OPTIMAL / ≥0 MODERATE / &lt;0 DEFICIT.</li>
-              <li><strong>Tren:</strong> Grup transaksi riil per bulan (`/expenses`, `/income`).</li>
-              <li><strong>Heatmap:</strong> Agregasi transaksi pengeluaran periode terpilih per hari &amp; minggu (W1–W4).</li>
-              <li><strong>Target vs Actual:</strong> `/expenses/budget/{'{tahun}'}/{'{bulan}'}` per kategori.</li>
-              <li><strong>Segmentasi:</strong> Agregasi item riil per sumber pemasukan dan per kategori pengeluaran.</li>
-              <li><strong>Forecast:</strong> Regresi linear atas tren 3 bulan ke depan (pemasukan &amp; pengeluaran); fallback `/analytics/expense-prediction` bila tersedia.</li>
-              <li><strong>Anomali:</strong> Deteksi statistik Z-score &gt; 2.2σ dan outlier IQR (Q3 + 1.5×IQR) per kategori, plus pemicu makro (kenaikan biaya MoM &gt; 20% dan defisit bulanan).</li>
-              <li><strong>Rekomendasi:</strong> Aturan berbasis metrik riil (surplus/defisit, kenaikan MoM, kategori melewati anggaran, margin).</li>
-              <li><strong>Drill-down:</strong> Seluruh item `/expenses` dan `/income` (limit 1000) dengan penanda anomali.</li>
+              <li><strong>{t("business.method_mom_label")}:</strong> {t("business.method_mom_text")}</li>
+              <li><strong>{t("business.method_kpi_label")}:</strong> {t("business.method_kpi_text")}</li>
+              <li><strong>{t("business.method_trend_label")}:</strong> {t("business.method_trend_text")}</li>
+              <li><strong>{t("business.method_heatmap_label")}:</strong> {t("business.method_heatmap_text")}</li>
+              <li><strong>{t("business.method_target_label")}:</strong> {t("business.method_target_text")}</li>
+              <li><strong>{t("business.method_seg_label")}:</strong> {t("business.method_seg_text")}</li>
+              <li><strong>{t("business.method_forecast_label")}:</strong> {t("business.method_forecast_text")}</li>
+              <li><strong>{t("business.method_anomaly_label")}:</strong> {t("business.method_anomaly_text")}</li>
+              <li><strong>{t("business.method_rec_label")}:</strong> {t("business.method_rec_text")}</li>
+              <li><strong>{t("business.method_drill_label")}:</strong> {t("business.method_drill_text")}</li>
             </ul>
           </div>
         </div>
@@ -981,19 +986,19 @@ export default function BusinessAnalytics() {
         <div style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr)", borderRadius: 20, width: "100%", maxWidth: 500, padding: 24 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 900, margin: 0 }}>Export Executive Report</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 900, margin: 0 }}>{t("business.export_modal_title")}</h3>
               <button className="btn btn-g btn-s" onClick={() => setReportModal(false)}><IconClose size={14} /></button>
             </div>
-            <p style={{ fontSize: 12, color: "var(--tx2)", marginBottom: 20 }}>Pilih format laporan yang ingin di-download:</p>
+            <p style={{ fontSize: 12, color: "var(--tx2)", marginBottom: 20 }}>{t("business.export_modal_sub")}</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button className="btn btn-p" onClick={() => { handleDownloadFile("md", `# Executive Report\n\n- Periode: ${dash.monthLabel}\n- Omzet: ${fmtIDR(dash.inc)}\n- Biaya: ${fmtIDR(dash.exp)}\n- Net Profit: ${fmtIDR(dash.profit)}\n- Margin: ${dash.margin.toFixed(1)}%\n- Kondisi: ${execCondition.label}\n- KPI Target: ${fmtIDR(kpi.incomeTarget)} / ${fmtIDR(kpi.expenseTarget)} / ${fmtIDR(kpi.savingsTarget)}`, "text/markdown"); setReportModal(false); }}>
-                Download .MD (Markdown File)
+              <button className="btn btn-p" onClick={() => { handleDownloadFile("md", `# ${t("business.export_md_title")}\n\n- ${t("business.report_period")}: ${dash.monthLabel}\n- ${t("business.report_income_label")}: ${fmtIDR(dash.inc)}\n- ${t("business.report_expense_label")}: ${fmtIDR(dash.exp)}\n- ${t("business.kpi_row_net")}: ${fmtIDR(dash.profit)}\n- ${t("business.report_margin_label")}: ${dash.margin.toFixed(1)}%\n- ${t("business.report_condition_label")}: ${execCondition.label}\n- ${t("business.report_kpi_target_label")}: ${fmtIDR(kpi.incomeTarget)} / ${fmtIDR(kpi.expenseTarget)} / ${fmtIDR(kpi.savingsTarget)}`, "text/markdown"); setReportModal(false); }}>
+                {t("business.export_md")}
               </button>
-              <button className="btn btn-g" onClick={() => { handleDownloadFile("html", `<html><body><h1>Executive Report</h1><p>Periode: ${dash.monthLabel}</p><p>Omzet: ${fmtIDR(dash.inc)}</p><p>Biaya: ${fmtIDR(dash.exp)}</p><p>Net: ${fmtIDR(dash.profit)}</p></body></html>`, "text/html"); setReportModal(false); }}>
-                Download .HTML (Printable Web)
+              <button className="btn btn-g" onClick={() => { handleDownloadFile("html", `<html><body><h1>${t("business.export_md_title")}</h1><p>${t("business.report_period")}: ${dash.monthLabel}</p><p>${t("business.report_income_label")}: ${fmtIDR(dash.inc)}</p><p>${t("business.report_expense_label")}: ${fmtIDR(dash.exp)}</p><p>${t("business.net")}: ${fmtIDR(dash.profit)}</p></body></html>`, "text/html"); setReportModal(false); }}>
+                {t("business.export_html")}
               </button>
               <button className="btn btn-g" onClick={() => { handlePrintPDF(); setReportModal(false); }}>
-                Download / Print .PDF Document
+                {t("business.export_pdf")}
               </button>
             </div>
           </div>
