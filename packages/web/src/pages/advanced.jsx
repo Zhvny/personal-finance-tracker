@@ -25,6 +25,7 @@ import {
   IconCalendar, IconDown, IconUp, IconClose,
 } from "../icons.jsx";
 import { Tabs } from "../components.jsx";
+import { useI18n } from "../i18n/context.js";
 
 
 // ── Shared UI atoms ────────────────────────────────────────────────────────────
@@ -70,10 +71,11 @@ const GOAL_PALETTES = [
 ];
 
 function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
+  const { t } = useI18n();
   const [dep, setDep]           = useState("");
   const [depositing, setDepositing] = useState(false);
 
-  const goalName   = goal.name || goal.title || `Goal #${goal.id}`;
+  const goalName   = goal.name || goal.title || t("advanced.goal_fallback", { id: goal.id });
   const targetDate = goal.target_date || goal.deadline;
   const targetAmt  = Number(goal.target_amount)  || 0;
   const currentAmt = Number(goal.current_amount) || 0;
@@ -144,22 +146,22 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
               }}>
                 {isDone ? (
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
-                    <IconSuccess size={11} color="#10b981" /> Funded
+                    <IconSuccess size={11} color="#10b981" /> {t("advanced.funded")}
                   </span>
                 ) : isUrgent ? (
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
-                    <IconWarning size={11} color={palette.badge} /> Urgent
+                    <IconWarning size={11} color={palette.badge} /> {t("advanced.urgent")}
                   </span>
                 ) : (
-                  "Active"
+                  t("advanced.active")
                 )}
               </span>
             </div>
             <div style={{ fontSize: 11, color: "var(--tx3)", display: "flex", flexWrap: "wrap", gap: "3px 10px" }}>
-              <span>Target <b style={{ color: "var(--tx2)", fontFamily: "var(--mono)" }}>{fmt(targetAmt)}</b></span>
+              <span>{t("advanced.target")} <b style={{ color: "var(--tx2)", fontFamily: "var(--mono)" }}>{fmt(targetAmt)}</b></span>
               {targetDate && daysLeft !== null && (
                 <span style={{ color: isUrgent ? "#fcd34d" : "var(--tx3)", display: "inline-flex", alignItems: "center", gap: 3 }}>
-                  {isUrgent ? <IconWarning size={11} color="#fcd34d" /> : <IconCalendar size={11} />}{daysLeft}d left
+                  {isUrgent ? <IconWarning size={11} color="#fcd34d" /> : <IconCalendar size={11} />}{t("advanced.days_left", { days: daysLeft })}
                 </span>
               )}
             </div>
@@ -173,9 +175,9 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
               <div style={{ fontFamily: "var(--mono)", fontWeight: 900, fontSize: 17, color: palette.bar, lineHeight: 1 }}>
                 {pct.toFixed(0)}%
               </div>
-              <div style={{ fontSize: 8, color: "var(--tx3)", marginTop: 2, letterSpacing: "0.4px", textTransform: "uppercase" }}>funded</div>
+              <div style={{ fontSize: 8, color: "var(--tx3)", marginTop: 2, letterSpacing: "0.4px", textTransform: "uppercase" }}>{t("advanced.funded_lc")}</div>
             </div>
-            <button onClick={() => onDelete(goal.id)} title="Delete"
+            <button onClick={() => onDelete(goal.id)} title={t("common.delete")}
               style={{ background: "none", border: "none", cursor: "pointer", color: "var(--tx3)", padding: "4px 2px", opacity: 0.6 }}>
               <IconDelete size={14} />
             </button>
@@ -194,18 +196,18 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
         {/* Stats */}
         <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: 13 }}>
           <div style={{ flex: "1 1 85px", background: "var(--bg3)", borderRadius: 8, padding: "7px 10px", border: "1px solid var(--bdr)" }}>
-            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>Remaining</div>
+            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>{t("advanced.remaining")}</div>
             <div style={{ fontSize: 12, fontWeight: 700, color: rem > 0 ? "var(--tx)" : "#10b981", fontFamily: "var(--mono)" }}>{fmt(rem)}</div>
           </div>
           {reqMonthly !== null && (
             <div style={{ flex: "1 1 85px", background: "var(--bg3)", borderRadius: 8, padding: "7px 10px", border: "1px solid var(--bdr)" }}>
-              <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>Need/Mo</div>
+              <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>{t("advanced.need_mo")}</div>
               <div style={{ fontSize: 12, fontWeight: 700, color: palette.bar, fontFamily: "var(--mono)" }}>{fmt(reqMonthly)}</div>
             </div>
           )}
           {daysLeft !== null && (
             <div style={{ flex: "1 1 85px", background: "var(--bg3)", borderRadius: 8, padding: "7px 10px", border: `1px solid ${isUrgent ? "rgba(252,211,77,0.2)" : "var(--bdr)"}` }}>
-              <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>Deadline</div>
+              <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>{t("advanced.deadline")}</div>
               <div style={{ fontSize: 12, fontWeight: 700, color: isUrgent ? "#fcd34d" : "var(--tx2)", fontFamily: "var(--mono)" }}>
                 {monthsLeft >= 1 ? `${Math.ceil(monthsLeft)}mo` : `${daysLeft}d`}
               </div>
@@ -237,7 +239,7 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
                 value={dep}
                 onChange={(e) => setDep(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleDeposit()}
-                placeholder="Custom amount (Rp)…"
+                placeholder={t("advanced.custom_amount")}
                 type="number"
                 style={{
                   flex: 1, background: "var(--bg3)",
@@ -251,7 +253,7 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
                 onClick={handleDeposit}
                 style={{ fontSize: 12, padding: "8px 14px", fontWeight: 700, borderRadius: 8, flexShrink: 0 }}
               >
-                {depositing ? "…" : "+ Deposit"}
+                {depositing ? "…" : t("advanced.deposit")}
               </button>
             </div>
           </div>
@@ -264,7 +266,7 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
             textAlign: "center", letterSpacing: "0.2px",
             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
           }}>
-            <IconSuccess size={14} color="#10b981" /> Goal fully funded — great work!
+            <IconSuccess size={14} color="#10b981" /> {t("advanced.goal_funded")}
           </div>
         )}
       </div>
@@ -273,6 +275,7 @@ function GoalCard({ goal, onDeposit, onDelete, index = 0 }) {
 }
 
 export function GoalTracker() {
+  const { t } = useI18n();
   const [goals, setGoals]     = useState([]);
   const [adding, setAdding]   = useState(false);
   const [loading, setLoading] = useState(true);
@@ -328,7 +331,7 @@ export function GoalTracker() {
   const doneCount   = goals.filter(g => Number(g.current_amount) >= Number(g.target_amount)).length;
 
   return (
-    <SectionCard title="Goal-Based Savings" icon={IconTarget}>
+    <SectionCard title={t("advanced.goals_title")} icon={IconTarget}>
 
       {/* Portfolio Hero Banner */}
       {goals.length > 0 && (
@@ -342,13 +345,13 @@ export function GoalTracker() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginBottom: 14, position: "relative" }}>
             <div>
               <div style={{ fontSize: 10, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 5 }}>
-                Total Portfolio · {goals.length} Goals
+                {t("advanced.total_portfolio", { count: goals.length })}
               </div>
               <div style={{ fontFamily: "var(--mono)", fontWeight: 900, fontSize: 22, color: "var(--tx)", letterSpacing: "-0.5px", lineHeight: 1.1 }}>
                 {fmt(totalSaved)}
               </div>
               <div style={{ fontSize: 11, color: "var(--tx3)", marginTop: 4 }}>
-                of <span style={{ color: "var(--tx2)", fontFamily: "var(--mono)", fontWeight: 600 }}>{fmt(totalTarget)}</span> target
+                {t("advanced.of")} <span style={{ color: "var(--tx2)", fontFamily: "var(--mono)", fontWeight: 600 }}>{fmt(totalTarget)}</span> {t("advanced.target_lc")}
               </div>
             </div>
             <div style={{
@@ -360,7 +363,7 @@ export function GoalTracker() {
                 {overallPct.toFixed(1)}%
               </div>
               <div style={{ fontSize: 9, color: "var(--tx3)", marginTop: 3, letterSpacing: "0.5px", textTransform: "uppercase" }}>
-                {doneCount}/{goals.length} done
+                {t("advanced.done_count", { done: doneCount, total: goals.length })} done
               </div>
             </div>
           </div>
@@ -372,7 +375,7 @@ export function GoalTracker() {
             {goals.map((g, i) => {
               const p   = Math.min(100, Number(g.target_amount) > 0 ? (Number(g.current_amount) / Number(g.target_amount)) * 100 : 0);
               const pal = p >= 100 ? { bar: "#10b981", badge: "#34d399" } : GOAL_PALETTES[i % GOAL_PALETTES.length];
-              const name = g.name || g.title || `Goal #${g.id}`;
+              const name = g.name || g.title || t("advanced.goal_fallback", { id: g.id });
               return (
                 <div key={g.id} style={{
                   display: "flex", alignItems: "center", gap: 5,
@@ -399,15 +402,15 @@ export function GoalTracker() {
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 10 }}>
             <IconTarget size={32} color="var(--ind-b)" />
           </div>
-          <div style={{ fontWeight: 700, fontSize: 14, color: "var(--tx)", marginBottom: 6 }}>No savings goals yet</div>
+          <div style={{ fontWeight: 700, fontSize: 14, color: "var(--tx)", marginBottom: 6 }}>{t("advanced.empty_title")}</div>
           <div style={{ fontSize: 12, color: "var(--tx3)", maxWidth: 260, margin: "0 auto" }}>
-            Create your first goal to start tracking progress toward what matters most.
+            {t("advanced.empty_sub")}
           </div>
         </div>
       )}
 
       {loading && !goals.length && (
-        <div style={{ textAlign: "center", padding: 20, color: "var(--tx3)", fontSize: 13 }}>Loading goals…</div>
+        <div style={{ textAlign: "center", padding: 20, color: "var(--tx3)", fontSize: 13 }}>{t("advanced.loading_goals")}</div>
       )}
 
       {/* Goal cards */}
@@ -423,13 +426,13 @@ export function GoalTracker() {
           border: "1px solid var(--bdr)", marginTop: 6,
         }}>
           <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 14, color: "var(--tx)", display: "flex", alignItems: "center", gap: 6 }}>
-            <IconTarget size={14} color="var(--ind-b)" /> New Savings Goal
+            <IconTarget size={14} color="var(--ind-b)" /> {t("advanced.new_savings_goal")}
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 10, marginBottom: 14 }}>
             {[
-              { k: "name",          label: "Goal Name",           type: "text",   ph: "e.g. Japan Trip 2026" },
-              { k: "target_amount", label: "Target Amount (Rp)",  type: "number", ph: "517750800" },
-              { k: "target_date",   label: "Deadline (optional)", type: "date",   ph: "" },
+              { k: "name",          label: t("advanced.field_goal_name"),      type: "text",   ph: t("advanced.ph_goal_name") },
+              { k: "target_amount", label: t("advanced.field_target_amount"), type: "number", ph: "517750800" },
+              { k: "target_date",   label: t("advanced.field_deadline"),      type: "date",   ph: "" },
             ].map((f) => (
               <div key={f.k}>
                 <div style={{ fontSize: 10, color: "var(--tx3)", marginBottom: 5, textTransform: "uppercase", letterSpacing: "0.5px" }}>{f.label}</div>
@@ -450,10 +453,10 @@ export function GoalTracker() {
             <button className="btn btn-p btn-s"
               style={{ fontSize: 12, padding: "8px 18px", fontWeight: 700 }}
               onClick={handleAdd} disabled={!form.name || !form.target_amount}>
-              <IconAdd size={13} /> Save Goal
+              <IconAdd size={13} /> {t("advanced.save_goal")}
             </button>
             <button className="btn btn-g btn-s" style={{ fontSize: 12, padding: "8px 14px" }} onClick={() => setAdding(false)}>
-              Cancel
+              {t("common.cancel")}
             </button>
           </div>
         </div>
@@ -461,7 +464,7 @@ export function GoalTracker() {
         <button className="btn btn-g btn-s"
           style={{ fontSize: 12, marginTop: 4, display: "flex", alignItems: "center", gap: 5 }}
           onClick={() => setAdding(true)}>
-          <IconAdd size={13} /> New Goal
+          <IconAdd size={13} /> {t("advanced.new_goal")}
         </button>
       )}
     </SectionCard>
@@ -471,6 +474,7 @@ export function GoalTracker() {
 // ── Cashflow Forecast ──────────────────────────────────────────────────────────
 
 export function CashflowForecast() {
+  const { t } = useI18n();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -478,7 +482,7 @@ export function CashflowForecast() {
     apiFetch("/forecast?days=30").then(setData).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <SectionCard title="Cashflow Forecast" icon={IconBarChart}><div style={{color:"var(--tx3)",fontSize:13}}>Loading…</div></SectionCard>;
+  if (loading) return <SectionCard title={t("advanced.forecast_title")} icon={IconBarChart}><div style={{color:"var(--tx3)",fontSize:13}}>{t("common.loading")}</div></SectionCard>;
   if (!data) return null;
 
   const { forecast = [], warning, summary = {} } = data;
@@ -488,18 +492,18 @@ export function CashflowForecast() {
   const H = 80;
 
   return (
-    <SectionCard title="30-Day Cashflow Forecast" icon={IconBarChart}>
+    <SectionCard title={t("advanced.forecast_30d")} icon={IconBarChart}>
       {warning && (
         <div style={{ background:"rgba(248,113,113,.12)", border:"1px solid rgba(248,113,113,.3)", borderRadius:10, padding:"10px 14px", marginBottom:14, display:"flex", alignItems:"center", gap:8, fontSize:13 }}>
           <IconAlert size={16} color="var(--rd)" />
-          <span style={{ color:"var(--rd)", fontWeight:600 }}>Negative balance predicted — review your spending.</span>
+          <span style={{ color:"var(--rd)", fontWeight:600 }}>{t("advanced.negative_balance")}</span>
         </div>
       )}
       <div className="adv-stat-pills" style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:18 }}>
-        <StatPill label="Avg Daily Net"    value={fmtS(summary.avg_daily_net)}       color={summary.avg_daily_net >= 0 ? "var(--gr)" : "var(--rd)"} />
-        <StatPill label="Projected 30d"    value={fmtS(summary.projected_month_net)} color={summary.projected_month_net >= 0 ? "var(--gr)" : "var(--rd)"} />
-        <StatPill label="Avg Daily Income" value={fmt(summary.avg_daily_income)}     color="var(--cy)" />
-        <StatPill label="Avg Daily Spend"  value={fmt(summary.avg_daily_expense)}    color="var(--yl)" />
+        <StatPill label={t("advanced.avg_daily_net")}    value={fmtS(summary.avg_daily_net)}       color={summary.avg_daily_net >= 0 ? "var(--gr)" : "var(--rd)"} />
+        <StatPill label={t("advanced.projected_30d")}    value={fmtS(summary.projected_month_net)} color={summary.projected_month_net >= 0 ? "var(--gr)" : "var(--rd)"} />
+        <StatPill label={t("advanced.avg_daily_income")} value={fmt(summary.avg_daily_income)}     color="var(--cy)" />
+        <StatPill label={t("advanced.avg_daily_spend")}  value={fmt(summary.avg_daily_expense)}    color="var(--yl)" />
       </div>
       <div style={{ position:"relative", marginBottom:8 }}>
         <svg width="100%" viewBox={`0 0 300 ${H}`} preserveAspectRatio="none" style={{ display:"block", width:"100%", height: H }}>
@@ -516,7 +520,7 @@ export function CashflowForecast() {
         <div style={{ fontSize:12, color:"var(--tx2)", marginTop:4, display:"flex", alignItems:"center", gap:5, flexWrap:"nowrap", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
           <IconWarning size={13} color="var(--yl)" style={{ flexShrink:0 }} />
           <span style={{ overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
-            First negative: <b style={{ color:"var(--rd)" }}>{n.date}</b> ({fmt(Math.abs(n.running_balance))} shortfall)
+            {t("advanced.first_negative")} <b style={{ color:"var(--rd)" }}>{n.date}</b> ({fmt(Math.abs(n.running_balance))} {t("advanced.shortfall")})
           </span>
         </div>
       ) : null; })()}
@@ -527,6 +531,7 @@ export function CashflowForecast() {
 // ── Budget Planner ─────────────────────────────────────────────────────────────
 
 export function BudgetPlanner({ year = thisYear(), month = thisMonth() }) {
+  const { t } = useI18n();
   const [data, setData] = useState(null);
   const [setting, setSetting] = useState(null);
   const [inputVal, setInputVal] = useState("");
@@ -550,7 +555,7 @@ export function BudgetPlanner({ year = thisYear(), month = thisMonth() }) {
   };
 
   return (
-    <SectionCard title={`Budget Planner — ${year}/${String(month).padStart(2,"0")}`} icon={IconCalendar}>
+    <SectionCard title={t("advanced.budget_planner", { year, month: String(month).padStart(2,"0") })} icon={IconCalendar}>
       {cats.filter(c => c.recommendation).map(c => (
         <div key={c.category} style={{ background:"rgba(251,191,36,.08)", border:"1px solid rgba(251,191,36,.25)", borderRadius:10, padding:"8px 12px", marginBottom:8, display:"flex", alignItems:"center", gap:8, fontSize:12 }}>
           <IconInfo size={14} color="var(--yl)" />
@@ -560,7 +565,7 @@ export function BudgetPlanner({ year = thisYear(), month = thisMonth() }) {
       {cats.filter(c => c.over_limit).map(c => (
         <div key={c.category} style={{ background:"rgba(248,113,113,.1)", border:"1px solid rgba(248,113,113,.3)", borderRadius:10, padding:"8px 12px", marginBottom:8, display:"flex", alignItems:"center", gap:8, fontSize:12 }}>
           <IconAlert size={14} color="var(--rd)" />
-          <span style={{ color:"var(--rd)" }}>Over budget: <b>{c.category}</b> — spent {fmt(c.current)}, limit {fmt(c.limit)}</span>
+          <span style={{ color:"var(--rd)" }}>{t("advanced.over_budget")} <b>{c.category}</b> {t("advanced.spent_limit", { spent: fmt(c.current), limit: fmt(c.limit) })}</span>
         </div>
       ))}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(min(270px,100%),1fr))", gap:10 }}>
@@ -585,22 +590,22 @@ export function BudgetPlanner({ year = thisYear(), month = thisMonth() }) {
               <div style={{ fontSize:11, color:"var(--tx2)", marginBottom:7 }}>
                 <span style={{ color:"var(--tx)", fontFamily:"var(--mono)", fontSize:12 }}>{fmt(c.current)}</span>
                 {c.limit && <span> / {fmt(c.limit)}</span>}
-                {c.suggestion && !c.limit && <span style={{ marginLeft:6, color:"var(--tx3)" }}>Suggested: {fmt(c.suggestion)}</span>}
+                {c.suggestion && !c.limit && <span style={{ marginLeft:6, color:"var(--tx3)" }}>{t("advanced.suggested", { amount: fmt(c.suggestion) })}</span>}
               </div>
               {c.limit && <ProgressBar value={c.current} max={c.limit} color={barCol} height={5} />}
               {isEditing ? (
                 <div className="budget-edit-row">
                   <input autoFocus type="number" value={inputVal} onChange={e => setInputVal(e.target.value)}
-                    placeholder={c.suggestion ? `Suggested: ${c.suggestion}` : "Limit"}
+                    placeholder={c.suggestion ? t("advanced.suggested", { amount: c.suggestion }) : t("advanced.limit")}
                     style={{ background:"var(--bg4)", border:"1px solid var(--bdr)", borderRadius:7, padding:"9px 10px", color:"var(--tx)", fontSize:16, minHeight:44 }} />
-                  <button className="btn btn-p" style={{ fontSize:11, padding:"4px 10px" }} onClick={() => handleSet(c.category)}>Set</button>
+                  <button className="btn btn-p" style={{ fontSize:11, padding:"4px 10px" }} onClick={() => handleSet(c.category)}>{t("advanced.set")}</button>
                   <button className="btn btn-g" style={{ fontSize:11, padding:"4px 10px" }} onClick={() => { setSetting(null); setInputVal(""); }}><IconClose size={12} /></button>
                 </div>
               ) : (
                 <div style={{ display:"flex", gap:6, marginTop:9 }}>
                   <button className="btn btn-g" style={{ fontSize:11, padding:"4px 10px", flex:1 }}
                     onClick={() => { setSetting({ category:c.category }); setInputVal(c.limit ? String(c.limit) : c.suggestion ? String(c.suggestion) : ""); }}>
-                    {c.limit ? "Edit Limit" : "Set Limit"}
+                    {c.limit ? t("advanced.edit_limit") : t("advanced.set_limit")}
                   </button>
                   {c.limit && <button className="btn btn-g" style={{ fontSize:11, padding:"4px 8px" }} onClick={() => handleDel(c.category)}><IconDelete size={12}/></button>}
                 </div>
@@ -609,25 +614,26 @@ export function BudgetPlanner({ year = thisYear(), month = thisMonth() }) {
           );
         })}
       </div>
-      {cats.length === 0 && <div style={{ color:"var(--tx3)", fontSize:13 }}>No expense data for this month.</div>}
+      {cats.length === 0 && <div style={{ color:"var(--tx3)", fontSize:13 }}>{t("advanced.no_expense_data")}</div>}
     </SectionCard>
   );
 }
 
 export default function AdvancedFeatures({ year, month }) {
+  const { t } = useI18n();
   const [tab, setTab] = useState("goals");
   return (
     <div>
-      <h1 className="sr-only">Advanced Features — Goal Tracking, Forecasting &amp; Budget Planning</h1>
+      <h1 className="sr-only">{t("advanced.sr_title")}</h1>
       <div className="adv-header" style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-.4px", marginBottom: 3 }}>Advanced Features</div>
-        <div style={{ fontSize: 12, color: "var(--tx2)" }}>Goal tracking · 30-day cashflow forecast · Budget planning · Predictive analytics</div>
+        <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-.4px", marginBottom: 3 }}>{t("advanced.title")}</div>
+        <div style={{ fontSize: 12, color: "var(--tx2)" }}>{t("advanced.subtitle")}</div>
       </div>
       <Tabs
         tabs={[
-          { key: "goals",     label: "Goals",       icon: <IconTarget    size={13} /> },
-          { key: "forecast",  label: "Forecast",    icon: <IconBarChart  size={13} /> },
-          { key: "budget",    label: "Budget",      icon: <IconCalendar  size={13} /> },
+          { key: "goals",     label: t("advanced.tab_goals"),    icon: <IconTarget    size={13} /> },
+          { key: "forecast",  label: t("advanced.tab_forecast"), icon: <IconBarChart  size={13} /> },
+          { key: "budget",    label: t("advanced.tab_budget"),   icon: <IconCalendar  size={13} /> },
         ]}
         active={tab}
         onChange={setTab}
@@ -644,9 +650,9 @@ export default function AdvancedFeatures({ year, month }) {
       {/* Phase 3 — Predictive Analytics */}
       <div style={{ marginTop: 4, marginBottom: 8 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: "var(--tx2)", marginBottom: 4, letterSpacing: "-.2px" }}>
-          Predictive Analytics
+          {t("advanced.predictive_title")}
         </div>
-        <div style={{ fontSize: 11, color: "var(--tx3)" }}>AI-assisted projections based on your transaction history</div>
+        <div style={{ fontSize: 11, color: "var(--tx3)" }}>{t("advanced.predictive_sub")}</div>
       </div>
       <ExpensePredictionPanel />
       <SavingProjectionPanel />
