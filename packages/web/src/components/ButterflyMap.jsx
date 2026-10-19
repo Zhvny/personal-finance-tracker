@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef, memo } from "
 import { useDebounce, useCacheFetch, useWebSocket } from "../finance/useApi.js";
 import { Skeleton } from "../components.jsx";
 import { useButterflyBenchmark } from "../hooks/useButterflyBenchmark.js";
+import { useI18n } from "../i18n/context.js";
 import { IconActivity, IconInfo, IconAlertCircle, IconTarget, IconDown } from "../icons.jsx";
 import ButterflyErrorBoundary, { ButterflyStatus } from "./ButterflyErrorBoundary.jsx";
 
@@ -47,6 +48,7 @@ const sanitizePayload = (data) => {
 };
 
 const MapNode = memo(({ node, pulseManager }) => {
+  const { t } = useI18n();
   const [pulsing, setPulsing] = useState(false);
   const timerRef = useRef(null);
   
@@ -87,20 +89,21 @@ const MapNode = memo(({ node, pulseManager }) => {
       }}
     >
        <div>
-          <div style={{ fontSize: 13, fontWeight: 900 }}>{node.ticker || "UNKNOWN"}</div>
+          <div style={{ fontSize: 13, fontWeight: 900 }}>{node.ticker || t("butterfly.unknown")}</div>
           <div style={{ fontSize: 8, color: "var(--tx3)", textTransform: "uppercase" }}>{node.description}</div>
        </div>
        <div style={{ textAlign: "right" }}>
           <div style={{ fontSize: 14, fontWeight: 900, color: Math.abs(node.correlation) > 0.6 ? "var(--yl)" : "var(--tx)" }}>
             {fmt(node.correlation * 100, 1)}%
           </div>
-          <div style={{ fontSize: 8, fontWeight: 900, color: node.impact === "High" ? "var(--rd)" : "var(--tx3)" }}>{String(node.impact).toUpperCase()} IMPACT</div>
+          <div style={{ fontSize: 8, fontWeight: 900, color: node.impact === "High" ? "var(--rd)" : "var(--tx3)" }}>{String(node.impact).toUpperCase()} {t("butterfly.impact")}</div>
        </div>
     </div>
   );
 });
 
 const ButterflyMapContent = memo(({ ticker, crash }) => {
+  const { t } = useI18n();
   if (crash) {
     throw new Error("Butterfly Visualization Engine encountered a critical failure (simulated)");
   }
@@ -184,12 +187,12 @@ const ButterflyMapContent = memo(({ ticker, crash }) => {
     }
 
     if (!loading) {
-      if (fetchError) return <ButterflyStatus type="error" message="Graph unavailable" />;
-      return <ButterflyStatus type="empty" message="No significant relationships detected" />;
+      if (fetchError) return <ButterflyStatus type="error" message={t("butterfly.graph_unavailable")} />;
+      return <ButterflyStatus type="empty" message={t("butterfly.no_relationships")} />;
     }
 
     return null;
-  }, [map, loading, fetchError, pulseManager]);
+  }, [map, loading, fetchError, pulseManager, t]);
 
   return (
     <div className="card" style={{ padding: 24, background: "var(--bg2)", borderRadius: 24, border: "1px solid var(--bdr)", position: "relative" }}>
@@ -207,7 +210,7 @@ const ButterflyMapContent = memo(({ ticker, crash }) => {
        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
              <IconActivity size={18} color="var(--cy)" />
-             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>BUTTERFLY EFFECT MAP</span>
+             <span style={{ fontSize: 11, fontWeight: 900, color: "var(--tx2)", letterSpacing: 1 }}>{t("butterfly.title")}</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
              {benchmarkMode && (
@@ -236,9 +239,9 @@ const ButterflyMapContent = memo(({ ticker, crash }) => {
                  cursor: "pointer", transition: "all 0.2s ease"
                }}
              >
-               {benchmarkMode ? "BENCHMARK ON" : "BENCHMARK OFF"}
+               {benchmarkMode ? t("butterfly.benchmark_on") : t("butterfly.benchmark_off")}
              </button>
-             {!benchmarkMode && <span style={{ fontSize: 9, fontWeight: 800, color: "var(--tx3)" }}>CROSS-ASSET CORRELATION</span>}
+             {!benchmarkMode && <span style={{ fontSize: 9, fontWeight: 800, color: "var(--tx3)" }}>{t("butterfly.cross_asset")}</span>}
           </div>
        </div>
        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

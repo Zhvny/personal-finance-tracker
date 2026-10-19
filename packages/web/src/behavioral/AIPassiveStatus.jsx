@@ -8,6 +8,7 @@
 
 import React from "react";
 import { IconML, IconScan, IconShieldCheck } from "../icons.jsx";
+import { useI18n } from "../i18n/context.js";
 
 /**
  * Props:
@@ -15,6 +16,7 @@ import { IconML, IconScan, IconShieldCheck } from "../icons.jsx";
  *   loading : bool
  */
 export default function AIPassiveStatus({ status, loading }) {
+  const { t } = useI18n();
   if (loading || !status) {
     return (
       <div style={{
@@ -25,7 +27,7 @@ export default function AIPassiveStatus({ status, loading }) {
         opacity: 0.6, height: 24, boxSizing: "border-box"
       }}>
         <div className="spin-mini" />
-        <span style={{ lineHeight: 1 }}>AI Initializing...</span>
+        <span style={{ lineHeight: 1 }}>{t("behavioral.ai_initializing")}</span>
         <style>{`
           .spin-mini {
             width: 10px; height: 10px; border: 1.5px solid var(--tx3);
@@ -38,20 +40,20 @@ export default function AIPassiveStatus({ status, loading }) {
     );
   }
 
-  let text = "AI Processing Available";
+  let text = t("behavioral.ai_available");
   let Icon = IconML; // Default to brain for general AI
   
   if (status.vision) {
-    text = "Enhanced Vision Enabled";
+    text = t("behavioral.vision_enabled");
     Icon = IconScan;
   } else if (status.active === "ollama") {
-    text = "Using Local AI";
+    text = t("behavioral.local_ai");
     Icon = IconML;
   } else if (status.active === "rules") {
-    text = "Rule Engine Active";
+    text = t("behavioral.rule_engine_active");
     Icon = IconShieldCheck;
   } else if (status.active === "none") {
-    text = "AI System Idle";
+    text = t("behavioral.ai_idle");
     Icon = IconML;
   }
 

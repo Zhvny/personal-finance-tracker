@@ -1,6 +1,8 @@
 import React from 'react';
+import { I18nContext } from '../../i18n/context.js';
 
 class AppErrorBoundary extends React.Component {
+  static contextType = I18nContext;
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -17,6 +19,7 @@ class AppErrorBoundary extends React.Component {
   }
 
   render() {
+    const t = this.context.t;
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -31,9 +34,9 @@ class AppErrorBoundary extends React.Component {
           background: 'var(--bg)',
           color: 'var(--tx)'
         }}>
-          <h1 style={{ color: 'var(--rd)', marginBottom: '16px' }}>Something went wrong.</h1>
+          <h1 style={{ color: 'var(--rd)', marginBottom: '16px' }}>{t('components.error_title')}</h1>
           <p style={{ color: 'var(--tx2)', marginBottom: '24px' }}>
-            The application encountered an unexpected error.
+            {t('components.error_body_short')}
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -47,11 +50,11 @@ class AppErrorBoundary extends React.Component {
               cursor: 'pointer'
             }}
           >
-            Reload Application
+            {t('components.reload_app')}
           </button>
           {import.meta.env.DEV && (
             <details style={{ whiteSpace: 'pre-wrap', marginTop: '24px', textAlign: 'left', maxWidth: '800px', width: '100%' }}>
-              <summary>Error Details</summary>
+              <summary>{t('components.error_details')}</summary>
               <p>{this.state.error && this.state.error.toString()}</p>
             </details>
           )}

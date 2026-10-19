@@ -4,6 +4,7 @@
 
 import { useState, useRef } from "react";
 import { apiFetch, useAIStatus, _getToken } from "../finance/useApi.js";
+import { useI18n } from "../i18n/context.js";
 import { API_BASE } from "../finance/constants.js";
 import {
   IconRefresh, IconAlert, IconCheck, IconBarChart,
@@ -12,10 +13,11 @@ import {
 } from "../icons.jsx";
 
 function PriorityBadge({ priority }) {
+  const { t } = useI18n();
   const map = {
-    high:   { bg: "rgba(248,113,113,.18)", color: "#f87171",  label: "Prioritas Tinggi" },
-    medium: { bg: "rgba(251,191,36,.15)",  color: "#fbbf24",  label: "Menengah" },
-    low:    { bg: "rgba(52,211,153,.15)",  color: "#34d399",  label: "Rendah" },
+    high:   { bg: "rgba(248,113,113,.18)", color: "#f87171",  label: t("behavioral.priority_high") },
+    medium: { bg: "rgba(251,191,36,.15)",  color: "#fbbf24",  label: t("behavioral.priority_medium") },
+    low:    { bg: "rgba(52,211,153,.15)",  color: "#34d399",  label: t("behavioral.priority_low") },
   };
   const s = map[priority] || map.low;
   return (
@@ -25,10 +27,11 @@ function PriorityBadge({ priority }) {
 }
 
 function ScoreRing({ score }) {
+  const { t } = useI18n();
   if (score == null) return null;
   const pct = Math.round(Math.min(100, Math.max(0, score)));
   const color = pct >= 70 ? "var(--gr)" : pct >= 45 ? "var(--yl)" : "var(--rd)";
-  const label = pct >= 70 ? "Stabil" : pct >= 45 ? "Cukup" : "Perlu Perhatian";
+  const label = pct >= 70 ? t("behavioral.stable") : pct >= 45 ? t("behavioral.score_fair") : t("behavioral.score_attention");
   const r = 28, circ = 2 * Math.PI * r, dash = (pct / 100) * circ;
   return (
     <div style={{ display:"flex", alignItems:"center", gap:12 }}>
@@ -41,15 +44,16 @@ function ScoreRing({ score }) {
           style={{ fontSize:15, fontWeight:700, fill:color, fontFamily:"var(--mono)" }}>{pct}</text>
       </svg>
       <div>
-        <div style={{ fontSize:10, color:"var(--tx3)", textTransform:"uppercase", letterSpacing:".8px", marginBottom:3 }}>Skor Keuangan</div>
+        <div style={{ fontSize:10, color:"var(--tx3)", textTransform:"uppercase", letterSpacing:".8px", marginBottom:3 }}>{t("behavioral.score_ring_label")}</div>
         <div style={{ fontSize:14, fontWeight:700, color }}>{label}</div>
-        <div style={{ fontSize:11, color:"var(--tx3)", marginTop:2 }}>dari 100</div>
+        <div style={{ fontSize:11, color:"var(--tx3)", marginTop:2 }}>{t("behavioral.of_100")}</div>
       </div>
     </div>
   );
 }
 
 function RecommendationCard({ rec }) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
   const pcfg = {
     high:   { line:"#f87171", bg:"rgba(248,113,113,.06)", Icon: IconAlert, iconColor:"#f87171" },
@@ -75,12 +79,12 @@ function RecommendationCard({ rec }) {
             <div style={{ marginTop:10, paddingTop:10, borderTop:"1px solid var(--bdr)" }}>
               {rec.reason && (
                 <div style={{ fontSize:12, color:"var(--tx2)", lineHeight:1.7, marginBottom:6 }}>
-                  <span style={{ color:"var(--tx3)", fontWeight:600 }}>Alasan: </span>{rec.reason}
+                  <span style={{ color:"var(--tx3)", fontWeight:600 }}>{t("behavioral.reason")}: </span>{rec.reason}
                 </div>
               )}
               {rec.impact && (
                 <div style={{ fontSize:12, color:"var(--gr)", lineHeight:1.6, display:"flex", gap:6, alignItems:"flex-start" }}>
-                  <IconCheck size={13} style={{ flexShrink:0, marginTop:1 }} /><span><strong>Dampak:</strong> {rec.impact}</span>
+                  <IconCheck size={13} style={{ flexShrink:0, marginTop:1 }} /><span><strong>{t("behavioral.impact")}:</strong> {rec.impact}</span>
                 </div>
               )}
             </div>
@@ -110,6 +114,7 @@ function InsightSkeleton() {
 }
 
 function NoProviderState({ onRetry }) {
+  const { t } = useI18n();
   return (
     <div style={{ padding:32, background:"rgba(255,255,255,.02)", border:"1px solid var(--bdr)",
       borderRadius:"var(--rl)", textAlign:"center" }}>
@@ -118,13 +123,13 @@ function NoProviderState({ onRetry }) {
           <IconBehavioral size={24} color="var(--tx3)" />
         </div>
       </div>
-      <div style={{ fontSize:15, fontWeight:700, color:"var(--tx)", marginBottom:8 }}>AI Analysis Unavailable</div>
+      <div style={{ fontSize:15, fontWeight:700, color:"var(--tx)", marginBottom:8 }}>{t("behavioral.ai_unavailable_title")}</div>
       <div style={{ fontSize:12, color:"var(--tx3)", lineHeight:1.6, marginBottom:20, maxWidth: 300, margin: "0 auto 24px" }}>
-        Connect an AI provider like Claude or Gemini to unlock deep behavioral insights and personalized financial recommendations.
+        {t("behavioral.ai_unavailable_body")}
       </div>
       <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
-        <button className="btn btn-p btn-s" onClick={() => window.open('https://github.com/zhvny/finance-tracker#ai-setup', '_blank')}>Setup Guide</button>
-        <button className="btn btn-g btn-s" onClick={onRetry}><IconRefresh size={13} /> Refresh</button>
+        <button className="btn btn-p btn-s" onClick={() => window.open('https://github.com/zhvny/finance-tracker#ai-setup', '_blank')}>{t("behavioral.setup_guide")}</button>
+        <button className="btn btn-g btn-s" onClick={onRetry}><IconRefresh size={13} /> {t("common.refresh")}</button>
       </div>
     </div>
   );
@@ -143,6 +148,7 @@ function InsightRow({ Icon, label, value, color="var(--tx2)" }) {
 }
 
 export default function AIInsightPanel() {
+  const { t } = useI18n();
   const [insights,   setInsights]   = useState(null);
   const [loading,    setLoading]    = useState(false);
   const [error,      setError]      = useState(null);
@@ -227,10 +233,10 @@ export default function AIInsightPanel() {
   if (!loaded && !loading) load();
 
   const PROVIDER_BADGE = {
-    claude: { label:"Claude AI",      bg:"rgba(167,139,250,.15)", color:"var(--pu)", border:"rgba(167,139,250,.25)", Icon: IconAnalysis },
-    gemini: { label:"Gemini AI",      bg:"rgba(79,70,229,.15)",   color:"#4f46e5",   border:"rgba(79,70,229,.25)",  Icon: IconAnalysis },
-    ollama: { label:"Ollama · Local", bg:"rgba(52,211,153,.12)",  color:"var(--gr)", border:"rgba(52,211,153,.25)",  Icon: IconInfo     },
-    rules:  { label:"Rule Engine",   bg:"rgba(96,165,250,.12)",  color:"#60a5fa",   border:"rgba(96,165,250,.25)",  Icon: IconBarChart  },
+    claude: { label:t("behavioral.provider_claude"), bg:"rgba(167,139,250,.15)", color:"var(--pu)", border:"rgba(167,139,250,.25)", Icon: IconAnalysis },
+    gemini: { label:t("behavioral.provider_gemini"), bg:"rgba(79,70,229,.15)",   color:"#4f46e5",   border:"rgba(79,70,229,.25)",  Icon: IconAnalysis },
+    ollama: { label:t("behavioral.provider_ollama"), bg:"rgba(52,211,153,.12)",  color:"var(--gr)", border:"rgba(52,211,153,.25)",  Icon: IconInfo     },
+    rules:  { label:t("behavioral.provider_rules"), bg:"rgba(96,165,250,.12)",  color:"#60a5fa",   border:"rgba(96,165,250,.25)",  Icon: IconBarChart  },
   };
   const activeProvider = insights?.provider || aiStatus?.active || "claude";
   const badge = PROVIDER_BADGE[activeProvider] || PROVIDER_BADGE.claude;
@@ -246,23 +252,23 @@ export default function AIInsightPanel() {
               display:"inline-flex", alignItems:"center", gap:5 }}>
               <BadgeIcon size={10} />{badge.label}
             </span>
-            <span style={{ fontSize:14, fontWeight:700, color:"var(--tx)" }}>Behavioral Insights</span>
+            <span style={{ fontSize:14, fontWeight:700, color:"var(--tx)" }}>{t("behavioral.insights_title")}</span>
             {activeProvider === "rules" && (
               <span style={{ padding:"2px 7px", borderRadius:99, fontSize:9, fontWeight:700,
-                background:"rgba(251,191,36,.1)", color:"var(--yl)", border:"1px solid rgba(251,191,36,.2)" }}>OFFLINE</span>
+                background:"rgba(251,191,36,.1)", color:"var(--yl)", border:"1px solid rgba(251,191,36,.2)" }}>{t("behavioral.offline_badge")}</span>
             )}
           </div>
               {insights?.data_period && (
             <div style={{ fontSize:11, color:"var(--tx3)", marginTop:3 }}>
-              Analisis untuk {insights?.data_period}
-              {insights?.generated_at && <span> · diperbarui {new Date(insights.generated_at).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})}</span>}
+              {t("behavioral.analysis_for", { period: insights?.data_period })}
+              {insights?.generated_at && <span> · {t("behavioral.updated_at", { time: new Date(insights.generated_at).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"}) })}</span>}
             </div>
           )}
         </div>
         <button className="btn btn-g btn-s" onClick={load} disabled={loading}
           style={{ display:"flex", alignItems:"center", gap:5, flexShrink:0 }}>
           <IconRefresh size={13} style={{ animation:loading?"comp-spin 1s linear infinite":"none" }} />
-          {loading ? "Menganalisis..." : "Refresh"}
+          {loading ? t("behavioral.analyzing") : t("common.refresh")}
         </button>
       </div>
 
@@ -280,7 +286,7 @@ export default function AIInsightPanel() {
               }} />
             </div>
             <span style={{ fontSize: 11, color: "var(--tx3)", fontFamily: "var(--mono)", flexShrink: 0 }}>
-              {tokenCount > 0 ? `${tokenCount} token` : "Memuat..."}
+              {tokenCount > 0 ? `${tokenCount} ${t("behavioral.token")}` : t("common.loading")}
             </span>
           </div>
           {/* Live text preview */}
@@ -305,7 +311,7 @@ export default function AIInsightPanel() {
       {error && !noApiKey && (
         <div style={{ padding:"14px 16px", background:"rgba(248,113,113,.08)", border:"1px solid rgba(248,113,113,.2)",
           borderRadius:"var(--rl)", fontSize:12, color:"var(--rd)", display:"flex", alignItems:"flex-start", gap:8 }}>
-          <IconAlert size={14} style={{ flexShrink:0, marginTop:1 }} /> Gagal memuat insights: {error}
+          <IconAlert size={14} style={{ flexShrink:0, marginTop:1 }} /> {t("behavioral.insights_failed", { error })}
         </div>
       )}
 
@@ -322,7 +328,7 @@ export default function AIInsightPanel() {
                 borderTop:insights.fbs_score!=null?"1px solid var(--bdr)":"none",
                 display:"flex", gap:8, alignItems:"flex-start" }}>
                 <IconBarChart size={14} style={{ flexShrink:0, marginTop:1, opacity:.7 }} />
-                <div><strong style={{ color:"var(--tx)" }}>Kondisi Bulan Ini: </strong>{insights.overall_assessment}</div>
+                <div><strong style={{ color:"var(--tx)" }}>{t("behavioral.condition_this_month")}: </strong>{insights.overall_assessment}</div>
               </div>
             )}
           </div>
@@ -332,7 +338,7 @@ export default function AIInsightPanel() {
             {insights.biggest_win && (
               <div style={{ background:"rgba(52,211,153,.07)", border:"1px solid rgba(52,211,153,.2)", borderRadius:12, padding:"14px 16px" }}>
                 <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--gr)", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
-                  <IconCheck size={11} /> Hal Positif
+                  <IconCheck size={11} /> {t("behavioral.biggest_win")}
                 </div>
                 <div style={{ fontSize:12, color:"var(--tx2)", lineHeight:1.65 }}>{insights.biggest_win}</div>
               </div>
@@ -340,7 +346,7 @@ export default function AIInsightPanel() {
             {insights.top_risk && (
               <div style={{ background:"rgba(248,113,113,.07)", border:"1px solid rgba(248,113,113,.2)", borderRadius:12, padding:"14px 16px" }}>
                 <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--rd)", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
-                  <IconAlert size={11} /> Risiko Utama
+                  <IconAlert size={11} /> {t("behavioral.top_risk")}
                 </div>
                 <div style={{ fontSize:12, color:"var(--tx2)", lineHeight:1.65 }}>{insights.top_risk}</div>
               </div>
@@ -353,12 +359,12 @@ export default function AIInsightPanel() {
               <div style={{ padding:"10px 16px", borderBottom:"1px solid var(--bdr)",
                 fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--tx3)",
                 display:"flex", alignItems:"center", gap:6 }}>
-                <IconAnalysis size={12} /> Analisis Pola Keuangan
+                <IconAnalysis size={12} /> {t("behavioral.pattern_analysis")}
               </div>
               <div style={{ padding:"4px 16px 8px" }}>
-                {insights.spending_pattern            && <InsightRow Icon={IconExpense} label="Pola Pengeluaran"    value={insights.spending_pattern} />}
-                {insights.impulse_analysis            && <InsightRow Icon={IconAlert}   label="Perilaku Impulsif"   value={insights.impulse_analysis} color="var(--yl)" />}
-                {insights.lifestyle_inflation_verdict && <InsightRow Icon={IconUp}   label="Lifestyle Inflation" value={insights.lifestyle_inflation_verdict} />}
+                {insights.spending_pattern            && <InsightRow Icon={IconExpense} label={t("behavioral.row_spending_pattern")}    value={insights.spending_pattern} />}
+                {insights.impulse_analysis            && <InsightRow Icon={IconAlert}   label={t("behavioral.row_impulse_behavior")}  value={insights.impulse_analysis} color="var(--yl)" />}
+                {insights.lifestyle_inflation_verdict && <InsightRow Icon={IconUp}   label={t("behavioral.row_lifestyle")} value={insights.lifestyle_inflation_verdict} />}
               </div>
             </div>
           )}
@@ -367,7 +373,7 @@ export default function AIInsightPanel() {
           {insights.recommendations?.length > 0 && (
             <div>
               <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--tx3)", marginBottom:10, display:"flex", alignItems:"center", gap:6 }}>
-                <IconRisk size={11} /> Rekomendasi Aksi <span style={{ fontSize:9, fontWeight:400, marginLeft:4 }}>(klik untuk detail)</span>
+                <IconRisk size={11} /> {t("behavioral.actions_title")} <span style={{ fontSize:9, fontWeight:400, marginLeft:4 }}>{t("behavioral.click_details")}</span>
               </div>
               {insights.recommendations.map((rec, i) => <RecommendationCard key={i} rec={rec} />)}
             </div>
@@ -378,7 +384,7 @@ export default function AIInsightPanel() {
             {insights.next_month_forecast && (
               <div style={{ background:"var(--bg2)", border:"1px solid var(--bdr)", borderRadius:12, padding:"14px 16px" }}>
                 <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--ind-b)", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
-                  <IconBarChart size={11} color="var(--ind-b)" /> Prediksi Bulan Depan
+                  <IconBarChart size={11} color="var(--ind-b)" /> {t("behavioral.next_month_pred")}
                 </div>
                 <div style={{ fontSize:12, color:"var(--tx2)", lineHeight:1.65 }}>{insights.next_month_forecast}</div>
               </div>
@@ -387,7 +393,7 @@ export default function AIInsightPanel() {
               <div style={{ background:"linear-gradient(135deg,rgba(79,110,247,.08),rgba(167,139,250,.08))",
                 border:"1px solid rgba(79,110,247,.2)", borderRadius:12, padding:"14px 16px" }}>
                 <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--pu)", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
-                  <IconInfo size={11} color="var(--pu)" /> Pesan Hari Ini
+                  <IconInfo size={11} color="var(--pu)" /> {t("behavioral.today_message")}
                 </div>
                 <div style={{ fontSize:12, color:"var(--tx2)", lineHeight:1.7, fontStyle:"italic" }}>"{insights.motivational_note}"</div>
               </div>
@@ -397,7 +403,7 @@ export default function AIInsightPanel() {
           {insights.score_interpretation && (
             <div style={{ fontSize:11, color:"var(--tx3)", borderTop:"1px solid var(--bdr)", paddingTop:12, lineHeight:1.6, display:"flex", gap:8, alignItems:"flex-start" }}>
               <IconInfo size={13} style={{ flexShrink:0, marginTop:1, opacity:.7 }} />
-              <div><strong style={{ color:"var(--tx2)" }}>Interpretasi Skor FBS: </strong>{insights.score_interpretation}</div>
+              <div><strong style={{ color:"var(--tx2)" }}>{t("behavioral.fbs_interpretation")}: </strong>{insights.score_interpretation}</div>
             </div>
           )}
 

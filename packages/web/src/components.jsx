@@ -6,6 +6,7 @@
 import { Component, useEffect, useRef, useCallback, useState, Children, cloneElement, isValidElement } from "react";
 import { createPortal } from "react-dom";
 import { fmt, fmtS } from "./constants.js";
+import { useI18n, I18nContext } from "./i18n/context.js";
 import {
   IconCheck, IconClose, IconRefresh, IconAlert,
   IconUp, IconDown, IconBarChart, IconWarning,
@@ -59,6 +60,7 @@ function useFocusTrap(containerRef) {
 // ── Error Boundary ────────────────────────────────────────────────────────────
 // Catch rendering errors and show a graceful fallback instead of a white screen.
 export class ErrorBoundary extends Component {
+  static contextType = I18nContext;
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -66,19 +68,20 @@ export class ErrorBoundary extends Component {
   static getDerivedStateFromError(error) { return { hasError: true, error }; }
   componentDidCatch(error, errorInfo) { console.error("React Crash:", error, errorInfo); }
   render() {
+    const t = this.context.t;
     if (this.state.hasError) {
       return (
         <div style={{ padding: 40, textAlign: "center", background: "var(--bg)", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <IconAlert size={48} color="var(--rd)" style={{ margin: "0 auto 20px" }} />
-          <h2 style={{ color: "var(--tx)" }}>Something went wrong.</h2>
+          <h2 style={{ color: "var(--tx)" }}>{t("components.error_title")}</h2>
           <p style={{ color: "var(--tx2)", fontSize: 14, maxWidth: 400, margin: "0 auto 20px" }}>
-            The application encountered an unexpected error and crashed.
+            {t("components.error_body")}
           </p>
           <pre style={{ background: "var(--bg2)", padding: 12, borderRadius: 8, fontSize: 11, color: "var(--rd)", overflow: "auto", maxWidth: "100%", textAlign: "left" }}>
             {this.state.error?.toString()}
           </pre>
           <button className="btn btn-p" onClick={() => window.location.reload()} style={{ marginTop: 24, alignSelf: "center" }}>
-            Reload Application
+            {t("components.reload_app")}
           </button>
         </div>
       );
@@ -89,6 +92,7 @@ export class ErrorBoundary extends Component {
 
 // ── Offline Banner ────────────────────────────────────────────────────────────
 export function OfflineBanner() {
+  const { t } = useI18n();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   useEffect(() => {
     const onOnline = () => setIsOnline(true);
@@ -112,16 +116,17 @@ export function OfflineBanner() {
       boxShadow: "var(--sh)"
     }}>
       <IconWarning size={14} />
-      You are currently offline. Some features may not work.
+      {t("components.offline")}
     </div>
   );
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
 export function Toast({ msg, type, onClose }) {
+  const { t } = useI18n();
   useEffect(() => {
-    const t = setTimeout(onClose, 4000);
-    return () => clearTimeout(t);
+    const tid = setTimeout(onClose, 4000);
+    return () => clearTimeout(tid);
   }, [onClose]);
   return (
     <div
@@ -129,7 +134,7 @@ export function Toast({ msg, type, onClose }) {
       onClick={onClose}
       role="status"
       aria-live="polite"
-      title="Click to dismiss"
+      title={t("components.dismiss")}
     >
       <span style={{ display:"flex", alignItems:"center" }}>
         {type === "success"
@@ -266,20 +271,21 @@ export function DashboardSkeleton() {
 // ── ModuleLoader ─────────────────────────────────────────────────────────────
 // Action-based status messages for financial/trading UX.
 export function ModuleLoader({ pageKey }) {
+  const { t } = useI18n();
   const messages = {
-    dashboard:   "Synchronizing financial overview...",
-    investments: "Aggregating portfolio performance...",
-    expenses:    "Auditing monthly expenditures...",
-    income:      "Tracking revenue streams...",
-    stocks:      "Fetching real-time market data...",
-    ml_stocks:   "Executing predictive algorithms...",
-    receipt:     "Initializing AI vision engine...",
-    behavioral:  "Synthesizing behavioral insights...",
-    earn:        "Calculating reward milestones...",
-    advanced:    "Optimizing advanced parameters...",
+    dashboard:   "components.load_dashboard",
+    investments: "components.load_investments",
+    expenses:    "components.load_expenses",
+    income:      "components.load_income",
+    stocks:      "components.load_stocks",
+    ml_stocks:   "components.load_ml_stocks",
+    receipt:     "components.load_receipt",
+    behavioral:  "components.load_behavioral",
+    earn:        "components.load_earn",
+    advanced:    "components.load_advanced",
   };
 
-  const msg = messages[pageKey] || "Initializing secure environment...";
+  const msg = t(messages[pageKey] || "components.load_init");
 
   return (
     <div className="module-loader" style={{ padding: 20 }}>
@@ -344,7 +350,8 @@ export function StatCard({ label, value, color, accent, sub, className = "", var
 }
 
 // ── LoadingSpinner ─────────────────────────────────────────────────────────────
-export function LoadingSpinner({ msg = "Loading..." }) {
+export function LoadingSpinner({ msg }) {
+  const { t } = useI18n();
   return (
     <div style={{ textAlign: "center", padding: 48, color: "var(--tx2)" }}>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
@@ -355,7 +362,7 @@ export function LoadingSpinner({ msg = "Loading..." }) {
           animation: "comp-spin 0.9s linear infinite",
         }} />
       </div>
-      <div style={{ fontSize: 13 }}>{msg}</div>
+      <div style={{ fontSize: 13 }}>{msg || t("common.loading")}</div>
       <style>{`@keyframes comp-spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
@@ -363,31 +370,32 @@ export function LoadingSpinner({ msg = "Loading..." }) {
 
 // ── ApiError ──────────────────────────────────────────────────────────────────
 export function ApiError({ error, onRetry }) {
+  const { t } = useI18n();
   const isOffline = error?.type === "OFFLINE";
   const isInternal = error?.type === "INTERNAL";
   const status = error?.status;
   const url = error?.url || "/api/...";
 
-  let title = "Backend Connection Problem";
-  let msg = String((typeof error === "string" ? error : (error?.message ? String(error.message) : error)) || "Unknown connection error");
-  let advice = "Check backend terminal logs for errors.";
+  let title = t("components.api_error_title");
+  let msg = String((typeof error === "string" ? error : (error?.message ? String(error.message) : error)) || t("components.api_error_msg"));
+  let advice = t("components.api_error_advice");
   let showRunCmd = false;
 
 
   if (isOffline) {
-    title = "API server is offline (port unreachable)";
-    msg = "Frontend cannot connect to configured API endpoint.";
-    advice = "Verify the server process is running.";
+    title = t("components.api_offline_title");
+    msg = t("components.api_offline_msg");
+    advice = t("components.api_offline_advice");
     showRunCmd = true;
   } else if (isInternal) {
-    title = `Backend error (${status || "500"})`;
-    msg = error?.message || "Request reached server but failed internally.";
-    advice = "Check backend terminal for traceback or initialization errors.";
+    title = t("components.api_internal_title", { status: status || "500" });
+    msg = error?.message || t("components.api_internal_msg");
+    advice = t("components.api_internal_advice");
   }
 
   // Handle specific known startup crash (Case 2)
   if (msg.includes("Failed to fetch") || msg.includes("NetworkError")) {
-    advice = "API server may have failed during startup. Check terminal logs.";
+    advice = t("components.api_startup_advice");
   }
 
   return (
@@ -404,24 +412,24 @@ export function ApiError({ error, onRetry }) {
       <div style={{ fontSize: 12, color: "var(--tx2)", marginBottom: 12 }}>{msg}</div>
       <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 14 }}>
         {showRunCmd ? (
-          <>Run: <code style={{ background: "var(--bg4)", padding: "2px 6px", borderRadius: 4 }}>python api_server.py</code></>
+          <>{t("components.api_run")} <code style={{ background: "var(--bg4)", padding: "2px 6px", borderRadius: 4 }}>python api_server.py</code></>
         ) : advice}
       </div>
 
       <div style={{ fontSize: 10, color: "var(--tx3)", marginBottom: 16, opacity: 0.6, fontFamily: "var(--mono)", wordBreak: "break-all" }}>
-        Endpoint: {url}
+        {t("components.api_endpoint")} {url}
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
         {onRetry && (
           <button className="btn btn-g btn-s" onClick={onRetry}
             style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-            <IconRefresh size={13} /> Retry
+            <IconRefresh size={13} /> {t("common.retry")}
           </button>
         )}
         <button className="btn btn-s" onClick={() => window.location.hash = "#/advanced"}
           style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-          Help Panel
+          {t("components.help_panel")}
         </button>
       </div>
     </div>
@@ -563,7 +571,8 @@ const EMPTY_SVG_MAP = {
   generic:    EmptySVGGeneric,
 };
 
-export function Empty({ icon, msg = "No data yet.", sub, variant = "generic", action, actionLabel = "Get Started" }) {
+export function Empty({ icon, msg, sub, variant = "generic", action, actionLabel }) {
+  const { t } = useI18n();
   const SVGIllustration = EMPTY_SVG_MAP[variant] ?? EmptySVGGeneric;
   return (
     <div className="empty-state">
@@ -574,11 +583,11 @@ export function Empty({ icon, msg = "No data yet.", sub, variant = "generic", ac
           <SVGIllustration />
         )}
       </div>
-      <div className="empty-state-msg">{msg}</div>
+      <div className="empty-state-msg">{msg || t("components.no_data")}</div>
       {sub && <div className="empty-state-sub">{sub}</div>}
       {action && (
         <button className="btn btn-p empty-state-btn" onClick={action}>
-          {actionLabel}
+          {actionLabel || t("components.get_started")}
         </button>
       )}
     </div>
@@ -674,7 +683,8 @@ export function SumBox({ items }) {
 // Replaces window.confirm() — native confirm dialogs are styled inconsistently
 // and often blocked on mobile browsers (especially iOS WebView & Android Chrome).
 // This component is fully touch-friendly and respects safe-area insets.
-export function ConfirmDialog({ message, onConfirm, onCancel, confirmLabel = "Confirm", danger = false }) {
+export function ConfirmDialog({ message, onConfirm, onCancel, confirmLabel, danger = false }) {
+  const { t } = useI18n();
   const dialogRef = useRef(null);
   useFocusTrap(dialogRef);
 
@@ -698,19 +708,19 @@ export function ConfirmDialog({ message, onConfirm, onCancel, confirmLabel = "Co
       role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-msg">
       <div className="md" ref={dialogRef} tabIndex={-1} style={{ maxWidth: 360, padding: "22px 24px" }} onClick={e => e.stopPropagation()}>
         <div className="md-title" id="confirm-title" style={{ fontSize: 15, marginBottom: 12 }}>
-          Konfirmasi
+          {t("components.confirm_title")}
         </div>
         <div id="confirm-msg" style={{ fontSize: 13, color: "var(--tx2)", lineHeight: 1.6, marginBottom: 20 }}>
           {message}
         </div>
         <div className="md-foot" style={{ marginTop: 0 }}>
-          <button className="btn btn-g" onClick={onCancel} style={{ minHeight: 44 }}>Batal</button>
+          <button className="btn btn-g" onClick={onCancel} style={{ minHeight: 44 }}>{t("common.cancel")}</button>
           <button
             className={`btn ${danger ? "btn-d" : "btn-p"}`}
             onClick={() => { onConfirm(); onCancel(); }}
             style={{ minHeight: 44 }}
           >
-            {confirmLabel}
+            {confirmLabel || t("components.confirm")}
           </button>
         </div>
       </div>

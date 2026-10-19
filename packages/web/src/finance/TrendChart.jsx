@@ -10,6 +10,7 @@
 
 import { useState, useRef, useCallback, useMemo, useEffect, useId } from "react";
 import { createPortal } from "react-dom";
+import { useI18n } from "../i18n/context.js";
 
 const W = 520;
 const PAD = { top: 18, bottom: 24, left: 52, right: 12 };
@@ -34,6 +35,7 @@ export default function TrendChart({ series = [], title, height = 140, fmt = n =
   const [tipPos, setTipPos] = useState(null);     // { x, y } viewport coords — both mobile & desktop
   const chartTitleId = useId();
   const chartDescId  = useId();
+  const { t }        = useI18n();
 
   if (!series.length || !series[0].data?.length) return null;
 
@@ -154,7 +156,7 @@ export default function TrendChart({ series = [], title, height = 140, fmt = n =
           }}
         >
           {/* SVG accessibility: title + description for screen readers */}
-          <title id={chartTitleId}>{title || "Trend Chart"}</title>
+          <title id={chartTitleId}>{title || t("finance.trend_chart")}</title>
           <desc id={chartDescId}>
             {series.map(s =>
               `${s.label}: ${s.data.map(d => `${d.label} ${fmt(d.value)}`).join(', ')}`
@@ -276,13 +278,13 @@ export default function TrendChart({ series = [], title, height = 140, fmt = n =
           screen readers and keyboard users who tab into it */}
       <details className="sr-only" style={{ position: "static", width: "auto", height: "auto", clip: "auto", overflow: "visible", whiteSpace: "normal", margin: 0 }}>
         <summary style={{ cursor: "pointer", fontSize: 11, color: "var(--tx2)", padding: "4px 14px" }}>
-          View {title || "chart"} data as table
+          {t("finance.view_data_table", { title: title || t("finance.chart") })}
         </summary>
         <div style={{ overflowX: "auto", padding: "0 14px 10px" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }} aria-label={`${title || "Trend"} data table`}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }} aria-label={t("finance.data_table_label", { title: title || t("finance.trend") })}>
             <thead>
               <tr>
-                <th scope="col" style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--bdr)" }}>Period</th>
+                <th scope="col" style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--bdr)" }}>{t("finance.period")}</th>
                 {series.map(s => (
                   <th key={s.key} scope="col" style={{ textAlign: "right", padding: "4px 8px", borderBottom: "1px solid var(--bdr)", color: s.color }}>{s.label}</th>
                 ))}

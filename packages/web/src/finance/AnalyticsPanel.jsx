@@ -19,6 +19,7 @@ import { fmt, API_BASE }       from "./constants.js";
 import TrendChart              from "./TrendChart.jsx";
 import { _getToken }           from "./useApi.js";
 import { IconBarChart, IconTarget, IconWarning, IconInfo, IconSuccess } from "../icons.jsx";
+import { useI18n } from "../i18n/context.js";
 
 // ── Shared atoms ──────────────────────────────────────────────────────────────
 
@@ -98,6 +99,7 @@ function useFetch(path) {
 
 export function LifestyleInflationTrend() {
   const { data, loading } = useFetch("/behavioral/lifestyle-trend?months=6");
+  const { t } = useI18n();
 
   const sevColor = {
     severe:   "var(--rd)",
@@ -106,15 +108,22 @@ export function LifestyleInflationTrend() {
     healthy:  "var(--gr)",
   };
 
+  const sevKey = {
+    severe:   "finance.sev_severe",
+    moderate: "finance.moderate",
+    mild:     "finance.sev_mild",
+    healthy:  "finance.sev_healthy",
+  };
+
   if (loading) return (
-    <SectionCard title="Lifestyle Inflation Trend" Icon={IconWarning} accentColor="var(--rd)">
-      <EmptyState msg="Loading…" />
+    <SectionCard title={t("finance.lifestyle_trend")} Icon={IconWarning} accentColor="var(--rd)">
+      <EmptyState msg={t("common.loading")} />
     </SectionCard>
   );
 
   if (!data?.trend?.length) return (
-    <SectionCard title="Lifestyle Inflation Trend" Icon={IconWarning} accentColor="var(--yl)">
-      <EmptyState msg="Need at least 2 months of income and expense data." />
+    <SectionCard title={t("finance.lifestyle_trend")} Icon={IconWarning} accentColor="var(--yl)">
+      <EmptyState msg={t("finance.need_two_months_data")} />
     </SectionCard>
   );
 
@@ -125,9 +134,9 @@ export function LifestyleInflationTrend() {
 
   return (
     <SectionCard
-      title="Lifestyle Inflation Trend"
+      title={t("finance.lifestyle_trend")}
       Icon={IconWarning}
-      badge={`${trend.length}mo · avg LI ${sign(data.avg_li_3mo)}${(data.avg_li_3mo * 100).toFixed(1)}pp`}
+      badge={t("finance.li_badge", { months: trend.length, value: `${sign(data.avg_li_3mo)}${(data.avg_li_3mo * 100).toFixed(1)}` })}
       accentColor={color}
     >
       {/* Severity banner */}
@@ -136,12 +145,12 @@ export function LifestyleInflationTrend() {
         background: `${color}12`, border: `1px solid ${color}28`,
         borderRadius: 8, padding: "10px 14px", marginBottom: 14,
       }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color }}>{sev.toUpperCase()}</div>
+        <div style={{ fontSize: 12, fontWeight: 700, color }}>{t(sevKey[sev] || "finance.sev_healthy").toUpperCase()}</div>
         <div style={{ fontSize: 11, color: "var(--tx2)", flex: 1 }}>
-          {sev === "severe"   && "Expenses growing significantly faster than income. Review discretionary spending."}
-          {sev === "moderate" && "Expenses rising faster than income. Monitor carefully."}
-          {sev === "mild"     && "Slight expense creep detected. Within manageable range."}
-          {sev === "healthy"  && "Income growth outpaces expenses. Strong financial discipline."}
+          {sev === "severe"   && t("finance.li_severe")}
+          {sev === "moderate" && t("finance.li_moderate")}
+          {sev === "mild"     && t("finance.li_mild")}
+          {sev === "healthy"  && t("finance.li_healthy")}
         </div>
         <div style={{ fontFamily: "var(--mono)", fontSize: 16, fontWeight: 900, color, flexShrink: 0 }}>
           {sign(data.avg_li_3mo)}{ (data.avg_li_3mo * 100).toFixed(1)}pp
@@ -174,11 +183,11 @@ export function LifestyleInflationTrend() {
 
       {/* Stat row */}
       <div className="analytics-stat-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-        <StatBox label="Expense Growth" value={`${sign(latest.exp_growth)}${(latest.exp_growth * 100).toFixed(1)}%`}
+        <StatBox label={t("finance.expense_growth")} value={`${sign(latest.exp_growth)}${(latest.exp_growth * 100).toFixed(1)}%`}
           color={latest.exp_growth > 0.05 ? "var(--rd)" : "var(--gr)"} small />
-        <StatBox label="Income Growth"  value={`${sign(latest.inc_growth)}${(latest.inc_growth * 100).toFixed(1)}%`}
+        <StatBox label={t("finance.income_growth")}  value={`${sign(latest.inc_growth)}${(latest.inc_growth * 100).toFixed(1)}%`}
           color={latest.inc_growth > 0.05 ? "var(--gr)" : "var(--yl)"} small />
-        <StatBox label="LI Score (latest)" value={`${sign(latest.li_score)}${(latest.li_score * 100).toFixed(1)}pp`}
+        <StatBox label={t("finance.li_score_latest")} value={`${sign(latest.li_score)}${(latest.li_score * 100).toFixed(1)}pp`}
           color={color} small />
       </div>
     </SectionCard>
@@ -193,15 +202,17 @@ export function LifestyleInflationTrend() {
 export function ExpensePredictionPanel() {
   const { data, loading } = useFetch("/analytics/expense-prediction?months_history=6&months_ahead=3");
 
+  const { t } = useI18n();
+
   if (loading) return (
-    <SectionCard title="Expense Prediction" Icon={IconBarChart} accentColor="#6b85ff">
-      <EmptyState msg="Loading…" />
+    <SectionCard title={t("finance.expense_prediction")} Icon={IconBarChart} accentColor="#6b85ff">
+      <EmptyState msg={t("common.loading")} />
     </SectionCard>
   );
 
   if (!data || data.insufficient_data) return (
-    <SectionCard title="Expense Prediction" Icon={IconBarChart} accentColor="#6b85ff">
-      <EmptyState msg="Need at least 3 months of expense history for prediction." />
+    <SectionCard title={t("finance.expense_prediction")} Icon={IconBarChart} accentColor="#6b85ff">
+      <EmptyState msg={t("finance.need_3mo_expense")} />
     </SectionCard>
   );
 
@@ -213,17 +224,17 @@ export function ExpensePredictionPanel() {
 
   return (
     <SectionCard
-      title="Expense Prediction"
+      title={t("finance.expense_prediction")}
       Icon={IconBarChart}
-      badge={`R²=${data.r_squared?.toFixed(2)} · ${data.trend}`}
+      badge={t("finance.r2_badge", { r2: data.r_squared?.toFixed(2), trend: data.trend })}
       accentColor="#6b85ff"
     >
       {/* Trend indicator */}
       <div className="analytics-stat-3" style={{ display: "flex", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-        <StatBox label="Trend" value={data.trend.toUpperCase()} color={trendColor} small />
-        <StatBox label="Monthly Slope" value={`${sign(data.slope)}${fmtRp(data.slope)}/mo`}
+        <StatBox label={t("finance.trend")} value={data.trend.toUpperCase()} color={trendColor} small />
+        <StatBox label={t("finance.monthly_slope")} value={`${sign(data.slope)}${fmtRp(data.slope)}/mo`}
           color={trendColor} small />
-        <StatBox label="Model Fit (R²)" value={`${(data.r_squared * 100).toFixed(1)}%`}
+        <StatBox label={t("finance.model_fit")} value={`${(data.r_squared * 100).toFixed(1)}%`}
           color={data.r_squared > 0.6 ? "var(--gr)" : "var(--yl)"} small />
       </div>
 
@@ -233,15 +244,15 @@ export function ExpensePredictionPanel() {
         height={140}
         fmt={fmt}
         series={[
-          { key: "hist", label: "History",    color: "var(--ind-b)", data: histSeries },
-          { key: "pred", label: "Prediction", color: "var(--yl)",    data: predSeries.map((p, i) => ({ ...p, label: "~" + p.label })) },
+          { key: "hist", label: t("finance.history"),    color: "var(--ind-b)", data: histSeries },
+          { key: "pred", label: t("finance.prediction"), color: "var(--yl)",    data: predSeries.map((p, i) => ({ ...p, label: "~" + p.label })) },
         ]}
       />
 
       {/* Prediction table */}
       <div style={{ marginTop: 10 }}>
         <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>
-          Next {data.predictions.length} Month Forecast
+          {t("finance.forecast_months", { count: data.predictions.length })}
         </div>
         {data.predictions.map((p, i) => (
           <div key={i} style={{
@@ -275,9 +286,11 @@ export function SavingProjectionPanel() {
   const [ret, setRet]       = useState(7);
   const { data, loading }   = useFetch(`/analytics/saving-projection?years=${years}&annual_return_pct=${ret}`);
 
+  const { t } = useI18n();
+
   if (loading) return (
-    <SectionCard title="Saving Projection" Icon={IconTarget} accentColor="var(--gr)">
-      <EmptyState msg="Loading…" />
+    <SectionCard title={t("finance.saving_projection")} Icon={IconTarget} accentColor="var(--gr)">
+      <EmptyState msg={t("common.loading")} />
     </SectionCard>
   );
 
@@ -285,15 +298,15 @@ export function SavingProjectionPanel() {
 
   return (
     <SectionCard
-      title="Saving Projection"
+      title={t("finance.saving_projection")}
       Icon={IconTarget}
-      badge={`${years}yr · ${ret}% return`}
+      badge={t("finance.years_return_badge", { years, ret })}
       accentColor="var(--gr)"
     >
       {/* Controls */}
       <div className="saving-proj-controls" style={{ display: "flex", gap: 12, marginBottom: 14, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 11, color: "var(--tx3)" }}>Years:</span>
+          <span style={{ fontSize: 11, color: "var(--tx3)" }}>{t("finance.years_label")}</span>
           {[3, 5, 10, 20].map(y => (
             <button key={y} onClick={() => setYears(y)} style={{
               padding: "3px 9px", borderRadius: 6, fontSize: 11, cursor: "pointer",
@@ -304,7 +317,7 @@ export function SavingProjectionPanel() {
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 11, color: "var(--tx3)" }}>Return:</span>
+          <span style={{ fontSize: 11, color: "var(--tx3)" }}>{t("finance.return_label")}</span>
           {[5, 7, 10, 15].map(r => (
             <button key={r} onClick={() => setRet(r)} style={{
               padding: "3px 9px", borderRadius: 6, fontSize: 11, cursor: "pointer",
@@ -318,9 +331,9 @@ export function SavingProjectionPanel() {
 
       {/* Key stats */}
       <div className="analytics-stat-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
-        <StatBox label="Monthly Saving"   value={fmtRp(data?.monthly_saving ?? null)}   color="var(--gr)" small />
-        <StatBox label="Starting Balance" value={fmtRp(data?.starting_balance ?? null)} color="var(--acc)" small />
-        <StatBox label={`${years}yr Projection`} value={fmtRp(data?.final_total ?? null)} color="var(--gr)" small />
+        <StatBox label={t("finance.monthly_saving")}   value={fmtRp(data?.monthly_saving ?? null)}   color="var(--gr)" small />
+        <StatBox label={t("finance.starting_balance")} value={fmtRp(data?.starting_balance ?? null)} color="var(--acc)" small />
+        <StatBox label={t("finance.yr_projection", { years })} value={fmtRp(data?.final_total ?? null)} color="var(--gr)" small />
       </div>
 
       {/* Projection bar chart */}
@@ -331,8 +344,8 @@ export function SavingProjectionPanel() {
           height={180}
           fmt={fmt}
           series={[
-            { key: "total",       label: "Total",       color: "var(--gr)",  data: projs.map(p => ({ label: p.label, value: p.total })) },
-            { key: "contributed", label: "Contributed", color: "var(--ind)", data: projs.map(p => ({ label: p.label, value: p.contributed })) },
+            { key: "total",       label: t("finance.total"),       color: "var(--gr)",  data: projs.map(p => ({ label: p.label, value: p.total })) },
+            { key: "contributed", label: t("finance.contributed"), color: "var(--ind)", data: projs.map(p => ({ label: p.label, value: p.contributed })) },
           ]}
         />
         </div>
@@ -341,16 +354,16 @@ export function SavingProjectionPanel() {
       {/* Growth detail */}
       {projs.length > 0 && (
         <div style={{ marginTop: 10, fontSize: 11, color: "var(--tx3)", textAlign: "center", fontFamily: "var(--mono)" }}>
-          Investment growth over {years}yr: <span style={{ color: "var(--gr)", fontWeight: 700 }}>
+          {t("finance.investment_growth", { years })}{" "}<span style={{ color: "var(--gr)", fontWeight: 700 }}>
             {fmtRp(projs[projs.length - 1]?.growth ?? 0)}
           </span>
-          {" "}at {ret}% annual return
+          {" "}{t("finance.at_annual_return", { ret })}
         </div>
       )}
 
       {(!data?.monthly_saving || data.monthly_saving <= 0) && (
         <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(251,191,36,.08)", border: "1px solid rgba(251,191,36,.2)", borderRadius: 8, fontSize: 11, color: "var(--yl)" }}>
-          No saving detected in the last 3 months. Projection uses Rp 0/mo contribution.
+          {t("finance.no_saving_detected")}
         </div>
       )}
     </SectionCard>
@@ -369,25 +382,26 @@ const ASSET_COLOR = {
 
 export function PortfolioRiskPanel() {
   const { data, loading } = useFetch("/analytics/portfolio-risk");
+  const { t } = useI18n();
 
   if (loading) return (
-    <SectionCard title="Portfolio Risk Simulation" Icon={IconInfo} accentColor="var(--yl)">
-      <EmptyState msg="Loading…" />
+    <SectionCard title={t("finance.portfolio_risk")} Icon={IconInfo} accentColor="var(--yl)">
+      <EmptyState msg={t("common.loading")} />
     </SectionCard>
   );
 
   if (!data || data.empty_portfolio) return (
-    <SectionCard title="Portfolio Risk Simulation" Icon={IconInfo} accentColor="var(--yl)">
-      <EmptyState msg="No portfolio holdings found. Add investments to see risk analysis." />
+    <SectionCard title={t("finance.portfolio_risk")} Icon={IconInfo} accentColor="var(--yl)">
+      <EmptyState msg={t("finance.no_holdings")} />
     </SectionCard>
   );
 
   const riskColor = data.risk_score > 65 ? "var(--rd)" : data.risk_score > 40 ? "var(--yl)" : "var(--gr)";
-  const riskLabel = data.risk_score > 65 ? "High Risk" : data.risk_score > 40 ? "Moderate" : "Conservative";
+  const riskLabel = data.risk_score > 65 ? t("finance.high_risk") : data.risk_score > 40 ? t("finance.moderate") : t("finance.conservative");
 
   return (
     <SectionCard
-      title="Portfolio Risk Simulation"
+      title={t("finance.portfolio_risk")}
       Icon={IconInfo}
       badge={fmtRp(data.total_value)}
       accentColor={riskColor}
@@ -418,17 +432,17 @@ export function PortfolioRiskPanel() {
 
         {/* Key metrics */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, flex: 1 }}>
-          <StatBox label="Expected Return" value={`${data.weighted_return_pct?.toFixed(1)}%/yr`} color="var(--gr)" small />
-          <StatBox label="Volatility (σ)"  value={`${data.weighted_vol_pct?.toFixed(1)}%`}        color={riskColor} small />
-          <StatBox label="HHI Concentration" value={data.concentration_hhi?.toFixed(2)}          color={data.concentration_hhi > 0.5 ? "var(--rd)" : "var(--yl)"} small />
-          <StatBox label="Total Value"     value={fmtRp(data.total_value)}                        color="var(--acc)" small />
+          <StatBox label={t("finance.expected_return")} value={`${data.weighted_return_pct?.toFixed(1)}%/yr`} color="var(--gr)" small />
+          <StatBox label={t("finance.volatility")}  value={`${data.weighted_vol_pct?.toFixed(1)}%`}        color={riskColor} small />
+          <StatBox label={t("finance.hhi")} value={data.concentration_hhi?.toFixed(2)}          color={data.concentration_hhi > 0.5 ? "var(--rd)" : "var(--yl)"} small />
+          <StatBox label={t("finance.total_value")}     value={fmtRp(data.total_value)}                        color="var(--acc)" small />
         </div>
       </div>
 
       {/* Asset allocation */}
       {data.allocation?.length > 0 && (
         <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>Allocation</div>
+          <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>{t("finance.allocation")}</div>
           {data.allocation.map((a, i) => {
             const c = ASSET_COLOR[a.type] || "var(--tx3)";
             return (
@@ -448,7 +462,7 @@ export function PortfolioRiskPanel() {
 
       {/* 1-year scenarios */}
       <div style={{ marginBottom: data.warnings?.length ? 14 : 0 }}>
-        <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>1-Year Scenarios</div>
+        <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>{t("finance.scenarios")}</div>
         <div className="portfolio-scenarios" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
           {data.scenarios?.map((s, i) => {
             const c = s.return_pct < 0 ? "var(--rd)" : s.return_pct > 20 ? "var(--gr)" : "var(--yl)";
