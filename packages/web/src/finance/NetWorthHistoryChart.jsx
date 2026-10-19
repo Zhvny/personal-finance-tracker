@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { fmt }                 from "./constants.js";
 import { apiFetch }            from "./useApi.js";
 import TrendChart              from "./TrendChart.jsx";
+import { useI18n }             from "../i18n/context.js";
 
 // ── Local helpers ─────────────────────────────────────────────────────────────
 
@@ -68,13 +69,14 @@ function useNetworthHistory(days = 90) {
 
 export function NetWorthHistoryChart({ days = 90 }) {
   const { data, loading, error } = useNetworthHistory(days);
+  const { t } = useI18n();
 
   if (loading) {
     return (
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-h"><span className="card-t">Net Worth History</span></div>
+        <div className="card-h"><span className="card-t">{t("finance.net_worth_history")}</span></div>
         <div style={{ padding: "20px 14px", textAlign: "center", color: "var(--tx3)", fontSize: 12 }}>
-          Loading history…
+          {t("finance.loading_history")}
         </div>
       </div>
     );
@@ -83,13 +85,13 @@ export function NetWorthHistoryChart({ days = 90 }) {
   if (error || !data || !Array.isArray(data) || data.length < 2) {
     return (
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-h"><span className="card-t">Net Worth History</span></div>
+        <div className="card-h"><span className="card-t">{t("finance.net_worth_history")}</span></div>
         <div style={{ padding: "16px 14px", textAlign: "center", color: "var(--tx3)", fontSize: 12 }}>
           {data && data.length === 0
-            ? "No history yet — scheduler will record your first snapshot tonight at 00:05."
+            ? t("finance.no_history")
             : data && data.length === 1
-              ? "Need at least 2 snapshots to draw a chart. Come back tomorrow!"
-              : "History unavailable. Make sure scheduler.py is running."}
+              ? t("finance.need_two_snapshots")
+              : t("finance.history_unavailable")}
         </div>
       </div>
     );
@@ -110,31 +112,31 @@ export function NetWorthHistoryChart({ days = 90 }) {
   const series = [
     {
       key:   "total",
-      label: "Total",
+      label: t("finance.total"),
       color: "var(--acc)",
       data:  data.map(r => ({ label: label(r), value: r.total_networth || 0 })),
     },
     {
       key:   "cash",
-      label: "Cash",
+      label: t("behavioral.asset_cash"),
       color: "var(--gr)",
       data:  data.map(r => ({ label: label(r), value: (r.cash || 0) + (r.bank_savings || 0) + (r.emergency_fund || 0) })),
     },
     {
       key:   "stocks",
-      label: "Stocks",
+      label: t("behavioral.asset_stocks"),
       color: "#3b82f6",
       data:  data.map(r => ({ label: label(r), value: r.stocks || 0 })),
     },
     {
       key:   "crypto",
-      label: "Crypto",
+      label: t("behavioral.asset_crypto"),
       color: "var(--yl)",
       data:  data.map(r => ({ label: label(r), value: r.crypto || 0 })),
     },
     {
       key:   "gold",
-      label: "Gold",
+      label: t("behavioral.asset_gold"),
       color: "#f59e0b",
       data:  data.map(r => ({ label: label(r), value: r.gold || 0 })),
     },
@@ -145,27 +147,27 @@ export function NetWorthHistoryChart({ days = 90 }) {
       {/* Summary bar */}
       <div className="card" style={{ marginBottom: 8 }}>
         <div className="card-h">
-          <span className="card-t">Net Worth History</span>
+          <span className="card-t">{t("finance.net_worth_history")}</span>
           <span style={{ fontSize: 11, color: "var(--tx3)", fontFamily: "var(--mono)" }}>
-            {data.length} snapshots · {days}d
+            {t("finance.snapshots_days", { count: data.length, days })}
           </span>
         </div>
         <div className="nw-summary-row" style={{ display: "flex", gap: 20, padding: "6px 14px 14px", flexWrap: "wrap" }}>
           <div>
-            <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>Current</div>
+            <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>{t("finance.current")}</div>
             <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "var(--mono)", color: "var(--acc)" }}>
               {fmt(latest.total_networth || 0)}
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>Change ({data.length}d)</div>
+            <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>{t("finance.change_days", { days: data.length })}</div>
             <div style={{ fontSize: 15, fontWeight: 700, fontFamily: "var(--mono)", color: deltaPos ? "var(--gr)" : "var(--rd)" }}>
               {deltaPos ? "+" : ""}{fmt(delta)}
             </div>
           </div>
           {latest.cash > 0 || latest.bank_savings > 0 ? (
             <div>
-              <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>Cash</div>
+              <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>{t("behavioral.asset_cash")}</div>
               <div style={{ fontSize: 13, fontFamily: "var(--mono)", color: "var(--gr)" }}>
                 {fmtShortM((latest.cash || 0) + (latest.bank_savings || 0) + (latest.emergency_fund || 0))}
               </div>
@@ -173,7 +175,7 @@ export function NetWorthHistoryChart({ days = 90 }) {
           ) : null}
           {latest.stocks > 0 ? (
             <div>
-              <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>Stocks</div>
+              <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 2 }}>{t("behavioral.asset_stocks")}</div>
               <div style={{ fontSize: 13, fontFamily: "var(--mono)", color: "#3b82f6" }}>
                 {fmtShortM(latest.stocks)}
               </div>
@@ -228,12 +230,14 @@ export function SavingRateChart() {
     return () => { cancelled = true; };
   }, []);
 
+  const { t } = useI18n();
+
   if (loading) {
     return (
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-h"><span className="card-t">Saving Rate Trend</span></div>
+        <div className="card-h"><span className="card-t">{t("finance.saving_rate_trend")}</span></div>
         <div style={{ padding: "20px", textAlign: "center", color: "var(--tx3)", fontSize: 12 }}>
-          Loading…
+          {t("common.loading")}
         </div>
       </div>
     );
@@ -243,9 +247,9 @@ export function SavingRateChart() {
   if (active.length < 2) {
     return (
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-h"><span className="card-t">Saving Rate Trend</span></div>
+        <div className="card-h"><span className="card-t">{t("finance.saving_rate_trend")}</span></div>
         <div style={{ padding: "16px", textAlign: "center", color: "var(--tx3)", fontSize: 12 }}>
-          Need at least 2 months of income data to show saving rate trend.
+          {t("finance.need_two_months_income")}
         </div>
       </div>
     );
@@ -257,9 +261,9 @@ export function SavingRateChart() {
   return (
     <div className="card" style={{ marginBottom: 16 }}>
       <div className="card-h">
-        <span className="card-t">Saving Rate Trend</span>
+        <span className="card-t">{t("finance.saving_rate_trend")}</span>
         <span style={{ fontSize: 11, color: "var(--tx3)", fontFamily: "var(--mono)" }}>
-          avg {avgRate.toFixed(1)}% / 12mo
+          {t("finance.avg_12mo", { rate: avgRate.toFixed(1) })}
         </span>
       </div>
 
@@ -307,9 +311,9 @@ export function SavingRateChart() {
 
         {/* Legend */}
         <div style={{ display: "flex", gap: 16, marginTop: 8, fontSize: 10, color: "var(--tx3)" }}>
-          <span style={{ color: "var(--gr)" }}>■ ≥30% Good</span>
-          <span style={{ color: "var(--yl)" }}>■ 10–29% Ok</span>
-          <span style={{ color: "var(--rd)" }}>■ &lt;10% Low</span>
+          <span style={{ color: "var(--gr)" }}>■ {t("finance.rate_good")}</span>
+          <span style={{ color: "var(--yl)" }}>■ {t("finance.rate_ok")}</span>
+          <span style={{ color: "var(--rd)" }}>■ {t("finance.rate_low")}</span>
         </div>
       </div>
     </div>

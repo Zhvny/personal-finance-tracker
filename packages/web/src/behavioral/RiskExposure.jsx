@@ -13,6 +13,7 @@
 import { fragilityGrade } from "./behavioralEngine.js";
 import { IconShield } from "../icons.jsx";
 import { fmtRp, fmt } from "../finance/constants.js";
+import { useI18n } from "../i18n/context.js";
 
 const fmtPct = (v, d = 1) => (v !== null && v !== undefined) ? `${Number(v).toFixed(d)}%` : "—";
 
@@ -48,19 +49,20 @@ function Donut({ slices, size = 124, stroke = 20 }) {
 
 // ── Asset Allocation Panel ────────────────────────────────────────────────────
 const ALLOC_META = {
-  cash:   { label: "Cash",   color: "#34d399", icon: null, risk: "Low"  },
-  stock:  { label: "Stocks", color: "#6b85ff", icon: null, risk: "Med"  },
-  crypto: { label: "Crypto", color: "#a78bfa", icon: null, risk: "High" },
-  gold:   { label: "Gold",   color: "#fbbf24", icon: null, risk: "Low"  },
+  cash:   { label: "behavioral.asset_cash",   color: "#34d399", icon: null, risk: "behavioral.risk_low"  },
+  stock:  { label: "behavioral.asset_stocks", color: "#6b85ff", icon: null, risk: "behavioral.risk_med"  },
+  crypto: { label: "behavioral.asset_crypto", color: "#a78bfa", icon: null, risk: "behavioral.risk_high" },
+  gold:   { label: "behavioral.asset_gold",   color: "#fbbf24", icon: null, risk: "behavioral.risk_low"  },
 };
 
 const RISK_STYLE = {
-  High: { bg: "rgba(248,113,113,.15)", color: "#f87171" },
-  Med:  { bg: "rgba(251,191,36,.12)",  color: "#fbbf24" },
-  Low:  { bg: "rgba(52,211,153,.12)",  color: "#34d399" },
+  "behavioral.risk_high": { bg: "rgba(248,113,113,.15)", color: "#f87171" },
+  "behavioral.risk_med":  { bg: "rgba(251,191,36,.12)",  color: "#fbbf24" },
+  "behavioral.risk_low":  { bg: "rgba(52,211,153,.12)",  color: "#34d399" },
 };
 
 function AllocationPanel({ allocation }) {
+  const { t } = useI18n();
   const slices = Object.entries(ALLOC_META).map(([k, { color }]) => ({ value: allocation[k] ?? 0, color }));
   const rows   = Object.entries(ALLOC_META)
     .map(([k, meta]) => ({ ...meta, pct: allocation[k] ?? null }))
@@ -71,7 +73,7 @@ function AllocationPanel({ allocation }) {
       <div style={{ height: 2, background: "linear-gradient(90deg, #6b85ff, transparent)" }} />
       <div style={{ padding: "14px 18px 12px", borderBottom: "1px solid var(--bdr)" }}>
         <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".8px", color: "var(--tx2)" }}>
-          Asset Allocation
+          {t("behavioral.asset_allocation")}
         </span>
       </div>
       <div style={{ padding: 18, display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
@@ -85,8 +87,8 @@ function AllocationPanel({ allocation }) {
             return (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
                 <div style={{ width: 7, height: 7, borderRadius: 2, background: color, flexShrink: 0 }} />
-                <span style={{ fontSize: 12, color: "var(--tx2)", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {label}</span>
-                <span style={{ fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 4, background: rs.bg, color: rs.color, flexShrink: 0 }}>{risk}</span>
+                <span style={{ fontSize: 12, color: "var(--tx2)", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{icon} {t(label)}</span>
+                <span style={{ fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 4, background: rs.bg, color: rs.color, flexShrink: 0 }}>{t(risk)}</span>
                 <div style={{ width: 36, height: 3, background: "rgba(255,255,255,.06)", borderRadius: 99, overflow: "hidden", flexShrink: 0 }}>
                   <div style={{ width: `${isValid ? pct : 0}%`, height: "100%", background: color, borderRadius: 99, transition: "width .6s" }} />
                 </div>
@@ -98,7 +100,7 @@ function AllocationPanel({ allocation }) {
           })}
           {allocation.highRisk > 0 && (
             <div style={{ marginTop: 8, fontSize: 10, color: "var(--rd)", fontFamily: "'Space Mono', monospace", padding: "6px 8px", background: "rgba(248,113,113,.08)", borderRadius: 6, border: "1px solid rgba(248,113,113,.15)" }}>
-              High-risk exposure: {fmtPct(allocation.highRisk)} of total assets
+              {t("behavioral.high_risk_exposure", { pct: fmtPct(allocation.highRisk) })}
             </div>
           )}
         </div>
@@ -111,6 +113,7 @@ function AllocationPanel({ allocation }) {
 const INCOME_ICONS = {};
 
 function IncomeDependencyPanel({ depResult, incomeBySource }) {
+  const { t } = useI18n();
   const { ratio, primarySource } = depResult;
   const isValid = ratio !== null && ratio !== undefined;
   const color  = !isValid ? "var(--tx3)" : (ratio > 0.9 ? "var(--rd)" : ratio > 0.7 ? "var(--yl)" : "var(--gr)");
@@ -121,19 +124,19 @@ function IncomeDependencyPanel({ depResult, incomeBySource }) {
       <div style={{ height: 2, background: "linear-gradient(90deg, #34d399, transparent)" }} />
       <div style={{ padding: "14px 18px 12px", borderBottom: "1px solid var(--bdr)" }}>
         <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".8px", color: "var(--tx2)" }}>
-          Income Dependency
+          {t("behavioral.income_dependency")}
         </span>
       </div>
 
       <div style={{ padding: 18 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
           <div style={{ flexShrink: 0 }}>
-            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: ".6px", marginBottom: 4 }}>Dependency</div>
+            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: ".6px", marginBottom: 4 }}>{t("behavioral.dependency")}</div>
             <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 26, fontWeight: 900, color, lineHeight: 1 }}>
               {isValid ? fmtPct(ratio * 100) : "—"}
             </div>
             <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 4, textTransform: "capitalize" }}>
-              Primary: {primarySource ?? "—"}
+              {t("behavioral.primary")}: {primarySource === "diversified" ? t("behavioral.diversified") : primarySource === "single" ? t("behavioral.single_source") : "—"}
             </div>
           </div>
           <div style={{ flex: 1 }}>
@@ -145,7 +148,7 @@ function IncomeDependencyPanel({ depResult, incomeBySource }) {
               }} />
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4, fontSize: 9, color: "var(--tx3)", fontFamily: "'Space Mono', monospace" }}>
-              <span>Diversified</span><span>Single Source</span>
+              <span>{t("behavioral.diversified")}</span><span>{t("behavioral.single_source")}</span>
             </div>
           </div>
         </div>
@@ -168,7 +171,7 @@ function IncomeDependencyPanel({ depResult, incomeBySource }) {
             );
           })
         ) : (
-          <div style={{ fontSize: 11, color: "var(--tx3)", textAlign: "center", padding: "12px 0" }}>No income data this month</div>
+          <div style={{ fontSize: 11, color: "var(--tx3)", textAlign: "center", padding: "12px 0" }}>{t("behavioral.no_income_data")}</div>
         )}
       </div>
     </div>
@@ -177,6 +180,7 @@ function IncomeDependencyPanel({ depResult, incomeBySource }) {
 
 // ── Fragility Score Panel ─────────────────────────────────────────────────────
 function FragilityScorePanel({ score, allocation, depResult, debtRatio, emergencyFund, netWorth }) {
+  const { t } = useI18n();
   const grade = fragilityGrade(score ?? 0);
   const isValid = score !== null && score !== undefined;
 
@@ -186,11 +190,11 @@ function FragilityScorePanel({ score, allocation, depResult, debtRatio, emergenc
   const efHint  = emergencyFund != null ? `Rp${Math.abs(emergencyFund).toLocaleString("id-ID")}` : "—";
 
   const FACTORS = [
-    { label: "Emergency Fund",   w: "30%", v: efScore,                                                      hint: efHint },
-    { label: "Income Diversif.", w: "20%", v: depResult.ratio != null ? 1 - depResult.ratio : null,         hint: depResult.ratio != null ? `Dep. ${Number(depResult.ratio * 100).toFixed(1)}%` : "—" },
-    { label: "High-Risk Asset",  w: "20%", v: allocation.highRisk != null ? 1 - Math.min(allocation.highRisk / 100, 1) : null, hint: allocation.highRisk != null ? `${Number(allocation.highRisk).toFixed(1)}% high-risk` : "—" },
-    { label: "Debt Ratio",       w: "20%", v: debtRatio != null ? 1 - debtRatio : null,                      hint: debtRatio != null ? `${Number(debtRatio * 100).toFixed(1)}% credit` : "—" },
-    { label: "Save Stability",   w: "10%", v: 0.70,                                                         hint: "Estimated" },
+    { label: t("behavioral.emergency_fund"),       w: "30%", v: efScore,                                                      hint: efHint },
+    { label: t("behavioral.row_income_diversif"), w: "20%", v: depResult.ratio != null ? 1 - depResult.ratio : null,         hint: depResult.ratio != null ? t("behavioral.dep_hint", { pct: `${Number(depResult.ratio * 100).toFixed(1)}%` }) : "—" },
+    { label: t("behavioral.row_high_risk"),  w: "20%", v: allocation.highRisk != null ? 1 - Math.min(allocation.highRisk / 100, 1) : null, hint: allocation.highRisk != null ? t("behavioral.high_risk_hint", { pct: `${Number(allocation.highRisk).toFixed(1)}%` }) : "—" },
+    { label: t("behavioral.row_debt_ratio"),       w: "20%", v: debtRatio != null ? 1 - debtRatio : null,                      hint: debtRatio != null ? t("behavioral.credit_hint", { pct: `${Number(debtRatio * 100).toFixed(1)}%` }) : "—" },
+    { label: t("behavioral.row_save_stability"),   w: "10%", v: 0.70,                                                         hint: t("behavioral.estimated") },
   ];
 
   return (
@@ -208,7 +212,7 @@ function FragilityScorePanel({ score, allocation, depResult, debtRatio, emergenc
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <div style={{ flexShrink: 0 }}>
             <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 5 }}>
-              Financial Fragility Score
+              {t("behavioral.fragility_score")}
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
               <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 40, fontWeight: 900, color: isValid ? grade.color : "var(--tx3)", lineHeight: 1 }}>
@@ -242,7 +246,7 @@ function FragilityScorePanel({ score, allocation, depResult, debtRatio, emergenc
               }} />
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5, fontSize: 9, color: "var(--tx3)", fontFamily: "'Space Mono', monospace", overflowX: "hidden" }}>
-              {["Critical", "Fragile", "Moderate", "Stable", "Stable+"].map(l => <span key={l} style={{ flexShrink: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{l}</span>)}
+              {[t("behavioral.scale_critical"), t("behavioral.scale_fragile"), t("behavioral.scale_moderate"), t("behavioral.stable"), t("behavioral.scale_stable_plus")].map(l => <span key={l} style={{ flexShrink: 1, overflow: "hidden", textOverflow: "ellipsis" }}>{l}</span>)}
             </div>
           </div>
         </div>
@@ -260,7 +264,7 @@ function FragilityScorePanel({ score, allocation, depResult, debtRatio, emergenc
                 <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 18, fontWeight: 800, color: c, marginBottom: 4 }}>
                   {isValidFactor ? (v * 100).toFixed(0) : "—"}
                 </div>
-                <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 6 }}>{w} weight</div>
+                <div style={{ fontSize: 8, color: "var(--tx3)", marginBottom: 6 }}>{t("behavioral.weight", { weight: w })}</div>
                 <div style={{ height: 3, background: "rgba(255,255,255,.06)", borderRadius: 99 }}>
                   <div style={{ width: `${isValidFactor ? v * 100 : 0}%`, height: "100%", background: c, borderRadius: 99, transition: "width .6s" }} />
                 </div>
@@ -297,7 +301,7 @@ export default function RiskExposure({ data }) {
   // 2. Income Dependency (fallback if not in API)
   const depResult = { 
     ratio: fragility.asset_concentration ?? null, 
-    primarySource: fragility.income_sources != null ? (fragility.income_sources > 1 ? "Diversified" : "Single Source") : null
+    primarySource: fragility.income_sources != null ? (fragility.income_sources > 1 ? "diversified" : "single") : null
   };
 
   return (

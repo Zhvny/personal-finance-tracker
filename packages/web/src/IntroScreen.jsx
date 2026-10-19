@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { IconWallet } from "./icons.jsx";
+import { useI18n } from "./i18n/context.js";
 
 // ── Three.js Money Rain Engine ──────────────────────────────────────────────
 function MoneyRainThree({ images, closing }) {
@@ -143,42 +144,43 @@ function MoneyRainThree({ images, closing }) {
   return <div ref={containerRef} style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }} />;
 }
 
-const FUN_FACTS = [
-  "The word 'budget' comes from 'bougette', meaning a small leather bag.",
-  "Over 80% of all stock market trading is done by algorithmic bots.",
-  "If you know the market and know yourself, you need not fear a hundred margin calls.",
-  "Bitcoin's creator remains anonymous under the name Satoshi Nakamoto.",
-  "Oil is nicknamed 'Black Gold', while Silver is 'The Poor Man's Gold'.",
-  "October is one of the peculiarly dangerous months to speculate in stocks.",
-  "The supreme art of finance is to subdue the market without fighting.",
-  "Silver has the highest electrical and thermal conductivity of any metal.",
-  "My investment strategy? Buy high, sell low, cry in the corner.",
-  "A stockbroker is someone who invests your money until it's all gone.",
-  "The first stock market was created in Amsterdam in 1602.",
-  "Gold is so rare that all ever mined would fit in 3 Olympic pools.",
-  "Not your keys, not your coins. Always remember the crypto mantra.",
-  "In the midst of chaos, there is also opportunity and extreme volatility.",
-  "The best time to plant a tree was 20 years ago. The second best time is now.",
-  "Compound interest is the eighth wonder of the world.",
-  "Bull markets are born on pessimism and grow on skepticism.",
-  "The stock market is a device for transferring money from the impatient to the patient.",
-  "Opportunities come infrequently. When it rains gold, put out the bucket, not the thimble.",
-  "Beware of little expenses; a small leak will sink a great ship.",
-  "The most reflective element on the periodic table is Silver.",
-  "A wise trader makes many calculations before the opening bell.",
-  "Diversification is protection against ignorance.",
-  "Price is what you pay. Value is what you get.",
-  "Risk comes from not knowing what you're doing.",
-  "The market can stay irrational longer than you can stay solvent.",
-  "An investment in knowledge pays the best interest.",
-  "Don't look for the needle in the haystack. Just buy the haystack.",
-  "I'm so poor I can't even pay attention.",
-  "Money can't buy happiness, but it's more comfortable to cry in a Ferrari.",
-  "To know your enemy, you must become your enemy. To know the chart, you must become the candle.",
-  "He who will not economize will have to agonize."
+const FACT_KEYS = [
+  "intro.fact_1",
+  "intro.fact_2",
+  "intro.fact_3",
+  "intro.fact_4",
+  "intro.fact_5",
+  "intro.fact_6",
+  "intro.fact_7",
+  "intro.fact_8",
+  "intro.fact_9",
+  "intro.fact_10",
+  "intro.fact_11",
+  "intro.fact_12",
+  "intro.fact_13",
+  "intro.fact_14",
+  "intro.fact_15",
+  "intro.fact_16",
+  "intro.fact_17",
+  "intro.fact_18",
+  "intro.fact_19",
+  "intro.fact_20",
+  "intro.fact_21",
+  "intro.fact_22",
+  "intro.fact_23",
+  "intro.fact_24",
+  "intro.fact_25",
+  "intro.fact_26",
+  "intro.fact_27",
+  "intro.fact_28",
+  "intro.fact_29",
+  "intro.fact_30",
+  "intro.fact_31",
+  "intro.fact_32"
 ];
 
 export default function IntroScreen({ onFinish }) {
+  const { t } = useI18n();
   const [closing, setClosing] = useState(false);
   const [factIndex, setFactIndex] = useState(0);
 
@@ -192,7 +194,7 @@ export default function IntroScreen({ onFinish }) {
 
   useEffect(() => {
     const rotationTimer = setTimeout(() => {
-      setFactIndex((prev) => (prev + 1) % FUN_FACTS.length);
+      setFactIndex((prev) => (prev + 1) % FACT_KEYS.length);
     }, 2800);
     return () => clearTimeout(rotationTimer);
   }, [factIndex]);
@@ -236,11 +238,11 @@ export default function IntroScreen({ onFinish }) {
         <div className="intro-status" style={{ minHeight: '1.5em' }}>
           <span className="dot" />
           <span key={factIndex} className="fade-in-status">
-            {FUN_FACTS[factIndex]}
+            {t(FACT_KEYS[factIndex])}
           </span>
         </div>
         <div style={{ marginTop: 40, fontSize: 10, color: "var(--tx3)", opacity: 0.6, textTransform: "uppercase", letterSpacing: 2 }}>
-          Tap to Continue
+          {t("intro.tap_continue")}
         </div>
       </div>
 

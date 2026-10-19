@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { IconActivity, IconInfo, IconAlertCircle, IconTarget } from "../icons.jsx";
+import { useI18n, I18nContext } from "../i18n/context.js";
 
 export const ButterflyStatus = ({ type, message, onRetry }) => {
+  const { t } = useI18n();
   const icons = {
     loading: <IconActivity size={24} color="var(--cy)" className="pulse" />,
     empty: <IconInfo size={24} color="var(--tx3)" />,
@@ -54,7 +56,7 @@ export const ButterflyStatus = ({ type, message, onRetry }) => {
           onMouseOver={e => e.target.style.background = "var(--bg2)"}
           onMouseOut={e => e.target.style.background = "var(--bg4)"}
         >
-          RETRY VISUALIZATION
+          {t("butterfly.retry_visualization")}
         </button>
       )}
     </div>
@@ -62,6 +64,7 @@ export const ButterflyStatus = ({ type, message, onRetry }) => {
 };
 
 export default class ButterflyErrorBoundary extends Component {
+  static contextType = I18nContext;
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, showDetails: false };
@@ -84,16 +87,17 @@ export default class ButterflyErrorBoundary extends Component {
   };
 
   copyError = () => {
-    const errorText = this.state.error?.stack || this.state.error?.message || "Unknown error";
+    const errorText = this.state.error?.stack || this.state.error?.message || this.context.t("behavioral.unknown_error");
     navigator.clipboard.writeText(errorText).then(() => {
-      alert("Error copied to clipboard");
+      alert(this.context.t("butterfly.error_copied"));
     }).catch(err => {
       console.error("Failed to copy error:", err);
-      alert("Failed to copy to clipboard. See console.");
+      alert(this.context.t("butterfly.copy_failed"));
     });
   };
 
   render() {
+    const t = this.context.t;
     if (this.state.hasError) {
       return (
         <div style={{ 
@@ -107,7 +111,7 @@ export default class ButterflyErrorBoundary extends Component {
         }}>
           <ButterflyStatus 
             type="error" 
-            message={this.props.message || "Graphics Engine Stalled"} 
+            message={this.props.message || t("butterfly.engine_stalled")} 
             onRetry={this.handleRetry}
           />
           
@@ -125,7 +129,7 @@ export default class ButterflyErrorBoundary extends Component {
                 letterSpacing: 0.5
               }}
             >
-              {this.state.showDetails ? "Hide technical details" : "Show technical details"}
+              {this.state.showDetails ? t("butterfly.hide_details") : t("butterfly.show_details")}
             </button>
           </div>
 
@@ -145,7 +149,7 @@ export default class ButterflyErrorBoundary extends Component {
               position: "relative"
             }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                <div style={{ fontWeight: 900, textTransform: "uppercase" }}>Exception trace:</div>
+                <div style={{ fontWeight: 900, textTransform: "uppercase" }}>{t("butterfly.exception_trace")}</div>
                 <button 
                   onClick={this.copyError}
                   style={{
@@ -159,10 +163,10 @@ export default class ButterflyErrorBoundary extends Component {
                     cursor: "pointer"
                   }}
                 >
-                  COPY ERROR
+                  {t("butterfly.copy_error")}
                 </button>
               </div>
-              {this.state.error?.stack || this.state.error?.message || "Unknown error"}
+              {this.state.error?.stack || this.state.error?.message || this.context.t("behavioral.unknown_error")}
             </div>
           )}
         </div>

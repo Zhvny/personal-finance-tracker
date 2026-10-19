@@ -20,6 +20,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useBalances, apiSetEmergencyFund, apiTransferBalance } from "../finance/useApi.js";
 import { fmtRp } from "../finance/constants.js";
+import { useI18n } from "../i18n/context.js";
 import {
   IconCash, IconBank, IconStock, IconCrypto, IconGold,
   IconShield, IconDebt, IconAnalysis, IconWallet,
@@ -55,6 +56,7 @@ function PulseDot({ color }) {
 
 // ── Heatmap cell ──────────────────────────────────────────────────────────────
 function HeatCell({ cell, large = false }) {
+  const { t } = useI18n();
   const [hov, setHov] = useState(false);
   const CellIcon  = CELL_ICON_MAP[cell.label] ?? IconWallet;
   const hasChange = cell.pct != null && Math.abs(cell.pct) > 0.001;
@@ -128,7 +130,7 @@ function HeatCell({ cell, large = false }) {
             </span>
           </>
         ) : (
-          <span style={{ fontSize: 9, color: "rgba(255,255,255,.25)" }}>{cell.current != null ? "No change" : "Data pending"}</span>
+          <span style={{ fontSize: 9, color: "rgba(255,255,255,.25)" }}>{cell.current != null ? t("behavioral.no_change") : t("behavioral.data_pending")}</span>
         )}
       </div>
 
@@ -147,6 +149,7 @@ function HeatCell({ cell, large = false }) {
 
 // ── Legend ─────────────────────────────────────────────────────────────────────
 function Legend() {
+  const { t } = useI18n();
   return (
     <div style={{
       display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10,
@@ -154,10 +157,10 @@ function Legend() {
       borderRadius: 8, border: "1px solid var(--bdr)",
       fontSize: 10, color: "var(--tx3)",
     }}>
-      <span style={{ fontWeight: 600, color: "var(--tx2)" }}>Intensity:</span>
+      <span style={{ fontWeight: 600, color: "var(--tx2)" }}>{t("behavioral.intensity")}</span>
       {[
-        { label: "Growth",  from: "rgba(52,211,153,.12)", to: "rgba(52,211,153,.72)" },
-        { label: "Decline", from: "rgba(248,113,113,.12)", to: "rgba(248,113,113,.92)" },
+        { label: t("behavioral.growth"),  from: "rgba(52,211,153,.12)", to: "rgba(52,211,153,.72)" },
+        { label: t("behavioral.decline"), from: "rgba(248,113,113,.12)", to: "rgba(248,113,113,.92)" },
       ].map(({ label, from, to }) => (
         <div key={label} style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <div style={{ width: 48, height: 4, borderRadius: 99, background: `linear-gradient(90deg, ${from}, ${to})` }} />
@@ -195,6 +198,7 @@ function ReadOnlyField({ icon, label, value, hint, badge }) {
 
 // ── Transfer Sub-Modal ────────────────────────────────────────────────────────
 function TransferModal({ balances, onClose, onSaved }) {
+  const { t } = useI18n();
   const [direction, setDirection] = useState("physical_to_bank");
   const [amount, setAmount]       = useState("");
   const [note, setNote]           = useState("");
@@ -208,8 +212,8 @@ function TransferModal({ balances, onClose, onSaved }) {
 
   const handleTransfer = async () => {
     const amt = parseFloat(amount.replace(/[^0-9.]/g, "")) || 0;
-    if (amt <= 0) { setErr("Enter a valid amount."); return; }
-    if (amt > maxAmount) { setErr(`Insufficient balance (max ${fmtRp(maxAmount)}).`); return; }
+    if (amt <= 0) { setErr(t("behavioral.err_valid_amount")); return; }
+    if (amt > maxAmount) { setErr(t("behavioral.err_insufficient", { max: fmtRp(maxAmount) })); return; }
     setSaving(true); setErr(null);
     try {
       await apiTransferBalance(direction, amt, note);
@@ -225,19 +229,19 @@ function TransferModal({ balances, onClose, onSaved }) {
   return createPortal(
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.72)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }} onClick={onClose}>
       <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr2)", borderRadius: "var(--rl)", padding: 24, width: "100%", maxWidth: 360, maxHeight: "90vh", overflowY: "auto", boxSizing: "border-box", boxShadow: "0 24px 64px rgba(0,0,0,.6)" }} onClick={e => e.stopPropagation()}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--tx1)", marginBottom: 4 }}>Transfer Funds</div>
-        <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 16 }}>Move value between Physical Cash and Bank Savings. Total Credit stays unchanged.</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--tx1)", marginBottom: 4 }}>{t("behavioral.transfer_funds")}</div>
+        <div style={{ fontSize: 11, color: "var(--tx3)", marginBottom: 16 }}>{t("behavioral.transfer_desc")}</div>
 
         <div style={{ display: "flex", justifyContent: "space-between", background: "var(--bg3)", borderRadius: 8, padding: "8px 12px", marginBottom: 16, border: "1px solid var(--bdr)" }}>
-          <span style={{ fontSize: 11, color: "var(--tx3)" }}>Total Credit</span>
+          <span style={{ fontSize: 11, color: "var(--tx3)" }}>{t("behavioral.total_credit")}</span>
           <span style={{ fontSize: 11, fontWeight: 700, color: "var(--grn)", fontFamily: "var(--mono)" }}>{fmtRp(totalCred)}</span>
         </div>
 
         {/* Current split */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 16 }}>
           {[
-            { label: "Physical Cash", value: physCash },
-            { label: "Bank Savings",  value: bankSav },
+            { label: t("behavioral.physical_cash"), value: physCash },
+            { label: t("behavioral.bank_savings"),  value: bankSav },
           ].map(({ label, value }) => (
             <div key={label} style={{ background: "var(--bg3)", borderRadius: 8, padding: "8px 10px", border: "1px solid var(--bdr)", textAlign: "center" }}>
               <div style={{ fontSize: 10, color: "var(--tx3)", marginBottom: 3 }}>{label}</div>
@@ -248,11 +252,11 @@ function TransferModal({ balances, onClose, onSaved }) {
 
         {/* Direction selector */}
         <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 6 }}>Direction</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 6 }}>{t("behavioral.direction")}</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
             {[
-              { val: "physical_to_bank", label: "Cash → Bank" },
-              { val: "bank_to_physical", label: "Bank → Cash" },
+              { val: "physical_to_bank", label: t("behavioral.cash_to_bank") },
+              { val: "bank_to_physical", label: t("behavioral.bank_to_cash") },
             ].map(({ val, label }) => (
               <button key={val}
                 onClick={() => setDirection(val)}
@@ -268,27 +272,27 @@ function TransferModal({ balances, onClose, onSaved }) {
 
         {/* Amount */}
         <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 5 }}>Amount (IDR)</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 5 }}>{t("expense.form_amount")}</div>
           <input type="number" min="0" max={maxAmount} value={amount}
             onChange={e => setAmount(e.target.value)} placeholder="0"
             style={{ width: "100%", boxSizing: "border-box", background: "var(--bg3)", border: "1px solid var(--bdr)", borderRadius: 8, color: "var(--tx1)", fontSize: 16, padding: "10px 12px", minHeight: 44, fontFamily: "var(--mono)", outline: "none" }} />
-          <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 3 }}>Max: {fmtRp(maxAmount)}</div>
+          <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 3 }}>{t("behavioral.max_amount", { amount: fmtRp(maxAmount) })}</div>
         </div>
 
         {/* Note */}
         <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 5 }}>Note (optional)</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 5 }}>{t("behavioral.note_optional")}</div>
           <input type="text" value={note} onChange={e => setNote(e.target.value)}
-            placeholder="e.g. ATM withdrawal"
+            placeholder={t("behavioral.placeholder_note")}
             style={{ width: "100%", boxSizing: "border-box", background: "var(--bg3)", border: "1px solid var(--bdr)", borderRadius: 8, color: "var(--tx1)", fontSize: 16, padding: "10px 12px", minHeight: 44, outline: "none" }} />
         </div>
 
         {err && <div style={{ fontSize: 11, color: "var(--rd)", marginBottom: 12 }}>{err}</div>}
 
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-          <button className="btn btn-g btn-s" onClick={onClose} disabled={saving}>Cancel</button>
+          <button className="btn btn-g btn-s" onClick={onClose} disabled={saving}>{t("common.cancel")}</button>
           <button className="btn btn-grn btn-s" onClick={handleTransfer} disabled={saving}>
-            {saving ? "Transferring…" : "Transfer"}
+            {saving ? t("behavioral.transferring") : t("behavioral.transfer")}
           </button>
         </div>
       </div>
@@ -302,6 +306,7 @@ function TransferModal({ balances, onClose, onSaved }) {
 // Feature 2: Physical Cash / Bank Savings shown read-only with transfer button.
 // Feature 3: Crypto shown as read-only, badge "Synced from portfolio.db".
 function BalanceEditorModal({ balances, onClose, onSaved }) {
+  const { t } = useI18n();
   const [efVal,        setEfVal]        = useState(String(balances?.emergency_fund ?? 0));
   const [saving,       setSaving]       = useState(false);
   const [err,          setErr]          = useState(null);
@@ -316,9 +321,9 @@ function BalanceEditorModal({ balances, onClose, onSaved }) {
   const efNum       = parseFloat(efVal.replace(/[^0-9.]/g, "")) || 0;
 
   const handleSave = async () => {
-    if (efNum < 0) { setErr("Emergency Fund cannot be negative."); return; }
+    if (efNum < 0) { setErr(t("behavioral.err_ef_negative")); return; }
     if (efNum > totalCredit) {
-      setErr(`Emergency Fund cannot exceed total cash (${fmtRp(totalCredit)}).`);
+      setErr(t("behavioral.err_ef_exceed", { max: fmtRp(totalCredit) }));
       return;
     }
     setSaving(true); setErr(null);
@@ -342,12 +347,12 @@ function BalanceEditorModal({ balances, onClose, onSaved }) {
       <div style={{ background: "var(--bg2)", border: "1px solid var(--bdr2)", borderRadius: "var(--rl)", padding: 24, width: "100%", maxWidth: 400, maxHeight: "90vh", overflowY: "auto", boxSizing: "border-box", boxShadow: "0 24px 64px rgba(0,0,0,.6)" }} onClick={e => e.stopPropagation()}>
 
         {/* Header */}
-        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--tx1)", marginBottom: 16 }}>Edit Balances</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--tx1)", marginBottom: 16 }}>{t("behavioral.edit_balances")}</div>
 
         {/* Physical Cash + Bank Savings — read-only, with transfer button */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 12 }}>
-          <ReadOnlyField icon={<IconCash size={12} />}  label="Physical Cash" value={physCash} hint="" />
-          <ReadOnlyField icon={<IconBank size={12} />}  label="Bank Savings"  value={bankSav}  hint="" />
+          <ReadOnlyField icon={<IconCash size={12} />}  label={t("behavioral.physical_cash")} value={physCash} hint="" />
+          <ReadOnlyField icon={<IconBank size={12} />}  label={t("behavioral.bank_savings")}  value={bankSav}  hint="" />
         </div>
 
         <button
@@ -355,15 +360,15 @@ function BalanceEditorModal({ balances, onClose, onSaved }) {
           style={{ width: "100%", marginBottom: 16, fontSize: 11 }}
           onClick={() => setShowTransfer(true)}
         >
-          ⇄ Transfer Between Physical Cash & Bank
+          {t("behavioral.transfer_cash_bank")}
         </button>
 
         {/* Emergency Fund — editable */}
         <div style={{ marginBottom: 14 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: "var(--tx2)", marginBottom: 5, display: "flex", alignItems: "center", gap: 5 }}>
-            Emergency Fund
+            {t("behavioral.emergency_fund")}
             <span style={{ marginLeft: "auto", fontSize: 9, padding: "2px 6px", borderRadius: 99, background: "rgba(52,211,153,.15)", color: "rgba(52,211,153,1)", border: "1px solid rgba(52,211,153,.3)" }}>
-              Editable
+              {t("behavioral.editable")}
             </span>
           </div>
           <input type="number" min="0" max={totalCredit}
@@ -372,16 +377,16 @@ function BalanceEditorModal({ balances, onClose, onSaved }) {
             placeholder="0"
             style={{ width: "100%", boxSizing: "border-box", background: "var(--bg3)", border: "1px solid var(--bdr)", borderRadius: 8, color: "var(--tx1)", fontSize: 16, padding: "10px 12px", minHeight: 44, fontFamily: "var(--mono)", outline: "none" }} />
           <div style={{ fontSize: 10, color: "var(--tx3)", marginTop: 3 }}>
-            Max: {fmtRp(totalCredit)} · Must not exceed Bank Savings
+            {t("behavioral.max_bank", { amount: fmtRp(totalCredit) })}
           </div>
         </div>
 
         {err && <div style={{ fontSize: 11, color: "var(--rd)", marginBottom: 12 }}>{err}</div>}
 
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-          <button className="btn btn-g btn-s" onClick={onClose} disabled={saving}>Cancel</button>
+          <button className="btn btn-g btn-s" onClick={onClose} disabled={saving}>{t("common.cancel")}</button>
           <button className="btn btn-grn btn-s" onClick={handleSave} disabled={saving}>
-            {saving ? "Saving…" : "Save Emergency Fund"}
+            {saving ? t("expense.saving") : t("behavioral.save_ef")}
           </button>
         </div>
       </div>
@@ -392,6 +397,7 @@ function BalanceEditorModal({ balances, onClose, onSaved }) {
 
 // ── Main export ───────────────────────────────────────────────────────────────
 export default function NetWorthHeatmap({ data, onReload }) {
+  const { t } = useI18n();
   const [showEditor, setShowEditor] = useState(false);
   const { data: balances, reload: reloadBalances } = useBalances();
 
@@ -399,7 +405,7 @@ export default function NetWorthHeatmap({ data, onReload }) {
     return (
       <div style={{ padding: 40, textAlign: "center", color: "var(--tx3)" }}>
         <IconAnalysis size={32} style={{ marginBottom: 12, opacity: 0.5 }} />
-        <div>Belum ada data Net Worth untuk periode ini.</div>
+        <div>{t("behavioral.no_networth")}</div>
       </div>
     );
   }
@@ -422,13 +428,13 @@ export default function NetWorthHeatmap({ data, onReload }) {
         </div>
         <div style={{ display: "flex", gap: 5, alignItems: "center", flexWrap: "wrap" }}>
           <button className="btn btn-g btn-s" onClick={() => setShowEditor(true)} style={{ fontSize: 10 }}>
-            Edit Balances
+            {t("behavioral.edit_balances")}
           </button>
-          {["Loss Aversion", "Prospect Theory", "Mental Accounting"].map(t => (
-            <span key={t} className="nw-theory-tag" style={{
+          {[t("behavioral.loss_aversion"), t("behavioral.prospect_theory"), t("behavioral.mental_accounting")].map(tag => (
+            <span key={tag} className="nw-theory-tag" style={{
               fontSize: 9, padding: "2px 7px", borderRadius: 99,
               background: "var(--bg3)", color: "var(--tx3)", border: "1px solid var(--bdr)",
-            }}>{t}</span>
+            }}>{tag}</span>
           ))}
         </div>
       </div>

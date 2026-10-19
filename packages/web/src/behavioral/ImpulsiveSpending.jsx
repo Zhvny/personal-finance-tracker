@@ -17,6 +17,7 @@ import { CatIcon } from "../finance/icon-maps.jsx";
 import { IconTarget, IconWarning, IconSuccess, IconInfo } from "../icons.jsx";
 import { fmtRp, API_BASE } from "../finance/constants.js";
 import { _getToken } from "../finance/useApi.js";
+import { useI18n } from "../i18n/context.js";
 
 // ── Formatters (local, DRY) ───────────────────────────────────────────────────
 const fmtPct  = (v, d = 1) => v != null ? `${(v * 100).toFixed(d)}%` : "—";
@@ -73,15 +74,16 @@ function Chip({ label, color, small }) {
 
 // ── FBS Panel ──────────────────────────────────────────────────────────────────
 function FBSPanel({ fbs, savingRate, impulsivityIndex, emotionalRatio, liScore, budgetAdherence }) {
+  const { t } = useI18n();
   const grade = fbsGrade(fbs ?? 0);
   const isValid = fbs !== null && fbs !== undefined;
 
   const ROWS = [
-    { label: "Saving Rate",         v: savingRate,        fmt: v => v != null ? fmtPct(v) : "—",               w: "30%", inv: false },
-    { label: "Impulsivity Index",   v: impulsivityIndex,  fmt: v => v != null ? (v * 100).toFixed(1) + "%" : "—", w: "25%", inv: true  },
-    { label: "Emotional Spending",  v: emotionalRatio,    fmt: v => v != null ? fmtPct(v) : "—",               w: "15%", inv: true  },
-    { label: "Lifestyle Inflation", v: liScore,           fmt: v => v != null ? `${sign(v)}${(v*100).toFixed(1)}pp` : "—", w: "15%", inv: true  },
-    { label: "Budget Adherence",    v: budgetAdherence,   fmt: v => v != null ? fmtPct(v) : "—",               w: "15%", inv: false },
+    { label: t("behavioral.row_saving_rate"),       v: savingRate,        fmt: v => v != null ? fmtPct(v) : "—",               w: "30%", inv: false },
+    { label: t("behavioral.row_impulsivity"),       v: impulsivityIndex,  fmt: v => v != null ? (v * 100).toFixed(1) + "%" : "—", w: "25%", inv: true  },
+    { label: t("behavioral.row_emotional"),         v: emotionalRatio,    fmt: v => v != null ? fmtPct(v) : "—",               w: "15%", inv: true  },
+    { label: t("behavioral.row_lifestyle"),         v: liScore,           fmt: v => v != null ? `${sign(v)}${(v*100).toFixed(1)}pp` : "—", w: "15%", inv: true  },
+    { label: t("behavioral.row_budget_adherence"),  v: budgetAdherence,   fmt: v => v != null ? fmtPct(v) : "—",               w: "15%", inv: false },
   ];
 
   const rowColor = (v, inv) => {
@@ -106,7 +108,7 @@ function FBSPanel({ fbs, savingRate, impulsivityIndex, emotionalRatio, liScore, 
 
           <div className="fbs-header-row" style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 10, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 6 }}>
-              Financial Behaviour Score
+              {t("behavioral.fbs_title")}
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
               <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 32, fontWeight: 900, color: isValid ? grade.color : "var(--tx3)", lineHeight: 1 }}>
@@ -116,14 +118,14 @@ function FBSPanel({ fbs, savingRate, impulsivityIndex, emotionalRatio, liScore, 
               {isValid && <Chip label={`${grade.tier} · ${grade.label}`} color={grade.color} />}
             </div>
             <div style={{ fontSize: 11, color: "var(--tx3)", fontStyle: "italic", lineHeight: 1.6 }}>
-              Composite of saving rate, impulse control, lifestyle inflation, and budget discipline.
+              {t("behavioral.fbs_desc")}
             </div>
           </div>
 
           <div className="fbs-theory" style={{ textAlign: "right", flexShrink: 0 }}>
-            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>Theory</div>
-            {["Loss Aversion", "Present Bias", "Mental Accounting"].map(t => (
-              <div key={t} style={{ fontSize: 9, color: "var(--ind-b)", fontFamily: "'Space Mono', monospace", marginBottom: 3 }}>{t}</div>
+            <div style={{ fontSize: 9, color: "var(--tx3)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 6 }}>{t("behavioral.theory")}</div>
+            {[t("behavioral.loss_aversion"), t("behavioral.present_bias"), t("behavioral.mental_accounting")].map(theory => (
+              <div key={theory} style={{ fontSize: 9, color: "var(--ind-b)", fontFamily: "'Space Mono', monospace", marginBottom: 3 }}>{theory}</div>
             ))}
           </div>
         </div>
@@ -152,6 +154,7 @@ function FBSPanel({ fbs, savingRate, impulsivityIndex, emotionalRatio, liScore, 
 
 // ── Impulsivity Panel ─────────────────────────────────────────────────────────
 function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
+  const { t } = useI18n();
   const isValid = impulsivityIndex !== null && impulsivityIndex !== undefined;
   const pctVal = isValid ? (impulsivityIndex * 100).toFixed(1) : "—";
   const color  = !isValid ? "var(--tx3)" : (impulsivityIndex < 0.2 ? "var(--gr)" : impulsivityIndex < 0.5 ? "var(--yl)" : "var(--rd)");
@@ -163,7 +166,7 @@ function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
     }}>
       <div style={{ padding: "14px 18px 12px", borderBottom: "1px solid var(--bdr)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".8px", color: "var(--tx2)", display: "flex", alignItems: "center", gap: 6 }}>
-          <IconTarget size={14} /> Impulsivity Index
+          <IconTarget size={14} /> {t("behavioral.row_impulsivity")}
         </span>
         <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 22, fontWeight: 800, color }}>{isValid ? `${pctVal}%` : "—"}</span>
       </div>
@@ -173,7 +176,7 @@ function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
         {/* Category breakdown bars */}
         {Object.keys(breakdown ?? {}).length > 0 && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 10 }}>By Category</div>
+            <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 10 }}>{t("behavioral.by_category")}</div>
             {Object.entries(breakdown).sort(([, a], [, b]) => b - a).map(([cat, val]) => {
               const c = val > 0.5 ? "var(--rd)" : val > 0.3 ? "var(--yl)" : "var(--gr)";
               return (
@@ -194,7 +197,7 @@ function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
         {topTx.length > 0 && (
           <div>
             <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 10 }}>
-              Top Impulsive Transactions
+              {t("behavioral.top_impulsive")}
             </div>
             {topTx.map(({ tx, is }, i) => {
               const col = is > 0.6 ? "var(--rd)" : is > 0.4 ? "var(--yl)" : "var(--tx2)";
@@ -228,7 +231,7 @@ function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
         )}
 
         {!topTx.length && (
-          <div style={{ textAlign: "center", color: "var(--tx3)", fontSize: 12, padding: "20px 0" }}>No transactions this month</div>
+          <div style={{ textAlign: "center", color: "var(--tx3)", fontSize: 12, padding: "20px 0" }}>{t("behavioral.no_tx_month")}</div>
         )}
       </div>
     </div>
@@ -237,11 +240,12 @@ function ImpulsivityPanel({ impulsivityIndex, breakdown, perTx }) {
 
 // ── Lifestyle Inflation Panel ─────────────────────────────────────────────────
 function LifestylePanel({ liScore, expGrowth, incGrowth, expTotalThis, expTotalPrev, incTotalThis, incTotalPrev }) {
+  const { t } = useI18n();
   const isValid = liScore !== null && liScore !== undefined;
   const isInflating = isValid && liScore > 0.05;
   const isHealthy   = isValid && liScore < -0.05;
   const color       = !isValid ? "var(--tx3)" : (isInflating ? "var(--rd)" : isHealthy ? "var(--gr)" : "var(--yl)");
-  const label       = !isValid ? "Data Pending" : (isInflating ? "Inflation Detected" : isHealthy ? "Income Leading" : "Stable");
+  const label       = !isValid ? t("behavioral.data_pending") : (isInflating ? t("behavioral.li_inflation") : isHealthy ? t("behavioral.income_leading") : t("behavioral.stable"));
 
   const StatBox = ({ l, v, v2, bad }) => {
     const isValidVal = v !== null && v !== undefined;
@@ -269,7 +273,7 @@ function LifestylePanel({ liScore, expGrowth, incGrowth, expTotalThis, expTotalP
           {!isValid ? <IconInfo size={15} color="var(--tx3)" /> : (isInflating ? <IconWarning size={15} color="var(--rd)" /> : isHealthy ? <IconSuccess size={15} color="var(--gr)" /> : <IconInfo size={15} color="var(--yl)" />)}
         </span>
         <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".8px", color: "var(--tx2)" }}>
-          Lifestyle Inflation
+          {t("behavioral.row_lifestyle")}
         </span>
         <div style={{ marginLeft: "auto" }}>
           <Chip label={label} color={color} small />
@@ -280,9 +284,9 @@ function LifestylePanel({ liScore, expGrowth, incGrowth, expTotalThis, expTotalP
 
         <div className="beh-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
           {[
-            { l: "Expense Growth", v: expGrowth, inv: true },
-            { l: "Income Growth",  v: incGrowth, inv: false },
-            { l: "LI Score",       v: liScore,   inv: true, bold: true },
+            { l: t("behavioral.exp_growth"), v: expGrowth, inv: true },
+            { l: t("behavioral.inc_growth"), v: incGrowth, inv: false },
+            { l: t("behavioral.li_score"),   v: liScore,   inv: true, bold: true },
           ].map(({ l, v, inv, bold }) => {
             const isValidRow = v !== null && v !== undefined;
             const c = !isValidRow ? "var(--tx3)" : (inv
@@ -300,8 +304,8 @@ function LifestylePanel({ liScore, expGrowth, incGrowth, expTotalThis, expTotalP
         </div>
 
         <div className="sg" style={{ gap: 10 }}>
-          <StatBox l="Expense This Month" v={expTotalThis} v2={expTotalPrev} bad={true}  />
-          <StatBox l="Income This Month"  v={incTotalThis} v2={incTotalPrev} bad={false} />
+          <StatBox l={t("behavioral.exp_this_month")} v={expTotalThis} v2={expTotalPrev} bad={true}  />
+          <StatBox l={t("behavioral.inc_this_month")} v={incTotalThis} v2={incTotalPrev} bad={false} />
         </div>
 
         {/* 6-month rolling LI sparkline */}
@@ -312,6 +316,7 @@ function LifestylePanel({ liScore, expGrowth, incGrowth, expTotalThis, expTotalP
 }
 
 function _LISparkline() {
+  const { t } = useI18n();
   const [trend, setTrend] = useState(null);
   const [loadError, setLoadError] = useState("");
   useEffect(() => {
@@ -324,7 +329,7 @@ function _LISparkline() {
     })
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d?.trend?.length >= 2) setTrend(d.trend); })
-      .catch((e) => { setLoadError(e?.message || "Gagal memuat tren lifestyle."); });
+      .catch((e) => { setLoadError(e?.message || t("behavioral.lifestyle_load_failed")); });
   }, []);
   if (loadError) {
     return (
@@ -337,7 +342,7 @@ function _LISparkline() {
   return (
     <div style={{ marginTop: 14 }}>
       <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--tx3)", marginBottom: 8 }}>
-        6-Month LI Trend
+        {t("behavioral.li_trend_6m")}
       </div>
       <div style={{ display: "flex", gap: 4, alignItems: "flex-end", height: 50 }}>
         {trend.map((m, i) => {
