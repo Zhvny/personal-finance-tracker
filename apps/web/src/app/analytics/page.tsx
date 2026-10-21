@@ -14,6 +14,7 @@ import {
 import { LiquidNav } from "@/components/ui/liquid-nav";
 import { FocusScrollSection } from "@/components/ui/focus-scroll";
 import { clientProxyUrl } from "@/lib/api";
+import { useI18n } from "@/i18n/context";
 
 // ─── Interfaces & Types ─────────────────────────────────────────────────────────────
 
@@ -127,6 +128,44 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Lainnya": "#64748b",
 };
 
+const TX_TYPE_LABEL: Record<string, string> = {
+  income: "analytics.tx_type_income",
+  expense: "analytics.tx_type_expense",
+  investment: "analytics.tx_type_investment",
+};
+
+const TX_STATUS_LABEL: Record<string, string> = {
+  normal: "analytics.tx_status_normal",
+  anomaly: "analytics.tx_status_anomaly",
+  flagged: "analytics.tx_status_flagged",
+};
+
+const TX_SEGMENT_LABEL: Record<string, string> = {
+  recurring: "analytics.tx_segment_recurring",
+  daily: "analytics.tx_segment_daily",
+  cash_in: "analytics.tx_segment_cash_in",
+  asset: "analytics.tx_segment_asset",
+};
+
+const TX_PAYMENT_LABEL: Record<string, string> = {
+  direct: "analytics.tx_payment_direct",
+  bank: "analytics.tx_payment_bank",
+  portfolio: "analytics.tx_payment_portfolio",
+};
+
+const ANOMALY_SEVERITY_LABEL: Record<string, string> = {
+  CRITICAL: "analytics.severity_critical",
+  HIGH: "analytics.severity_high",
+  MEDIUM: "analytics.severity_medium",
+  LOW: "analytics.severity_low",
+};
+
+const BUDGET_STATUS_LABEL: Record<string, string> = {
+  over: "analytics.budget_status_over",
+  near: "analytics.budget_status_near",
+  safe: "analytics.budget_status_safe",
+};
+
 // ─── KPICard Component ────────────────────────────────────────────────────────────
 
 function KPICard({
@@ -178,12 +217,24 @@ function KPICard({
 // ─── Main Analytics Component ─────────────────────────────────────────────────────
 
 export default function AnalyticsBIDashboard() {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [typeFilter, setTypeFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
+
+  const segmentLabel = (s: string) => {
+    const key = TX_SEGMENT_LABEL[s];
+    return key ? t(key) : s;
+  };
+
+  const paymentLabel = (p?: string) => {
+    if (!p) return "";
+    const key = TX_PAYMENT_LABEL[p];
+    return key ? t(key) : p;
+  };
 
   // Live state fetched from real APIs
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -296,8 +347,8 @@ export default function AnalyticsBIDashboard() {
       // Fallback base frame if zero transactions
       const now = new Date();
       return [
-        { label: "Prev Month", exp: 0, inc: 0, exp_growth: 0, inc_growth: 0, li_score: 0, verdict: "stable" },
-        { label: "This Month", exp: 0, inc: 0, exp_growth: 0, inc_growth: 0, li_score: 0, verdict: "stable" },
+        { label: t("analytics.prev_month"), exp: 0, inc: 0, exp_growth: 0, inc_growth: 0, li_score: 0, verdict: "stable" },
+        { label: t("analytics.this_month"), exp: 0, inc: 0, exp_growth: 0, inc_growth: 0, li_score: 0, verdict: "stable" },
       ];
     }
 
@@ -320,7 +371,7 @@ export default function AnalyticsBIDashboard() {
         verdict,
       };
     });
-  }, [trends, rawIncomes, rawExpenses]);
+  }, [trends, rawIncomes, rawExpenses, t]);
 
   // ─── Real Current Month Financial KPIs ──────────────────────────────────────────
 
@@ -395,28 +446,28 @@ export default function AnalyticsBIDashboard() {
         date: e.date ? e.date.split("T")[0] : new Date().toISOString().split("T")[0],
         type: "expense",
         category: cat,
-        description: e.description || "Pengeluaran",
+        description: e.description || t("analytics.tx_desc_expense"),
         amount: amt,
         status: "normal",
-        segment: e.is_recurring ? "Langganan / Recurring" : "Operasional Harian",
-        paymentMethod: e.payment_method || "Direct",
+        segment: e.is_recurring ? "recurring" : "daily",
+        paymentMethod: e.payment_method || "direct",
       });
     });
 
     // 2. Process Incomes
     rawIncomes.forEach((i) => {
       const amt = Number(i.amount) || 0;
-      const cat = i.income_type || i.source || "Income";
+      const cat = i.income_type || i.source || t("analytics.tx_desc_income");
       list.push({
         id: `INC-${i.id}`,
         date: i.date ? i.date.split("T")[0] : new Date().toISOString().split("T")[0],
         type: "income",
         category: cat,
-        description: i.description || i.source || "Pemasukan",
+        description: i.description || i.source || t("analytics.tx_desc_income"),
         amount: amt,
         status: "normal",
-        segment: "Arus Kas Masuk",
-        paymentMethod: "Bank Transfer",
+        segment: "cash_in",
+        paymentMethod: "bank",
       });
     });
 
@@ -428,11 +479,11 @@ export default function AnalyticsBIDashboard() {
         date: inv.buy_date ? inv.buy_date.split("T")[0] : new Date().toISOString().split("T")[0],
         type: "investment",
         category: inv.asset_type || "Asset",
-        description: `Akumulasi Lot ${inv.ticker} (${inv.quantity} unit)`,
+        description: t("analytics.tx_desc_investment", { ticker: inv.ticker, quantity: inv.quantity }),
         amount: amt,
         status: "normal",
-        segment: "Asset Building",
-        paymentMethod: "Portfolio Fund",
+        segment: "asset",
+        paymentMethod: "portfolio",
       });
     });
 
@@ -460,13 +511,17 @@ export default function AnalyticsBIDashboard() {
           tx.status = "anomaly";
           anomaliesDetected.push({
             id: tx.id,
-            title: `Lonjakan Transaksi Anomali: ${tx.category}`,
-            desc: `Transaksi ${tx.description} senilai ${fmtIDR(tx.amount)} melebihi 2.2σ rata-rata kategori (${fmtIDR(threshold.mean)}).`,
+            title: t("analytics.anomaly_spike_title", { category: tx.category }),
+            desc: t("analytics.anomaly_spike_desc", {
+              description: tx.description,
+              amount: fmtIDR(tx.amount),
+              average: fmtIDR(threshold.mean),
+            }),
             severity: tx.amount > 3000000 ? "CRITICAL" : "HIGH",
-            cause: `Pengeluaran tunggal tidak lazim pada tanggal ${tx.date}.`,
+            cause: t("analytics.anomaly_spike_cause", { date: tx.date }),
             date: tx.date,
             amount: tx.amount,
-            recommendation: "Verifikasi kewajaran transaksi dan sesuaikan alokasi pos anggaran jika tergolong pengeluaran primer.",
+            recommendation: t("analytics.anomaly_spike_rec"),
           });
         }
       }
@@ -476,30 +531,30 @@ export default function AnalyticsBIDashboard() {
     if (currentMonthData.expMoM > 20 && currentMonthData.exp > 1000000) {
       anomaliesDetected.push({
         id: "MOM-EXP-SURGE",
-        title: `Kenaikan Beban Bulanan Drastis (+${currentMonthData.expMoM.toFixed(1)}% MoM)`,
-        desc: `Total pengeluaran bulan ini (${fmtIDR(currentMonthData.exp)}) melonjak tajam dibanding bulan lalu.`,
+        title: t("analytics.anomaly_surge_title", { value: currentMonthData.expMoM.toFixed(1) }),
+        desc: t("analytics.anomaly_surge_desc", { amount: fmtIDR(currentMonthData.exp) }),
         severity: "HIGH",
-        cause: "Peningkatan simultan pada beberapa pos belanja dan aktivitas operasional.",
-        date: "Bulan Ini",
+        cause: t("analytics.anomaly_surge_cause"),
+        date: t("analytics.this_month"),
         amount: currentMonthData.exp,
-        recommendation: "Terapkan spending freeze pada pos non-esensial selama 2 minggu ke depan.",
+        recommendation: t("analytics.anomaly_surge_rec"),
       });
     }
 
     if (currentMonthData.margin < 20 && currentMonthData.inc > 0) {
       anomaliesDetected.push({
         id: "MARGIN-COMPRESSION",
-        title: `Margin Tabungan Menipis (${currentMonthData.margin.toFixed(1)}%)`,
-        desc: `Rasio laba bersih terhadap omzet berada di bawah batas aman ideal 25%.`,
+        title: t("analytics.anomaly_margin_title", { value: currentMonthData.margin.toFixed(1) }),
+        desc: t("analytics.anomaly_margin_desc"),
         severity: "MEDIUM",
-        cause: "Arus kas masuk tidak tumbuh sebanding dengan laju inflasi gaya hidup.",
-        date: "Bulan Ini",
-        recommendation: "Evaluasi ulang pos langganan berulang dan batasi pengeluaran hiburan.",
+        cause: t("analytics.anomaly_margin_cause"),
+        date: t("analytics.this_month"),
+        recommendation: t("analytics.anomaly_margin_rec"),
       });
     }
 
     return { allTransactions: list, calculatedAnomalies: anomaliesDetected, categoryStats: catSums };
-  }, [rawExpenses, rawIncomes, rawInvestments, currentMonthData]);
+  }, [rawExpenses, rawIncomes, rawInvestments, currentMonthData, t]);
 
   // ─── Real Category & Segmentation Data ──────────────────────────────────────────
 
@@ -527,7 +582,7 @@ export default function AnalyticsBIDashboard() {
           actual,
           target,
           pct: Math.round(pct),
-          status: pct > 100 ? "Over Budget" : pct > 85 ? "Near Limit" : "Safe",
+          status: pct > 100 ? "over" : pct > 85 ? "near" : "safe",
         };
       });
     }
@@ -541,7 +596,7 @@ export default function AnalyticsBIDashboard() {
         actual: stat.total,
         target,
         pct,
-        status: pct > 100 ? "Over Budget" : "Safe",
+        status: pct > 100 ? "over" : "safe",
       };
     });
   }, [rawBudgets, categoryStats]);
@@ -561,7 +616,7 @@ export default function AnalyticsBIDashboard() {
 
     const projected = [
       {
-        label: "Bulan Ini",
+        label: t("analytics.this_month"),
         inc: baseInc,
         exp: baseExp,
         netWorth: baseNetWorth,
@@ -583,7 +638,7 @@ export default function AnalyticsBIDashboard() {
       });
     }
     return projected;
-  }, [processedTrends, currentMonthData]);
+  }, [processedTrends, currentMonthData, t]);
 
   // ─── Structured Actionable Recommendations ─────────────────────────────────────
 
@@ -592,9 +647,9 @@ export default function AnalyticsBIDashboard() {
 
     if (currentMonthData.profit > 0) {
       recs.push({
-        category: "Optimasi Cash Flow & DCA",
-        title: "Alokasikan 40-50% Surplus Operasional ke Portofolio DCA",
-        desc: `Surplus bersih bulan ini sebesar ${fmtIDR(currentMonthData.profit)} dapat dialokasikan langsung untuk akumulasi aset defensif (Obligasi & Indeks Saham).`,
+        category: t("analytics.rec_cashflow_category"),
+        title: t("analytics.rec_cashflow_title"),
+        desc: t("analytics.rec_cashflow_desc", { amount: fmtIDR(currentMonthData.profit) }),
         priority: "HIGH",
         badgeColor: "text-emerald-500 bg-emerald-500/10 border-emerald-500/30",
       });
@@ -602,9 +657,9 @@ export default function AnalyticsBIDashboard() {
 
     if (currentMonthData.expMoM > 10) {
       recs.push({
-        category: "Pengendalian Biaya",
-        title: "Disiplin Pembatasan Pos Pengeluaran Variabel",
-        desc: `Kenaikan belanja +${currentMonthData.expMoM.toFixed(1)}% memerlukan pemangkasan alokasi hiburan sebesar 15% untuk mengembalikan margin ke level optimal.`,
+        category: t("analytics.rec_cost_category"),
+        title: t("analytics.rec_cost_title"),
+        desc: t("analytics.rec_cost_desc", { value: currentMonthData.expMoM.toFixed(1) }),
         priority: "MEDIUM",
         badgeColor: "text-amber-500 bg-amber-500/10 border-amber-500/30",
       });
@@ -613,9 +668,9 @@ export default function AnalyticsBIDashboard() {
     const runwayNum = parseFloat(currentMonthData.runwayMonths) || 0;
     if (runwayNum < 6) {
       recs.push({
-        category: "Dana Darurat",
-        title: "Perkuat Runway Likuiditas hingga Minimal 6 Bulan",
-        desc: `Runway kas saat ini tercatat ${currentMonthData.runwayMonths} bulan pengeluaran. Prioritaskan akumulasi ke tabungan likuid sebelum menambah alokasi risiko tinggi.`,
+        category: t("analytics.rec_emergency_category"),
+        title: t("analytics.rec_emergency_title"),
+        desc: t("analytics.rec_emergency_desc", { months: currentMonthData.runwayMonths }),
         priority: "HIGH",
         badgeColor: "text-blue-500 bg-blue-500/10 border-blue-500/30",
       });
@@ -623,16 +678,16 @@ export default function AnalyticsBIDashboard() {
 
     if (recs.length === 0) {
       recs.push({
-        category: "Kesehatan Finansial",
-        title: "Pertahankan Struktur Anggaran Berimbang",
-        desc: "Arus kas dan struktur biaya Anda berada dalam koridor stabil. Lanjutkan pencatatan harian secara konsisten.",
+        category: t("analytics.rec_stable_category"),
+        title: t("analytics.rec_stable_title"),
+        desc: t("analytics.rec_stable_desc"),
         priority: "LOW",
         badgeColor: "text-emerald-500 bg-emerald-500/10 border-emerald-500/30",
       });
     }
 
     return recs;
-  }, [currentMonthData]);
+  }, [currentMonthData, t]);
 
   // ─── Filtered Drill-down Transactions ──────────────────────────────────────────
 
@@ -654,16 +709,16 @@ export default function AnalyticsBIDashboard() {
   // ─── Tab Configuration ─────────────────────────────────────────────────────────
 
   const tabOptions = [
-    { label: "1. Executive Summary", value: "overview" },
-    { label: "2. KPI & Metrics", value: "kpi" },
-    { label: "3. Visualisasi & Tren", value: "trends" },
-    { label: "4. Target vs Actual", value: "target" },
-    { label: "5. Segmentasi", value: "segmentation" },
-    { label: "6. Forecasting", value: "forecast" },
-    { label: "7. Anomali & Exception", value: "anomalies" },
-    { label: "8. Rekomendasi", value: "recommendations" },
-    { label: "9. Drill-down Detail", value: "drilldown" },
-    { label: "10. Metodologi Data", value: "methodology" },
+    { label: t("analytics.tab_executive_summary"), value: "overview" },
+    { label: t("analytics.tab_kpi"), value: "kpi" },
+    { label: t("analytics.tab_trends"), value: "trends" },
+    { label: t("analytics.tab_target"), value: "target" },
+    { label: t("analytics.tab_segmentation"), value: "segmentation" },
+    { label: t("analytics.tab_forecast"), value: "forecast" },
+    { label: t("analytics.tab_anomalies"), value: "anomalies" },
+    { label: t("analytics.tab_recommendations"), value: "recommendations" },
+    { label: t("analytics.tab_drilldown"), value: "drilldown" },
+    { label: t("analytics.tab_methodology"), value: "methodology" },
   ];
 
   return (
@@ -679,14 +734,14 @@ export default function AnalyticsBIDashboard() {
             <div>
               <div className="flex items-center gap-2.5">
                 <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight">
-                  Business & Financial Intelligence Dashboard
+                  {t("analytics.page_title")}
                 </h1>
-                <span className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" title="Active Profile: Personal">
+                <span className="inline-flex items-center justify-center p-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" title={t("analytics.active_profile_title")}>
                   <User size={12} strokeWidth={2.5} />
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 font-medium">
-                Enterprise Analytics • Live Data Engine • Predictive Modeling & AI Anomaly Detection
+                {t("analytics.page_subtitle")}
               </p>
             </div>
           </div>
@@ -698,13 +753,13 @@ export default function AnalyticsBIDashboard() {
               className="flex items-center gap-2 border border-border bg-card hover:bg-muted text-foreground font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs disabled:opacity-50"
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-              {loading ? "Memperbarui..." : "Refresh Real Data"}
+              {loading ? t("analytics.refreshing") : t("analytics.refresh")}
             </button>
             <div className="text-right hidden sm:block border-l border-border pl-4">
-              <p className="text-[10px] uppercase font-bold text-muted-foreground">Status Engine</p>
+              <p className="text-[10px] uppercase font-bold text-muted-foreground">{t("analytics.engine_status")}</p>
               <p className="text-xs font-bold text-emerald-500 flex items-center gap-1.5 justify-end">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                PostgreSQL Live Sync
+                {t("analytics.postgres_sync")}
               </p>
             </div>
           </div>
@@ -734,30 +789,30 @@ export default function AnalyticsBIDashboard() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <KPICard
-                label="Total Pemasukan Riil"
+                label={t("analytics.kpi_total_income")}
                 value={fmtIDR(currentMonthData.inc)}
-                sub={`${currentMonthData.incMoM >= 0 ? "+" : ""}${currentMonthData.incMoM.toFixed(1)}% vs bulan lalu`}
+                sub={t("analytics.vs_last_month", { value: `${currentMonthData.incMoM >= 0 ? "+" : ""}${currentMonthData.incMoM.toFixed(1)}` })}
                 color="green"
                 trend={currentMonthData.incMoM >= 0 ? "up" : "down"}
               />
               <KPICard
-                label="Total Pengeluaran Riil"
+                label={t("analytics.kpi_total_expense")}
                 value={fmtIDR(currentMonthData.exp)}
-                sub={`${currentMonthData.expMoM >= 0 ? "+" : ""}${currentMonthData.expMoM.toFixed(1)}% vs bulan lalu`}
+                sub={t("analytics.vs_last_month", { value: `${currentMonthData.expMoM >= 0 ? "+" : ""}${currentMonthData.expMoM.toFixed(1)}` })}
                 color="red"
                 trend={currentMonthData.expMoM <= 0 ? "up" : "down"}
               />
               <KPICard
-                label="Surplus Operasional Bersih"
+                label={t("analytics.kpi_net_surplus")}
                 value={fmtIDR(currentMonthData.profit)}
-                sub={`Margin Tabungan: ${currentMonthData.margin.toFixed(1)}%`}
+                sub={t("analytics.savings_margin", { value: currentMonthData.margin.toFixed(1) })}
                 color="blue"
                 large
               />
               <KPICard
-                label="Total Net Worth & Likuiditas"
+                label={t("analytics.kpi_net_worth")}
                 value={fmtCompact(currentMonthData.netWorth)}
-                sub={`Runway Kas: ${currentMonthData.runwayMonths} Bulan`}
+                sub={t("analytics.cash_runway", { months: currentMonthData.runwayMonths })}
                 color="purple"
               />
             </div>
@@ -767,9 +822,9 @@ export default function AnalyticsBIDashboard() {
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-base flex items-center gap-2">
                     <Activity className="text-blue-500" size={18} />
-                    Arus Kas Riil & Net Surplus (Histori 12 Bulan)
+                    {t("analytics.chart_cashflow_title")}
                   </h3>
-                  <span className="text-xs text-muted-foreground font-semibold">Live Database Records</span>
+                  <span className="text-xs text-muted-foreground font-semibold">{t("analytics.live_db_records")}</span>
                 </div>
                 <div className="h-[280px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -789,8 +844,8 @@ export default function AnalyticsBIDashboard() {
                       <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
                       <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
                       <Legend />
-                      <Area type="monotone" dataKey="inc" name="Pemasukan" stroke="#10b981" fillOpacity={1} fill="url(#incGrad)" strokeWidth={2.5} />
-                      <Area type="monotone" dataKey="exp" name="Pengeluaran" stroke="#ef4444" fillOpacity={1} fill="url(#expGrad)" strokeWidth={2.5} />
+                      <Area type="monotone" dataKey="inc" name={t("analytics.series_income")} stroke="#10b981" fillOpacity={1} fill="url(#incGrad)" strokeWidth={2.5} />
+                      <Area type="monotone" dataKey="exp" name={t("analytics.series_expense")} stroke="#ef4444" fillOpacity={1} fill="url(#expGrad)" strokeWidth={2.5} />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -800,26 +855,26 @@ export default function AnalyticsBIDashboard() {
                 <div>
                   <h3 className="font-bold text-base flex items-center gap-2 mb-3">
                     <ShieldAlert className="text-amber-500" size={18} />
-                    Status Likuiditas & Buffer
+                    {t("analytics.liquidity_title")}
                   </h3>
                   <div className="space-y-3">
                     <div className="p-3.5 rounded-2xl bg-card border border-border">
-                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">Kas Tabungan Cair</p>
+                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">{t("analytics.liquid_savings")}</p>
                       <p className="text-lg font-bold text-emerald-500">{fmtIDR(currentMonthData.cashSavings)}</p>
                     </div>
                     <div className="p-3.5 rounded-2xl bg-card border border-border">
-                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">Target Dana Darurat (3-6 Bln)</p>
+                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">{t("analytics.emergency_target")}</p>
                       <p className="text-lg font-bold text-blue-500">{fmtIDR(currentMonthData.emergencyFund)}</p>
                     </div>
                     <div className="p-3.5 rounded-2xl bg-card border border-border">
-                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">Total Portofolio Investasi</p>
+                      <p className="text-[11px] text-muted-foreground font-semibold uppercase">{t("analytics.portfolio_total")}</p>
                       <p className="text-lg font-bold text-purple-500">{fmtIDR(currentMonthData.totalPortfolioValue)}</p>
                     </div>
                   </div>
                 </div>
                 <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-semibold flex items-center gap-2">
                   <CheckCircle2 size={16} className="shrink-0" />
-                  Kondisi solvabilitas memenuhi standar buffer &gt; 3 bulan.
+                  {t("analytics.solvency_ok")}
                 </div>
               </div>
             </div>
@@ -837,39 +892,39 @@ export default function AnalyticsBIDashboard() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <KPICard
-                label="Productivity Rate"
+                label={t("analytics.kpi_productivity")}
                 value={`${currentMonthData.productivityRate.toFixed(1)}%`}
-                sub="(Net Surplus / Pengeluaran) • Efisiensi Modal"
+                sub={t("analytics.kpi_productivity_sub")}
                 color="cyan"
               />
               <KPICard
-                label="Savings / Profit Margin"
+                label={t("analytics.kpi_savings_margin")}
                 value={`${currentMonthData.margin.toFixed(1)}%`}
-                sub="Persentase surplus yang berhasil ditabung"
+                sub={t("analytics.kpi_savings_margin_sub")}
                 color="green"
               />
               <KPICard
-                label="Burn Rate Ratio"
+                label={t("analytics.kpi_burn_rate")}
                 value={`${(100 - currentMonthData.margin).toFixed(1)}%`}
-                sub="Beban biaya terhadap omzet bulanan"
+                sub={t("analytics.kpi_burn_rate_sub")}
                 color="amber"
               />
               <KPICard
-                label="Herfindahl Index (HHI)"
+                label={t("analytics.kpi_hhi")}
                 value={riskData?.concentration_hhi ? String(riskData.concentration_hhi) : "0.24"}
-                sub="Tingkat konsentrasi portofolio & risiko aset"
+                sub={t("analytics.kpi_hhi_sub")}
                 color="purple"
               />
               <KPICard
-                label="Runway Kas Bebas"
-                value={`${currentMonthData.runwayMonths} Bulan`}
-                sub="Daya tahan kas tanpa pemasukan baru"
+                label={t("analytics.kpi_free_runway")}
+                value={t("analytics.runway_months", { months: currentMonthData.runwayMonths })}
+                sub={t("analytics.kpi_free_runway_sub")}
                 color="blue"
               />
               <KPICard
-                label="Total Transaksi Tercatat"
-                value={`${allTransactions.length} Record`}
-                sub="Ledger transaksi live dari database"
+                label={t("analytics.kpi_tx_count")}
+                value={t("analytics.records_count", { count: allTransactions.length })}
+                sub={t("analytics.kpi_tx_count_sub")}
                 color="yellow"
               />
             </div>
@@ -888,7 +943,7 @@ export default function AnalyticsBIDashboard() {
             <div className="glass-panel p-6 rounded-3xl space-y-4">
               <h3 className="font-bold text-base flex items-center gap-2">
                 <TrendingUp size={18} className="text-emerald-500" />
-                Tren Arus Kas Bulanan & Net Surplus
+                {t("analytics.chart_trends_title")}
               </h3>
               <div className="h-[340px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -898,8 +953,8 @@ export default function AnalyticsBIDashboard() {
                     <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
                     <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
                     <Legend />
-                    <Bar dataKey="inc" name="Pemasukan" fill="#10b981" radius={[6, 6, 0, 0]} />
-                    <Bar dataKey="exp" name="Pengeluaran" fill="#ef4444" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="inc" name={t("analytics.series_income")} fill="#10b981" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="exp" name={t("analytics.series_expense")} fill="#ef4444" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -921,13 +976,22 @@ export default function AnalyticsBIDashboard() {
               <div className="glass-panel p-6 rounded-3xl space-y-4">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Target size={18} className="text-blue-500" />
-                  Budget Pos Pengeluaran vs Realisasi Riil
+                  {t("analytics.budget_vs_actual_title")}
                 </h3>
                 <div className="space-y-4">
                   {budgetVsActual.map((b) => (
                     <div key={b.name} className="space-y-1.5 p-3 rounded-2xl bg-card border border-border">
-                      <div className="flex justify-between text-xs font-semibold">
-                        <span>{b.name}</span>
+                      <div className="flex justify-between items-center text-xs font-semibold">
+                        <span className="flex items-center gap-2">
+                          {b.name}
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                            b.status === "over" ? "bg-red-500/15 text-red-500 border-red-500/30" :
+                            b.status === "near" ? "bg-amber-500/15 text-amber-500 border-amber-500/30" :
+                            "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                          }`}>
+                            {t(BUDGET_STATUS_LABEL[b.status])}
+                          </span>
+                        </span>
                         <span>{fmtIDR(b.actual)} / {fmtIDR(b.target)} ({b.pct}%)</span>
                       </div>
                       <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
@@ -947,11 +1011,11 @@ export default function AnalyticsBIDashboard() {
               <div className="glass-panel p-6 rounded-3xl space-y-4">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <CheckCircle2 size={18} className="text-emerald-500" />
-                  Progres Target Keuangan Riil (Goals)
+                  {t("analytics.goals_progress_title")}
                 </h3>
                 {rawGoals.length === 0 ? (
                   <div className="p-8 text-center text-xs text-muted-foreground">
-                    Belum ada target keuangan aktif di database.
+                    {t("analytics.goals_empty")}
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -989,7 +1053,7 @@ export default function AnalyticsBIDashboard() {
               <div className="glass-panel p-6 rounded-3xl space-y-4">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <PieIcon size={18} className="text-purple-500" />
-                  Distribusi Pengeluaran Berdasarkan Kategori
+                  {t("analytics.chart_expense_title")}
                 </h3>
                 <div className="h-[280px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -1018,7 +1082,7 @@ export default function AnalyticsBIDashboard() {
               <div className="glass-panel p-6 rounded-3xl space-y-4">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Layers size={18} className="text-blue-500" />
-                  Rincian Proporsi Biaya
+                  {t("analytics.cost_breakdown_title")}
                 </h3>
                 <div className="space-y-2.5 overflow-y-auto max-h-[300px] pr-1">
                   {expenseSegmentation.map((seg) => (
@@ -1026,7 +1090,7 @@ export default function AnalyticsBIDashboard() {
                       <div className="flex items-center gap-2.5">
                         <span className="w-3 h-3 rounded-full" style={{ backgroundColor: seg.color }} />
                         <span className="font-bold">{seg.name}</span>
-                        <span className="text-muted-foreground text-[10px]">({seg.count} tx)</span>
+                        <span className="text-muted-foreground text-[10px]">{t("analytics.tx_count_short", { count: seg.count })}</span>
                       </div>
                       <div className="text-right font-semibold">
                         <span>{fmtIDR(seg.amount)}</span>
@@ -1053,9 +1117,9 @@ export default function AnalyticsBIDashboard() {
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Sparkles size={18} className="text-yellow-500" />
-                  Proyeksi Pertumbuhan Arus Kas 6 Bulan Mendatang
+                  {t("analytics.chart_forecast_title")}
                 </h3>
-                <span className="text-xs font-semibold text-muted-foreground">Moving Trend Linear Regression</span>
+                <span className="text-xs font-semibold text-muted-foreground">{t("analytics.forecast_method")}</span>
               </div>
               <div className="h-[320px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -1065,9 +1129,9 @@ export default function AnalyticsBIDashboard() {
                     <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
                     <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
                     <Legend />
-                    <Line type="monotone" dataKey="inc" name="Projected Income" stroke="#10b981" strokeWidth={2.5} strokeDasharray="4 4" />
-                    <Line type="monotone" dataKey="exp" name="Projected Expense" stroke="#ef4444" strokeWidth={2.5} strokeDasharray="4 4" />
-                    <Line type="monotone" dataKey="netWorth" name="Projected Net Worth" stroke="#3b82f6" strokeWidth={3} />
+                    <Line type="monotone" dataKey="inc" name={t("analytics.series_projected_income")} stroke="#10b981" strokeWidth={2.5} strokeDasharray="4 4" />
+                    <Line type="monotone" dataKey="exp" name={t("analytics.series_projected_expense")} stroke="#ef4444" strokeWidth={2.5} strokeDasharray="4 4" />
+                    <Line type="monotone" dataKey="netWorth" name={t("analytics.series_projected_net_worth")} stroke="#3b82f6" strokeWidth={3} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1088,17 +1152,17 @@ export default function AnalyticsBIDashboard() {
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <AlertTriangle className="text-amber-500" size={20} />
-                  Deteksi Anomali & Exception (Statistical & AI Insights)
+                  {t("analytics.anomalies_title")}
                 </h3>
                 <span className="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
-                  {calculatedAnomalies.length} Anomali Terdeteksi
+                  {t("analytics.anomalies_detected", { count: calculatedAnomalies.length })}
                 </span>
               </div>
 
               {calculatedAnomalies.length === 0 ? (
                 <div className="p-8 text-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-semibold">
                   <CheckCircle2 size={24} className="mx-auto mb-2" />
-                  Semua transaksi dan pola arus kas berada dalam batas variansi normal (Z &lt; 2.2σ).
+                  {t("analytics.no_anomalies")}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1110,7 +1174,7 @@ export default function AnalyticsBIDashboard() {
                           an.severity === "HIGH" ? "bg-amber-500/15 text-amber-500 border-amber-500/30" :
                           "bg-blue-500/15 text-blue-500 border-blue-500/30"
                         }`}>
-                          {an.severity} SEVERITY
+                          {t(ANOMALY_SEVERITY_LABEL[an.severity])}
                         </span>
                         <span className="text-[10px] text-muted-foreground font-mono">{an.date}</span>
                       </div>
@@ -1119,7 +1183,7 @@ export default function AnalyticsBIDashboard() {
                       <div className="p-3 rounded-xl bg-muted/40 border border-border/60 text-xs space-y-1">
                         <p className="font-semibold text-foreground flex items-center gap-1.5">
                           <Lightbulb size={13} className="text-yellow-500" />
-                          Rekomendasi AI:
+                          {t("analytics.ai_recommendation")}
                         </p>
                         <p className="text-muted-foreground">{an.recommendation}</p>
                       </div>
@@ -1143,7 +1207,7 @@ export default function AnalyticsBIDashboard() {
             <div className="glass-panel p-6 rounded-3xl space-y-4">
               <h3 className="font-bold text-base flex items-center gap-2">
                 <Lightbulb className="text-yellow-500" size={20} />
-                Rekomendasi Tindakan Finansial Terstruktur
+                {t("analytics.recommendations_title")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {actionableRecommendations.map((rec, idx) => (
@@ -1173,14 +1237,14 @@ export default function AnalyticsBIDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Eye size={18} />
-                  Rincian Transaksi Riil ({filteredTransactions.length} items)
+                  {t("analytics.drilldown_title", { count: filteredTransactions.length })}
                 </h3>
                 <div className="flex flex-wrap items-center gap-2.5">
                   <div className="relative">
                     <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <input
                       type="text"
-                      placeholder="Cari transaksi..."
+                      placeholder={t("analytics.search_placeholder")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-8 pr-3 py-1.5 bg-card border border-border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -1191,10 +1255,10 @@ export default function AnalyticsBIDashboard() {
                     onChange={(e) => setTypeFilter(e.target.value)}
                     className="py-1.5 px-3 bg-card border border-border rounded-xl text-xs focus:outline-none"
                   >
-                    <option value="ALL">Semua Tipe</option>
-                    <option value="expense">Pengeluaran</option>
-                    <option value="income">Pemasukan</option>
-                    <option value="investment">Investasi</option>
+                    <option value="ALL">{t("analytics.filter_all_types")}</option>
+                    <option value="expense">{t("analytics.filter_expense")}</option>
+                    <option value="income">{t("analytics.filter_income")}</option>
+                    <option value="investment">{t("analytics.filter_investment")}</option>
                   </select>
                 </div>
               </div>
@@ -1203,12 +1267,12 @@ export default function AnalyticsBIDashboard() {
                 <table className="w-full text-xs text-left">
                   <thead className="bg-muted/50 uppercase font-semibold text-muted-foreground border-b border-border">
                     <tr>
-                      <th className="py-2.5 px-3">ID / Tanggal</th>
-                      <th className="py-2.5 px-3">Tipe</th>
-                      <th className="py-2.5 px-3">Deskripsi & Segment</th>
-                      <th className="py-2.5 px-3">Kategori</th>
-                      <th className="py-2.5 px-3 text-right">Jumlah</th>
-                      <th className="py-2.5 px-3 text-center">Status</th>
+                      <th className="py-2.5 px-3">{t("analytics.col_id_date")}</th>
+                      <th className="py-2.5 px-3">{t("analytics.col_type")}</th>
+                      <th className="py-2.5 px-3">{t("analytics.col_description_segment")}</th>
+                      <th className="py-2.5 px-3">{t("analytics.col_category")}</th>
+                      <th className="py-2.5 px-3 text-right">{t("analytics.col_amount")}</th>
+                      <th className="py-2.5 px-3 text-center">{t("analytics.col_status")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
@@ -1223,12 +1287,12 @@ export default function AnalyticsBIDashboard() {
                             tx.type === "income" ? "bg-emerald-500/10 text-emerald-500" :
                             tx.type === "expense" ? "bg-red-500/10 text-red-500" : "bg-blue-500/10 text-blue-500"
                           }`}>
-                            {tx.type}
+                            {t(TX_TYPE_LABEL[tx.type])}
                           </span>
                         </td>
                         <td className="py-3 px-3">
                           <div className="font-semibold text-foreground">{tx.description}</div>
-                          <div className="text-[10px] text-muted-foreground">{tx.segment} • {tx.paymentMethod}</div>
+                          <div className="text-[10px] text-muted-foreground">{segmentLabel(tx.segment)} • {paymentLabel(tx.paymentMethod)}</div>
                         </td>
                         <td className="py-3 px-3">{tx.category}</td>
                         <td className={`py-3 px-3 text-right font-bold ${
@@ -1241,7 +1305,7 @@ export default function AnalyticsBIDashboard() {
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                             tx.status === "anomaly" ? "bg-red-500/20 text-red-500" : "bg-muted text-muted-foreground"
                           }`}>
-                            {tx.status}
+                            {t(TX_STATUS_LABEL[tx.status])}
                           </span>
                         </td>
                       </tr>
@@ -1265,24 +1329,24 @@ export default function AnalyticsBIDashboard() {
             <div className="glass-panel p-6 rounded-3xl space-y-4">
               <h3 className="font-bold text-base flex items-center gap-2">
                 <Database size={18} className="text-blue-500" />
-                Sumber Data, Lineage & Metodologi Perhitungan
+                {t("analytics.methodology_title")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-muted-foreground leading-relaxed">
                 <div className="p-4 rounded-2xl bg-card border border-border space-y-2">
-                  <h4 className="font-bold text-sm text-foreground">1. PostgreSQL & Prisma Schema Lineage</h4>
-                  <p>Seluruh transaksi disinkronkan secara real-time dari skema database PostgreSQL terisolasi per profil pengguna.</p>
+                  <h4 className="font-bold text-sm text-foreground">{t("analytics.methodology_1_title")}</h4>
+                  <p>{t("analytics.methodology_1_desc")}</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-border space-y-2">
-                  <h4 className="font-bold text-sm text-foreground">2. Formula Net Surplus & Produktivitas</h4>
-                  <p>Net Surplus = Total Income - Total Expense. Indeks Produktivitas = (Net Surplus / Total Expense) × 100%.</p>
+                  <h4 className="font-bold text-sm text-foreground">{t("analytics.methodology_2_title")}</h4>
+                  <p>{t("analytics.methodology_2_desc")}</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-border space-y-2">
-                  <h4 className="font-bold text-sm text-foreground">3. Algoritma Deteksi Anomali</h4>
-                  <p>Deteksi anomali menggunakan Z-Score pada setiap kategori: Z = (x - μ) / σ &gt; 2.2σ dan lonjakan MoM &gt; 20%.</p>
+                  <h4 className="font-bold text-sm text-foreground">{t("analytics.methodology_3_title")}</h4>
+                  <p>{t("analytics.methodology_3_desc")}</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-border space-y-2">
-                  <h4 className="font-bold text-sm text-foreground">4. Model Proyeksi Time Series</h4>
-                  <p>Forecasting menggunakan regresi linier moving slope dengan bounding inflasi konservatif (-4% s/d +8%).</p>
+                  <h4 className="font-bold text-sm text-foreground">{t("analytics.methodology_4_title")}</h4>
+                  <p>{t("analytics.methodology_4_desc")}</p>
                 </div>
               </div>
             </div>
