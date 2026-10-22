@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import type { Analytics } from "../types";
+import { useI18n } from "@/i18n/context";
 
 const DRILL_PAGE_SIZE = 10;
 
 export function DrilldownTable({ analytics, fmtCompact }: { analytics: Analytics; fmtCompact: (n: number) => string }) {
+  const { t } = useI18n();
   const [drillPage, setDrillPage] = useState(0);
 
   if (!analytics.drill_down || analytics.drill_down.length === 0) return null;
@@ -15,18 +17,18 @@ export function DrilldownTable({ analytics, fmtCompact }: { analytics: Analytics
 
   return (
     <div className="glass-panel p-5 rounded-2xl">
-      <h3 className="font-semibold text-sm mb-4">Detail Daily Log (Drill-down)</h3>
+      <h3 className="font-semibold text-sm mb-4">{t("business.drilldown_table_title")}</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-xs text-muted-foreground font-semibold border-b border-border">
-              <th className="text-left pb-2 px-3">Tanggal</th>
-              <th className="text-right pb-2 px-3">Planned %</th>
-              <th className="text-right pb-2 px-3">Actual %</th>
-              <th className="text-right pb-2 px-3">Actual Cost</th>
-              <th className="text-right pb-2 px-3">Headcount</th>
-              <th className="text-right pb-2 px-3">Work Hours</th>
-              <th className="text-left pb-2 px-3">Pekerjaan</th>
+              <th className="text-left pb-2 px-3">{t("business.col_date")}</th>
+              <th className="text-right pb-2 px-3">{t("business.col_planned_pct")}</th>
+              <th className="text-right pb-2 px-3">{t("business.col_actual_pct")}</th>
+              <th className="text-right pb-2 px-3">{t("business.col_cost")}</th>
+              <th className="text-right pb-2 px-3">{t("business.col_headcount")}</th>
+              <th className="text-right pb-2 px-3">{t("business.col_hours")}</th>
+              <th className="text-left pb-2 px-3">{t("business.col_tasks")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -50,15 +52,15 @@ export function DrilldownTable({ analytics, fmtCompact }: { analytics: Analytics
             onClick={() => setDrillPage(Math.max(0, drillPage - 1))}
             disabled={drillPage === 0}
             className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border hover:bg-muted disabled:opacity-40 transition-colors"
-          >← Prev</button>
+          >{t("business.prev")}</button>
           <span className="text-xs text-muted-foreground">
-            Halaman {drillPage + 1} / {Math.ceil(analytics.drill_down.length / DRILL_PAGE_SIZE)}
+            {t("business.pagination", { page: drillPage + 1, total: Math.ceil(analytics.drill_down.length / DRILL_PAGE_SIZE) })}
           </span>
           <button
             onClick={() => setDrillPage(Math.min(Math.ceil(analytics.drill_down.length / DRILL_PAGE_SIZE) - 1, drillPage + 1))}
             disabled={(drillPage + 1) * DRILL_PAGE_SIZE >= analytics.drill_down.length}
             className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border hover:bg-muted disabled:opacity-40 transition-colors"
-          >Next →</button>
+          >{t("business.next")}</button>
         </div>
       )}
     </div>
