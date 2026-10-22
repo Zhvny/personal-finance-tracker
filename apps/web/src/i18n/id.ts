@@ -457,6 +457,47 @@ const id = {
   "behavioral.severity_high": "Tinggi",
   "behavioral.severity_medium": "Sedang",
   "behavioral.evidence_label": "Bukti: {evidence}",
+
+  // Home Page
+  "home.page_title": "Dasbor Keuangan Pribadi — Lacak Pengeluaran & Investasi",
+  "home.page_subtitle": "Manajemen keuangan berbasis AI & insights perilaku",
+  "home.recent_expenses": "Pengeluaran Terbaru",
+  "home.empty_expenses": "Tidak ada pengeluaran atau API sedang offline.",
+  "home.table_caption": "Daftar pengeluaran terbaru dengan tanggal, deskripsi, kategori, dan jumlah",
+  "home.col_date": "Tanggal",
+  "home.col_description": "Deskripsi",
+  "home.col_category": "Kategori",
+  "home.col_amount": "Jumlah",
+  "home.default_expense_description": "Pengeluaran",
+  "home.footer_built_with": "Dibangun dengan Next.js, FastAPI, dan Prisma.",
+
+  // Shared UI Components
+  "ui.nav_tabs_label": "Tab navigasi",
+  "ui.profile_new_title": "Profil Baru",
+  "ui.profile_new_subtitle": "Pilih tipe penggunaan sebelum membuat",
+  "ui.profile_type_label": "Tipe Profil",
+  "ui.profile_personal_desc": "Pengeluaran, pemasukan, investasi",
+  "ui.profile_business_desc": "Kokpit BI/BA, analitik proyek, EVM",
+  "ui.profile_name_label": "Nama Profil",
+  "ui.profile_name_placeholder": "mis. kerja, freelance, pribadi",
+  "ui.profile_name_required": "Nama profil wajib diisi.",
+  "ui.profile_name_too_long": "Nama profil maksimal 32 karakter.",
+  "ui.profile_name_reserved": "Nama profil ini telah direservasi. Pilih nama lain.",
+  "ui.profile_name_exists": "Profil {name} sudah ada.",
+  "ui.profile_create_failed": "Gagal membuat profil.",
+  "ui.profile_business_note": "Profil bisnis mencakup Kokpit BI/BA dengan Investment Tracker, Expense Tracker, Income Tracker, dan Receipt Reader yang selaras dengan analitik proyek.",
+  "ui.profile_created": "Profil Dibuat",
+  "ui.profile_creating": "Membuat...",
+  "ui.profile_create_personal": "Buat Profil Pribadi",
+  "ui.profile_create_business": "Buat Profil Bisnis",
+  "ui.filter_period_title": "Filter Periode",
+  "ui.filter_year_label": "Tahun",
+  "ui.preset_this_month": "Bulan Ini",
+  "ui.preset_last_month": "Bulan Lalu",
+  "ui.filter_showing_data": "Menampilkan data:",
+
+  // Skeletons
+  "skeleton.analytics_loading": "Memuat analitik",
 };
 
 export default id;

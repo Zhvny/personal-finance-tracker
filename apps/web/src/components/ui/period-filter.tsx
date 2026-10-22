@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CalendarDays, Filter } from "lucide-react";
+import { useI18n } from "@/i18n/context";
 
 interface FilterState {
   year: number;
@@ -14,29 +15,30 @@ interface PeriodFilterProps {
   defaultYear?: number;
 }
 
-const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
-  "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
-];
-
-const PRESETS = [
-  { label: "Semua",      value: "all" },
-  { label: "Bulan Ini",  value: "this_month" },
-  { label: "Bln Lalu",  value: "last_month" },
-  { label: "Q1",         value: "q1" },
-  { label: "Q2",         value: "q2" },
-  { label: "Q3",         value: "q3" },
-  { label: "Q4",         value: "q4" },
-  { label: "YTD",        value: "ytd" },
-];
-
 export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullYear() }: PeriodFilterProps) {
+  const { t, locale } = useI18n();
   const [selectedYear, setSelectedYear]   = useState<number>(defaultYear);
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [selectedPreset, setSelectedPreset] = useState<string>("this_month");
 
   const currentYear = new Date().getFullYear();
   const yearOptions = [currentYear - 2, currentYear - 1, currentYear];
+
+  const months = Array.from(
+    { length: 12 },
+    (_, i) => new Intl.DateTimeFormat(locale, { month: "short" }).format(new Date(2000, i, 1))
+  );
+
+  const presets = [
+    { label: t("common.all"),            value: "all" },
+    { label: t("ui.preset_this_month"),  value: "this_month" },
+    { label: t("ui.preset_last_month"),  value: "last_month" },
+    { label: "Q1",                        value: "q1" },
+    { label: "Q2",                        value: "q2" },
+    { label: "Q3",                        value: "q3" },
+    { label: "Q4",                        value: "q4" },
+    { label: "YTD",                       value: "ytd" },
+  ];
 
   const emitChange = (year: number, month: number | null, period: string) => {
     onFilterChange({ year, month, period });
@@ -66,7 +68,7 @@ export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullY
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <Filter size={15} className="text-primary" />
-          <span>Filter Periode</span>
+          <span>{t("ui.filter_period_title")}</span>
         </div>
 
         {/* Year selector */}
@@ -75,6 +77,7 @@ export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullY
           <select
             value={selectedYear}
             onChange={(e) => handleYear(Number(e.target.value))}
+            aria-label={t("ui.filter_year_label")}
             className="bg-background border border-border rounded-lg px-3 py-1.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
           >
             {yearOptions.map((y) => (
@@ -86,7 +89,7 @@ export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullY
 
       {/* Preset pills */}
       <div className="flex flex-wrap gap-1.5">
-        {PRESETS.map((p) => (
+        {presets.map((p) => (
           <button
             key={p.value}
             onClick={() => handlePreset(p.value)}
@@ -112,9 +115,9 @@ export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullY
                 : "text-muted-foreground hover:bg-muted"
             }`}
           >
-            All
+            {t("common.all")}
           </button>
-          {MONTHS.map((mo, idx) => (
+          {months.map((mo, idx) => (
             <button
               key={mo}
               onClick={() => handleMonth(idx)}
@@ -133,11 +136,11 @@ export function PeriodFilter({ onFilterChange, defaultYear = new Date().getFullY
       {/* Active filter summary */}
       {selectedPreset !== "all" && (
         <p className="text-xs text-muted-foreground">
-          Menampilkan data:
+          {t("ui.filter_showing_data")}
           <span className="font-semibold text-foreground ml-1">
             {selectedPreset === "custom"
-              ? `${selectedYear}${selectedMonth !== null ? ` / ${MONTHS[selectedMonth]}` : ""}`
-              : `${PRESETS.find(p => p.value === selectedPreset)?.label} ${selectedYear}`
+              ? `${selectedYear}${selectedMonth !== null ? ` / ${months[selectedMonth]}` : ""}`
+              : `${presets.find(p => p.value === selectedPreset)?.label} ${selectedYear}`
             }
           </span>
         </p>

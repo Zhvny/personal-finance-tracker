@@ -457,6 +457,47 @@ const en = {
   "behavioral.severity_high": "High",
   "behavioral.severity_medium": "Medium",
   "behavioral.evidence_label": "Evidence: {evidence}",
+
+  // Home Page
+  "home.page_title": "Personal Finance Dashboard — Track Expenses & Investments",
+  "home.page_subtitle": "AI-powered financial management & behavioral insights",
+  "home.recent_expenses": "Recent Expenses",
+  "home.empty_expenses": "No expenses found or API is offline.",
+  "home.table_caption": "List of recent expenses with date, description, category, and amount",
+  "home.col_date": "Date",
+  "home.col_description": "Description",
+  "home.col_category": "Category",
+  "home.col_amount": "Amount",
+  "home.default_expense_description": "Expense",
+  "home.footer_built_with": "Built with Next.js, FastAPI, and Prisma.",
+
+  // Shared UI Components
+  "ui.nav_tabs_label": "Navigation tabs",
+  "ui.profile_new_title": "New Profile",
+  "ui.profile_new_subtitle": "Choose a use type before creating",
+  "ui.profile_type_label": "Profile Type",
+  "ui.profile_personal_desc": "Expenses, income, investments",
+  "ui.profile_business_desc": "BI/BA cockpit, project analytics, EVM",
+  "ui.profile_name_label": "Profile Name",
+  "ui.profile_name_placeholder": "e.g. work, freelance, personal",
+  "ui.profile_name_required": "Profile name is required.",
+  "ui.profile_name_too_long": "Profile name must be 32 characters or fewer.",
+  "ui.profile_name_reserved": "This profile name is reserved. Choose a different name.",
+  "ui.profile_name_exists": "Profile {name} already exists.",
+  "ui.profile_create_failed": "Failed to create profile.",
+  "ui.profile_business_note": "Business profiles include the BI/BA Cockpit with Investment Tracker, Expense Tracker, Income Tracker, and Receipt Reader aligned with project analytics.",
+  "ui.profile_created": "Profile Created",
+  "ui.profile_creating": "Creating...",
+  "ui.profile_create_personal": "Create Personal Profile",
+  "ui.profile_create_business": "Create Business Profile",
+  "ui.filter_period_title": "Filter Period",
+  "ui.filter_year_label": "Year",
+  "ui.preset_this_month": "This Month",
+  "ui.preset_last_month": "Last Month",
+  "ui.filter_showing_data": "Showing data:",
+
+  // Skeletons
+  "skeleton.analytics_loading": "Loading analytics",
 };
 
 export default en;

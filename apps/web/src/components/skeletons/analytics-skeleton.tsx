@@ -1,8 +1,12 @@
+"use client";
+
 import { CardSkeleton } from "./card-skeleton";
+import { useI18n } from "@/i18n/context";
 
 export function AnalyticsSkeleton() {
+  const { t } = useI18n();
   return (
-    <div className="space-y-8">
+    <div role="status" aria-label={t("skeleton.analytics_loading")} className="space-y-8">
       <div>
         <div className="h-9 w-48 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
         <div className="mt-2 h-5 w-72 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />

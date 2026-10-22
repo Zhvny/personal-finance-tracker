@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/i18n/context";
 
 interface Tab {
   label: string;
@@ -17,11 +18,12 @@ interface LiquidNavProps {
 }
 
 export function LiquidNav({ tabs, value, onChange, className = "" }: LiquidNavProps) {
+  const { t } = useI18n();
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
-    const activeIdx = tabs.findIndex((t) => t.value === value);
+    const activeIdx = tabs.findIndex((tab) => tab.value === value);
     const el = tabRefs.current[activeIdx];
     if (el) {
       setIndicatorStyle({ left: el.offsetLeft, width: el.offsetWidth });
@@ -32,7 +34,7 @@ export function LiquidNav({ tabs, value, onChange, className = "" }: LiquidNavPr
     <div
       className={`relative flex items-center gap-0.5 p-1 rounded-2xl glass-panel ${className}`}
       role="tablist"
-      aria-label="Navigation tabs"
+      aria-label={t("ui.nav_tabs_label")}
     >
       {/* Liquid morphing pill indicator */}
       <motion.div
