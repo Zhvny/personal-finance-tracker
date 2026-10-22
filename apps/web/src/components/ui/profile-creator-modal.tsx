@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User, Briefcase, Plus, RefreshCw, Check } from "lucide-react";
 import { clientProxyUrl } from "@/lib/api";
+import { useI18n } from "@/i18n/context";
 
 interface ProfileCreatorProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export function ProfileCreatorModal({
   onCreated,
   existingProfiles,
 }: ProfileCreatorProps) {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [useType, setUseType] = useState<ProfileUseType>("personal");
   const [submitting, setSubmitting] = useState(false);
@@ -45,20 +47,20 @@ export function ProfileCreatorModal({
 
     const trimmed = name.trim().toLowerCase();
     if (!trimmed) {
-      setError("Profile name is required.");
+      setError(t("ui.profile_name_required"));
       return;
     }
     if (trimmed.length > 32) {
-      setError("Profile name must be 32 characters or fewer.");
+      setError(t("ui.profile_name_too_long"));
       return;
     }
     const RESERVED = ['admin', 'root', 'system', 'api', 'null', 'undefined', 'default', 'config', 'test', 'qa'];
     if (RESERVED.includes(trimmed)) {
-      setError("This profile name is reserved. Choose a different name.");
+      setError(t("ui.profile_name_reserved"));
       return;
     }
     if (existingProfiles.includes(trimmed)) {
-      setError(`Profile "${trimmed}" already exists.`);
+      setError(t("ui.profile_name_exists", { name: trimmed }));
       return;
     }
 
@@ -81,7 +83,7 @@ export function ProfileCreatorModal({
         onCreated();
       }, 900);
     } catch (err: any) {
-      setError(err.message || "Failed to create profile.");
+      setError(err.message || t("ui.profile_create_failed"));
     } finally {
       setSubmitting(false);
     }
@@ -125,15 +127,15 @@ export function ProfileCreatorModal({
                   id="create-profile-title"
                   className="text-sm font-semibold text-foreground"
                 >
-                  New Profile
+                  {t("ui.profile_new_title")}
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Choose a use type before creating
+                  {t("ui.profile_new_subtitle")}
                 </p>
               </div>
               <button
                 onClick={handleClose}
-                aria-label="Close"
+                aria-label={t("common.close")}
                 className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground
                   hover:bg-muted transition-colors
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -146,7 +148,7 @@ export function ProfileCreatorModal({
               {/* Use-type selector */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2.5">
-                  Profile Type
+                  {t("ui.profile_type_label")}
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {(["personal", "business"] as ProfileUseType[]).map((type) => {
@@ -209,12 +211,12 @@ export function ProfileCreatorModal({
 
                         <div>
                           <p className="text-sm font-semibold leading-tight">
-                            {isBiz ? "Business" : "Personal"}
+                            {isBiz ? t("profile.business") : t("profile.personal")}
                           </p>
                           <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
                             {isBiz
-                              ? "BI/BA cockpit, project analytics, EVM"
-                              : "Expenses, income, investments"}
+                              ? t("ui.profile_business_desc")
+                              : t("ui.profile_personal_desc")}
                           </p>
                         </div>
                       </button>
@@ -229,7 +231,7 @@ export function ProfileCreatorModal({
                   htmlFor="profile-name-input"
                   className="block text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2"
                 >
-                  Profile Name
+                  {t("ui.profile_name_label")}
                 </label>
                 <input
                   id="profile-name-input"
@@ -240,7 +242,7 @@ export function ProfileCreatorModal({
                     const sanitized = raw.replace(/[^a-z0-9_]/g, '').slice(0, 32);
                     setName(sanitized);
                   }}
-                  placeholder="e.g. work, freelance, personal"
+                  placeholder={t("ui.profile_name_placeholder")}
                   autoComplete="off"
                   spellCheck={false}
                   maxLength={32}
@@ -265,9 +267,7 @@ export function ProfileCreatorModal({
                     border border-amber-200/70 dark:border-amber-800/40 px-3.5 py-3"
                 >
                   <p className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
-                    Business profiles include the BI/BA Cockpit with Investment
-                    Tracker, Expense Tracker, Income Tracker, and Receipt Reader
-                    aligned with project analytics.
+                    {t("ui.profile_business_note")}
                   </p>
                 </motion.div>
               )}
@@ -292,17 +292,19 @@ export function ProfileCreatorModal({
                 {success ? (
                   <>
                     <Check size={15} strokeWidth={2.5} />
-                    Profile Created
+                    {t("ui.profile_created")}
                   </>
                 ) : submitting ? (
                   <>
                     <RefreshCw size={14} className="animate-spin" />
-                    Creating...
+                    {t("ui.profile_creating")}
                   </>
                 ) : (
                   <>
                     <Plus size={14} strokeWidth={2.5} />
-                    Create {useType === "business" ? "Business" : "Personal"} Profile
+                    {useType === "business"
+                      ? t("ui.profile_create_business")
+                      : t("ui.profile_create_personal")}
                   </>
                 )}
               </button>
