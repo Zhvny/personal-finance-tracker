@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, X } from "lucide-react";
 import type { Analytics } from "../types";
+import { useI18n } from "@/i18n/context";
 
 interface ExecutiveReportModalProps {
   show: boolean;
@@ -14,6 +15,7 @@ interface ExecutiveReportModalProps {
 }
 
 export function ExecutiveReportModal({ show, report, reportPeriod, analytics, selectedId, onClose }: ExecutiveReportModalProps) {
+  const { t } = useI18n();
   if (!show || !report) return null;
 
   return (
@@ -34,8 +36,8 @@ export function ExecutiveReportModal({ show, report, reportPeriod, analytics, se
         >
           <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
             <div>
-              <h2 id="executive-report-title" className="font-bold text-lg">Executive Report</h2>
-              <p className="text-xs text-muted-foreground capitalize">{reportPeriod} · {analytics?.project_name}</p>
+              <h2 id="executive-report-title" className="font-bold text-lg">{t("business.report_title")}</h2>
+              <p className="text-xs text-muted-foreground capitalize">{t("business.period_" + reportPeriod)} · {analytics?.project_name}</p>
             </div>
             <div className="flex items-center gap-2">
               <a
