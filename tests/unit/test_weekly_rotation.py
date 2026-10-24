@@ -253,6 +253,21 @@ def test_api_weekly_rotation_and_claims(db_conn, monkeypatch):
         assert cat["week_start"] == "2026-10-19"
         assert len(cat["items"]) == 12
         assert cat["items"][0]["claimed"] is False
+        assert cat["halal_only"] is True
+        assert all("halal" in i and isinstance(i["halal"], bool) for i in cat["items"])
+
+        # Update preference to False
+        res_pref = client.put(
+            "/api/rewards/preferences",
+            json={"profile_id": "prof_1", "halal_only": False},
+        )
+        assert res_pref.status_code == 200
+        assert res_pref.json()["halal_only"] is False
+
+        # Verify catalogue returns updated preference
+        res_cat2 = client.get("/api/rewards/catalogue", params={"profile_id": "prof_1", "week_start": "2026-10-19"})
+        assert res_cat2.status_code == 200
+        assert res_cat2.json()["halal_only"] is False
 
         # 2. POST Claim item
         item_id = cat["items"][0]["id"]
@@ -293,3 +308,25 @@ def test_api_weekly_rotation_and_claims(db_conn, monkeypatch):
             json={"claim_id": 999999, "profile_id": "prof_1"},
         )
         assert res_not_found.status_code == 404
+
+
+def test_halal_preference_repo_and_service(service):
+    # Default is True
+    assert service.get_halal_preference("prof_test") is True
+
+    # Disable
+    service.set_halal_preference("prof_test", False)
+    assert service.get_halal_preference("prof_test") is False
+
+    # Enable
+    service.set_halal_preference("prof_test", True)
+    assert service.get_halal_preference("prof_test") is True
+
+
+def test_halal_rotation_filter_strictly_excludes_non_halal(service):
+    # In halal_only=True mode, no non-halal item should ever be chosen
+    pool = service.rotate_week(target_week_start=date(2026, 11, 2), halal_only=True)
+    assert len(pool["items"]) == 12
+    non_halal_names = {"Tonkotsu Ramen Bowl", "Ramen and Gyoza Set", "Personal Charcuterie Box"}
+    assert all(i["halal"] is True for i in pool["items"])
+    assert not any(i["name_en"] in non_halal_names for i in pool["items"])

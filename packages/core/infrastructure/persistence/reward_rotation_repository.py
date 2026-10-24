@@ -225,3 +225,59 @@ class RewardRotationRepository:
         except Exception:
             pass
         return self.get_claim(claim_id, conn)
+
+    def _user_stats_tbl(self, profile_id: str, conn: Any) -> str:
+        if _is_sqlite(conn):
+            cur = conn.cursor()
+            for cand in [f"{profile_id}_user_stats", "user_stats", f"{profile_id}.user_stats"]:
+                try:
+                    cur.execute(f"SELECT 1 FROM {cand} LIMIT 1")
+                    return cand
+                except Exception:
+                    continue
+            tbl = f"{profile_id}_user_stats" if profile_id and profile_id != "default" else "user_stats"
+            try:
+                cur.execute(
+                    f"CREATE TABLE IF NOT EXISTS {tbl} (key TEXT PRIMARY KEY, value TEXT, updated_at TEXT DEFAULT CURRENT_TIMESTAMP)"
+                )
+                conn.commit()
+            except Exception:
+                pass
+            return tbl
+        return f"{profile_id}.user_stats"
+
+    def get_halal_preference(self, profile_id: str, conn: Any) -> bool:
+        """Get halal_only preference for profile (default True)."""
+        tbl = self._user_stats_tbl(profile_id, conn)
+        cur = conn.cursor()
+        try:
+            cur.execute(f"SELECT value FROM {tbl} WHERE key = ?", ("halal_only",))
+            row = cur.fetchone()
+            if row and row[0] is not None:
+                val = str(row[0]).strip().lower()
+                return val in ("1", "true", "yes")
+        except Exception:
+            pass
+        return True
+
+    def set_halal_preference(self, profile_id: str, enabled: bool, conn: Any) -> None:
+        """Set halal_only preference for profile ('1' or '0')."""
+        tbl = self._user_stats_tbl(profile_id, conn)
+        cur = conn.cursor()
+        val_str = "1" if enabled else "0"
+        if _is_sqlite(conn):
+            cur.execute(
+                f"INSERT INTO {tbl} (key, value) VALUES (?, ?) "
+                f"ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP",
+                ("halal_only", val_str),
+            )
+        else:
+            cur.execute(
+                f"INSERT INTO {tbl} (key, value) VALUES (%s, %s) "
+                f"ON CONFLICT(key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()",
+                ("halal_only", val_str),
+            )
+        try:
+            conn.commit()
+        except Exception:
+            pass
