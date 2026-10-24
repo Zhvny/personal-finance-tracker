@@ -65,6 +65,11 @@ export default {
   "shop.error_title": "Gagal Memuat Katalog",
   "shop.error_desc": "Tidak dapat mengambil katalog rotasi mingguan.",
   "shop.no_filter_match": "Tidak ada reward yang cocok dengan filter yang dipilih.",
+  "shop.halal_filter_label": "Filter:",
+  "shop.halal_only": "Halal Saja",
+  "shop.all_items": "Semua",
+  "shop.non_halal_badge": "Non-Halal",
+  "shop.halal_rotation_hint": "Berlaku mulai rotasi Senin berikutnya.",
 
   // Categories
   "cat.all": "Semua Kategori",
