@@ -244,8 +244,8 @@ export default function AnalyticsBIDashboard() {
   const [rawGoals, setRawGoals] = useState<RawGoal[]>([]);
   const [rawBudgets, setRawBudgets] = useState<RawBudget[]>([]);
   const [trends, setTrends] = useState<LifestyleTrendItem[]>([]);
-  const [riskData, setRiskData] = useState<any>(null);
-  const [behavioralReport, setBehavioralReport] = useState<any>(null);
+  const [riskData, setRiskData] = useState<{ total_value?: number; concentration_hhi?: number } | null>(null);
+  const [behavioralReport, setBehavioralReport] = useState<{ starting_balance?: number; summary?: { emergency_fund?: number } } | null>(null);
 
   const fetchBIData = useCallback(async () => {
     setLoading(true);
@@ -317,6 +317,7 @@ export default function AnalyticsBIDashboard() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchBIData();
   }, [fetchBIData]);
 
@@ -842,7 +843,7 @@ export default function AnalyticsBIDashboard() {
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                       <XAxis dataKey="label" stroke="currentColor" className="text-[11px] opacity-70" />
                       <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
-                      <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
+                      <Tooltip formatter={(v: number | string) => fmtIDR(Number(v))} />
                       <Legend />
                       <Area type="monotone" dataKey="inc" name={t("analytics.series_income")} stroke="#10b981" fillOpacity={1} fill="url(#incGrad)" strokeWidth={2.5} />
                       <Area type="monotone" dataKey="exp" name={t("analytics.series_expense")} stroke="#ef4444" fillOpacity={1} fill="url(#expGrad)" strokeWidth={2.5} />
@@ -951,7 +952,7 @@ export default function AnalyticsBIDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                     <XAxis dataKey="label" stroke="currentColor" className="text-[11px] opacity-70" />
                     <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
-                    <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
+                    <Tooltip formatter={(v: number | string) => fmtIDR(Number(v))} />
                     <Legend />
                     <Bar dataKey="inc" name={t("analytics.series_income")} fill="#10b981" radius={[6, 6, 0, 0]} />
                     <Bar dataKey="exp" name={t("analytics.series_expense")} fill="#ef4444" radius={[6, 6, 0, 0]} />
@@ -1072,7 +1073,7 @@ export default function AnalyticsBIDashboard() {
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
+                      <Tooltip formatter={(v: number | string) => fmtIDR(Number(v))} />
                       <Legend />
                     </PieChart>
                   </ResponsiveContainer>
@@ -1127,7 +1128,7 @@ export default function AnalyticsBIDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                     <XAxis dataKey="label" stroke="currentColor" className="text-[11px] opacity-70" />
                     <YAxis stroke="currentColor" className="text-[11px] opacity-70" tickFormatter={fmtCompact} />
-                    <Tooltip formatter={(v: any) => fmtIDR(Number(v))} />
+                    <Tooltip formatter={(v: number | string) => fmtIDR(Number(v))} />
                     <Legend />
                     <Line type="monotone" dataKey="inc" name={t("analytics.series_projected_income")} stroke="#10b981" strokeWidth={2.5} strokeDasharray="4 4" />
                     <Line type="monotone" dataKey="exp" name={t("analytics.series_projected_expense")} stroke="#ef4444" strokeWidth={2.5} strokeDasharray="4 4" />

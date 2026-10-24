@@ -45,7 +45,7 @@ export interface Analytics {
     actual_cost: number; daily_cost: number; headcount: number; work_hours: number;
   }[];
   labor: { total_man_hours: number; avg_attendance_pct: number };
-  milestones: { total: number; completed: number; items: any[] };
+  milestones: { total: number; completed: number; items: { id: number; title: string; target_date: string; weight: number; is_completed: boolean }[] };
   trend: { velocity_7d_pct_per_day: number };
   root_cause_analysis: { category: string; severity: string; primary_factor: string; trigger: string }[];
   anomalies: { date: string; type: string; severity: string; description: string }[];

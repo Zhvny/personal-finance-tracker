@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
@@ -67,7 +68,7 @@ interface Analytics {
     actual_cost: number; daily_cost: number; headcount: number; work_hours: number;
   }[];
   labor: { total_man_hours: number; avg_attendance_pct: number };
-  milestones: { total: number; completed: number; items: any[] };
+  milestones: { total: number; completed: number; items: { id: number; title: string; target_date: string; weight: number; is_completed: boolean }[] };
   trend: { velocity_7d_pct_per_day: number };
   root_cause_analysis: { category: string; severity: string; primary_factor: string; trigger: string }[];
   anomalies: { date: string; type: string; severity: string; description: string }[];
@@ -156,8 +157,8 @@ function DailyInputModal({ projectId, onClose, onSuccess }: {
       });
       if (!res.ok) { const d = await res.json(); throw new Error(d.detail || t("common.error")); }
       onSuccess(); onClose();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("common.error"));
     } finally { setSubmitting(false); }
   };
 
@@ -322,6 +323,7 @@ export default function BusinessCockpitPage() {
   }, [apiHeaders]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchProfileType();
   }, [fetchProfileType]);
 
@@ -355,7 +357,9 @@ export default function BusinessCockpitPage() {
     setShowReport(true);
   }, [selectedId, reportPeriod, apiHeaders]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { void fetchProjects(); }, []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (selectedId) void fetchAnalytics(selectedId); }, [selectedId]);
 
   const tabOptions = [
@@ -384,12 +388,12 @@ export default function BusinessCockpitPage() {
           {t("business.personal_guard_desc")} <span className="font-semibold text-foreground">Business</span>.
         </p>
         <div className="pt-2 flex flex-col sm:flex-row gap-2.5 w-full">
-          <a
+          <Link
             href="/"
             className="flex-1 px-4 py-2.5 rounded-xl border border-border bg-card text-sm font-semibold hover:bg-muted transition-colors"
           >
             {t("business.back_to_dashboard")}
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -598,7 +602,7 @@ export default function BusinessCockpitPage() {
                       <p className="text-sm text-muted-foreground text-center py-4">{t("business.milestones_empty")}</p>
                     ) : (
                       <div className="space-y-2">
-                        {analytics.milestones.items.slice(0, 5).map((m: any) => (
+                        {analytics.milestones.items.slice(0, 5).map((m) => (
                           <div key={m.id} className={`flex items-center gap-3 p-3 rounded-xl border
                             ${m.is_completed ? "border-emerald-200 bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/20" : "border-border bg-muted/30"}`}
                           >
@@ -911,7 +915,7 @@ export default function BusinessCockpitPage() {
                         <YAxis yAxisId="cost" orientation="right" tick={{ fontSize: 11 }} tickLine={false} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
                         <Tooltip
                           contentStyle={{ borderRadius: "12px", border: "1px solid var(--border)", fontSize: 12 }}
-                          formatter={(v: any, _name: string, item: any) => {
+                          formatter={(v: number | string, _name: string, item: { dataKey?: string | number }) => {
                             const key = item?.dataKey;
                             if (key === "actual_cost") return [`Rp ${Number(v).toLocaleString("id-ID")}`, t("business.chart_actual_cost")];
                             return [`${v}%`, key === "planned_pct" ? t("business.chart_planned_pct") : t("business.chart_actual_pct")];
@@ -936,7 +940,7 @@ export default function BusinessCockpitPage() {
                         <YAxis yAxisId="cost" tick={{ fontSize: 11 }} tickLine={false} tickFormatter={(v) => `${(v/1e6).toFixed(0)}M`} />
                         <YAxis yAxisId="hc" orientation="right" tick={{ fontSize: 11 }} tickLine={false} />
                         <Tooltip contentStyle={{ borderRadius: "12px", border: "1px solid var(--border)", fontSize: 12 }}
-                          formatter={(v: any, _name: string, item: any) => item?.dataKey === "daily_cost" ? [`Rp ${Number(v).toLocaleString("id-ID")}`, t("business.chart_daily_cost")] : [v, t("business.chart_headcount")]}
+                          formatter={(v: number | string, _name: string, item: { dataKey?: string | number }) => item?.dataKey === "daily_cost" ? [`Rp ${Number(v).toLocaleString("id-ID")}`, t("business.chart_daily_cost")] : [v, t("business.chart_headcount")]}
                         />
                         <Legend />
                         <Bar yAxisId="cost" dataKey="daily_cost"  name={t("business.chart_daily_cost")}  fill="#f59e0b" radius={[4,4,0,0]} />
@@ -1034,7 +1038,7 @@ export default function BusinessCockpitPage() {
                         <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                         <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${(v/1e9).toFixed(1)}M`} />
                         <Tooltip contentStyle={{ borderRadius: "12px", border: "1px solid var(--border)", fontSize: 12 }}
-                          formatter={(v: any) => [`Rp ${Number(v).toLocaleString("id-ID")}`, t("business.chart_value")]}
+                          formatter={(v: number | string) => [`Rp ${Number(v).toLocaleString("id-ID")}`, t("business.chart_value")]}
                         />
                         <Bar dataKey="value" radius={[6,6,0,0]}>
                           {[

@@ -82,8 +82,8 @@ export function ProfileCreatorModal({
         handleClose();
         onCreated();
       }, 900);
-    } catch (err: any) {
-      setError(err.message || t("ui.profile_create_failed"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("ui.profile_create_failed"));
     } finally {
       setSubmitting(false);
     }
