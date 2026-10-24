@@ -42,6 +42,11 @@ const en = {
   "reward.ready_title": "{count} rewards in active rotation",
   "reward.ready_desc": "Weekly pool synchronized with the engagement service.",
   "reward.view_catalogue": "Open in Reward Shop",
+  "reward.halal_filter_label": "Filter:",
+  "reward.halal_only": "Halal Only",
+  "reward.all_items": "All",
+  "reward.non_halal_badge": "Non-Halal",
+  "reward.halal_rotation_hint": "Takes effect starting next Monday rotation.",
 
   // Overview Page
   "overview.page_title": "Finance Overview — Canonical Engine",
