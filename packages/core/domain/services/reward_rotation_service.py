@@ -81,15 +81,16 @@ class RewardRotationService:
         from packages.core.infrastructure.persistence.postgres_manager import DatabaseManager
         return DatabaseManager().get_connection()
 
-    def _get_active_pool_items_by_tier(self, tier: str) -> List[Dict[str, Any]]:
+    def _get_active_pool_items_by_tier(self, tier: str, halal_only: bool = False) -> List[Dict[str, Any]]:
         cur = self.conn.cursor()
         tbl = self.repo._qualify("reward_pool_master", self.conn)
+        halal_filter = " AND halal = 1" if (_is_sqlite(self.conn) and halal_only) else (" AND halal = TRUE" if halal_only else "")
         cur.execute(
-            f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost "
-            f"FROM {tbl} WHERE tier = ? AND active = 1 ORDER BY id ASC"
+            f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost, halal "
+            f"FROM {tbl} WHERE tier = ? AND active = 1{halal_filter} ORDER BY id ASC"
             if _is_sqlite(self.conn)
-            else f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost "
-            f"FROM {tbl} WHERE tier = %s AND active = TRUE ORDER BY id ASC",
+            else f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost, halal "
+            f"FROM {tbl} WHERE tier = %s AND active = TRUE{halal_filter} ORDER BY id ASC",
             (tier,),
         )
         return [
@@ -102,6 +103,7 @@ class RewardRotationService:
                 "kategori": r[5],
                 "tier": r[6],
                 "cost": r[7],
+                "halal": bool(r[8]),
             }
             for r in cur.fetchall()
         ]
@@ -113,7 +115,7 @@ class RewardRotationService:
         tbl = self.repo._qualify("reward_pool_master", self.conn)
         placeholders = ",".join("?" if _is_sqlite(self.conn) else "%s" for _ in item_ids)
         cur.execute(
-            f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost "
+            f"SELECT id, name_en, name_id, desc_en, desc_id, kategori, tier, cost, halal "
             f"FROM {tbl} WHERE id IN ({placeholders})",
             tuple(item_ids),
         )
@@ -127,17 +129,18 @@ class RewardRotationService:
                 "kategori": r[5],
                 "tier": r[6],
                 "cost": r[7],
+                "halal": bool(r[8]),
             }
             for r in cur.fetchall()
         }
         # Preserve original item_ids order
         return [by_id[i] for i in item_ids if i in by_id]
 
-    def _select_items_for_week(self, week_start: date) -> List[int]:
+    def _select_items_for_week(self, week_start: date, halal_only: bool = True) -> List[int]:
         cutoff_date = week_start - timedelta(days=HISTORY_WEEKS * 7)
         history_rows = self.repo.get_history_items_since(cutoff_date.isoformat(), self.conn)
 
-        # item_id -> most recent week_start seen
+        # Map item_id -> most recent week_start seen
         recent_history: Dict[int, str] = {}
         for r in history_rows:
             recent_history[r["item_id"]] = r["week_start"]
@@ -145,8 +148,11 @@ class RewardRotationService:
         selected_ids: List[int] = []
 
         for tier, quota in TIER_QUOTAS.items():
-            all_tier_items = self._get_active_pool_items_by_tier(tier)
+            all_tier_items = self._get_active_pool_items_by_tier(tier, halal_only=halal_only)
             if not all_tier_items:
+                if halal_only:
+                    logger.warning(f"No halal active items found in reward_pool_master for tier: {tier}")
+                    continue
                 raise RuntimeError(f"No active items found in reward_pool_master for tier: {tier}")
 
             # Eligible: not in 26-week history
@@ -158,26 +164,36 @@ class RewardRotationService:
                     f"Pool near exhaustion for tier '{tier}': needed {quota}, available {len(eligible)}. "
                     f"Relaxing history from oldest seen items."
                 )
-                # Sort previously used tier items by their latest appearance date ascending (oldest first)
+                # Sort previously used tier items by latest appearance date ascending (oldest first)
                 tier_history_items = [i for i in all_tier_items if i["id"] in recent_history]
                 tier_history_items.sort(key=lambda x: (recent_history[x["id"]], x["id"]))
 
                 relaxed = tier_history_items[:needed]
                 eligible.extend(relaxed)
 
-            # Pick quota items deterministically
-            chosen = eligible[:quota]
-            selected_ids.extend([i["id"] for i in chosen])
+            # Pick up to quota items (or fewer if halal tier capacity exhausted)
+            selected_ids.extend([i["id"] for i in eligible[:quota]])
 
         return selected_ids
 
-    def rotate_week(self, target_week_start: Optional[date] = None) -> Dict[str, Any]:
-        """Run weekly rotation idempodently, backfilling any skipped weeks."""
+    def rotate_week(
+        self,
+        target_week_start: Optional[date] = None,
+        halal_only: Optional[bool] = None,
+        profile_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Execute weekly rotation idempotently, backfilling skipped weeks."""
         self.repo.ensure_tables(self.conn)
         target = target_week_start or get_current_week_start()
         target_str = target.isoformat()
 
-        # Idempotent check
+        if halal_only is None:
+            if profile_id:
+                halal_only = self.repo.get_halal_preference(profile_id, self.conn)
+            else:
+                halal_only = True
+
+        # Idempotent return
         existing = self.repo.get_weekly_pool(target_str, self.conn)
         if existing:
             items = self._get_items_by_ids(existing["item_ids"])
@@ -195,14 +211,14 @@ class RewardRotationService:
             while missed_date < target:
                 missed_str = missed_date.isoformat()
                 if not self.repo.get_weekly_pool(missed_str, self.conn):
-                    missed_ids = self._select_items_for_week(missed_date)
+                    missed_ids = self._select_items_for_week(missed_date, halal_only=halal_only)
                     self.repo.save_weekly_pool(missed_str, missed_ids, backfilled=True, conn=self.conn)
                     self.repo.add_history(missed_ids, missed_str, self.conn)
                     logger.info(f"Backfilled missed weekly rotation for {missed_str}")
                 missed_date += timedelta(days=7)
 
         # Generate target week
-        selected_ids = self._select_items_for_week(target)
+        selected_ids = self._select_items_for_week(target, halal_only=halal_only)
         self.repo.save_weekly_pool(target_str, selected_ids, backfilled=False, conn=self.conn)
         self.repo.add_history(selected_ids, target_str, self.conn)
 
@@ -262,9 +278,10 @@ class RewardRotationService:
         return redeemed
 
     def get_catalogue(self, profile_id: str = "default", ref_date: Optional[date] = None) -> Dict[str, Any]:
-        """Fetch catalogue with weekly pool items + claimed state for current profile."""
+        """Fetch catalogue of weekly pool items + claimed state for current profile."""
         w_start = ref_date or get_current_week_start()
-        pool = self.rotate_week(target_week_start=w_start)
+        halal_only = self.repo.get_halal_preference(profile_id, self.conn)
+        pool = self.rotate_week(target_week_start=w_start, halal_only=halal_only, profile_id=profile_id)
 
         claims = self.repo.get_claims_by_profile_and_week(profile_id, pool["week_start"], self.conn)
         claims_by_item = {c["item_id"]: c for c in claims}
@@ -285,5 +302,12 @@ class RewardRotationService:
         return {
             "week_start": pool["week_start"],
             "expires_at": expiry_dt.isoformat(),
+            "halal_only": halal_only,
             "items": decorated_items,
         }
+
+    def set_halal_preference(self, profile_id: str, enabled: bool) -> None:
+        self.repo.set_halal_preference(profile_id, enabled, self.conn)
+
+    def get_halal_preference(self, profile_id: str) -> bool:
+        return self.repo.get_halal_preference(profile_id, self.conn)

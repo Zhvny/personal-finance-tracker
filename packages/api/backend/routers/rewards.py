@@ -230,6 +230,11 @@ class WeeklyRedeemRequest(BaseModel):
     profile_id: Optional[str] = "default"
 
 
+class RewardPreferenceRequest(BaseModel):
+    halal_only: bool
+    profile_id: Optional[str] = "default"
+
+
 @router.get("/api/rewards/catalogue")
 async def get_catalogue(request: Request, profile_id: Optional[str] = "default", week_start: Optional[str] = None, legacy: bool = False):
     from fastapi import BackgroundTasks
@@ -331,6 +336,19 @@ def redeem_weekly_reward(payload: WeeklyRedeemRequest):
         raise HTTPException(status_code=410, detail=str(exc)) from exc
     except Exception as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.put("/api/rewards/preferences")
+def update_reward_preferences(payload: RewardPreferenceRequest):
+    try:
+        from packages.core.domain.services.reward_rotation_service import RewardRotationService
+        service = RewardRotationService()
+        prof = payload.profile_id or "default"
+        service.set_halal_preference(prof, payload.halal_only)
+        return {"status": "ok", "profile_id": prof, "halal_only": payload.halal_only}
+    except Exception as exc:
+        logger.error(f"Failed to update reward preferences: {exc}")
+        raise HTTPException(status_code=500, detail=str(exc))
 
 REWARD_TYPES = ("reward", "savings")
 
