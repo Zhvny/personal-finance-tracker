@@ -80,6 +80,7 @@ export async function loadCatalogue(forceRefresh = false) {
     const result = {
       week_start: isArray ? null : data.week_start,
       expires_at: isArray ? null : data.expires_at,
+      halal_only: isArray ? true : (data.halal_only ?? true),
       items: sorted,
     };
     
@@ -104,6 +105,14 @@ export async function redeemWeeklyReward(claimId) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ claim_id: claimId }),
+  });
+}
+
+export async function updateRewardPreferences(preferences) {
+  return await apiFetch("/rewards/preferences", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(preferences),
   });
 }
 

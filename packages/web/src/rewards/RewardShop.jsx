@@ -7,6 +7,7 @@ import {
   loadCatalogue,
   claimWeeklyReward,
   redeemWeeklyReward,
+  updateRewardPreferences,
   TIER_META,
   CATEGORY_META,
 } from "./rewardCatalogue.js";
@@ -151,9 +152,27 @@ function WeeklyRewardCard({
           >
             {t(`tier.${item.tier}`, tier.label)}
           </span>
-          <span style={{ fontSize: 11, color: "var(--tx3)", background: "var(--bg3)", padding: "2px 8px", borderRadius: 4 }}>
-            {category}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontSize: 11, color: "var(--tx3)", background: "var(--bg3)", padding: "2px 8px", borderRadius: 4 }}>
+              {category}
+            </span>
+            {item.halal === false && (
+              <span
+                className="gp-nonhalal-badge"
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  padding: "2px 6px",
+                  borderRadius: 4,
+                  background: "rgba(232,113,77,0.15)",
+                  color: "var(--rd, #e8714d)",
+                  border: "1px solid rgba(232,113,77,0.3)",
+                }}
+              >
+                {t("shop.non_halal_badge", "Non-Halal")}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Title & Description */}
@@ -244,6 +263,9 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
   const [error, setError] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [tierFilter, setTierFilter] = useState("all");
+  const [halalOnly, setHalalOnly] = useState(true);
+  const [hintNextRotation, setHintNextRotation] = useState(false);
+  const [updatingPref, setUpdatingPref] = useState(false);
   const [submittingId, setSubmittingId] = useState(null);
   const [bannerMsg, setBannerMsg] = useState(null);
 
@@ -256,6 +278,9 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
         setError(data.error);
       } else {
         setCatalogueData(data);
+        if (typeof data.halal_only === "boolean") {
+          setHalalOnly(data.halal_only);
+        }
       }
     } catch (err) {
       setError(err.message || "Failed to load catalogue");
@@ -263,6 +288,20 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
       setLoading(false);
     }
   }, []);
+
+  const handleToggleHalal = async (val) => {
+    if (val === halalOnly || updatingPref) return;
+    setUpdatingPref(true);
+    try {
+      await updateRewardPreferences({ halal_only: val, profile_id: "default" });
+      setHalalOnly(val);
+      setHintNextRotation(true);
+    } catch (err) {
+      setBannerMsg({ type: "error", text: err.message || "Failed to update preferences" });
+    } finally {
+      setUpdatingPref(false);
+    }
+  };
 
   useEffect(() => {
     fetchCatalogue(false);
@@ -385,6 +424,54 @@ export default function RewardShop({ reward = 0, unlockedRewards = [], onRedeem 
           <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: poolExpired ? "var(--rd)" : "var(--tx2)" }}>
             <IconClock size={14} color={poolExpired ? "var(--rd)" : "var(--ind)"} />
             <span>Rotasi Baru Dalam: <strong>{poolTimeLeft}</strong></span>
+          </div>
+        )}
+      </div>
+
+      {/* Halal Toggle Row */}
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8, margin: "14px 0 6px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 11, color: "var(--tx3)", fontWeight: 600 }}>{t("shop.halal_filter_label", "Filter:")}</span>
+          <div style={{ display: "inline-flex", background: "var(--bg2)", padding: 2, borderRadius: 6, border: "1px solid var(--bg3)" }}>
+            <button
+              onClick={() => handleToggleHalal(true)}
+              disabled={updatingPref}
+              style={{
+                background: halalOnly ? "var(--bg4, #378add)" : "transparent",
+                color: halalOnly ? "#fff" : "var(--tx3)",
+                border: "none",
+                borderRadius: 4,
+                padding: "4px 10px",
+                fontSize: 11,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+            >
+              {t("shop.halal_only", "Halal Only")}
+            </button>
+            <button
+              onClick={() => handleToggleHalal(false)}
+              disabled={updatingPref}
+              style={{
+                background: !halalOnly ? "var(--bg4, #378add)" : "transparent",
+                color: !halalOnly ? "#fff" : "var(--tx3)",
+                border: "none",
+                borderRadius: 4,
+                padding: "4px 10px",
+                fontSize: 11,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+            >
+              {t("shop.all_items", "Semua")}
+            </button>
+          </div>
+        </div>
+        {hintNextRotation && (
+          <div style={{ fontSize: 11, color: "var(--tx3)", fontStyle: "italic" }}>
+            * {t("shop.halal_rotation_hint", "Berlaku mulai rotasi Senin berikutnya.")}
           </div>
         )}
       </div>

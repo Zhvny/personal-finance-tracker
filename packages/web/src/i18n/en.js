@@ -65,6 +65,11 @@ export default {
   "shop.error_title": "Failed to Load Rewards",
   "shop.error_desc": "Unable to fetch the weekly rotation catalogue.",
   "shop.no_filter_match": "No rewards found matching the selected filters.",
+  "shop.halal_filter_label": "Filter:",
+  "shop.halal_only": "Halal Only",
+  "shop.all_items": "All",
+  "shop.non_halal_badge": "Non-Halal",
+  "shop.halal_rotation_hint": "Takes effect starting next Monday rotation.",
 
   // Categories
   "cat.all": "All Categories",
