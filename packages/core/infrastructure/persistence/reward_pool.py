@@ -42,7 +42,8 @@ def build_reward_pool_ddl(schema: Optional[str] = "public") -> str:
         f"kategori TEXT NOT NULL CHECK (kategori IN ({cats})), "
         f"tier TEXT NOT NULL CHECK (tier IN ({tiers})), "
         "cost INTEGER NOT NULL CHECK (cost > 0), "
-        "active BOOLEAN NOT NULL DEFAULT TRUE)"
+        "active BOOLEAN NOT NULL DEFAULT TRUE, "
+        "halal BOOLEAN NOT NULL DEFAULT TRUE)"
     )
 
 
@@ -69,15 +70,17 @@ def seed_pool(conn: Any, schema: Optional[str] = None) -> int:
     cur.execute(ddl)
     for item in load_seed_items():
         cur.execute(
-            f"INSERT INTO {table} (name_en, name_id, desc_en, desc_id, kategori, tier, cost, active) "
+            f"INSERT INTO {table} (name_en, name_id, desc_en, desc_id, kategori, tier, cost, active, halal) "
             f"VALUES ({_q(item['name_en'])}, {_q(item['name_id'])}, "
             f"{_q(item['desc_en'])}, {_q(item['desc_id'])}, "
             f"{_q(item['kategori'])}, {_q(item['tier'])}, {int(item['cost'])}, "
-            f"{'TRUE' if item.get('active', True) else 'FALSE'}) "
+            f"{'TRUE' if item.get('active', True) else 'FALSE'}, "
+            f"{'TRUE' if item.get('halal', True) else 'FALSE'}) "
             "ON CONFLICT (name_en) DO UPDATE SET name_id=excluded.name_id, "
             "desc_en=excluded.desc_en, desc_id=excluded.desc_id, "
             "kategori=excluded.kategori, tier=excluded.tier, "
-            "cost=excluded.cost, active=excluded.active"
+            "cost=excluded.cost, active=excluded.active, "
+            "halal=excluded.halal"
         )
     try:
         conn.commit()
