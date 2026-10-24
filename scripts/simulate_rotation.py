@@ -33,8 +33,9 @@ from packages.core.domain.services.reward_rotation_service import (
 )
 
 
-def run_simulation():
-    print("[*] Starting 26-week reward rotation simulation...")
+def run_simulation(halal_only: bool = True):
+    mode_label = "halal_only=1" if halal_only else "halal_only=0 (all)"
+    print(f"\n[*] Starting 26-week reward rotation simulation ({mode_label})...")
     conn = sqlite3.connect(":memory:")
     conn.row_factory = sqlite3.Row
 
@@ -54,12 +55,15 @@ def run_simulation():
 
     for week_idx in range(1, 27):
         current_monday = start_monday + timedelta(days=7 * (week_idx - 1))
-        pool = service.rotate_week(target_week_start=current_monday)
+        pool = service.rotate_week(target_week_start=current_monday, halal_only=halal_only)
         items = pool["items"]
         total_slots += len(items)
 
         # 1. Exactly 12 items per week
         assert len(items) == 12, f"Week {week_idx} ({current_monday}) did not have 12 items, got {len(items)}"
+        if halal_only:
+            assert all(i.get("halal", True) is True for i in items)
+            assert not any(i["name_en"] in ("Tonkotsu Ramen Bowl", "Ramen and Gyoza Set", "Personal Charcuterie Box") for i in items)
 
         # 2. Composition check
         tiers = Counter(i["tier"] for i in items)
@@ -127,7 +131,8 @@ def _get_tier(conn, item_id: int) -> str:
 
 def test_26_week_simulation():
     """Pytest entrypoint for 26-week rotation simulation."""
-    run_simulation()
+    run_simulation(halal_only=True)
+    run_simulation(halal_only=False)
 
 
 if __name__ == "__main__":
