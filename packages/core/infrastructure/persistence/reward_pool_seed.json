@@ -7,7 +7,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Sweet Tea",
@@ -17,7 +18,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Hot Sweet Tea",
@@ -27,7 +29,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Orange Juice",
@@ -37,7 +40,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Lemon Tea",
@@ -47,7 +51,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Hot Black Coffee",
@@ -57,7 +62,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Palm Sugar Milk Coffee",
@@ -67,7 +73,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Coconut Water",
@@ -77,7 +84,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Soy Milk",
@@ -87,7 +95,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fresh Sugarcane Juice",
@@ -97,7 +106,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Hot Ginger Tea",
@@ -107,7 +117,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Chocolate Drink",
@@ -117,7 +128,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Avocado Juice",
@@ -127,7 +139,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fresh Watermelon Juice",
@@ -137,7 +150,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mixed Fruit Juice",
@@ -147,7 +161,8 @@
     "kategori": "minuman",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Boba Milk Tea",
@@ -157,7 +172,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Thai Tea",
@@ -167,7 +183,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fresh Lemon Squash",
@@ -177,7 +194,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Matcha Latte",
@@ -187,7 +205,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Yogurt Smoothie",
@@ -197,7 +216,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Hot Cappuccino",
@@ -207,7 +227,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fresh Strawberry Juice",
@@ -217,7 +238,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Caramel Macchiato",
@@ -227,7 +249,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Lychee Tea",
@@ -237,7 +260,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Coffee Frappe",
@@ -247,7 +271,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Iced Cookies and Cream Latte",
@@ -257,7 +282,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Virgin Mojito",
@@ -267,7 +293,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Passion Fruit Mojito",
@@ -277,7 +304,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Cold-Pressed Green Juice",
@@ -287,7 +315,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Liter Palm Sugar Coffee",
@@ -297,7 +326,8 @@
     "kategori": "minuman",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Ceremonial Matcha Latte",
@@ -307,7 +337,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Single Origin Pour Over Coffee",
@@ -317,7 +348,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Dragon Fruit Smoothie",
@@ -327,7 +359,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Cold Brew Bottle",
@@ -337,7 +370,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Kombucha Six-Bottle Pack",
@@ -347,7 +381,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Day Juice Cleanse Pack",
@@ -357,7 +392,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Cup Coffee Tasting",
@@ -367,7 +403,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Kilogram Specialty Coffee Beans",
@@ -377,7 +414,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Loose-Leaf Tea Selection",
@@ -387,7 +425,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Weekly Cold-Pressed Juice Delivery",
@@ -397,7 +436,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Month Coffee Bean Subscription",
@@ -407,7 +447,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Afternoon High Tea for Two",
@@ -417,7 +458,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Kilogram Coffee Bean Pack",
@@ -427,7 +469,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Liter Cold Brew Pack",
@@ -437,7 +480,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Artisanal Botanical Drink Collection",
@@ -447,7 +491,8 @@
     "kategori": "minuman",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Year Specialty Coffee Subscription",
@@ -457,7 +502,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Year Kombucha Home Delivery",
@@ -467,7 +513,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Aged Pu-Erh Tea Cake",
@@ -477,7 +524,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Latte Art Class for One",
@@ -487,7 +535,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Ready-to-Drink Bird Nest Six Pack",
@@ -497,7 +546,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Year Cold-Pressed Juice Subscription",
@@ -507,7 +557,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Specialty Coffee Cupping Masterclass for One",
@@ -517,7 +568,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Mixology Class for One",
@@ -527,7 +579,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Pure Wild Forest Honey Jar with Honeycomb",
@@ -537,7 +590,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Panama Geisha Roasted Coffee Beans 250g",
@@ -547,7 +601,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Year Premium Mineral Water Delivery",
@@ -557,7 +612,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Barista Certification Course",
@@ -567,7 +623,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Rare Silver Needle White Tea Vintage Tin",
@@ -577,7 +634,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Six-Month Cold-Pressed Health Juice Plan",
@@ -587,7 +645,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Year Specialty Coffee and Tea Connoisseur Subscription",
@@ -597,7 +656,8 @@
     "kategori": "minuman",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Nasi Kucing with Anchovy Sambal",
@@ -607,7 +667,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Complete Chicken Congee",
@@ -617,7 +678,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fried Stuffed Tofu Fritters",
@@ -627,7 +689,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Nasi Uduk with Fried Chicken",
@@ -637,7 +700,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Jakarta Ketoprak Salad",
@@ -647,7 +711,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Bandung Steamed Siomay",
@@ -657,7 +722,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Malang Meatball Soup",
@@ -667,7 +733,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Chicken Noodle with Wonton",
@@ -677,7 +744,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Special Fried Rice Plate",
@@ -687,7 +755,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Madura Chicken Satay",
@@ -697,7 +766,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Complete Gado-Gado",
@@ -707,7 +777,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Magelang Ketupat Tofu Salad",
@@ -717,7 +788,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Lamongan Chicken Soto",
@@ -727,7 +799,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fried Catfish with Sambal",
@@ -737,7 +810,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Padang Takeaway Rice Box",
@@ -747,7 +821,8 @@
     "kategori": "makanan",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Smashed Fried Chicken with Sambal",
@@ -757,7 +832,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Complete Gudeg Plate",
@@ -767,7 +843,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Solo Liwet Rice Plate",
@@ -777,7 +854,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Coto Makassar Beef Soup",
@@ -787,7 +865,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Padang Style Beef Satay",
@@ -797,7 +876,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Taliwang Grilled Chicken",
@@ -807,7 +887,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Aceh Beef Noodles",
@@ -817,7 +898,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beef Black Soup Rawon",
@@ -827,7 +909,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Madura Duck Rice",
@@ -837,7 +920,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Oxtail Soup Bowl",
@@ -847,7 +931,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Personal Pepperoni Pizza",
@@ -857,7 +942,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Honey Grilled Beef Ribs",
@@ -867,7 +953,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Tonkotsu Ramen Bowl",
@@ -877,7 +964,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": false
   },
   {
     "name_en": "Beef Rendang Plate",
@@ -887,7 +975,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Balinese Mixed Rice Plate",
@@ -897,7 +986,8 @@
     "kategori": "makanan",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Padang Single Portion Feast",
@@ -907,7 +997,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Crispy Duck with Sambal Plate",
@@ -917,7 +1008,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Bandung Mie Kocok Bowl",
@@ -927,7 +1019,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Padang Chili Crab Single Serving",
@@ -937,7 +1030,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Palembang Pempek Platter",
@@ -947,7 +1041,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Sushi Platter for One",
@@ -957,7 +1052,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Yakiniku Set for Two",
@@ -967,7 +1063,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Shabu-Shabu Set for Two",
@@ -977,7 +1074,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Ramen and Gyoza Set",
@@ -987,7 +1085,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": false
   },
   {
     "name_en": "Fine Dining Dinner for Two",
@@ -997,7 +1096,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Sushi Omakase Counter for One",
@@ -1007,7 +1107,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Wagyu Yakiniku Set for Two",
@@ -1017,7 +1118,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Steakhouse Dinner for Two",
@@ -1027,7 +1129,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Chef Dinner for Two",
@@ -1037,7 +1140,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Nusantara Tasting Menu for Two",
@@ -1047,7 +1151,8 @@
     "kategori": "makanan",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Wagyu A5 Striploin Steak Dinner for Two",
@@ -1057,7 +1162,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Alaskan King Crab Dinner for Two",
@@ -1067,7 +1173,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Japanese Kaiseki Full Course for Two",
@@ -1077,7 +1184,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Omakase Sushi for Two",
@@ -1087,7 +1195,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Dining Room for Two",
@@ -1097,7 +1206,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Wagyu Tasting Dinner for Two",
@@ -1107,7 +1217,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Whole Roasted Suckling Lamb Mini Feast",
@@ -1117,7 +1228,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Chef's Table for Two",
@@ -1127,7 +1239,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Monthly Clean Eating Meal Prep Plan",
@@ -1137,7 +1250,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Month Organic Diet Meal Plan",
@@ -1147,7 +1261,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Chef Weekly Meal Service",
@@ -1157,7 +1272,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Luxury Seafood Banquet for Two",
@@ -1167,7 +1283,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Australian Ribeye 5kg Pack",
@@ -1177,7 +1294,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Month Premium Gourmet Catering Plan",
@@ -1187,7 +1305,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Grand Chef Tasting for Two",
@@ -1197,7 +1316,8 @@
     "kategori": "makanan",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Shrimp Cracker Pack",
@@ -1207,7 +1327,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Sunflower Seed Pouch",
@@ -1217,7 +1338,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mint Candy Tin",
@@ -1227,7 +1349,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Coconut Biscuit Tin",
@@ -1237,7 +1360,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Chocolate Wafer Bar",
@@ -1247,7 +1371,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Spicy Cassava Chips",
@@ -1257,7 +1382,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three Bamboo Putu Cakes",
@@ -1267,7 +1393,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Palm Sugar Klepon",
@@ -1277,7 +1404,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three Crispy Fried Bananas",
@@ -1287,7 +1415,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Small Tahu Gejrot",
@@ -1297,7 +1426,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Cireng with Rujak Dip",
@@ -1307,7 +1437,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Palm Sugar Lupis Cake",
@@ -1317,7 +1448,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Five Cilok in Broth",
@@ -1327,7 +1459,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Chocolate Cheese Kue Cubit",
@@ -1337,7 +1470,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Five Grilled Otak-Otak",
@@ -1347,7 +1481,8 @@
     "kategori": "snack",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mixed Fritters Ten Pieces",
@@ -1357,7 +1492,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Seblak with Chicken Feet",
@@ -1367,7 +1503,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Sweet Martabak Thick Slice",
@@ -1377,7 +1514,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Five Batagor in Sauce",
@@ -1387,7 +1525,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Bandung Siomay Small Portion",
@@ -1397,7 +1536,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Crispy Tofu Chili Soy",
@@ -1407,7 +1547,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mini Martabak Chocolate Peanut",
@@ -1417,7 +1558,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three Fried Pastel Puffs",
@@ -1427,7 +1569,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three Mayo Risoles",
@@ -1437,7 +1580,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Submarine Pempek",
@@ -1447,7 +1591,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Six Classic Sugar Donuts",
@@ -1457,7 +1602,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Six Mentai Dimsum",
@@ -1467,7 +1613,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Srikaya Cheese Toast",
@@ -1477,7 +1624,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two Butter Croissants",
@@ -1487,7 +1635,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Strawberry Honey Waffle",
@@ -1497,7 +1646,8 @@
     "kategori": "snack",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Croffle Chocolate Cheese",
@@ -1507,7 +1657,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Milk Pudding Boba Cup",
@@ -1517,7 +1668,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Banana Cheese Roll Pack",
@@ -1527,7 +1679,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two Cheese Tarts",
@@ -1537,7 +1690,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three French Macarons",
@@ -1547,7 +1701,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Soft Cinnamon Roll",
@@ -1557,7 +1712,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Tiramisu Dessert Jar",
@@ -1567,7 +1723,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Slice of Lapis Legit",
@@ -1577,7 +1734,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Slice of Matcha Cheesecake",
@@ -1587,7 +1745,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mini Basque Cheesecake",
@@ -1597,7 +1756,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Eight Chocolate Pralines",
@@ -1607,7 +1767,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three Premium Fruit Tarts",
@@ -1617,7 +1778,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Personal Charcuterie Box",
@@ -1627,7 +1789,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": false
   },
   {
     "name_en": "Single Origin Couverture Chocolate",
@@ -1637,7 +1800,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Personal Cheese and Cracker Board",
@@ -1647,7 +1811,8 @@
     "kategori": "snack",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Half Kilo Premium Chocolate",
@@ -1657,7 +1822,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Twenty Piece Praline Box",
@@ -1667,7 +1833,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Whole Basque Cheesecake",
@@ -1677,7 +1844,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Whole Fudgy Brownie Tray",
@@ -1687,7 +1855,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Whole Premium Lapis Legit",
@@ -1697,7 +1866,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Frozen Dimsum Stock Box",
@@ -1707,7 +1877,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Imported Cheese Tasting Box",
@@ -1717,7 +1888,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Single Origin Chocolate Collection",
@@ -1727,7 +1899,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Twelve Piece Macaron Box",
@@ -1737,7 +1910,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Liter Gelato Tub",
@@ -1747,7 +1921,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Whole Strawberry Shortcake",
@@ -1757,7 +1932,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Imported Snack Selection Box",
@@ -1767,7 +1943,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Korean Snack Tasting Box",
@@ -1777,7 +1954,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Kilo Artisan Chocolate",
@@ -1787,7 +1965,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Dessert Tasting Box",
@@ -1797,7 +1976,8 @@
     "kategori": "snack",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Dish Soap Refill 200 ml",
@@ -1807,7 +1987,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Facial Tissue Box 250 Sheets",
@@ -1817,7 +1998,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Black Pilot Pens Three Pack",
@@ -1827,7 +2009,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Medical Masks Box Of 50",
@@ -1837,7 +2020,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "School Notebook 58 Pages",
@@ -1847,7 +2031,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Kilo Chicken Eggs",
@@ -1857,7 +2042,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Lifebuoy Soap Four Bar Pack",
@@ -1867,7 +2053,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Alkaline AA Batteries Eight Pack",
@@ -1877,7 +2064,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two Pack Toothbrushes",
@@ -1887,7 +2075,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Thick Cotton Bath Towel",
@@ -1897,7 +2086,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Kilo Powder Detergent",
@@ -1907,7 +2097,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Five Pack Microfiber Cloths",
@@ -1917,7 +2108,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Foldable UV Umbrella",
@@ -1927,7 +2119,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One Litre Tritan Water Bottle",
@@ -1937,7 +2130,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Twenty Plastic Clothes Hangers",
@@ -1947,7 +2141,8 @@
     "kategori": "barang",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "750 ml Stainless Tumbler",
@@ -1957,7 +2152,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "10,000 mAh Power Bank",
@@ -1967,7 +2163,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Wireless TWS Earbuds",
@@ -1977,7 +2174,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Cosmos Desk Fan",
@@ -1987,7 +2185,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Local Brand Men's Sneakers",
@@ -1997,7 +2196,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Waterproof Laptop Backpack",
@@ -2007,7 +2207,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Philips Electric Iron",
@@ -2017,7 +2218,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Four Tier Shoe Rack",
@@ -2027,7 +2229,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Miyako Three Jar Blender",
@@ -2037,7 +2240,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "LED Desk Study Lamp",
@@ -2047,7 +2251,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Melamine Dining Set",
@@ -2057,7 +2262,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Miyako One Litre Rice Cooker",
@@ -2067,7 +2273,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Full Face SNI Helmet",
@@ -2077,7 +2284,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Synthetic Leather Work Bag",
@@ -2087,7 +2295,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Casio Analog Wristwatch",
@@ -2097,7 +2306,8 @@
     "kategori": "barang",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Electric Hand Mixer",
@@ -2107,7 +2317,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Nonstick Cookware Set",
@@ -2117,7 +2328,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mini Bookshelf",
@@ -2127,7 +2339,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Electric Kettle 1.8 Litre",
@@ -2137,7 +2350,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Manual Coffee Grinder",
@@ -2147,7 +2361,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Yoga Mat and Dumbbell Set",
@@ -2157,7 +2372,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Badminton Racket Set",
@@ -2167,7 +2383,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mechanical Gaming Keyboard",
@@ -2177,7 +2394,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Hair Dryer",
@@ -2187,7 +2405,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beard Trimmer",
@@ -2197,7 +2416,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Fishing Rod and Reel Combo",
@@ -2207,7 +2427,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mini Massage Gun",
@@ -2217,7 +2438,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Gaming Headset with Mic",
@@ -2227,7 +2449,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Electric Air Fryer 2 Litre",
@@ -2237,7 +2460,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Leather Formal Shoes",
@@ -2247,7 +2471,8 @@
     "kategori": "barang",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Portable Washing Machine 3 Kg",
@@ -2257,7 +2482,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Jet Water Pump",
@@ -2267,7 +2493,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Portable Sewing Machine",
@@ -2277,7 +2504,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Home CCTV 4-Channel Kit",
@@ -2287,7 +2515,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Electric Oven 30 Litre",
@@ -2297,7 +2526,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Portable Karaoke Speaker",
@@ -2307,7 +2537,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Portable Air Cooler",
@@ -2317,7 +2548,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "24-Inch LED TV",
@@ -2327,7 +2559,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Static Exercise Bike",
@@ -2337,7 +2570,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "4K Action Camera",
@@ -2347,7 +2581,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Home Espresso Machine",
@@ -2357,7 +2592,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Mini Fridge 100 Litre",
@@ -2367,7 +2603,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Yamaha F310 Acoustic Guitar",
@@ -2377,7 +2614,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Polygon Mountain Bike 27.5",
@@ -2387,7 +2625,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Redmi 13C 128GB Smartphone",
@@ -2397,7 +2636,8 @@
     "kategori": "barang",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "30-Minute Arcade Play",
@@ -2407,7 +2647,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Hour Karaoke Room",
@@ -2417,7 +2658,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Hour Billiard Table",
@@ -2427,7 +2669,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 50,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Single Ferris Wheel Ride",
@@ -2437,7 +2680,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Public Pool Entry Ticket",
@@ -2447,7 +2691,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 75,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Regular Cinema Ticket",
@@ -2457,7 +2702,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Barbershop Haircut Session",
@@ -2467,7 +2713,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Simple Manicure and Pedicure",
@@ -2477,7 +2724,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 100,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Hour Badminton Court",
@@ -2487,7 +2735,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Bicycle Rental Around Town",
@@ -2497,7 +2746,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 125,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Hour Futsal Court",
@@ -2507,7 +2757,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Local Museum Entry Ticket",
@@ -2517,7 +2768,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Hour Console Rental",
@@ -2527,7 +2779,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 150,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Evening Night Market Walk",
@@ -2537,7 +2790,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Local Gig Concert Ticket",
@@ -2547,7 +2801,8 @@
     "kategori": "pengalaman",
     "tier": "basic",
     "cost": 200,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Movie Night with Popcorn",
@@ -2557,7 +2812,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Hour Karaoke with Friends",
@@ -2567,7 +2823,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Hour Internet Cafe Pass",
@@ -2577,7 +2834,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 300,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Indoor Climbing Day Pass",
@@ -2587,7 +2845,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Hour Full Body Massage",
@@ -2597,7 +2856,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beginner Pottery Class",
@@ -2607,7 +2867,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 400,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Bowling Night with Friends",
@@ -2617,7 +2878,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Ten-Minute Go-Kart Race",
@@ -2627,7 +2889,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Nail Art Manicure Session",
@@ -2637,7 +2900,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beginner Cooking Class",
@@ -2647,7 +2911,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Planetarium and Museum Combo",
@@ -2657,7 +2922,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 650,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Waterpark Day Pass for Two",
@@ -2667,7 +2933,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Paintball Session with 100 Balls",
@@ -2677,7 +2944,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 800,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Private Badminton Coaching",
@@ -2687,7 +2955,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Escape Room Night with Friends",
@@ -2697,7 +2966,8 @@
     "kategori": "pengalaman",
     "tier": "mid",
     "cost": 1000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Four-Star Hotel Staycation",
@@ -2707,7 +2977,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Full-Day Spa Retreat",
@@ -2717,7 +2988,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Theme Park Day Pass",
@@ -2727,7 +2999,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 1500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Sunset Sailing Cruise for Two",
@@ -2737,7 +3010,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beginner Surfing Lesson",
@@ -2747,7 +3021,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Rafting Trip Down the River",
@@ -2757,7 +3032,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 2000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Photography Masterclass Workshop",
@@ -2767,7 +3043,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Cooking Masterclass with Local Chef",
@@ -2777,7 +3054,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 2500,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Weekend Glamping Trip",
@@ -2787,7 +3065,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Horse Riding Lesson Package",
@@ -2797,7 +3076,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 3000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Open Water Diving Course",
@@ -2807,7 +3087,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Night Beach Villa Stay",
@@ -2817,7 +3098,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 4000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Premium Concert Ticket",
@@ -2827,7 +3109,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Weekend Trip to Yogyakarta",
@@ -2837,7 +3120,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Weekend Yoga Retreat",
@@ -2847,7 +3131,8 @@
     "kategori": "pengalaman",
     "tier": "premium",
     "cost": 5000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beginner Freediving Course",
@@ -2857,7 +3142,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Certified Digital Marketing Course",
@@ -2867,7 +3153,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Day Bromo Sunrise Trip",
@@ -2877,7 +3164,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 6000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Advanced Open Water Diving Certification",
@@ -2887,7 +3175,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Weekend Trip to Belitung",
@@ -2897,7 +3186,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 7000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Personal Trainer Program",
@@ -2907,7 +3197,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Beginner Paragliding Course",
@@ -2917,7 +3208,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 8000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Professional Makeup Course",
@@ -2927,7 +3219,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Two-Day Komodo Sailing Trip",
@@ -2937,7 +3230,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 9000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Certified Culinary Arts Program",
@@ -2947,7 +3241,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Day Bali Trip for Two",
@@ -2957,7 +3252,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 10000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Three-Day Lombok Trip",
@@ -2967,7 +3263,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Certified Yoga Instructor Course",
@@ -2977,7 +3274,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 12000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "Five-Day Bali and Gili Trip",
@@ -2987,7 +3285,8 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   },
   {
     "name_en": "One-Week Coding Bootcamp",
@@ -2997,6 +3296,7 @@
     "kategori": "pengalaman",
     "tier": "ultra",
     "cost": 15000,
-    "active": true
+    "active": true,
+    "halal": true
   }
 ]

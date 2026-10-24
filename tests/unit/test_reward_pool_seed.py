@@ -34,6 +34,9 @@ def test_seed_names_categories_tiers_costs():
     assert {i["tier"] for i in items} <= set(TIERS)
     costs = {i["cost"] for i in items}
     assert len(costs) == 25, f"exactly 25 distinct costs, got {len(costs)}"
+    assert all("halal" in i and isinstance(i["halal"], bool) for i in items)
+    non_halal = {i["name_en"] for i in items if not i["halal"]}
+    assert non_halal == {"Tonkotsu Ramen Bowl", "Ramen and Gyoza Set", "Personal Charcuterie Box"}
     mx = lambda t: max(i["cost"] for i in items if i["tier"] == t)
     mn = lambda t: min(i["cost"] for i in items if i["tier"] == t)
     assert mx("basic") < mn("mid") and mx("mid") < mn("premium") and mx("premium") < mn("ultra")
@@ -45,7 +48,8 @@ def test_seed_names_categories_tiers_costs():
 def test_seeded_table_has_bilingual_description_columns():
     conn, _ = _seeded()
     cols = {r[1] for r in conn.execute("PRAGMA table_info(reward_pool_master)")}
-    assert {"desc_en", "desc_id"} <= cols
+    assert {"desc_en", "desc_id", "halal"} <= cols
+    assert conn.execute("SELECT COUNT(*) FROM reward_pool_master WHERE halal = FALSE").fetchone()[0] == 3
     empty = conn.execute(
         "SELECT COUNT(*) FROM reward_pool_master WHERE TRIM(desc_en) = '' OR TRIM(desc_id) = ''"
     ).fetchone()[0]
@@ -57,3 +61,4 @@ def test_ddl_follows_engagement_pattern():
     assert "reward_pool_master" in ddl
     assert "IF NOT EXISTS" in ddl and "CHECK" in ddl and "name_en" in ddl
     assert "desc_en TEXT NOT NULL" in ddl and "desc_id TEXT NOT NULL" in ddl
+    assert "halal BOOLEAN NOT NULL DEFAULT TRUE" in ddl
