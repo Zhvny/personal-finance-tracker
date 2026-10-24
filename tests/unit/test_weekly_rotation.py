@@ -1,6 +1,6 @@
 """Task 6: Weekly reward rotation, claims, carry-over, and expiry tests (TDD)."""
 import sqlite3
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import date, datetime, timedelta
 from unittest.mock import patch
 import pytest
 
@@ -12,7 +12,6 @@ from packages.core.domain.services.reward_rotation_service import (
     RewardRotationService,
     ClaimConflictError,
     ClaimExpiredError,
-    ClaimNotFoundError,
 )
 
 

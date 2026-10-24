@@ -1,10 +1,9 @@
 """Domain and application service for weekly reward rotation, carry-over claims, and expiry."""
 from __future__ import annotations
 
-import json
 import logging
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List, Optional, Set
+from datetime import date, datetime, time, timedelta
+from typing import Any, Dict, List, Optional
 
 try:
     from zoneinfo import ZoneInfo

@@ -7,7 +7,6 @@ Ensures:
 """
 import re
 from pathlib import Path
-import pytest
 
 _I18N_DIR = Path(__file__).resolve().parent.parent.parent / "apps" / "web" / "src" / "i18n"
 

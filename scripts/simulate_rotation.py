@@ -88,13 +88,13 @@ def run_simulation(halal_only: bool = True):
     ultra_items = [item_id for item_id, weeks in item_history.items() if any(w for w in weeks if _get_tier(conn, item_id) == "ultra")]
     ultra_multi_picks = [item_id for item_id in ultra_items if len(item_history[item_id]) > 1]
     assert len(ultra_multi_picks) == 0, f"Ultra tier had repeating items: {ultra_multi_picks}"
-    print(f"[+] Ultra tier: 26 distinct items selected across 26 weeks (0 repeats).")
+    print("[+] Ultra tier: 26 distinct items selected across 26 weeks (0 repeats).")
 
     # 5. Premium tier: 26 weeks * 2 = 52 items needed. Pool has 75. Must have ZERO repeats.
     premium_items = [item_id for item_id, weeks in item_history.items() if any(w for w in weeks if _get_tier(conn, item_id) == "premium")]
     premium_multi_picks = [item_id for item_id in premium_items if len(item_history[item_id]) > 1]
     assert len(premium_multi_picks) == 0, f"Premium tier had repeating items: {premium_multi_picks}"
-    print(f"[+] Premium tier: 52 distinct items selected across 26 weeks (0 repeats).")
+    print("[+] Premium tier: 52 distinct items selected across 26 weeks (0 repeats).")
 
     # 6. Basic tier: 75 items in pool, 5 needed/week -> 15 weeks zero-repeat.
     # When repeating in week 16+, gap between repeats must be >= 15 weeks.
@@ -103,7 +103,7 @@ def run_simulation(halal_only: bool = True):
             for i in range(len(weeks) - 1):
                 gap = weeks[i + 1] - weeks[i]
                 assert gap >= 15, f"Basic item {item_id} repeated with too small gap: {gap} weeks (weeks: {weeks})"
-    print(f"[+] Basic tier: initial 15 weeks 0-repeat, subsequent repeats separated by >= 15 weeks.")
+    print("[+] Basic tier: initial 15 weeks 0-repeat, subsequent repeats separated by >= 15 weeks.")
 
     # 7. Mid tier: 75 items in pool, 4 needed/week -> 18 weeks zero-repeat.
     # When repeating in week 19+, gap between repeats must be >= 18 weeks.
@@ -112,12 +112,12 @@ def run_simulation(halal_only: bool = True):
             for i in range(len(weeks) - 1):
                 gap = weeks[i + 1] - weeks[i]
                 assert gap >= 18, f"Mid item {item_id} repeated with too small gap: {gap} weeks (weeks: {weeks})"
-    print(f"[+] Mid tier: initial 18 weeks 0-repeat, subsequent repeats separated by >= 18 weeks.")
+    print("[+] Mid tier: initial 18 weeks 0-repeat, subsequent repeats separated by >= 18 weeks.")
 
     # 8. Idempotency verification: re-running any week produces identical result
     recheck_week = service.rotate_week(target_week_start=start_monday + timedelta(days=7 * 5))
     assert [i["id"] for i in recheck_week["items"]] == [i["id"] for i in all_selections[5][2]["items"]]
-    print(f"[+] Idempotency recheck on week 6 verified.")
+    print("[+] Idempotency recheck on week 6 verified.")
 
     print("\n[SUCCESS] 26-week simulation PASSED all criteria.")
 
