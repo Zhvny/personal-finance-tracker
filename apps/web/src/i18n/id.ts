@@ -42,6 +42,11 @@ const id = {
   "reward.ready_title": "{count} reward dalam rotasi aktif",
   "reward.ready_desc": "Pool mingguan tersinkronisasi dengan layanan engagement.",
   "reward.view_catalogue": "Buka di Toko Reward",
+  "reward.halal_filter_label": "Filter:",
+  "reward.halal_only": "Halal Saja",
+  "reward.all_items": "Semua",
+  "reward.non_halal_badge": "Non-Halal",
+  "reward.halal_rotation_hint": "Berlaku mulai rotasi Senin berikutnya.",
 
   // Overview Page
   "overview.page_title": "Ringkasan Keuangan — Mesin Kanonikal",
