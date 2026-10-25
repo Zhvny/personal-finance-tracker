@@ -52,9 +52,9 @@ k8s/db-secret.yaml
 dist/
 build/
 
-# Ai
-*.md
-!README.md
+# AI Documentation
+/*.md
+!/README*.md
 
 
 # Trained Models / Weights
